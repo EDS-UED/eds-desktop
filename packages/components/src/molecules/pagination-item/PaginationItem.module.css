@@ -12,7 +12,7 @@
   padding: 0;
   background-color: var(--material-hide);
   cursor: default;
-  composes: motion-ease is-paint from global;
+  composes: motion-ease is-enter-only from global;
 }
 
 .number:hover:not(:disabled),
@@ -56,7 +56,7 @@
   font-weight: var(--eds-footnote-strong-weight);
   line-height: var(--eds-footnote-strong-line-height);
   color: var(--text-base-secondary);
-  composes: motion-ease is-paint from global;
+  composes: motion-ease is-enter-only from global;
 }
 
 .item:hover:not(:disabled) .label {
@@ -72,7 +72,7 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  composes: motion-ease is-paint from global;
+  composes: motion-ease is-enter-only from global;
 }
 
 .icon :global(svg) {
@@ -80,17 +80,14 @@
   height: 100%;
 }
 
-/* 按下 / 选中 / 聚焦：即时切换 */
-.item:focus-visible:not(:disabled):not(.borderArrow),
+/* 按下 / 选中：即时切换（focus 由 is-enter-only semantic 覆盖） */
 .item:active:not(:disabled):not(.borderArrow),
 .number.selected {
   transition: none;
 }
 
-.item:focus-visible:not(:disabled):not(.borderArrow) .label,
 .item:active:not(:disabled):not(.borderArrow) .label,
 .number.selected .label,
-.item:focus-visible:not(:disabled):not(.borderArrow) .icon,
 .item:active:not(:disabled):not(.borderArrow) .icon,
 .number.selected .icon {
   transition: none;
@@ -204,7 +201,7 @@
   min-height: var(--scale-8);
   border: var(--stroke-xs) solid var(--stroke-outline-deep);
   padding: var(--spacing-2);
-  composes: motion-ease is-paint from global;
+  composes: motion-ease is-enter-only from global;
 }
 
 .borderArrow .icon {
