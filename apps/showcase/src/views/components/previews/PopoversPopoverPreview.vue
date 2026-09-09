@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
 import {
-  EgAnchoredTooltip,
+  EgTooltip,
   EgButton,
   EgPopover,
   POPOVER_PANEL_MIN_H,
@@ -133,7 +133,7 @@ function matrixLabel(placement: PopoverPlacement, align: PopoverAlign): string {
             docStyles.previewInputHost,
           ]"
         >
-          <EgAnchoredTooltip
+          <EgTooltip
             ref="anchoredRef"
             :placement="customize.placement"
             :align="customize.align"
@@ -168,7 +168,7 @@ function matrixLabel(placement: PopoverPlacement, align: PopoverAlign): string {
                 </div>
               </EgPopover>
             </template>
-          </EgAnchoredTooltip>
+          </EgTooltip>
         </div>
       </template>
     </ComponentDocLayout>

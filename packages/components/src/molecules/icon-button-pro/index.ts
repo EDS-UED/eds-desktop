@@ -1,1 +1,1 @@
-export { default as EgIconButtonPro } from './IconButtonPro.vue';
+export { default as EgIconProButton } from './IconButtonPro.vue';

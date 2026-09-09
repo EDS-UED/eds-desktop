@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { EgAnchoredTooltip, EgButton } from '@eds/desktop-components';
+import { EgTooltip, EgButton } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import PropsDocTables from '@/views/shared/componentDoc/PropsDocTables.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
@@ -23,6 +23,8 @@ import {
   tooltipPanelPropsForPreview,
   tooltipPropRows,
   tooltipSlotRows,
+  resolveTooltipPageComponentTag,
+  resolveTooltipPageImportCode,
   type TooltipPanelKindValue,
 } from './tooltipDocCustomize';
 import TooltipFlotationTextOverflowPreview from './TooltipFlotationTextOverflowPreview.vue';
@@ -142,6 +144,9 @@ const pageTitle = computed(() => {
   }
   return section.value?.label ?? 'Tooltip';
 });
+
+const docComponentTag = computed(() => resolveTooltipPageComponentTag(pageSlug.value));
+const docImportCode = computed(() => resolveTooltipPageImportCode(pageSlug.value));
 </script>
 
 <template>
@@ -152,8 +157,8 @@ const pageTitle = computed(() => {
       :anchor-id="anchorId"
       :title="pageTitle"
       :show-doc-title="false"
-      component-tag="EgAnchoredTooltip"
-      :import-code="tooltipImportCode"
+      :component-tag="docComponentTag"
+      :import-code="docImportCode"
       :customize-controls="customizeControls"
       :customize-defaults="customizeDefaults"
       :customize-sequential="isTooltipBodyPage"
@@ -183,7 +188,7 @@ const pageTitle = computed(() => {
             v-else-if="isMultiAddressScenario"
             :tooltip-trigger="String(customize.tooltipTrigger ?? 'hover') as 'hover' | 'focus'"
           />
-          <EgAnchoredTooltip
+          <EgTooltip
             v-else
             :placement="customize.placement as 'top' | 'bottom' | 'left' | 'right'"
             :align="customize.align as 'start' | 'center' | 'end'"
@@ -195,12 +200,12 @@ const pageTitle = computed(() => {
             <template #content>
               <div :class="tooltipStyles.slotDemo">{{ section.label }}</div>
             </template>
-          </EgAnchoredTooltip>
+          </EgTooltip>
         </div>
       </template>
 
       <section :class="shared.section">
-        <h2 :class="shared.sectionTitle">EgAnchoredTooltip</h2>
+        <h2 :class="shared.sectionTitle">EgTooltip</h2>
         <PropsDocTables bare :show-title="false" :prop-rows="anchoredTooltipPropRows" />
       </section>
     </ComponentDocLayout>

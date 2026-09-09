@@ -10,14 +10,10 @@ export type ButtonSize = 'lg' | 'md' | 'sm' | 'xs';
 /** #icon 相对文案：leading 在左，trailing 在右。 */
 export type ButtonIconPosition = 'leading' | 'trailing';
 
-/** @deprecated Use `solid` */
-export type LegacyButtonVariant = 'primary' | 'secondary' | 'ghost';
-export type ButtonVariantInput = ButtonVariant | LegacyButtonVariant;
-
 const props = withDefaults(
   defineProps<{
     tone?: ButtonTone;
-    variant?: ButtonVariantInput;
+    variant?: ButtonVariant;
     size?: ButtonSize;
     disabled?: boolean;
     loading?: boolean;
@@ -41,19 +37,6 @@ const props = withDefaults(
 
 const slots = useSlots();
 
-const resolvedVariant = computed<ButtonVariant>(() => {
-  switch (props.variant) {
-    case 'primary':
-      return 'solid';
-    case 'secondary':
-      return 'outline';
-    case 'ghost':
-      return 'text';
-    default:
-      return props.variant;
-  }
-});
-
 const isDisabled = computed(() => props.disabled || props.loading);
 </script>
 
@@ -63,7 +46,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
       'eds-button',
       styles.button,
       styles[props.tone],
-      styles[resolvedVariant],
+      styles[props.variant],
       styles[props.size],
       loading && styles.loading,
       active && styles.active,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import {
   AVATAR_NATIVE_PALETTE,
   AVATAR_ROBOT_ASSET_NAME,
@@ -7,6 +7,7 @@ import {
   formatAvatarPaletteName,
 } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
+import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import previewPageStyles from './InputPreview.module.css';
 import galleryStyles from './TagPreviewGallery.module.css';
 import TagPreviewGallery from './TagPreviewGallery.vue';
@@ -19,11 +20,9 @@ import {
   resolveAvatarPreviewProps,
 } from './avatarDocCustomize';
 
-const avatarCustomize = reactive({
-  ...avatarCustomizeDefaults,
-  size: avatarCustomizeDefaults.size as 'xs' | 'sm' | 'md' | 'lg' | 'xl',
-  variant: avatarCustomizeDefaults.variant as 'initials' | 'robot',
-});
+const avatarCustomize = createDocCustomizeState<typeof avatarCustomizeDefaults>(
+  avatarCustomizeDefaults,
+);
 
 const avatarUsageSnippet = computed(() => buildAvatarUsageSnippet(avatarCustomize));
 

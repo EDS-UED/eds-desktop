@@ -9,7 +9,7 @@ import {
   useId,
   watch,
 } from 'vue';
-import EgTooltip, { type TooltipHeightMode, type TooltipWidthMode } from './Tooltip.vue';
+import EgTooltipPanel, { type TooltipHeightMode, type TooltipWidthMode } from './Tooltip.vue';
 import type { TooltipPanelKind, TooltipPanelRadiusToken } from './tooltipPanelRadius';
 import { POPOVER_MOTION_ACTIVE_KEY } from '../popovers/popoverMotion';
 import {
@@ -82,8 +82,6 @@ const props = withDefaults(
     boundarySelector?: string;
     /** 边界内边距（px）。 */
     boundaryMargin?: number;
-    /** @deprecated 微浮动已默认启用；所有 EgTooltip 浮层均挂 `.motion-flotation`。 */
-    microFloat?: boolean;
     /** trigger=click 时，再次点击 trigger 是否 toggle 关闭；Popover 场景应 false。 */
     clickToggle?: boolean;
   }>(),
@@ -106,7 +104,6 @@ const props = withDefaults(
     closeOnScroll: false,
     flip: false,
     boundaryMargin: 8,
-    microFloat: false,
     clickToggle: true,
   },
 );
@@ -150,9 +147,6 @@ function clearPopoverMotionLeaveTimer() {
 }
 
 function syncPopoverMotion(isOpen: boolean) {
-  if (!usesMicroFloat.value) {
-    return;
-  }
   clearPopoverMotionLeaveTimer();
   if (isOpen) {
     floatingKeepMounted.value = true;
@@ -176,43 +170,6 @@ function syncPopoverMotion(isOpen: boolean) {
     popoverMotionLeaveTimer = undefined;
   }, leaveMs);
 }
-
-const usesMicroFloat = computed(() => true);
-
-const floatingRendered = computed(() =>
-  usesMicroFloat.value ? floatingKeepMounted.value : open.value,
-);
-
-/** 旧 hover Transition 仅用于未启用 microFloat 的 EgTooltip 壳。 */
-const floatingMotionEnabled = computed(
-  () => props.trigger === 'hover' && props.wrapTooltip && !usesMicroFloat.value,
-);
-
-const floatingMotionEnterFromClass = computed(() => {
-  switch (resolvedPlacement.value) {
-    case 'top':
-      return styles.floatingEnterFromTop;
-    case 'left':
-      return styles.floatingEnterFromLeft;
-    case 'right':
-      return styles.floatingEnterFromRight;
-    default:
-      return styles.floatingEnterFromBottom;
-  }
-});
-
-const floatingMotionLeaveToClass = computed(() => {
-  switch (resolvedPlacement.value) {
-    case 'top':
-      return styles.floatingLeaveToTop;
-    case 'left':
-      return styles.floatingLeaveToLeft;
-    case 'right':
-      return styles.floatingLeaveToRight;
-    default:
-      return styles.floatingLeaveToBottom;
-  }
-});
 
 let openTimer: ReturnType<typeof setTimeout> | undefined;
 let closeTimer: ReturnType<typeof setTimeout> | undefined;
@@ -807,20 +764,15 @@ defineExpose({
     </span>
 
     <Teleport :to="teleportTo">
+      <!-- 出入场由 glass micro-float（.motion-flotation）驱动；此处仅取 JS 钩子做定位与副作用绑定。 -->
       <Transition
-        :css="floatingMotionEnabled"
-        :enter-active-class="styles.floatingEnterActive"
-        :leave-active-class="styles.floatingLeaveActive"
-        :enter-from-class="floatingMotionEnterFromClass"
-        :enter-to-class="styles.floatingEnterTo"
-        :leave-from-class="styles.floatingLeaveFrom"
-        :leave-to-class="floatingMotionLeaveToClass"
+        :css="false"
         @before-enter="onFloatingBeforeEnter"
         @after-enter="bindOpenSideEffects"
         @after-leave="unbindOpenSideEffects"
       >
         <div
-          v-if="floatingRendered"
+          v-if="floatingKeepMounted"
           ref="floatingRef"
           :id="describedById"
           :class="[styles.floating, tokenScopeClass]"
@@ -833,15 +785,15 @@ defineExpose({
             :class="[
               styles.floatingInner,
               !open && styles.floatingInnerPassThrough,
-              usesMicroFloat && 'glassMicroFloatHost',
-              usesMicroFloat && popoverMotionActive && 'glassMicroFloatHostActive',
+              'glassMicroFloatHost',
+              popoverMotionActive && 'glassMicroFloatHostActive',
             ]"
           >
-            <EgTooltip
+            <EgTooltipPanel
               v-if="wrapTooltip"
               :panel-kind="panelKind"
               :panel-radius="panelRadius"
-              :panel-micro-float="usesMicroFloat"
+              panel-micro-float
               :width-mode="widthMode"
               :width="width"
               :max-width="maxWidth"
@@ -853,7 +805,7 @@ defineExpose({
               <slot name="content">
                 {{ content }}
               </slot>
-            </EgTooltip>
+            </EgTooltipPanel>
             <slot v-else name="content">
               {{ content }}
             </slot>

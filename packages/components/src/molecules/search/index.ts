@@ -1,2 +1,2 @@
-export { default as EgSearch } from './Search.vue';
+export { default as EgSearchInput } from './Search.vue';
 export type { SearchWidthMode } from './Search.vue';

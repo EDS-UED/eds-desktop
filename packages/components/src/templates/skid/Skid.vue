@@ -5,7 +5,7 @@ import { EgDivider } from '../../atoms/divider';
 import { EgIcon } from '../../atoms/icons';
 import { EgIconButton } from '../../molecules/icon-button';
 import {
-  EgComboActionSkid,
+  EgComboButton,
   type ComboActionSkidTone,
 } from '../../molecules/combo';
 import styles from './Skid.module.css';
@@ -148,7 +148,7 @@ onBeforeUnmount(() => {
       </div>
       <footer v-if="showButton" :class="[styles.action, actionDividerVisible && 'eds-frosted-page-chrome']">
         <slot name="action">
-          <EgComboActionSkid
+          <EgComboButton
             :tone="actionTone"
             :divider="actionDividerVisible"
             :confirm-label="confirmLabel"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
 import { EgButton } from '../button';
-import { EgComboTextareaItem } from '../combo';
+import { EgComboTextarea } from '../combo';
 import { EgFormSubmission } from '../feedback';
 import styles from './RemarkPopoverPanel.module.css';
 import { REMARK_POPOVER_MAX_LENGTH } from './popoverShape';
@@ -101,7 +101,7 @@ defineExpose({
         hideLabel && styles.remarkFieldHideLabel,
       ]"
     >
-      <EgComboTextareaItem
+      <EgComboTextarea
         v-model="remarkModel"
         feedback
         :label="label"
@@ -114,7 +114,7 @@ defineExpose({
             :show-link="false"
           />
         </template>
-      </EgComboTextareaItem>
+      </EgComboTextarea>
     </div>
 
     <EgButton

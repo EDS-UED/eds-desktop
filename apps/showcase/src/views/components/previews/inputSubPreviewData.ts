@@ -27,7 +27,7 @@ export const textareaSlotRows: InputPropRow[] = [
   },
 ];
 
-export const searchHeroCode = `<EgSearch v-model="query" placeholder="Search" width-mode="full" />`;
+export const searchHeroCode = `<EgSearchInput v-model="query" placeholder="Search" width-mode="full" />`;
 
 export const searchPropRows: InputPropRow[] = [
   { name: 'modelValue', type: 'string', defaultValue: "''", description: '搜索关键词。' },
@@ -107,22 +107,22 @@ export const comboTextareaItemSlotRows: InputPropRow[] = [
   },
 ];
 
-export const comboInputItemHeroCode = `<EgComboInputItem label="Label">
+export const comboInputItemHeroCode = `<EgComboInput label="Label">
   <EgInput v-model="value" placeholder="请输入" width-mode="full" />
-</EgComboInputItem>`;
+</EgComboInput>`;
 
-export const comboInputItemFeedbackCode = `<EgComboInputItem label="Label" feedback>
+export const comboInputItemFeedbackCode = `<EgComboInput label="Label" feedback>
   <EgInput v-model="value" placeholder="请输入" width-mode="full" />
-</EgComboInputItem>`;
+</EgComboInput>`;
 
-export const comboTextareaItemHeroCode = `<EgComboTextareaItem v-model="value" label="Label" placeholder="请输入" />`;
+export const comboTextareaItemHeroCode = `<EgComboTextarea v-model="value" label="Label" placeholder="请输入" />`;
 
-export const comboTextareaItemFeedbackCode = `<EgComboTextareaItem v-model="value" label="Label" feedback placeholder="请输入" />`;
+export const comboTextareaItemFeedbackCode = `<EgComboTextarea v-model="value" label="Label" feedback placeholder="请输入" />`;
 
-export const comboMenuCode = `<EgComboInputItem label="Label">
+export const comboMenuCode = `<EgComboInput label="Label">
   <EgInput placeholder="请输入" width-mode="full" />
-</EgComboInputItem>
-<EgComboInputItem label="Label" feedback>
+</EgComboInput>
+<EgComboInput label="Label" feedback>
   <EgInput placeholder="请输入" width-mode="full" />
-</EgComboInputItem>
-<EgComboTextareaItem label="Label" />`;
+</EgComboInput>
+<EgComboTextarea label="Label" />`;

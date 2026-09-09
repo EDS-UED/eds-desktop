@@ -81,7 +81,7 @@ export const tooltipPanelRadiusOptions = [
 ] as const;
 
 export const tooltipImportCode = `import {
-  EgAnchoredTooltip,
+  EgTooltip,
   EgButton,
 } from '@eds/desktop-components';`;
 
@@ -192,13 +192,6 @@ export function buildTooltipBodyCustomizeControls(
   ];
 }
 
-/** @deprecated 使用 buildTooltipBodyCustomizeControls */
-export const tooltipBodyCustomizeControls: DocCustomizeControl[] =
-  buildTooltipBodyCustomizeControls(tooltipCustomizeDefaults);
-
-/** @deprecated 使用 tooltipBodyCustomizeControls / tooltipOverflowSceneCustomizeControls */
-export const tooltipCustomizeControls: DocCustomizeControl[] = tooltipBodyCustomizeControls;
-
 const CUSTOMIZE_ONLY_KEYS = new Set(['triggerLabel']);
 
 function buildAnchoredTooltipUsageSnippet(
@@ -212,7 +205,7 @@ function buildAnchoredTooltipUsageSnippet(
     disabled: state.disabled,
   };
 
-  const openTag = buildVueOpeningTag('EgAnchoredTooltip', anchoredProps, {
+  const openTag = buildVueOpeningTag('EgTooltip', anchoredProps, {
     defaults: {
       placement: tooltipCustomizeDefaults.placement,
       trigger: tooltipCustomizeDefaults.trigger,
@@ -228,7 +221,7 @@ function buildAnchoredTooltipUsageSnippet(
   return `${openTag}
   <EgButton variant="outline">${label}</EgButton>
   <template #content />
-</EgAnchoredTooltip>`;
+</EgTooltip>`;
 }
 
 export function buildTooltipPanelSectionUsageSnippet(
@@ -440,16 +433,28 @@ export const tooltipSlotRows: DocPropRow[] = [
     name: 'default',
     type: '—',
     defaultValue: '—',
-    description: 'EgAnchoredTooltip：触发器。EgTooltip：面板内容。',
+    description: 'EgTooltip：触发器。EgTooltip：面板内容。',
   },
   {
     name: 'content',
     type: '—',
     defaultValue: '—',
-    description: 'EgAnchoredTooltip：Teleport 后面板内容（包在 EgTooltip 内）。',
+    description: 'EgTooltip：Teleport 后面板内容（包在 EgTooltip 内）。',
   },
 ];
 
 export function tooltipPanelPropsForPreview(state: Record<string, unknown>) {
   return panelPropsFromState(state);
+}
+
+export function resolveTooltipPageComponentTag(pageSlug: string): string {
+  if (pageSlug === 'tooltip-scene-text-overflow') {
+    return 'EgTooltipOverflow';
+  }
+  return 'EgTooltip';
+}
+
+export function resolveTooltipPageImportCode(pageSlug: string): string {
+  const tag = resolveTooltipPageComponentTag(pageSlug);
+  return `import { ${tag} } from '@eds/desktop-components';`;
 }

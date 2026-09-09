@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
-import { EgNavBar } from '@eds/desktop-components';
+import { computed, watch } from 'vue';
+import { EgCregisNavBar, EgNavBar } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
+import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import { buildVueSelfClosingSnippet } from '@/views/shared/componentDoc/buildUsageSnippet';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
@@ -41,12 +42,10 @@ const customizeDefaults = computed(() =>
     : navBarCustomizeDefaults,
 );
 
-const customize = reactive({
-  ...(lockedScenario.value === 'cregis'
-    ? buildCregisNavBarCustomizeDefaults()
-    : navBarCustomizeDefaults),
-  ...(props.initialScenario ? { scenario: props.initialScenario } : {}),
-});
+const customize = createDocCustomizeState<typeof navBarCustomizeDefaults>(
+  customizeDefaults.value,
+  props.initialScenario ? { scenario: props.initialScenario } : undefined,
+);
 healNavBarCustomizeState(customize, customizeDefaults.value as Record<string, unknown>);
 
 watch(
@@ -64,9 +63,15 @@ const docAnchorId = computed(() =>
 
 const docTitle = computed(() => props.pageTitle ?? 'NavBar');
 
-const docComponentTag = computed(() => 'EgNavBar');
+const docComponentTag = computed(() =>
+  lockedScenario.value === 'cregis' ? 'EgCregisNavBar' : 'EgNavBar',
+);
 
-const docImportCode = computed(() => ORGANISM_IMPORT);
+const docImportCode = computed(() =>
+  lockedScenario.value === 'cregis'
+    ? `import { EgCregisNavBar } from '@eds/desktop-components';`
+    : ORGANISM_IMPORT,
+);
 
 const docPropRows = computed(() => (isNavBarScenario.value ? navBarPropRows : cregisNavBarPropRows));
 
@@ -83,7 +88,7 @@ const docUsageSnippet = computed(() => {
   const declarativeDefaults = buildNavBarDeclarativePropsFromCustomize(defaults, { wide: false });
 
   if (!isNavBarScenario.value) {
-    return buildVueSelfClosingSnippet('EgNavBar', navBarDeclarativePreviewProps.value, {
+    return buildVueSelfClosingSnippet('EgCregisNavBar', navBarDeclarativePreviewProps.value, {
       defaults: declarativeDefaults,
       omitKeys: ['scenario', 'navBarWidth'],
     });
@@ -138,7 +143,7 @@ function resetNavBarCustomize() {
           ]"
         >
           <NavBarPreviewNest v-if="isNavBarScenario" :customize="customize" />
-          <EgNavBar v-else v-bind="navBarDeclarativePreviewProps" />
+          <EgCregisNavBar v-else v-bind="navBarDeclarativePreviewProps" />
         </div>
       </template>
 

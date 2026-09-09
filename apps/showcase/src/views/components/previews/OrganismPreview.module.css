@@ -165,11 +165,6 @@
   justify-content: center;
 }
 
-/** @deprecated Use previewOrganismDialogBoxHost */
-.previewOrganismReminderBoxHost {
-  composes: previewOrganismDialogBoxHost;
-}
-
 /** Verify — Popup Box 固定宽 328、高度随内容 */
 .previewOrganismVerifyBoxHost {
   composes: previewOrganismDialogBoxHost;
@@ -206,14 +201,6 @@
   padding: 0;
   overflow: hidden;
   border-radius: inherit;
-}
-
-.previewOrganismReminderBoxHost :global(.eds-reminder.echo) {
-  max-height: inherit;
-}
-
-.previewOrganismReminderBoxHost :global(.eds-reminder.echo .echoScroll) {
-  max-height: inherit;
 }
 
 .previewOrganismPopupBoxPlaceholder {

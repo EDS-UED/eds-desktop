@@ -1,9 +1,9 @@
-export { default as EgComboInputItem } from './ComboInputItem.vue';
-export { default as EgComboTextareaItem } from './ComboTextareaItem.vue';
-export { default as EgComboActionSkid } from './ComboActionSkid.vue';
-export { default as EgComboActionPopupWindow } from './ComboActionPopupWindow.vue';
-export { default as EgComboActionFlotation } from './ComboActionFlotation.vue';
-export { default as EgComboActionPage } from './ComboActionPage.vue';
+export { default as EgComboInput } from './ComboInputItem.vue';
+export { default as EgComboTextarea } from './ComboTextareaItem.vue';
+export { default as EgComboButton } from './ComboActionSkid.vue';
+export { default as EgComboPopupButton } from './ComboActionPopupWindow.vue';
+export { default as EgComboFloatButton } from './ComboActionFlotation.vue';
+export { default as EgComboPageButton } from './ComboActionPage.vue';
 export type { ComboActionSkidTone } from './ComboActionSkid.vue';
 export type { ComboActionPopupTone } from './ComboActionPopupWindow.vue';
 export type { ComboActionFlotationTone } from './ComboActionFlotation.vue';

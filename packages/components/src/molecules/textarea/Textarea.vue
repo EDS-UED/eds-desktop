@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue';
-import { EgLink } from '../link';
+import { EgLinkButton } from '../link';
 import styles from './Textarea.module.css';
 
 export type TextareaWidthMode = 'fixed' | 'full';
@@ -142,7 +142,7 @@ function onClearClick(event: MouseEvent) {
 
       <div :class="styles.actions">
         <span :class="styles.actionGap">
-          <EgLink
+          <EgLinkButton
             tone="brand"
             size="sm"
             href="#"
@@ -150,8 +150,8 @@ function onClearClick(event: MouseEvent) {
             @click="onPasteClick"
           >
             {{ pasteLabel }}
-          </EgLink>
-          <EgLink
+          </EgLinkButton>
+          <EgLinkButton
             tone="brand"
             size="sm"
             href="#"
@@ -159,7 +159,7 @@ function onClearClick(event: MouseEvent) {
             @click="onClearClick"
           >
             {{ clearLabel }}
-          </EgLink>
+          </EgLinkButton>
         </span>
       </div>
     </div>

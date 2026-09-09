@@ -37,7 +37,7 @@ export const iconButtonPropRows: DocPropRow[] = [
     name: 'as',
     type: "'button' | 'span'",
     defaultValue: "'button'",
-    description: '渲染标签；嵌套在 EgIconButtonPro 等控件内时用 span，避免 button 套 button。',
+    description: '渲染标签；嵌套在 EgIconProButton 等控件内时用 span，避免 button 套 button。',
   },
 ];
 

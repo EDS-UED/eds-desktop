@@ -98,10 +98,13 @@ export const router = createRouter({
 
                 const tagHashToPage: Record<string, string> = {
                   'tag-system': 'tag-system',
-                  'tag-status': 'tag-status',
-                  'tag-colorful': 'tag-colorful',
-                  'tag-palette': 'tag-palette',
-                  'tag-custom': 'tag-palette',
+                  'tag-scene-status': 'tag-scene-status',
+                  'tag-scene-colorful': 'tag-scene-colorful',
+                  'tag-scene-palette': 'tag-scene-palette',
+                  'tag-status': 'tag-scene-status',
+                  'tag-colorful': 'tag-scene-colorful',
+                  'tag-palette': 'tag-scene-palette',
+                  'tag-custom': 'tag-scene-palette',
                 };
 
                 const toggleHashToPage: Record<string, string> = {
@@ -139,7 +142,8 @@ export const router = createRouter({
 
                 const popoversHashToPage: Record<string, string> = {
                   'popovers-popover': 'popovers-popover',
-                  'popovers-scens': 'popovers-scens',
+                  'popovers-scene': 'popovers-scene-guidance',
+                  'popovers-scens': 'popovers-scene-guidance',
                 };
 
                 if (slug === 'popovers') {
@@ -234,12 +238,20 @@ export const router = createRouter({
                   return { path: `/components/${buttonLegacySlugs[slug]}` };
                 }
 
-                if (slug === 'verify') {
-                  return { path: '/components/verify-email' };
+                const popoverSceneLegacySlugs: Record<string, string> = {
+                  'popovers-scens': 'popovers-scene-guidance',
+                  'popovers-scens-guidance': 'popovers-scene-guidance',
+                  'popovers-scens-notes': 'popovers-scene-remark',
+                  'popovers-scens-gas-fee': 'popovers-scene-gas-fee',
+                  'popovers-scens-confirm': 'popovers-scene-confirm',
+                };
+
+                if (slug in popoverSceneLegacySlugs) {
+                  return { path: `/components/${popoverSceneLegacySlugs[slug]}` };
                 }
 
-                if (slug === 'popovers-scens') {
-                  return { path: '/components/popovers-scens-guidance' };
+                if (slug === 'popovers-scene') {
+                  return { path: '/components/popovers-scene-guidance' };
                 }
 
                 if (slug === 'dialog' || slug === 'reminder') {
@@ -273,8 +285,27 @@ export const router = createRouter({
                   return { path: '/components/tab-segmented' };
                 }
 
-                if (slug === 'tag-custom') {
-                  return { path: '/components/tag-palette' };
+                /** §17 场景 slug 统一为 `{family}-scene-{scene}`；旧链接在此重定向。 */
+                const sceneLegacySlugs: Record<string, string> = {
+                  'tag-custom': 'tag-scene-palette',
+                  'tag-status': 'tag-scene-status',
+                  'tag-colorful': 'tag-scene-colorful',
+                  'tag-palette': 'tag-scene-palette',
+                  'dialog-symbol': 'dialog-scene-symbol',
+                  'dialog-compose': 'dialog-scene-compose',
+                  'flotation-box-cascade-menu': 'flotation-box-scene-cascade-menu',
+                  'flotation-box-address-dropdown': 'flotation-box-scene-address-dropdown',
+                  'flotation-box-address-hover': 'flotation-box-scene-address-hover',
+                  'verify-email': 'verify-scene-email',
+                  'verify-google': 'verify-scene-google',
+                  'verify-login-password': 'verify-scene-login-password',
+                  'verify-transaction-password': 'verify-scene-transaction-password',
+                  'verify-passkey': 'verify-scene-passkey',
+                  'verify-locked': 'verify-scene-locked',
+                };
+
+                if (slug in sceneLegacySlugs) {
+                  return { path: `/components/${sceneLegacySlugs[slug]}` };
                 }
 
                 if (

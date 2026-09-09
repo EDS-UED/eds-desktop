@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
-import { EgLink } from '../link';
+import { EgLinkButton } from '../link';
 import styles from './VerifyInput.module.css';
 
 export type VerifyInputWidthMode = 'fixed' | 'full';
@@ -296,7 +296,7 @@ defineExpose({
     </div>
 
     <div v-if="showPaste" :class="[styles.pasteAction, 'eds-verify-input-paste']">
-      <EgLink
+      <EgLinkButton
         tone="brand"
         size="sm"
         href="#"
@@ -304,7 +304,7 @@ defineExpose({
         @click.prevent.stop="onPasteClick"
       >
         {{ pasteLabel }}
-      </EgLink>
+      </EgLinkButton>
     </div>
   </div>
 </template>

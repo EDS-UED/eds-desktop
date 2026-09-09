@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from 'vue';
 import { EgFlotation } from '../flotation';
-import { EgTextOverflowTooltip } from '../tooltip';
+import { EgTooltipOverflow } from '../tooltip';
 import CryptoAddressTags from './CryptoAddressTags.vue';
 import CryptoAddressSideMenuPanel, {
   type CryptoAddressSideMenuRow,
@@ -255,7 +255,7 @@ onBeforeUnmount(() => {
           primaryAlias && styles.cryptoAddressLineAlias,
         ]"
       >
-        <EgTextOverflowTooltip
+        <EgTooltipOverflow
           :tooltip-text="props.address"
           :copy-value="props.address"
           :copy-label="addressCopyLabel"
@@ -272,7 +272,7 @@ onBeforeUnmount(() => {
           boundary-selector=".eds-data-list"
         >
           {{ addressDisplayText }}
-        </EgTextOverflowTooltip>
+        </EgTooltipOverflow>
 
         <EgFlotation
           v-if="useCountAsMenuTrigger"

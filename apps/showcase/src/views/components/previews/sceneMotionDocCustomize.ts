@@ -1,7 +1,7 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
 import { propLabelSelectOptions } from '@/data/showcasePropLabels';
 
-export const scensMotionScenarioLabels = {
+export const sceneMotionScenarioLabels = {
   'verify-ring-dots': '验证外圈点阵',
   'done-tick': '成功',
   'motion-processing': '时间',
@@ -9,9 +9,9 @@ export const scensMotionScenarioLabels = {
   'mnemonic-verify': '助记词校验中',
 } as const;
 
-export type ScensMotionScenario = keyof typeof scensMotionScenarioLabels;
+export type SceneMotionScenario = keyof typeof sceneMotionScenarioLabels;
 
-export const scensMotionInteractionLabels = {
+export const sceneMotionInteractionLabels = {
   full: '完整',
   idle: '默认',
   verifying: '进行中',
@@ -19,35 +19,35 @@ export const scensMotionInteractionLabels = {
   error: '失败',
 } as const;
 
-export type ScensMotionInteraction = keyof typeof scensMotionInteractionLabels;
+export type SceneMotionInteraction = keyof typeof sceneMotionInteractionLabels;
 
-export const scensMotionToneLabels = {
+export const sceneMotionToneLabels = {
   success: '成功',
   brand: '品牌',
 } as const;
 
-export const scensMotionProcessingToneLabels = {
+export const sceneMotionProcessingToneLabels = {
   warning: '进行中',
   brand: '品牌',
 } as const;
 
-export type ScensMotionTone = keyof typeof scensMotionToneLabels;
-export type ScensMotionProcessingTone = keyof typeof scensMotionProcessingToneLabels;
+export type SceneMotionTone = keyof typeof sceneMotionToneLabels;
+export type SceneMotionProcessingTone = keyof typeof sceneMotionProcessingToneLabels;
 
-export const scensMotionCustomizeDefaults = {
-  scenario: 'verify-ring-dots' as ScensMotionScenario,
-  interaction: 'full' as ScensMotionInteraction,
-  tone: 'brand' as ScensMotionTone,
+export const sceneMotionCustomizeDefaults = {
+  scenario: 'verify-ring-dots' as SceneMotionScenario,
+  interaction: 'full' as SceneMotionInteraction,
+  tone: 'brand' as SceneMotionTone,
 };
 
-export const scensMotionCustomizeControls: DocCustomizeControl[] = [
+export const sceneMotionCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'scenario',
     label: '场景化',
     options: propLabelSelectOptions(
-      Object.keys(scensMotionScenarioLabels) as ScensMotionScenario[],
-      scensMotionScenarioLabels,
+      Object.keys(sceneMotionScenarioLabels) as SceneMotionScenario[],
+      sceneMotionScenarioLabels,
     ),
   },
   {
@@ -55,76 +55,76 @@ export const scensMotionCustomizeControls: DocCustomizeControl[] = [
     key: 'interaction',
     label: '交互',
     options: propLabelSelectOptions(
-      Object.keys(scensMotionInteractionLabels) as ScensMotionInteraction[],
-      scensMotionInteractionLabels,
+      Object.keys(sceneMotionInteractionLabels) as SceneMotionInteraction[],
+      sceneMotionInteractionLabels,
     ),
     visibleWhen: (state) => state.scenario === 'verify-ring-dots',
   },
 ];
 
-export const scensMotionSuccessBrandToneControl: DocCustomizeControl = {
+export const sceneMotionSuccessBrandToneControl: DocCustomizeControl = {
   kind: 'select',
   key: 'tone',
   label: '色调',
   options: propLabelSelectOptions(
-    Object.keys(scensMotionToneLabels) as ScensMotionTone[],
-    scensMotionToneLabels,
+    Object.keys(sceneMotionToneLabels) as SceneMotionTone[],
+    sceneMotionToneLabels,
   ),
 };
 
-export const scensMotionProcessingToneControl: DocCustomizeControl = {
+export const sceneMotionProcessingToneControl: DocCustomizeControl = {
   kind: 'select',
   key: 'tone',
   label: '色调',
   options: propLabelSelectOptions(
-    Object.keys(scensMotionProcessingToneLabels) as ScensMotionProcessingTone[],
-    scensMotionProcessingToneLabels,
+    Object.keys(sceneMotionProcessingToneLabels) as SceneMotionProcessingTone[],
+    sceneMotionProcessingToneLabels,
   ),
 };
 
-export function buildScensMotionCustomizeControls(options?: {
+export function buildSceneMotionCustomizeControls(options?: {
   lockScenario?: boolean;
-  scenario?: ScensMotionScenario;
+  scenario?: SceneMotionScenario;
 }): DocCustomizeControl[] {
-  const scenario = options?.scenario ?? scensMotionCustomizeDefaults.scenario;
+  const scenario = options?.scenario ?? sceneMotionCustomizeDefaults.scenario;
   const controls: DocCustomizeControl[] = [];
 
   if (!options?.lockScenario) {
-    controls.push(scensMotionCustomizeControls[0]);
+    controls.push(sceneMotionCustomizeControls[0]);
   }
 
   if (scenario === 'verify-ring-dots') {
-    controls.push(scensMotionCustomizeControls[1]);
-    controls.push(scensMotionSuccessBrandToneControl);
+    controls.push(sceneMotionCustomizeControls[1]);
+    controls.push(sceneMotionSuccessBrandToneControl);
   } else if (scenario === 'motion-processing') {
-    controls.push(scensMotionProcessingToneControl);
+    controls.push(sceneMotionProcessingToneControl);
   } else if (
     scenario === 'done-tick' ||
     scenario === 'ripple-pulse' ||
     scenario === 'mnemonic-verify'
   ) {
-    controls.push(scensMotionSuccessBrandToneControl);
+    controls.push(sceneMotionSuccessBrandToneControl);
   }
 
   return controls;
 }
 
-export const scensMotionRingDotsImportCode =
+export const sceneMotionRingDotsImportCode =
   "import { EgVerifyRingDots } from '@eds/desktop-components';";
 
-export const scensMotionDoneTickImportCode =
+export const sceneMotionDoneTickImportCode =
   "import { EgDoneTick } from '@eds/desktop-components';";
 
-export const scensMotionMotionProcessingImportCode =
+export const sceneMotionMotionProcessingImportCode =
   "import { EgMotionProcessing } from '@eds/desktop-components';";
 
-export const scensMotionRipplePulseImportCode =
+export const sceneMotionRipplePulseImportCode =
   "import { EgRipplePulse } from '@eds/desktop-components';";
 
-export const scensMotionMnemonicVerifyImportCode =
+export const sceneMotionMnemonicVerifyImportCode =
   "import { EgMnemonicVerify } from '@eds/desktop-components';";
 
-export const scensMotionRingDotsPropRows: DocPropRow[] = [
+export const sceneMotionRingDotsPropRows: DocPropRow[] = [
   {
     name: 'active',
     type: 'boolean',
@@ -134,7 +134,7 @@ export const scensMotionRingDotsPropRows: DocPropRow[] = [
   },
 ];
 
-export const scensMotionDoneTickPropRows: DocPropRow[] = [
+export const sceneMotionDoneTickPropRows: DocPropRow[] = [
   {
     name: '—',
     type: '—',
@@ -144,7 +144,7 @@ export const scensMotionDoneTickPropRows: DocPropRow[] = [
   },
 ];
 
-export const scensMotionMotionProcessingPropRows: DocPropRow[] = [
+export const sceneMotionMotionProcessingPropRows: DocPropRow[] = [
   {
     name: 'active',
     type: 'boolean',
@@ -154,7 +154,7 @@ export const scensMotionMotionProcessingPropRows: DocPropRow[] = [
   },
 ];
 
-export const scensMotionRipplePulsePropRows: DocPropRow[] = [
+export const sceneMotionRipplePulsePropRows: DocPropRow[] = [
   {
     name: 'active',
     type: 'boolean',
@@ -164,7 +164,7 @@ export const scensMotionRipplePulsePropRows: DocPropRow[] = [
   },
 ];
 
-export const scensMotionMnemonicVerifyPropRows: DocPropRow[] = [
+export const sceneMotionMnemonicVerifyPropRows: DocPropRow[] = [
   {
     name: 'active',
     type: 'boolean',
@@ -173,9 +173,3 @@ export const scensMotionMnemonicVerifyPropRows: DocPropRow[] = [
       '为 true 时 4×4 方块沿对角线 scale 0→1→0（1533ms / stagger 100ms，Lottie 46f@30fps）；false 时静止满格。--mnemonic-verify-size（32px）/ --mnemonic-verify-duration / --mnemonic-verify-stagger / --mnemonic-verify-color。',
   },
 ];
-
-/** @deprecated use scensMotionRingDotsImportCode */
-export const scensMotionImportCode = scensMotionRingDotsImportCode;
-
-/** @deprecated use scensMotionRingDotsPropRows */
-export const scensMotionPropRows = scensMotionRingDotsPropRows;

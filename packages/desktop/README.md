@@ -17,7 +17,7 @@ EverGreen Design System (Desktop) — **one npm package**, five pillars:
 ### 0.1.8
 
 - **Fix:** `EgDialog` — sticky toolbar uses `material-hide` when content is not scrolled (no spurious `box-page` footer strip).
-- **Fix:** `EgComboActionFlotation` — bar background uses `material-hide` token.
+- **Fix:** `EgComboFloatButton` — bar background uses `material-hide` token.
 
 ### 0.1.7
 

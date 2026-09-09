@@ -6,11 +6,11 @@ import FlotationTriggerPreview from './FlotationTriggerPreview.vue';
 import ModuleMenuPreview from './ModuleMenuPreview.vue';
 import NavBarPreview from './NavBarPreview.vue';
 import PopupPreview from './PopupPreview.vue';
-import PopoversScensPreview from './PopoversScensPreview.vue';
+import PopoversScenePreview from './PopoversScenePreview.vue';
 import VerifyPreview from './VerifyPreview.vue';
 import type { FlotationBoxKind } from './flotationDocCustomize';
 import type { ModuleMenuScenario, NavBarScenario, PopupSceneUses } from './organismTemplateDocData';
-import type { PopoverScensScenario } from './popoversDocCustomize';
+import type { PopoverSceneScenario } from './popoversDocCustomize';
 
 function defineScenePreview(
   name: string,
@@ -28,24 +28,25 @@ function defineScenePreview(
 const popoverScenePages: Array<{
   slug: string;
   title: string;
-  scenario: PopoverScensScenario;
+  scenario: PopoverSceneScenario;
 }> = [
-  { slug: 'popovers-scens-guidance', title: 'Guidance', scenario: 'guide' },
-  { slug: 'popovers-scens-notes', title: 'Notes', scenario: 'remark' },
-  { slug: 'popovers-scens-gas-fee', title: 'GasFee', scenario: 'miner-fee' },
+  { slug: 'popovers-scene-guidance', title: 'Guidance', scenario: 'guidance' },
+  { slug: 'popovers-scene-remark', title: 'Remark', scenario: 'remark' },
+  { slug: 'popovers-scene-gas-fee', title: 'GasFee', scenario: 'gas-fee' },
+  { slug: 'popovers-scene-confirm', title: 'Confirm', scenario: 'confirm' },
 ];
 
 const verifyTypePages: Array<{ slug: string; title: string; verifyType: VerifyType }> = [
-  { slug: 'verify-email', title: 'Email', verifyType: 'single-email' },
-  { slug: 'verify-google', title: 'Google', verifyType: 'single-google' },
-  { slug: 'verify-login-password', title: 'LoginPassword', verifyType: 'single-login-password' },
+  { slug: 'verify-scene-email', title: 'Email', verifyType: 'single-email' },
+  { slug: 'verify-scene-google', title: 'Google', verifyType: 'single-google' },
+  { slug: 'verify-scene-login-password', title: 'LoginPassword', verifyType: 'single-login-password' },
   {
-    slug: 'verify-transaction-password',
+    slug: 'verify-scene-transaction-password',
     title: 'TransactionPassword',
     verifyType: 'single-trade-password',
   },
-  { slug: 'verify-passkey', title: 'PassKey', verifyType: 'single-passkey' },
-  { slug: 'verify-locked', title: 'Locked', verifyType: 'locked' },
+  { slug: 'verify-scene-passkey', title: 'PassKey', verifyType: 'single-passkey' },
+  { slug: 'verify-scene-locked', title: 'Locked', verifyType: 'locked' },
 ];
 
 const flotationBoxScenePages: Array<{
@@ -54,17 +55,17 @@ const flotationBoxScenePages: Array<{
   boxKind: FlotationBoxKind;
 }> = [
   {
-    slug: 'flotation-box-cascade-menu',
+    slug: 'flotation-box-scene-cascade-menu',
     title: 'CascadeMenu',
     boxKind: 'standard-cascade-menu',
   },
   {
-    slug: 'flotation-box-address-dropdown',
+    slug: 'flotation-box-scene-address-dropdown',
     title: 'DropDownAddress',
     boxKind: 'scene-address-dropdown',
   },
   {
-    slug: 'flotation-box-address-hover',
+    slug: 'flotation-box-scene-address-hover',
     title: 'AddressHover',
     boxKind: 'scene-address-hover',
   },
@@ -120,7 +121,7 @@ export const splitScenePreviewEntries: ComponentPreviewEntry[] = [
   ...popoverScenePages.map(({ slug, title, scenario }) => ({
     slug,
     title,
-    component: defineScenePreview(`PopoverScenePreview_${slug}`, PopoversScensPreview, {
+    component: defineScenePreview(`PopoverScenePreview_${slug}`, PopoversScenePreview, {
       initialScenario: scenario,
       pageTitle: title,
     }),

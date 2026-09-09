@@ -69,7 +69,7 @@ const emit = defineEmits<{
   'update:checked': [value: boolean];
 }>();
 
-const slots = useSlots();
+const slots: ReturnType<typeof useSlots> = useSlots();
 
 const showLeading = computed(
   () =>

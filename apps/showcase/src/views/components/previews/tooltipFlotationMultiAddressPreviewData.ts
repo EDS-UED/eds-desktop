@@ -35,16 +35,13 @@ export const tooltipFlotationMultiAddressToTags: CryptoAddressSideTags = {
       show: true,
       size: 'sm',
       label: 'Tag 2',
-      customStyle: 'azure',
+      customStyle: 'clear-sky',
     },
     {
       show: true,
       size: 'sm',
       label: 'Tag 3',
-      customStyle: 'violet',
+      customStyle: 'orchid',
     },
   ],
 };
-
-/** @deprecated 使用 tooltipFlotationMultiAddressFromTags */
-export const tooltipFlotationMultiAddressTags = tooltipFlotationMultiAddressFromTags;

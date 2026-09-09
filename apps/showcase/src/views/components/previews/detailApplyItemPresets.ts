@@ -2,22 +2,11 @@ import { tokenLabel, tokenOption } from '@/data/showcasePropLabels';
 import {
   detailApplyItemVariantIds,
   detailApplyItemVariants,
-  getDetailApplyItemVariant,
-  isDetailApplyItemVariantId,
-  resolveDetailItemFromApplyPreset,
   type DetailApplyItemVariantId,
 } from '@eds/desktop-components';
 
 /** Figma Apply_Item@Cregis — node 2267:11092 */
 export const detailApplyItemFigmaNode = '2267:11092';
-
-export type { DetailApplyItemVariantId as DetailApplyItemPresetId };
-
-export { detailApplyItemVariants as detailApplyItemPresets };
-export { detailApplyItemVariantIds as detailApplyItemPresetIds };
-export { getDetailApplyItemVariant as getDetailApplyItemPreset };
-export { isDetailApplyItemVariantId as isDetailApplyItemPresetDataSource };
-export { resolveDetailItemFromApplyPreset };
 
 /** Apply_Item 变体 — 定制下拉「中文 + 英文」 */
 const detailApplyItemPresetZh: Record<DetailApplyItemVariantId, string> = {
@@ -47,3 +36,5 @@ export const detailApplyItemDataSourceOptions = [
     label: tokenLabel(detailApplyItemPresetZh[variant.id], variant.label),
   })),
 ];
+
+export { detailApplyItemVariantIds, detailApplyItemVariants, type DetailApplyItemVariantId };

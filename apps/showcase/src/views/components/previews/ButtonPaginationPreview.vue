@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
-import { EgIcon, EgPaginationItem } from '@eds/desktop-components';
+import { EgIcon, EgPaginationGroupButton } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import {
@@ -30,7 +30,7 @@ const isBorderArrow = computed(() => String(paginationCustomize.kind) === 'borde
       v-model:customize-state="paginationCustomize"
       title="Scenes"
       :show-doc-title="false"
-      component-tag="EgPaginationItem"
+      component-tag="EgPaginationGroupButton"
       :import-code="paginationImportCode"
       :customize-controls="paginationCustomizeControls"
       :customize-defaults="paginationCustomizeDefaults"
@@ -46,7 +46,7 @@ const isBorderArrow = computed(() => String(paginationCustomize.kind) === 'borde
             :event="String(paginationCustomize.event)"
             :disabled="Boolean(paginationCustomize.disabled)"
           />
-          <EgPaginationItem
+          <EgPaginationGroupButton
             v-else
             :kind="paginationCustomize.kind as 'number' | 'symbol' | 'button' | 'borderArrow'"
             :tone="paginationCustomize.tone as 'brand' | 'decor'"
@@ -63,7 +63,7 @@ const isBorderArrow = computed(() => String(paginationCustomize.kind) === 'borde
               :name="showcasePaginationButtonIconName"
               fit
             />
-          </EgPaginationItem>
+          </EgPaginationGroupButton>
         </div>
       </template>
     </ComponentDocLayout>

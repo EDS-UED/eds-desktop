@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
-import { EgTag } from '@eds/desktop-components';
+import { EgColorfulTag } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import styles from './InputPreview.module.css';
 import TagPreviewGallery from './TagPreviewGallery.vue';
 import type { TagColorfulStyle } from '@eds/desktop-components';
 import {
   buildTagColorfulUsageSnippet,
-  tagImportCode,
+  tagColorfulSceneImportCode,
   tagColorfulCustomizeControls,
   tagColorfulCustomizeDefaults,
   tagColorfulGalleryOptions,
@@ -33,13 +33,13 @@ function selectColorfulStyle(value: string) {
       v-model:customize-state="customize"
       title="Colorful"
       :show-doc-title="false"
-      component-tag="EgTag"
-      :import-code="tagImportCode"
+      component-tag="EgColorfulTag"
+      :import-code="tagColorfulSceneImportCode"
       :customize-controls="tagColorfulCustomizeControls"
       :customize-defaults="tagColorfulCustomizeDefaults"
       :usage-snippet-override="usageSnippet"
       :prop-rows="tagColorfulPropRows"
-      props-section-id="tag-colorful-props"
+      props-section-id="tag-scene-colorful-props"
     >
       <template #preview>
         <TagPreviewGallery
@@ -49,18 +49,14 @@ function selectColorfulStyle(value: string) {
           @select="selectColorfulStyle"
         >
           <template #main>
-            <EgTag
-              family="colorful"
-              :size="customize.size"
-              :colorful-style="customize.colorfulStyle"
-            >
+            <EgColorfulTag :size="customize.size" :colorful-style="customize.colorfulStyle">
               {{ customize.label }}
-            </EgTag>
+            </EgColorfulTag>
           </template>
           <template #item="{ value }">
-            <EgTag family="colorful" :size="customize.size" :colorful-style="value">
+            <EgColorfulTag :size="customize.size" :colorful-style="value">
               {{ customize.label }}
-            </EgTag>
+            </EgColorfulTag>
           </template>
         </TagPreviewGallery>
       </template>

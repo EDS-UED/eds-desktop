@@ -81,7 +81,7 @@ export const formSubmissionPropRows: DocPropRow[] = [
     name: 'linkLabel',
     type: 'string',
     defaultValue: "'Button'",
-    description: 'Notes / Danger 态链接文案（嵌套 EgLink size=sm）；Success 无链接。',
+    description: 'Notes / Danger 态链接文案（嵌套 EgLinkButton size=sm）；Success 无链接。',
   },
   { name: 'href', type: 'string', defaultValue: "'#'", description: 'Notes / Danger 态链接地址。' },
   {
@@ -146,7 +146,7 @@ export const streamerPropRows: DocPropRow[] = [
     name: 'showLink',
     type: 'boolean',
     defaultValue: 'false',
-    description: '是否在右侧显示 EgLink（可与按钮并存，用于文档对比）。',
+    description: '是否在右侧显示 EgLinkButton（可与按钮并存，用于文档对比）。',
   },
   {
     name: 'linkLabel',
@@ -158,13 +158,13 @@ export const streamerPropRows: DocPropRow[] = [
     name: 'linkTone',
     type: "'brand' | 'decor'",
     defaultValue: "'brand'",
-    description: 'EgLink tone。',
+    description: 'EgLinkButton tone。',
   },
   {
     name: 'linkSize',
     type: "'md'",
     defaultValue: "'md'",
-    description: 'EgLink 尺寸。',
+    description: 'EgLinkButton 尺寸。',
   },
   { name: 'href', type: 'string', defaultValue: "'#'", description: 'Link 地址。' },
   {

@@ -318,7 +318,7 @@ const lastPagination = computed(() => paginerPagination('last'));
             embedded
             sequential
             :row-columns="paginerPaginationNestedRowColumns"
-            title="EgPaginationItem"
+            title="EgPaginationGroupButton"
             :controls="paginerPaginationCustomizeControls"
           />
           <CustomizePanel

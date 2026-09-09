@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
 import { RouterView, useRoute } from 'vue-router';
-import { EgSearch } from '@eds/desktop-components';
+import { EgSearchInput } from '@eds/desktop-components';
 import PageHeader from '@/components/shared/PageHeader.vue';
 import ComponentsPageAnchors from '@/components/shared/ComponentsPageAnchors.vue';
 import { findCatalogChildPage, findCatalogItem, getComponentRouteSlug } from '@/data/components/navigation';
@@ -51,8 +51,8 @@ const headerLead = computed(() => {
 const isGallerySearchPage = computed(() => isAtomsGallerySearchSlug(activeSlug.value));
 
 const gallerySearchPlaceholder = computed(() => {
-  if (!isGallerySearchPage.value) return '';
-  return atomsGallerySearchPlaceholder(activeSlug.value);
+  const slug = activeSlug.value;
+  return isAtomsGallerySearchSlug(slug) ? atomsGallerySearchPlaceholder(slug) : '';
 });
 
 const showPageAnchors = computed(() => {
@@ -83,7 +83,7 @@ watch(activeSlug, () => {
       >
         <template v-if="isGallerySearchPage" #afterLead>
           <div class="desktopTokens">
-            <EgSearch
+            <EgSearchInput
               v-model="gallerySearchQuery"
               :placeholder="gallerySearchPlaceholder"
               width-mode="full"

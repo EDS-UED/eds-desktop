@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
-import { EgLink } from '@eds/desktop-components';
+import { EgLinkButton } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import styles from './InputPreview.module.css';
@@ -23,7 +23,7 @@ const linkUsageSnippet = computed(() => buildLinkUsageSnippet(linkCustomize));
       v-model:customize-state="linkCustomize"
       title="Link"
       :show-doc-title="false"
-      component-tag="EgLink"
+      component-tag="EgLinkButton"
       :import-code="linkImportCode"
       :customize-controls="linkCustomizeControls"
       :customize-defaults="linkCustomizeDefaults"
@@ -34,14 +34,14 @@ const linkUsageSnippet = computed(() => buildLinkUsageSnippet(linkCustomize));
     >
       <template #preview>
         <div class="desktopTokens" :class="docStyles.previewButtonHost">
-          <EgLink
+          <EgLinkButton
             :tone="linkCustomize.tone as 'brand' | 'theme'"
             :size="linkCustomize.size as 'lg' | 'md' | 'sm'"
             :href="String(linkCustomize.href)"
             :disabled="Boolean(linkCustomize.disabled)"
           >
             {{ linkCustomize.label }}
-          </EgLink>
+          </EgLinkButton>
         </div>
       </template>
     </ComponentDocLayout>

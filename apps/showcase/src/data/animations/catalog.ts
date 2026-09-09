@@ -1,10 +1,10 @@
 import type { CatalogSection } from '../types';
-import type { ScensMotionScenario } from '@/views/components/previews/scensMotionDocCustomize';
+import type { SceneMotionScenario } from '@/views/components/previews/sceneMotionDocCustomize';
 
 export type AnimationCatalogMeta = {
   slug: string;
   name: string;
-  scenario: ScensMotionScenario;
+  scenario: SceneMotionScenario;
   description: string;
 };
 

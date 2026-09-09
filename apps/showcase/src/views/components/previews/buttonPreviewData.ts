@@ -5,13 +5,13 @@ export type ButtonPropRow = DocPropRow;
 export const buttonImportCode = `import {
   EgButton,
   EgIconButton,
-  EgIconButtonPro,
-  EgLink,
-  EgPaginationItem,
-  EgComboActionSkid,
-  EgComboActionPopupWindow,
-  EgComboActionFlotation,
-  EgComboActionPage,
+  EgIconProButton,
+  EgLinkButton,
+  EgPaginationGroupButton,
+  EgComboButton,
+  EgComboPopupButton,
+  EgComboFloatButton,
+  EgComboPageButton,
 } from '@eds/desktop-components';`;
 
 export const buttonHeroCode = '<EgButton>Button</EgButton>';

@@ -51,7 +51,7 @@ import {
 const CRYPTO_COMBO_IMPORT = `import { EgCryptoCombo } from '@eds/desktop-components';`;
 
 const LIST_FIELD_IMPORT = `import {
-  EgAnchoredTooltip,
+  EgTooltip,
   EgCrypto,
   EgCryptoCombo,
   EgIcon,
@@ -412,9 +412,9 @@ function buildHashLikeUsageSnippet(
   const value = String(state.value ?? sample);
   const secondaryValue = String(
     state.secondaryValue ??
-      (tag === 'ListFieldGeneralStructure'
+      (tag === 'EgListFieldGeneralStructure'
         ? SAMPLE_GENERAL_SECONDARY
-        : tag === 'ListFieldIdentifier'
+        : tag === 'EgListFieldIdentifier'
           ? SAMPLE_HASH
           : SAMPLE_ID),
   );
@@ -426,7 +426,7 @@ function buildHashLikeUsageSnippet(
     buildVueOpeningTag('EgListFieldHashLikeLine', {
       text: value,
       variant: 'primary',
-      'identifier-mode': tag === 'ListFieldIdentifier',
+      'identifier-mode': tag === 'EgListFieldIdentifier',
       'copy-on-row-hover': copyOnRowHover,
       'tooltip-trigger': tooltipTrigger,
     }),
@@ -438,7 +438,7 @@ function buildHashLikeUsageSnippet(
       buildVueOpeningTag('EgListFieldHashLikeLine', {
         text: secondaryValue,
         variant: 'secondary',
-        'identifier-mode': tag === 'ListFieldIdentifier',
+        'identifier-mode': tag === 'EgListFieldIdentifier',
         'copy-on-row-hover': copyOnRowHover,
         'tooltip-trigger': tooltipTrigger,
       }),
@@ -605,7 +605,7 @@ function buildGeneralStructureCryptoSnippet(state: Record<string, unknown>): str
 
 function buildGeneralStructureUsageSnippet(state: Record<string, unknown>): string {
   const hashLike = buildHashLikeUsageSnippet(
-    'ListFieldGeneralStructure',
+    'EgListFieldGeneralStructure',
     state,
     SAMPLE_GENERAL_TITLE,
   );
@@ -850,7 +850,7 @@ const currencyConfig: ListFieldDocConfig = {
 };
 
 const addressConfig: ListFieldDocConfig = {
-  componentTag: 'ListFieldAddress',
+  componentTag: 'EgListFieldAddress',
   importCode: `import { EgCryptoAddress, EgListFieldAddressLine } from '@eds/desktop-components';`,
   propsSectionId: 'list-field-address-props',
   customizeDefaults: {
@@ -1066,7 +1066,7 @@ const addressConfig: ListFieldDocConfig = {
 };
 
 const transactionHashConfig: ListFieldDocConfig = {
-  componentTag: 'ListFieldTransactionHash',
+  componentTag: 'EgListFieldTransactionHash',
   importCode: LIST_FIELD_IMPORT,
   propsSectionId: 'list-field-transaction-hash-props',
   compactPreview: true,
@@ -1114,11 +1114,11 @@ const transactionHashConfig: ListFieldDocConfig = {
     sceneProp('ellipsis', "'tail'", "'tail'", '文本单行尾部省略（text-overflow: ellipsis）；溢出时启用 Tooltip。'),
     sceneProp('tooltipWhenTruncated', 'boolean', 'true', '仅文本溢出省略时启用 Tooltip 交互。'),
   ],
-  buildUsageSnippet: (state) => buildHashLikeUsageSnippet('ListFieldTransactionHash', state, SAMPLE_HASH),
+  buildUsageSnippet: (state) => buildHashLikeUsageSnippet('EgListFieldTransactionHash', state, SAMPLE_HASH),
 };
 
 const identifierConfig: ListFieldDocConfig = {
-  componentTag: 'ListFieldIdentifier',
+  componentTag: 'EgListFieldIdentifier',
   importCode: LIST_FIELD_IMPORT,
   propsSectionId: 'list-field-identifier-props',
   compactPreview: true,
@@ -1166,11 +1166,11 @@ const identifierConfig: ListFieldDocConfig = {
     sceneProp('ellipsis', "'tail'", "'tail'", '文本单行尾部省略（同交易哈希）；溢出时启用 Tooltip。'),
     sceneProp('tooltipWhenTruncated', 'boolean', 'true', '仅文本溢出省略时启用 Tooltip 交互。'),
   ],
-  buildUsageSnippet: (state) => buildHashLikeUsageSnippet('ListFieldIdentifier', state, SAMPLE_ID),
+  buildUsageSnippet: (state) => buildHashLikeUsageSnippet('EgListFieldIdentifier', state, SAMPLE_ID),
 };
 
 const generalStructureConfig: ListFieldDocConfig = {
-  componentTag: 'ListFieldGeneralStructure',
+  componentTag: 'EgListFieldGeneralStructure',
   importCode: LIST_FIELD_IMPORT,
   propsSectionId: 'list-field-general-structure-props',
   compactPreview: true,
@@ -1351,7 +1351,7 @@ const generalStructureConfig: ListFieldDocConfig = {
 };
 
 const amountConfig: ListFieldDocConfig = {
-  componentTag: 'ListFieldAmount',
+  componentTag: 'EgListFieldAmount',
   importCode: `${LIST_FIELD_IMPORT}\n// formatGroupedNumber for grouped digits`,
   propsSectionId: 'list-field-amount-props',
   customizeDefaults: {
@@ -1483,7 +1483,7 @@ const amountConfig: ListFieldDocConfig = {
 };
 
 const timeConfig: ListFieldDocConfig = {
-  componentTag: 'ListFieldTime',
+  componentTag: 'EgListFieldTime',
   importCode: LIST_FIELD_IMPORT,
   propsSectionId: 'list-field-time-props',
   customizeDefaults: {
@@ -1536,7 +1536,7 @@ const timeConfig: ListFieldDocConfig = {
 };
 
 const statusConfig: ListFieldDocConfig = {
-  componentTag: 'ListFieldStatus',
+  componentTag: 'EgListFieldStatus',
   importCode: tagImportCode,
   propsSectionId: 'list-field-status-props',
   compactPreview: true,
@@ -1584,7 +1584,7 @@ const statusConfig: ListFieldDocConfig = {
 };
 
 const actionConfig: ListFieldDocConfig = {
-  componentTag: 'ListFieldAction',
+  componentTag: 'EgListFieldAction',
   importCode: `import { EgDataList, EgDataListColumn } from '@eds/desktop-components';`,
   propsSectionId: 'list-field-action-props',
   compactPreview: true,

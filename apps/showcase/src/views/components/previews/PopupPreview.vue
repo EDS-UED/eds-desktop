@@ -3,9 +3,12 @@ import { computed, reactive, ref, watch } from 'vue';
 import {
   EgButton,
   EgDetail,
+  EgDetailPopup,
   EgDialog,
+  EgDialogPopup,
   EgPopup,
   EgVerify,
+  EgVerifyPopup,
   useVerifySubmit,
   type DialogType,
   type VerifyType,
@@ -65,6 +68,25 @@ const docAnchorId = computed(() => {
 
 const docTitle = computed(() => props.pageTitle ?? 'Popup');
 
+const docComponentTag = computed(() => {
+  if (resolvedUses.value === 'detail') return 'EgDetailPopup';
+  if (resolvedUses.value === 'dialog') return 'EgDialogPopup';
+  if (resolvedUses.value === 'verify') return 'EgVerifyPopup';
+  return 'EgPopup';
+});
+
+const docImportCode = computed(() => {
+  if (resolvedUses.value === 'detail') {
+    return `import { EgDetailPopup, EgDetail } from '@eds/desktop-components';`;
+  }
+  if (resolvedUses.value === 'dialog') {
+    return `import { EgDialogPopup, EgDialog } from '@eds/desktop-components';`;
+  }
+  if (resolvedUses.value === 'verify') {
+    return `import { EgVerifyPopup, EgVerify, useVerifySubmit } from '@eds/desktop-components';`;
+  }
+  return ORGANISM_IMPORT;
+});
 const popupCustomSystemBarProps = computed(() => resolvePopupCustomSystemBarProps(customize));
 const popupCustomToolbarProps = computed(() => resolvePopupCustomToolbarProps(customize));
 const popupCustomContentInsetPreset = computed(() => resolvePopupCustomContentInsetPreset(customize));
@@ -133,8 +155,8 @@ function closePopup() {
       :title="docTitle"
       doc-tier="template"
       :show-doc-title="false"
-      component-tag="EgPopup"
-      :import-code="ORGANISM_IMPORT"
+      :component-tag="docComponentTag"
+      :import-code="docImportCode"
       :customize-controls="docCustomizeControls"
       :customize-defaults="customizeDefaults"
       :prop-rows="popupPropRows"
@@ -147,21 +169,20 @@ function closePopup() {
           :class="organismStyles.previewOrganismPopupHost"
           @click.self="!popupOpen && (popupOpen = true)"
         >
-          <EgPopup
+          <EgDetailPopup
+            v-if="customize.uses === 'detail'"
             v-model:open="popupOpen"
-            :uses="customize.uses as PopupUses"
+            :alert-vertical-align="customize.alertVerticalAlign as 'center' | 'offset-top'"
+          >
+            <EgDetail @close="closePopup" />
+          </EgDetailPopup>
+          <EgDialogPopup
+            v-else-if="customize.uses === 'dialog'"
+            v-model:open="popupOpen"
             :alert-vertical-align="customize.alertVerticalAlign as 'center' | 'offset-top'"
             :dialog-type="customize.dialogType as DialogType"
-            :verify-type="verifyType"
-            :box-width="customBoxWidth"
-            :box-height="customBoxHeight"
           >
-            <EgDetail
-              v-if="customize.uses === 'detail'"
-              @close="closePopup"
-            />
             <EgDialog
-              v-else-if="customize.uses === 'dialog'"
               :type="customize.dialogType as DialogType"
               @cancel="closePopup"
               @confirm="closePopup"
@@ -174,16 +195,30 @@ function closePopup() {
                 </div>
               </template>
             </EgDialog>
+          </EgDialogPopup>
+          <EgVerifyPopup
+            v-else-if="customize.uses === 'verify'"
+            v-model:open="popupOpen"
+            :alert-vertical-align="customize.alertVerticalAlign as 'center' | 'offset-top'"
+            :verify-type="verifyType"
+          >
             <EgVerify
-              v-else-if="customize.uses === 'verify'"
               v-model="verify.code"
               :type="verifyType"
               :state="verify.state"
               @complete="onComplete"
               @recover="onRecover"
             />
+          </EgVerifyPopup>
+          <EgPopup
+            v-else
+            v-model:open="popupOpen"
+            :uses="customize.uses as PopupUses"
+            :alert-vertical-align="customize.alertVerticalAlign as 'center' | 'offset-top'"
+            :box-width="customBoxWidth"
+            :box-height="customBoxHeight"
+          >
             <PopupCustomSlotChromePreview
-              v-else
               :class="chromePreviewStyles.root"
               :system-bar-props="popupCustomSystemBarProps"
               :toolbar-props="popupCustomToolbarProps"

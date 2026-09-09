@@ -41,6 +41,7 @@ import ModuleMenuPreview from './ModuleMenuPreview.vue';
 import ToolBarPreview from './ToolBarPreview.vue';
 import PaginerPreview from './PaginerPreview.vue';
 import DialogStandardPreview from './DialogStandardPreview.vue';
+import VerifyPreview from './VerifyPreview.vue';
 import DialogSymbolPreview from './DialogSymbolPreview.vue';
 import DialogComposePreview from './DialogComposePreview.vue';
 import BatchBarPreview from './BatchBarPreview.vue';
@@ -76,14 +77,14 @@ export const compactComponentPreviewSlugs = new Set<string>([
   'flotation-trigger',
   'flotation-trigger-scene-module-menu',
   'flotation-container-tooltip',
-  'flotation-box-cascade-menu',
-  'flotation-box-address-dropdown',
-  'flotation-box-address-hover',
+  'flotation-box-scene-cascade-menu',
+  'flotation-box-scene-address-dropdown',
+  'flotation-box-scene-address-hover',
   'flotation',
   'tag-system',
-  'tag-status',
-  'tag-colorful',
-  'tag-palette',
+  'tag-scene-status',
+  'tag-scene-colorful',
+  'tag-scene-palette',
   'toggle-checkbox',
   'toggle-radio',
   'toggle-decide',
@@ -97,19 +98,21 @@ export const compactComponentPreviewSlugs = new Set<string>([
   'feedback-form-submission',
   'feedback-streamer',
   'popovers-popover',
-  'popovers-scens-guidance',
-  'popovers-scens-notes',
-  'popovers-scens-gas-fee',
+  'popovers-scene-guidance',
+  'popovers-scene-remark',
+  'popovers-scene-gas-fee',
+  'popovers-scene-confirm',
   'avatar',
   'tool-bar',
   'paginer',
   'batch-bar',
-  'verify-email',
-  'verify-google',
-  'verify-login-password',
-  'verify-transaction-password',
-  'verify-passkey',
-  'verify-locked',
+  'verify',
+  'verify-scene-email',
+  'verify-scene-google',
+  'verify-scene-login-password',
+  'verify-scene-transaction-password',
+  'verify-scene-passkey',
+  'verify-scene-locked',
 ]);
 
 /** Organism / Template 等高预览：圆角壳 + 随页滚动（不 sticky）。 */
@@ -129,8 +132,8 @@ export const scrollComponentPreviewSlugs = new Set<string>([
   'popup-scene-verify',
   'detail',
   'dialog-standard',
-  'dialog-symbol',
-  'dialog-compose',
+  'dialog-scene-symbol',
+  'dialog-scene-compose',
 ]);
 
 export function usesCompactComponentPreview(slug: string): boolean {
@@ -145,9 +148,9 @@ export function usesScrollComponentPreview(slug: string): boolean {
 export const tagComponentPreviewSlugs = new Set<string>([
   'avatar',
   'tag-system',
-  'tag-status',
-  'tag-colorful',
-  'tag-palette',
+  'tag-scene-status',
+  'tag-scene-colorful',
+  'tag-scene-palette',
 ]);
 
 export function usesTagComponentPreview(slug: string): boolean {
@@ -192,9 +195,9 @@ export const componentPreviews: ComponentPreviewEntry[] = [
   { slug: 'divider', title: 'Divider', component: DividerPreview, usesComponentDocHeader: true },
   { slug: 'avatar', title: 'Avatar', component: AvatarPreview, usesComponentDocHeader: true },
   { slug: 'tag-system', title: 'Standard', component: TagSystemPreview, usesComponentDocHeader: true },
-  { slug: 'tag-status', title: 'Status', component: TagStatusPreview, usesComponentDocHeader: true },
-  { slug: 'tag-colorful', title: 'Colorful', component: TagColorfulPreview, usesComponentDocHeader: true },
-  { slug: 'tag-palette', title: 'Palette', component: TagCustomPreview, usesComponentDocHeader: true },
+  { slug: 'tag-scene-status', title: 'Status', component: TagStatusPreview, usesComponentDocHeader: true },
+  { slug: 'tag-scene-colorful', title: 'Colorful', component: TagColorfulPreview, usesComponentDocHeader: true },
+  { slug: 'tag-scene-palette', title: 'Palette', component: TagCustomPreview, usesComponentDocHeader: true },
   { slug: 'toggle-checkbox', title: 'Checkbox', component: ToggleCheckboxPreview, usesComponentDocHeader: true },
   { slug: 'toggle-radio', title: 'Radio', component: ToggleRadioPreview, usesComponentDocHeader: true },
   { slug: 'toggle-decide', title: 'Decide', component: ToggleDecidePreview, usesComponentDocHeader: true },
@@ -239,9 +242,10 @@ export const componentPreviews: ComponentPreviewEntry[] = [
   { slug: 'layout', title: 'Layout', component: LayoutPreview, usesComponentDocHeader: true },
   { slug: 'popup', title: 'Popup', component: PopupPreview, usesComponentDocHeader: true },
   { slug: 'popovers-popover', title: 'Standard', component: PopoversPopoverPreview, usesComponentDocHeader: true },
+  { slug: 'verify', title: 'Verify', component: VerifyPreview, usesComponentDocHeader: true },
   { slug: 'dialog-standard', title: 'Standard', component: DialogStandardPreview, usesComponentDocHeader: true },
-  { slug: 'dialog-symbol', title: 'DialogSymbol', component: DialogSymbolPreview, usesComponentDocHeader: true },
-  { slug: 'dialog-compose', title: 'Compose', component: DialogComposePreview, usesComponentDocHeader: true },
+  { slug: 'dialog-scene-symbol', title: 'DialogSymbol', component: DialogSymbolPreview, usesComponentDocHeader: true },
+  { slug: 'dialog-scene-compose', title: 'Compose', component: DialogComposePreview, usesComponentDocHeader: true },
   { slug: 'skid', title: 'Skid', component: SkidPreview, usesComponentDocHeader: true },
   { slug: 'icons', title: 'Icon', component: IconPreview },
   { slug: 'crypto', title: 'Crypto', component: CryptoPreview },

@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, useAttrs, useSlots, watch } from 'vue';
 import { EgDivider } from '../../atoms/divider';
 import { EgIcon } from '../../atoms/icons';
-import EgTooltip, {
+import EgTooltipPanel, {
   type TooltipHeightMode,
   type TooltipWidthMode,
 } from '../tooltip/Tooltip.vue';
@@ -122,7 +122,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EgTooltip
+  <EgTooltipPanel
     v-bind="attrs"
     :class="[
       'eds-flotation-menu',
@@ -193,5 +193,5 @@ onBeforeUnmount(() => {
         </button>
       </div>
     </div>
-  </EgTooltip>
+  </EgTooltipPanel>
 </template>

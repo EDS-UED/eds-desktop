@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
-import { EgTag } from '@eds/desktop-components';
+import { EgBusinessTag } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import styles from './InputPreview.module.css';
 import TagPreviewGallery from './TagPreviewGallery.vue';
 import type { TagCustomStyle } from '@eds/desktop-components';
 import {
   buildTagCustomUsageSnippet,
-  tagImportCode,
+  tagBusinessSceneImportCode,
   tagCustomCustomizeControls,
   tagCustomCustomizeDefaults,
   tagCustomGalleryOptions,
@@ -33,13 +33,13 @@ function selectCustomStyle(value: string) {
       v-model:customize-state="customize"
       title="Palette"
       :show-doc-title="false"
-      component-tag="EgTag"
-      :import-code="tagImportCode"
+      component-tag="EgBusinessTag"
+      :import-code="tagBusinessSceneImportCode"
       :customize-controls="tagCustomCustomizeControls"
       :customize-defaults="tagCustomCustomizeDefaults"
       :usage-snippet-override="usageSnippet"
       :prop-rows="tagCustomPropRows"
-      props-section-id="tag-palette-props"
+      props-section-id="tag-scene-palette-props"
     >
       <template #preview>
         <TagPreviewGallery
@@ -49,14 +49,14 @@ function selectCustomStyle(value: string) {
           @select="selectCustomStyle"
         >
           <template #main>
-            <EgTag family="custom" :size="customize.size" :custom-style="customize.customStyle">
+            <EgBusinessTag :size="customize.size" :custom-style="customize.customStyle">
               {{ customize.label }}
-            </EgTag>
+            </EgBusinessTag>
           </template>
           <template #item="{ value }">
-            <EgTag family="custom" :size="customize.size" :custom-style="value">
+            <EgBusinessTag :size="customize.size" :custom-style="value">
               {{ customize.label }}
-            </EgTag>
+            </EgBusinessTag>
           </template>
         </TagPreviewGallery>
       </template>

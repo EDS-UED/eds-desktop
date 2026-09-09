@@ -39,7 +39,7 @@ const props = withDefaults(
     tagPreview?: boolean;
     /** 定制区按 control.row 分行排布（如 Module Menu 每组标题+顺序）。 */
     customizeSequential?: boolean;
-    /** sequential + row 布局时每行列数（如 EgIconButtonPro 嵌套 6 列）。 */
+    /** sequential + row 布局时每行列数（如 EgIconProButton 嵌套 6 列）。 */
     customizeRowColumns?: number;
     /** When false, parent supplies catalog group label (e.g. previewGroupLabel). */
     showDocTitle?: boolean;

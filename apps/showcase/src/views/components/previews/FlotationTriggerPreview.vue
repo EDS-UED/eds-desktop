@@ -1,7 +1,19 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, watch } from 'vue';
-import { EgComboInputItem, EgFlotationTrigger, EgFormSubmission } from '@eds/desktop-components';
+import { computed, onMounted, watch } from 'vue';
+import {
+  EgComboInput,
+  EgFlotationTrigger,
+  EgFormSubmission,
+  EgModuleMenuTrigger,
+  type FlotationTriggerSize,
+  type FlotationTriggerStyle,
+  type FlotationTriggerWidthMode,
+  type FormSubmissionType,
+  type MessageType,
+  type TagStatus,
+} from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
+import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import styles from './InputPreview.module.css';
@@ -15,6 +27,8 @@ import {
   flotationTriggerPropRows,
   flotationTriggerSlotRows,
   isFlotationTriggerModuleMenuKind,
+  resolveFlotationTriggerSceneComponentTag,
+  resolveFlotationTriggerSceneImportCode,
   usesFlotationTriggerComboShell,
   type FlotationTriggerKind,
 } from './flotationDocCustomize';
@@ -24,23 +38,10 @@ const props = defineProps<{
   pageTitle?: string;
 }>();
 
-const customize = reactive({
-  ...flotationTriggerCustomizeDefaults,
-  triggerKind: (props.initialTriggerKind ??
-    flotationTriggerCustomizeDefaults.triggerKind) as FlotationTriggerKind,
-  triggerStyle: flotationTriggerCustomizeDefaults.triggerStyle as 'subtle' | 'outline' | 'text',
-  widthMode: flotationTriggerCustomizeDefaults.widthMode as 'trigger' | 'adaptive' | 'fixed',
-  size: flotationTriggerCustomizeDefaults.size as 'lg' | 'md' | 'sm' | 'xs',
-  tagStatus: flotationTriggerCustomizeDefaults.tagStatus as
-    | 'danger'
-    | 'warning'
-    | 'success'
-    | 'ready'
-    | 'invalid',
-  messageType: flotationTriggerCustomizeDefaults.messageType as 'subtle' | 'brand' | 'danger',
-  type: flotationTriggerCustomizeDefaults.type as 'notes' | 'danger' | 'success',
-  symbolPosition: flotationTriggerCustomizeDefaults.symbolPosition as 'leading' | 'trailing',
-});
+const customize = createDocCustomizeState<typeof flotationTriggerCustomizeDefaults>(
+  flotationTriggerCustomizeDefaults,
+  props.initialTriggerKind ? { triggerKind: props.initialTriggerKind } : undefined,
+);
 
 watch(
   () => customize.triggerKind,
@@ -62,6 +63,13 @@ const triggerPageControls = computed(() =>
 );
 
 const pageTitle = computed(() => props.pageTitle ?? 'Trigger');
+
+const docComponentTag = computed(() =>
+  resolveFlotationTriggerSceneComponentTag(customize.triggerKind as FlotationTriggerKind),
+);
+const docImportCode = computed(() =>
+  resolveFlotationTriggerSceneImportCode(customize.triggerKind as FlotationTriggerKind),
+);
 
 const usageSnippet = computed(() => buildFlotationTriggerUsageSnippet(customize));
 
@@ -86,12 +94,13 @@ const triggerFixedWidth = computed(() => {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 });
 
-const triggerProps = computed(() => {
+type FlotationTriggerBindings = InstanceType<typeof EgFlotationTrigger>['$props'];
+
+const triggerProps = computed<FlotationTriggerBindings>(() => {
   if (isModuleMenuKind.value) {
     return {
-      moduleMenuTitle: true,
-      triggerStyle: 'text' as const,
-      widthMode: 'trigger' as const,
+      triggerStyle: 'text',
+      widthMode: 'trigger',
       label: String(customize.label),
       showReddot: Boolean(customize.showReddot),
       disabled: Boolean(customize.disabled),
@@ -100,22 +109,21 @@ const triggerProps = computed(() => {
   }
 
   return {
-    triggerStyle: customize.triggerStyle,
-    size: customize.size,
-    widthMode: customize.widthMode,
+    triggerStyle: customize.triggerStyle as FlotationTriggerStyle,
+    size: customize.size as FlotationTriggerSize,
+    widthMode: customize.widthMode as FlotationTriggerWidthMode,
     width: triggerFixedWidth.value,
     label: String(customize.label),
     disabled: Boolean(customize.disabled),
     showSymbol: Boolean(customize.showSymbol),
     symbolIcon: String(customize.symbolIcon),
-    symbolPosition:
-      customize.symbolPosition === 'trailing' ? ('trailing' as const) : ('leading' as const),
+    symbolPosition: customize.symbolPosition === 'trailing' ? 'trailing' : 'leading',
     showTag: Boolean(customize.showTag),
     tagText: String(customize.tagText),
-    tagStatus: customize.tagStatus,
+    tagStatus: customize.tagStatus as TagStatus,
     showMessage: Boolean(customize.showMessage),
     messageText: String(customize.messageText),
-    messageType: customize.messageType,
+    messageType: customize.messageType as MessageType,
     expanded: Boolean(customize.expanded),
   };
 });
@@ -132,8 +140,8 @@ const usesComboShell = computed(
       anchor-id="flotation-trigger"
       :title="pageTitle"
       :show-doc-title="false"
-      component-tag="EgFlotationTrigger"
-      :import-code="flotationTriggerImportCode"
+      :component-tag="docComponentTag"
+      :import-code="docImportCode"
       :customize-controls="triggerPageControls"
       :customize-sequential="true"
       :customize-row-columns="4"
@@ -146,7 +154,7 @@ const usesComboShell = computed(
       <template #preview>
         <div class="desktopTokens" :class="docStyles.previewInputHost">
           <div :style="previewHostStyle">
-            <EgComboInputItem
+            <EgComboInput
               v-if="usesComboShell"
               :label="customize.showFieldLabel ? String(customize.fieldLabel) : ''"
               :feedback="Boolean(customize.feedback)"
@@ -154,13 +162,14 @@ const usesComboShell = computed(
               <EgFlotationTrigger v-bind="triggerProps" />
               <template v-if="customize.feedback" #feedback>
                 <EgFormSubmission
-                  :type="customize.type"
+                  :type="customize.type as FormSubmissionType"
                   :text="String(customize.text)"
                   :link-label="String(customize.linkLabel)"
                   :show-link="Boolean(customize.showLink)"
                 />
               </template>
-            </EgComboInputItem>
+            </EgComboInput>
+            <EgModuleMenuTrigger v-else-if="isModuleMenuKind" v-bind="triggerProps" />
             <EgFlotationTrigger v-else v-bind="triggerProps" />
           </div>
         </div>

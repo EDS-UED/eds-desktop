@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { EgIcon } from '../../atoms/icons';
-import { EgComboActionFlotation, EgComboActionPopupWindow } from '../../molecules/combo';
+import { EgComboFloatButton, EgComboPopupButton } from '../../molecules/combo';
 import chromeScrimStyles from '../../styles/popupChromeScrim.module.css';
 import '../../styles/popupInnerBackdrop.css';
 import styles from './Dialog.module.css';
 
 export type DialogType = 'symbol' | 'compose' | 'standard';
-
-/** @deprecated Use DialogType */
-export type ReminderType = DialogType;
 
 type DialogTypeInput = DialogType | 'slot';
 
@@ -143,7 +140,7 @@ watch(
 
         <div :class="[styles.symbolActions, 'eds-dialog-info-actions']">
           <slot name="actions">
-            <EgComboActionPopupWindow
+            <EgComboPopupButton
               :tone="toolbarTone"
               :variant="toolbarVariant"
               :count="actionCount"
@@ -182,7 +179,7 @@ watch(
         >
           <div :class="chromeScrimStyles.content">
             <slot name="actions">
-              <EgComboActionFlotation
+              <EgComboFloatButton
                 bar-padding="inset-5"
                 :tone="toolbarTone"
                 :variant="toolbarVariant"
@@ -225,7 +222,7 @@ watch(
         >
           <div :class="chromeScrimStyles.content">
             <slot name="actions">
-              <EgComboActionFlotation
+              <EgComboFloatButton
                 :tone="toolbarTone"
                 :variant="toolbarVariant"
                 :divider="showToolbarDivider"

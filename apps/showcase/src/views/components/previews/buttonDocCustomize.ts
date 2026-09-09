@@ -36,26 +36,26 @@ export const buttonTextImportCode = `import { EgButton, EgIcon } from '@eds/desk
 
 export const iconButtonImportCode = `import { EgIcon, EgIconButton } from '@eds/desktop-components';`;
 
-export const iconButtonProImportCode = `import { EgIcon, EgIconButtonPro } from '@eds/desktop-components';`;
+export const iconButtonProImportCode = `import { EgIcon, EgIconProButton } from '@eds/desktop-components';`;
 
-export const linkImportCode = `import { EgLink } from '@eds/desktop-components';`;
+export const linkImportCode = `import { EgLinkButton } from '@eds/desktop-components';`;
 
-export const paginationImportCode = `import { EgIcon, EgPaginationItem } from '@eds/desktop-components';`;
+export const paginationImportCode = `import { EgIcon, EgPaginationGroupButton } from '@eds/desktop-components';`;
 
 export const comboActionImportCode = `import {
-  EgComboActionSkid,
-  EgComboActionPopupWindow,
-  EgComboActionFlotation,
-  EgComboActionPage,
+  EgComboButton,
+  EgComboPopupButton,
+  EgComboFloatButton,
+  EgComboPageButton,
 } from '@eds/desktop-components';`;
 
-export const comboActionSkidImportCode = `import { EgComboActionSkid } from '@eds/desktop-components';`;
+export const comboActionSkidImportCode = `import { EgComboButton } from '@eds/desktop-components';`;
 
-export const comboActionPopupImportCode = `import { EgComboActionPopupWindow } from '@eds/desktop-components';`;
+export const comboActionPopupImportCode = `import { EgComboPopupButton } from '@eds/desktop-components';`;
 
-export const comboActionFlotationImportCode = `import { EgComboActionFlotation } from '@eds/desktop-components';`;
+export const comboActionFlotationImportCode = `import { EgComboFloatButton } from '@eds/desktop-components';`;
 
-export const comboActionPageImportCode = `import { EgComboActionPage } from '@eds/desktop-components';`;
+export const comboActionPageImportCode = `import { EgComboPageButton } from '@eds/desktop-components';`;
 
 const buttonIconPositionInlineSelect = {
   key: 'iconPosition',
@@ -411,7 +411,8 @@ export function buildIconButtonProZoneItemControls(
           key: `${prefix}Badge${itemIndex}`,
           label: showcaseButtonCustomizeFieldLabels.badge,
           row: itemIndex,
-          visibleWhen: (state) => visibleWhen(state) && Boolean(state[`${prefix}ShowBadge${itemIndex}`]),
+          visibleWhen: (state: Record<string, unknown>) =>
+            visibleWhen(state) && Boolean(state[`${prefix}ShowBadge${itemIndex}`]),
         },
       ];
     }).flat(),
@@ -451,24 +452,51 @@ export const iconButtonProSingleCustomizeControls: DocCustomizeControl[] = [
   },
 ];
 
+function prefixCustomizeKey(prefix: string, key: string): string {
+  return `${prefix}${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+}
+
+/**
+ * 复用一组基础控件并按区位前缀重命名 key。
+ *
+ * `scopeState` 把带前缀的面板状态还原成基础控件 `visibleWhen` 期望的无前缀视图。
+ */
+function rekeyCustomizeControl(
+  control: DocCustomizeControl,
+  prefix: string,
+  scopeState: (state: Record<string, unknown>) => Record<string, unknown>,
+  row?: number,
+): DocCustomizeControl {
+  const { visibleWhen } = control;
+  const shared = {
+    key: prefixCustomizeKey(prefix, control.key),
+    ...(row == null ? {} : { row }),
+    ...(visibleWhen
+      ? { visibleWhen: (state: Record<string, unknown>) => visibleWhen(scopeState(state)) }
+      : {}),
+  };
+
+  if (control.kind === 'boolean') {
+    return {
+      ...control,
+      ...shared,
+      ...(control.exclusiveKey
+        ? { exclusiveKey: prefixCustomizeKey(prefix, control.exclusiveKey) }
+        : {}),
+    };
+  }
+
+  return { ...control, ...shared };
+}
+
 export function buildIconButtonProSingleCustomizeControls(
   prefix: IconButtonProZoneKeyPrefix,
 ): DocCustomizeControl[] {
-  return iconButtonProSingleCustomizeControls.map((control) => ({
-    ...control,
-    key: `${prefix}${control.key.charAt(0).toUpperCase()}${control.key.slice(1)}`,
-    exclusiveKey:
-      control.kind === 'boolean' && control.exclusiveKey
-        ? `${prefix}${control.exclusiveKey.charAt(0).toUpperCase()}${control.exclusiveKey.slice(1)}`
-        : undefined,
-    visibleWhen:
-      control.visibleWhen == null
-        ? undefined
-        : (state: Record<string, unknown>) =>
-            control.visibleWhen?.({
-              showBadge: state[`${prefix}ShowBadge`],
-            } satisfies Record<string, unknown>),
-  }));
+  return iconButtonProSingleCustomizeControls.map((control) =>
+    rekeyCustomizeControl(control, prefix, (state) => ({
+      showBadge: state[`${prefix}ShowBadge`],
+    })),
+  );
 }
 
 export type IconButtonProZoneItemState = {
@@ -527,13 +555,13 @@ export function readIconButtonProSingleItem(
 
 export function buildIconButtonProUsageSnippet(state: Record<string, unknown>): string {
   const symbol = String(state.symbol ?? iconButtonProCustomizeDefaults.symbol);
-  const openTag = buildVueSelfClosingSnippet('EgIconButtonPro', state, {
+  const openTag = buildVueSelfClosingSnippet('EgIconProButton', state, {
     defaults: iconButtonProCustomizeDefaults,
     omitKeys: ['type', 'symbol'],
   })
     .replace(/\s*\/>$/, '')
     .trim();
-  return `${openTag}>\n  <EgIcon name="${symbol}" fit />\n</EgIconButtonPro>`;
+  return `${openTag}>\n  <EgIcon name="${symbol}" fit />\n</EgIconProButton>`;
 }
 
 export const linkCustomizeDefaults = {
@@ -564,7 +592,7 @@ export const linkCustomizeControls: DocCustomizeControl[] = [
 
 export function buildLinkUsageSnippet(state: Record<string, unknown>): string {
   const label = String(state.label ?? linkCustomizeDefaults.label);
-  return buildVueDefaultSlotSnippet('EgLink', state, label, {
+  return buildVueDefaultSlotSnippet('EgLinkButton', state, label, {
     defaults: linkCustomizeDefaults,
     omitKeys: ['label'],
   });
@@ -610,7 +638,7 @@ export const paginationCustomizeControls: DocCustomizeControl[] = [
 
 export function buildPaginationUsageSnippet(state: Record<string, unknown>): string {
   if (state.kind === 'number') {
-    return buildVueSelfClosingSnippet('EgPaginationItem', state, {
+    return buildVueSelfClosingSnippet('EgPaginationGroupButton', state, {
       defaults: paginationCustomizeDefaults,
       omitKeys: ['type', 'event'],
     });
@@ -623,7 +651,7 @@ export function buildPaginationUsageSnippet(state: Record<string, unknown>): str
         ? showcaseChevronIconSnippet
         : showcaseArrowIconSnippet;
   const iconLines = icon.replace(/\n/g, '\n  ');
-  return buildVueDefaultSlotSnippet('EgPaginationItem', state, iconLines, {
+  return buildVueDefaultSlotSnippet('EgPaginationGroupButton', state, iconLines, {
     defaults: paginationCustomizeDefaults,
     omitKeys: ['label', 'type', 'event'],
   });
@@ -697,18 +725,9 @@ export function paginerPaginationCustomizeDefaults(
 export function buildPaginerPaginationItemCustomizeControls(
   prefix: PaginerPaginationSlotKey,
 ): DocCustomizeControl[] {
-  return paginationCustomizeControls.map((control) => ({
-    ...control,
-    key: `${prefix}${control.key.charAt(0).toUpperCase()}${control.key.slice(1)}`,
-    row: 1,
-    visibleWhen:
-      control.visibleWhen == null
-        ? undefined
-        : (state: Record<string, unknown>) =>
-            control.visibleWhen?.({
-              kind: state[`${prefix}Kind`],
-            } satisfies Record<string, unknown>),
-  }));
+  return paginationCustomizeControls.map((control) =>
+    rekeyCustomizeControl(control, prefix, (state) => ({ kind: state[`${prefix}Kind`] }), 1),
+  );
 }
 
 export function buildPaginerPaginationCustomizeControls(
@@ -793,7 +812,7 @@ export const comboActionSkidCustomizeControls: DocCustomizeControl[] = [
 ];
 
 export function buildComboActionSkidUsageSnippet(state: Record<string, unknown>): string {
-  return buildVueSelfClosingSnippet('EgComboActionSkid', state, {
+  return buildVueSelfClosingSnippet('EgComboButton', state, {
     defaults: comboActionSkidCustomizeDefaults,
   });
 }
@@ -848,7 +867,7 @@ export const comboActionPopupCustomizeControls: DocCustomizeControl[] = [
 ];
 
 export function buildComboActionPopupUsageSnippet(state: Record<string, unknown>): string {
-  return buildVueSelfClosingSnippet('EgComboActionPopupWindow', state, {
+  return buildVueSelfClosingSnippet('EgComboPopupButton', state, {
     defaults: comboActionPopupCustomizeDefaults,
   });
 }
@@ -920,7 +939,7 @@ function remapCustomizeControls(
     }));
 }
 
-/** Dialog · EgComboActionFlotation 嵌套定制（与 comboActionFlotationCustomizeControls 字段/布局一致，映射 EgDialog state 键）。 */
+/** Dialog · EgComboFloatButton 嵌套定制（与 comboActionFlotationCustomizeControls 字段/布局一致，映射 EgDialog state 键）。 */
 export const dialogStandardFlotationToolbarControls = remapCustomizeControls(
   comboActionFlotationCustomizeControls,
   { tone: 'toolbarTone', variant: 'toolbarVariant', divider: 'toolbarDividerPinned' },
@@ -937,14 +956,14 @@ export const dialogComposeFlotationToolbarControls = remapCustomizeControls(
   },
 );
 
-/** Dialog · EgComboActionPopupWindow 嵌套定制（与 comboActionPopupCustomizeControls 一致，映射 EgDialog state 键）。 */
+/** Dialog · EgComboPopupButton 嵌套定制（与 comboActionPopupCustomizeControls 一致，映射 EgDialog state 键）。 */
 export const dialogPopupWindowControls = remapCustomizeControls(
   comboActionPopupCustomizeControls,
   { tone: 'toolbarTone', variant: 'toolbarVariant', count: 'actionCount' },
 );
 
 export function buildComboActionFlotationUsageSnippet(state: Record<string, unknown>): string {
-  return buildVueSelfClosingSnippet('EgComboActionFlotation', state, {
+  return buildVueSelfClosingSnippet('EgComboFloatButton', state, {
     defaults: comboActionFlotationCustomizeDefaults,
   });
 }
@@ -985,7 +1004,7 @@ export const comboActionPageCustomizeControls: DocCustomizeControl[] = [
 ];
 
 export function buildComboActionPageUsageSnippet(state: Record<string, unknown>): string {
-  return buildVueSelfClosingSnippet('EgComboActionPage', state, {
+  return buildVueSelfClosingSnippet('EgComboPageButton', state, {
     defaults: comboActionPageCustomizeDefaults,
   });
 }
@@ -1110,13 +1129,13 @@ export const comboActionCustomizeControls: DocCustomizeControl[] = [
 export function resolveComboActionComponentTag(kind: ComboActionKindValue): string {
   switch (kind) {
     case 'popup-window':
-      return 'EgComboActionPopupWindow';
+      return 'EgComboPopupButton';
     case 'flotation':
-      return 'EgComboActionFlotation';
+      return 'EgComboFloatButton';
     case 'page':
-      return 'EgComboActionPage';
+      return 'EgComboPageButton';
     default:
-      return 'EgComboActionSkid';
+      return 'EgComboButton';
   }
 }
 

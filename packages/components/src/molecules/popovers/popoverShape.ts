@@ -8,6 +8,8 @@ export const POPOVER_PANEL_H = 490;
 /** Showcase 预置宽（fixed widthMode）：256 引导 / 336 基础 / 460 复杂。 */
 export const POPOVER_PRESET_WIDTH_GUIDE = 256;
 export const POPOVER_PRESET_WIDTH_BASE = 336;
+/** 二次确认 Popover 面板宽（px）。 */
+export const POPOVER_PRESET_WIDTH_CONFIRM = 296;
 export const POPOVER_PRESET_WIDTH_COMPLEX = 460;
 
 /** 批处理 / 审批 Remark Popover 备注最大字数。 */

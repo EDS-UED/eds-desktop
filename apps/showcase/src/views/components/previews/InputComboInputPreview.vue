@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
-import { EgComboInputItem, EgFormSubmission, EgInput } from '@eds/desktop-components';
+import { EgComboInput, EgFormSubmission, EgInput } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
@@ -68,7 +68,7 @@ const comboInputUsageSnippet = computed(() => {
     feedback: comboInputItemCustomizeDefaults.feedback,
   };
   const openTag = buildVueSelfClosingSnippet(
-    'EgComboInputItem',
+    'EgComboInput',
     comboInputItemShellProps(comboInputCustomize),
     { defaults: shellDefaults },
   )
@@ -86,7 +86,7 @@ const comboInputUsageSnippet = computed(() => {
     ? `\n  <template #feedback>\n    ${buildFormSubmissionUsageSnippet(comboInputCustomize, 'submission').replace(/^/gm, '    ').trim()}\n  </template>`
     : '';
 
-  return `${openTag}>\n  ${inner}${feedbackSlot}\n</EgComboInputItem>`;
+  return `${openTag}>\n  ${inner}${feedbackSlot}\n</EgComboInput>`;
 });
 </script>
 
@@ -96,7 +96,7 @@ const comboInputUsageSnippet = computed(() => {
       v-model:customize-state="comboInputCustomize"
       title="Combo Input Item"
       doc-tier="scenes"
-      component-tag="EgComboInputItem"
+      component-tag="EgComboInput"
       :import-code="comboImportCode"
       :customize-controls="comboInputItemShellCustomizeControls"
       :customize-defaults="comboInputItemCustomizeDefaults"
@@ -108,7 +108,7 @@ const comboInputUsageSnippet = computed(() => {
     >
       <template #preview>
         <div class="desktopTokens" :class="comboInputPreviewHostClass">
-          <EgComboInputItem
+          <EgComboInput
             :label="String(comboInputCustomize.label)"
             :feedback="Boolean(comboInputCustomize.feedback)"
           >
@@ -145,7 +145,7 @@ const comboInputUsageSnippet = computed(() => {
             <template v-if="comboInputCustomize.feedback" #feedback>
               <EgFormSubmission v-bind="formSubmissionPreviewProps" />
             </template>
-          </EgComboInputItem>
+          </EgComboInput>
         </div>
       </template>
 

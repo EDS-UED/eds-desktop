@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { EgComboActionPopupWindow } from '../combo';
+import { EgComboPopupButton } from '../combo';
 import { EgDivider } from '../../atoms/divider';
 import { EgFormSubmission } from '../feedback';
 import { provideMinerFeeTranslate, type MinerFeeTranslate } from './minerFeeTranslate';
@@ -137,7 +137,7 @@ defineExpose({
     </div>
 
     <div v-if="!hideInlineConfirm" :class="styles.minerFeeFooter">
-      <EgComboActionPopupWindow
+      <EgComboPopupButton
         tone="decor"
         :count="1"
         :confirm-label="translate('Confirm')"

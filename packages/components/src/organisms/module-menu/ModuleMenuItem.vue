@@ -15,9 +15,6 @@ import { MESSAGE_PARENT_FOCUSED_KEY } from '../../molecules/feedback/messageFocu
 import { useModuleMenuItemFocus } from './moduleMenuItemFocus';
 import styles from './ModuleMenu.module.css';
 
-/** @deprecated 使用 subitem + tier */
-export type ModuleMenuItemLevel = 0 | 1;
-
 export type ModuleMenuItemTier = 1 | 2;
 
 const props = withDefaults(
@@ -25,12 +22,8 @@ const props = withDefaults(
     label?: string;
     tier?: ModuleMenuItemTier;
     subitem?: boolean;
-    /** @deprecated 用 subitem（1 → subitem） */
-    level?: ModuleMenuItemLevel;
     /** 无 EgModuleMenu 聚焦上下文时的受控聚焦。 */
     focused?: boolean;
-    /** @deprecated 使用 focused */
-    active?: boolean;
     trailingIcon?: string;
     message?: string;
     messageType?: MessageType;
@@ -41,9 +34,7 @@ const props = withDefaults(
     label: 'Label',
     tier: 1,
     subitem: false,
-    level: undefined,
     focused: false,
-    active: false,
     trailingIcon: undefined,
     message: undefined,
     messageType: 'subtle',
@@ -62,7 +53,7 @@ const slots = useSlots();
 const itemId = useId();
 const menuFocus = useModuleMenuItemFocus();
 
-const isSubitem = computed(() => props.subitem || props.level === 1);
+const isSubitem = computed(() => props.subitem);
 
 const isTier2Parent = computed(() => props.tier === 2 && !isSubitem.value);
 
@@ -91,7 +82,7 @@ const isFocused = computed(() => {
   if (menuFocus) {
     return menuFocus.isFocused(itemId);
   }
-  return props.focused || props.active;
+  return props.focused;
 });
 
 provide(MESSAGE_PARENT_FOCUSED_KEY, isFocused);

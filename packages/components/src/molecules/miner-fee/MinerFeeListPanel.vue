@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { EgComboActionPopupWindow } from '../combo';
+import { EgComboPopupButton } from '../combo';
 import { EgDivider } from '../../atoms/divider';
 import { EgIcon } from '../../atoms/icons';
-import { EgLink } from '../link';
+import { EgLinkButton } from '../link';
 import { useMinerFeeTranslate } from './minerFeeTranslate';
 import type { MinerFeeCustomDraft, MinerFeeCustomSaved } from './minerFeeCustomTypes';
 import MinerFeeCustomAnchoredPopover from './MinerFeeCustomAnchoredPopover.vue';
@@ -205,7 +205,7 @@ defineExpose({
                     }}</span>
                     <span :class="styles.minerFeeUsdRange">{{ customFeeSaved.usdRange }}</span>
                   </span>
-                  <EgLink
+                  <EgLinkButton
                     :class="styles.minerFeeSavedCustomEdit"
                     size="md"
                     href="#"
@@ -214,7 +214,7 @@ defineExpose({
                     @click.prevent.stop="openSavedCustomViaPopover(onClick)"
                   >
                     {{ ui('Edit') }}
-                  </EgLink>
+                  </EgLinkButton>
                 </div>
                 <button
                   v-else
@@ -259,7 +259,7 @@ defineExpose({
               }}</span>
               <span :class="styles.minerFeeUsdRange">{{ customFeeSaved.usdRange }}</span>
             </span>
-            <EgLink
+            <EgLinkButton
               :class="styles.minerFeeSavedCustomEdit"
               size="md"
               href="#"
@@ -268,7 +268,7 @@ defineExpose({
               @click.prevent.stop="openSavedCustom"
             >
               {{ ui('Edit') }}
-            </EgLink>
+            </EgLinkButton>
           </div>
           <button
             v-else
@@ -303,7 +303,7 @@ defineExpose({
     </div>
 
     <div v-if="!hideInlineConfirm" :class="styles.minerFeeFooter">
-      <EgComboActionPopupWindow
+      <EgComboPopupButton
         tone="decor"
         :count="1"
         :confirm-label="ui('Confirm')"

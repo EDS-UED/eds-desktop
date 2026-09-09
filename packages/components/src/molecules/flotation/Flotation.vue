@@ -9,7 +9,7 @@ import {
   watch,
 } from 'vue';
 import {
-  EgAnchoredTooltip,
+  EgTooltip,
   type TooltipAlign,
   type TooltipHeightMode,
   type TooltipPlacement,
@@ -91,7 +91,7 @@ const props = withDefaults(
     flip?: boolean;
     /** 定位边界选择器（如 `.eds-data-list`）。 */
     boundarySelector?: string;
-    /** 透传 EgAnchoredTooltip：click / hover / focus。 */
+    /** 透传 EgTooltip：click / hover / focus。 */
     trigger?: TooltipTrigger;
     openDelay?: number;
     closeDelay?: number;
@@ -393,12 +393,12 @@ onBeforeUnmount(() => {
 <template>
   <!--
     EgFlotation
-      └ EgAnchoredTooltip（定位）
+      └ EgTooltip（定位）
            ├ #trigger → EgFlotationTrigger（预置；可插槽替换）
            └ #content → EgFlotationMenu → EgTooltip
                               └ EgFlotationMenuItem / Box（预置；可插槽替换）
   -->
-  <EgAnchoredTooltip
+  <EgTooltip
     ref="anchoredRef"
     class="eds-flotation"
     :trigger="trigger"
@@ -487,5 +487,5 @@ onBeforeUnmount(() => {
         </FlotationMenu>
       </slot>
     </template>
-  </EgAnchoredTooltip>
+  </EgTooltip>
 </template>

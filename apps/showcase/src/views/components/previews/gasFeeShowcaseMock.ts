@@ -1,11 +1,11 @@
 import type { MinerFeeTranslate } from '@eds/desktop-components';
-import type { PopoverMinerFeeNetwork } from './popoversDocCustomize';
+import type { PopoverGasFeeNetwork } from './popoversDocCustomize';
 
 /**
  * 与 work-cregis-desktop `uiTextZhCN` 对齐的矿工费 Popover 演示文案。
- * 数值报价仍来自 `@eds/desktop-components`（resolveTronMinerFeeQuote 等）。
+ * 数值报价仍来自 `@eds/desktop-components`（resolveTronGasFeeQuote 等）。
  */
-const SHOWCASE_MINER_FEE_UI_TEXT: Record<string, string> = {
+const SHOWCASE_GAS_FEE_UI_TEXT: Record<string, string> = {
   Confirm: '确定',
   Cancel: '取消',
   Save: '保存',
@@ -68,30 +68,30 @@ const SHOWCASE_MINER_FEE_UI_TEXT: Record<string, string> = {
   'Miner fee batch transaction suffix': '笔交易',
 };
 
-export const SHOWCASE_MINER_FEE_TOP_TOOL_TITLE = SHOWCASE_MINER_FEE_UI_TEXT['Gas Fee'];
+export const SHOWCASE_GAS_FEE_TOP_TOOL_TITLE = SHOWCASE_GAS_FEE_UI_TEXT['Gas Fee'];
 
 /** Showcase 多笔演示默认笔数（与批签 mock 接近）。 */
-export const SHOWCASE_MINER_FEE_BATCH_TRANSACTION_COUNT = 3;
+export const SHOWCASE_GAS_FEE_BATCH_TRANSACTION_COUNT = 3;
 
-export const showcaseMinerFeeUi: MinerFeeTranslate = (key) =>
-  SHOWCASE_MINER_FEE_UI_TEXT[key] ?? key;
+export const showcaseGasFeeUi: MinerFeeTranslate = (key) =>
+  SHOWCASE_GAS_FEE_UI_TEXT[key] ?? key;
 
-const SHOWCASE_MINER_FEE_SYMBOL: Partial<Record<PopoverMinerFeeNetwork, string>> = {
+const SHOWCASE_GAS_FEE_SYMBOL: Partial<Record<PopoverGasFeeNetwork, string>> = {
   ethereum: 'ETH',
   ton: 'TON',
 };
 
-export function resolveShowcaseMinerFeePanelProps(
-  network: PopoverMinerFeeNetwork,
+export function resolveShowcaseGasFeePanelProps(
+  network: PopoverGasFeeNetwork,
   multi = false,
 ): {
   translate: MinerFeeTranslate;
   symbol?: string;
   transactionCount: number;
 } {
-  const symbol = SHOWCASE_MINER_FEE_SYMBOL[network];
-  const transactionCount = multi ? SHOWCASE_MINER_FEE_BATCH_TRANSACTION_COUNT : 1;
+  const symbol = SHOWCASE_GAS_FEE_SYMBOL[network];
+  const transactionCount = multi ? SHOWCASE_GAS_FEE_BATCH_TRANSACTION_COUNT : 1;
   return symbol
-    ? { translate: showcaseMinerFeeUi, symbol, transactionCount }
-    : { translate: showcaseMinerFeeUi, transactionCount };
+    ? { translate: showcaseGasFeeUi, symbol, transactionCount }
+    : { translate: showcaseGasFeeUi, transactionCount };
 }

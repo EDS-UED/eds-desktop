@@ -35,9 +35,6 @@ export const DEFAULT_BTC_MINER_FEE_CUSTOM_DRAFT: MinerFeeCustomDraft = {
   feeRate: '3',
 };
 
-/** @deprecated 使用 DEFAULT_ETH_MINER_FEE_CUSTOM_DRAFT */
-export const DEFAULT_MINER_FEE_CUSTOM_DRAFT = DEFAULT_ETH_MINER_FEE_CUSTOM_DRAFT;
-
 export function defaultMinerFeeCustomDraft(
   variant: MinerFeeEvmShellVariant,
 ): MinerFeeCustomDraft {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { EgTooltip } from '../../molecules/tooltip';
+import { EgTooltipPanel } from '../../molecules/tooltip';
 import { resolveDialogPanelWidthPx } from '../../organisms/dialog/dialogPanelWidths';
 import {
   resolveVerifyPanelHeightPx,
@@ -21,7 +21,7 @@ const DETAIL_PANEL_WIDTH = 880;
 const DETAIL_PANEL_HEIGHT = 620;
 
 /**
- * 层级：EgPopup → EgTooltip（effect-popup-box 容器）→ 默认插槽 → 内容（如 EgDetail）。
+ * 层级：EgPopup → EgTooltipPanel（effect-popup-box 容器）→ 默认插槽 → 内容（如 EgDetail）。
  * 边距由 Popup Box token 提供；内容 organism 不再模拟容器 padding。
  *
  * 挂载：须放在客户端 shell 全屏容器内（100%×100%），遮罩覆盖 NavBar + 侧栏 + 主内容；
@@ -322,7 +322,7 @@ onBeforeUnmount(() => {
       />
 
       <div :class="styles.stagePanel">
-        <EgTooltip
+        <EgTooltipPanel
           :key="panelMotionKey"
           :class="[
             panelShellClass,
@@ -342,7 +342,7 @@ onBeforeUnmount(() => {
           :scrollable="false"
         >
           <slot />
-        </EgTooltip>
+        </EgTooltipPanel>
       </div>
     </div>
   </div>

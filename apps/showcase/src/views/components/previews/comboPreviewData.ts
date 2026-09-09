@@ -14,13 +14,13 @@ export type ComboPropRow = {
 };
 
 export const comboImportCode = `import {
-  EgComboActionSkid,
-  EgComboActionPopupWindow,
-  EgComboActionFlotation,
-  EgComboActionPage,
+  EgComboButton,
+  EgComboPopupButton,
+  EgComboFloatButton,
+  EgComboPageButton,
 } from '@eds/desktop-components';`;
 
-export const comboHeroCode = `<EgComboActionSkid tone="brand" confirm-label="Confirm" />`;
+export const comboHeroCode = `<EgComboButton tone="brand" confirm-label="Confirm" />`;
 
 export const comboPreviewLabel = 'Combo/Action-Skid';
 
@@ -110,10 +110,10 @@ export const comboDemoSections: ComboDemoSection[] = [
       { label: 'Danger' },
       { label: 'Brand + Divider' },
     ],
-    code: `<EgComboActionSkid tone="brand" confirm-label="Confirm" />
-<EgComboActionSkid tone="decor" confirm-label="Confirm" />
-<EgComboActionSkid tone="danger" confirm-label="Confirm" />
-<EgComboActionSkid tone="brand" confirm-label="Confirm" divider />`,
+    code: `<EgComboButton tone="brand" confirm-label="Confirm" />
+<EgComboButton tone="decor" confirm-label="Confirm" />
+<EgComboButton tone="danger" confirm-label="Confirm" />
+<EgComboButton tone="brand" confirm-label="Confirm" divider />`,
   },
   {
     id: 'button-combo-action-popup-window',
@@ -125,10 +125,10 @@ export const comboDemoSections: ComboDemoSection[] = [
       { label: 'Brand · 1 button' },
       { label: 'Decor · 1 button' },
     ],
-    code: `<EgComboActionPopupWindow tone="brand" :count="2" />
-<EgComboActionPopupWindow tone="decor" :count="2" />
-<EgComboActionPopupWindow tone="brand" :count="1" />
-<EgComboActionPopupWindow tone="decor" :count="1" />`,
+    code: `<EgComboPopupButton tone="brand" :count="2" />
+<EgComboPopupButton tone="decor" :count="2" />
+<EgComboPopupButton tone="brand" :count="1" />
+<EgComboPopupButton tone="decor" :count="1" />`,
   },
   {
     id: 'button-combo-action-flotation',
@@ -140,10 +140,10 @@ export const comboDemoSections: ComboDemoSection[] = [
       { label: 'Brand + Divider' },
       { label: 'Decor + Clear + Divider' },
     ],
-    code: `<EgComboActionFlotation tone="brand" />
-<EgComboActionFlotation tone="decor" clear />
-<EgComboActionFlotation tone="brand" divider />
-<EgComboActionFlotation tone="decor" clear divider />`,
+    code: `<EgComboFloatButton tone="brand" />
+<EgComboFloatButton tone="decor" clear />
+<EgComboFloatButton tone="brand" divider />
+<EgComboFloatButton tone="decor" clear divider />`,
   },
   {
     id: 'button-combo-action-page',
@@ -155,10 +155,10 @@ export const comboDemoSections: ComboDemoSection[] = [
       { label: 'Brand · Right + Divider' },
       { label: 'Decor · Left + Divider' },
     ],
-    code: `<EgComboActionPage tone="brand" direction="right" />
-<EgComboActionPage tone="decor" direction="left" />
-<EgComboActionPage tone="brand" direction="right" divider />
-<EgComboActionPage tone="decor" direction="left" divider />`,
+    code: `<EgComboPageButton tone="brand" direction="right" />
+<EgComboPageButton tone="decor" direction="left" />
+<EgComboPageButton tone="brand" direction="right" divider />
+<EgComboPageButton tone="decor" direction="left" divider />`,
   },
   {
     id: 'button-combo-skid',

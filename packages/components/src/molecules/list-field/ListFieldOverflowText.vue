@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { EgTextOverflowTooltip } from '../tooltip';
+import { EgTooltipOverflow } from '../tooltip';
 import styles from './ListFieldOverflowText.module.css';
 
 const props = withDefaults(
@@ -47,7 +47,7 @@ const tooltipPanelClass = computed(() => styles.tooltipPanel);
 </script>
 
 <template>
-  <EgTextOverflowTooltip
+  <EgTooltipOverflow
     :tooltip-text="text"
     :trigger="tooltipTrigger"
     :target-tone="targetTone"
@@ -59,5 +59,5 @@ const tooltipPanelClass = computed(() => styles.tooltipPanel);
     host-flex
   >
     {{ resolvedDisplay }}
-  </EgTextOverflowTooltip>
+  </EgTooltipOverflow>
 </template>

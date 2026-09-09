@@ -69,17 +69,17 @@ Not like this:
 - Default slot carries the icon; hover / active / focus use `event-hover`.
 - Disabled uses `text-base-quaternary` on the icon; background stays transparent.
 
-### Reference: `EgIconButtonPro`
+### Reference: `EgIconProButton`
 
 - `label` (required), optional `showBadge` / `badge`, `showReddot`, `disabled`.
 - Vertical icon + caption layout for toolbar-style actions.
 
-### Reference: `EgLink`
+### Reference: `EgLinkButton`
 
 - `tone` (`brand` | `theme`), `size` (`lg` | `md` | `sm`), `href`, `disabled`.
 - Default slot carries link text; hover matches default color, active uses secondary tone color.
 
-### Reference: `EgPaginationItem`
+### Reference: `EgPaginationGroupButton`
 
 - `kind` (`number` | `symbol` | `button` | `borderArrow`), `tone` (`brand` | `decor`), `label` (number kind), `disabled`.
 - Default slot carries icon for `symbol` / `button` / `borderArrow` kinds.

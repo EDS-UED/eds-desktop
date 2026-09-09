@@ -8,7 +8,7 @@ import {
   EgModuleMenuGroup,
   EgModuleMenuItem,
   EgPaginer,
-  EgPaginationItem,
+  EgPaginationGroupButton,
   EgSkid,
   EgToolBar,
 } from '@eds/desktop-components';
@@ -256,8 +256,8 @@ const docSlotRows = computed(() => layoutSlotRowsForType(customize.type));
                     :data-volume-results="DATA_LIST_FIGMA_PAGINER.dataVolumeResults"
                     :show-statistics="DATA_LIST_FIGMA_PAGINER.showStatistics"
                   >
-                    <EgPaginationItem label="1" selected />
-                    <EgPaginationItem label="2" />
+                    <EgPaginationGroupButton label="1" selected />
+                    <EgPaginationGroupButton label="2" />
                   </EgPaginer>
                 </template>
 

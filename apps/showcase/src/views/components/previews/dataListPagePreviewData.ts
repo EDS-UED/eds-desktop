@@ -345,7 +345,7 @@ function buildDataListIconButtonSnippet(
   ]
     .filter(Boolean)
     .join(' ');
-  return `<EgIconButtonPro ${attrs}><EgIcon name="${item.icon}" size="sm" /></EgIconButtonPro>`;
+  return `<EgIconProButton ${attrs}><EgIcon name="${item.icon}" size="sm" /></EgIconProButton>`;
 }
 
 export function buildDataListPageUsageSnippet(state: Record<string, unknown>): string {
@@ -434,11 +434,11 @@ ${sectionSlot}
   <EgPaginer
     ${paginerAttrs}
   >
-    <EgPaginationItem kind="symbol" tone="decor"><EgIcon name="eds-arrow-go-first" fit /></EgPaginationItem>
-    <EgPaginationItem kind="symbol" tone="decor"><EgIcon name="eds-arrow-left-mini-ios" fit /></EgPaginationItem>
-    <EgPaginationItem kind="number" tone="decor" selected label="1" />
-    <EgPaginationItem kind="symbol" tone="decor"><EgIcon name="eds-arrow-right-mini-ios" fit /></EgPaginationItem>
-    <EgPaginationItem kind="symbol" tone="decor"><EgIcon name="eds-arrow-go-last" fit /></EgPaginationItem>
+    <EgPaginationGroupButton kind="symbol" tone="decor"><EgIcon name="eds-arrow-go-first" fit /></EgPaginationGroupButton>
+    <EgPaginationGroupButton kind="symbol" tone="decor"><EgIcon name="eds-arrow-left-mini-ios" fit /></EgPaginationGroupButton>
+    <EgPaginationGroupButton kind="number" tone="decor" selected label="1" />
+    <EgPaginationGroupButton kind="symbol" tone="decor"><EgIcon name="eds-arrow-right-mini-ios" fit /></EgPaginationGroupButton>
+    <EgPaginationGroupButton kind="symbol" tone="decor"><EgIcon name="eds-arrow-go-last" fit /></EgPaginationGroupButton>
   </EgPaginer>
 </div>`;
 }

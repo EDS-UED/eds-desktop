@@ -3,7 +3,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, onUpdated, ref, watch }
 import {
   DATA_LIST_CELL_OVERFLOW_TOOLTIP_MAX_WIDTH,
   DATA_LIST_HEADER_OVERFLOW_TOOLTIP_MAX_WIDTH,
-  EgAnchoredTooltip,
+  EgTooltip,
   type TooltipPlacement,
 } from '../../molecules/tooltip';
 import {
@@ -170,7 +170,7 @@ onBeforeUnmount(() => {
     ref="wrapRef"
     :class="context === 'header' ? styles.headerOverflowHost : styles.cellOverflowHost"
   >
-    <EgAnchoredTooltip
+    <EgTooltip
       :content="tooltipText"
       :disabled="disabled || !overflowing || !tooltipText"
       :placement="resolvedPlacement"
@@ -218,6 +218,6 @@ onBeforeUnmount(() => {
           <slot>{{ text }}</slot>
         </span>
       </span>
-    </EgAnchoredTooltip>
+    </EgTooltip>
   </component>
 </template>

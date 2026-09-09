@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import {
-  EgAnchoredTooltip,
+  EgTooltip,
   type TooltipAlign,
   type TooltipPlacement,
 } from '../tooltip';
@@ -119,7 +119,7 @@ defineExpose({
 </script>
 
 <template>
-  <EgAnchoredTooltip
+  <EgTooltip
     ref="anchorRef"
     :placement="placement"
     :align="align"
@@ -158,5 +158,5 @@ defineExpose({
         <slot :close="closePopover" :active="expanded" />
       </EgPopover>
     </template>
-  </EgAnchoredTooltip>
+  </EgTooltip>
 </template>

@@ -1,5 +1,5 @@
 /**
- * Page 切换 DS glue — Vue Transition lifecycle + 叠层布局。
+ * Page 切换 EDS glue — Vue Transition lifecycle + 叠层布局。
  * 必须是普通 CSS（禁止 .module.css）：生产构建若把本文件当非 module 打进包，
  * `:global()` 会原样保留，选择器无法匹配，Pages 上 motion-page 失效。
  *

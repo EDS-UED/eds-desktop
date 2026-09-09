@@ -78,7 +78,7 @@ const usageSnippet = computed(() => buildStreamerUsageSnippet(customize));
           />
           <CustomizePanel
             v-model="customize"
-            title="EgLink"
+            title="EgLinkButton"
             nested
             embedded
             :controls="streamerLinkCustomizeControls"

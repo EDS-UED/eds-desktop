@@ -1,6 +1,6 @@
-export { default as EgTooltip } from './Tooltip.vue';
-export { default as EgAnchoredTooltip } from './AnchoredTooltip.vue';
-export { default as EgTextOverflowTooltip } from './TextOverflowTooltip.vue';
+export { default as EgTooltipPanel } from './Tooltip.vue';
+export { default as EgTooltip } from './AnchoredTooltip.vue';
+export { default as EgTooltipOverflow } from './TextOverflowTooltip.vue';
 export type { TooltipPlacement, TooltipAlign, TooltipTrigger } from './AnchoredTooltip.vue';
 export type { TooltipWidthMode, TooltipHeightMode } from './Tooltip.vue';
 export type { TooltipPanelKind, TooltipPanelRadiusToken } from './tooltipPanelRadius';

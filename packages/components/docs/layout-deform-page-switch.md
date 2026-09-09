@@ -35,7 +35,7 @@
 
 | 角色 | 允许 | 禁止 |
 |------|------|------|
-| **DS** | token semantic + glue CSS + `useMotionLayoutDeformPageSwitch` | 在 semantic 写 `enter-from` / direction lifecycle |
+| **EDS** | token semantic + glue CSS + `useMotionLayoutDeformPageSwitch` | 在 semantic 写 `enter-from` / direction lifecycle |
 | **业务** | 固定 shell 结构、测量高度、`switchTo`、class 全绑 | 自写 `<Transition>`、反向 transform、提前切 layout state |
 | **Showcase** | Upload 临时 demo（`LayoutDeformDemoPreview.vue`） | 与 composable 混用 Transition |
 
@@ -172,7 +172,7 @@ switchTo('custom'); // pageSpecs.custom.shellHeight 仍是过时的 360
 
 | 文件 | 说明 |
 |------|------|
-| `apps/showcase/.../LayoutDeformDemoPreview.vue` | DS 标准最小 demo |
+| `apps/showcase/.../LayoutDeformDemoPreview.vue` | EDS 标准最小 demo |
 | `work-cregis-desktop/.../ApprovalRemarkPopoverPanel.vue` | 业务完整接入（预测量 + activePage） |
 | `motionLayoutDeformTransition.css` | glue CSS |
 | `motionLayoutDeform.ts` | composable |

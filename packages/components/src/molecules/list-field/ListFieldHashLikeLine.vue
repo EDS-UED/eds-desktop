@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from 'vue';
-import { EgTextOverflowTooltip } from '../tooltip';
+import { EgTooltipOverflow } from '../tooltip';
 import { EgIcon } from '../../atoms/icons';
 import { EgIconButton } from '../icon-button';
 import { copyToClipboard } from '../../utils/copyToClipboard';
@@ -58,7 +58,7 @@ async function onCopy(event: Event) {
 
 <template>
   <div :class="[styles.cellLine, props.variant === 'secondary' && styles.cellLineSecondary]">
-    <EgTextOverflowTooltip
+    <EgTooltipOverflow
       :tooltip-text="text"
       :copy-value="text"
       :trigger="tooltipTrigger"
@@ -71,7 +71,7 @@ async function onCopy(event: Event) {
       :host-class="styles.lineFlotationHost"
     >
       {{ text }}
-    </EgTextOverflowTooltip>
+    </EgTooltipOverflow>
 
     <EgIconButton
       v-if="copyOnRowHover"

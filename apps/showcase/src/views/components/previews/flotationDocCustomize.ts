@@ -46,7 +46,7 @@ export const flotationImportCode = `import {
 } from '@eds/desktop-components';`;
 
 export const flotationTriggerImportCode = `import {
-  EgComboInputItem,
+  EgComboInput,
   EgFlotationTrigger,
   EgFormSubmission,
 } from '@eds/desktop-components';`;
@@ -405,12 +405,6 @@ export const flotationTriggerOverviewModuleMenuControls: DocCustomizeControl[] =
   { kind: 'boolean', key: 'disabled', label: '禁用', row: 0 },
 ];
 
-/** @deprecated 使用 flotationTriggerOverviewBodyControls + flotationTriggerOverviewDropdownControls */
-export const flotationTriggerPanelControls: DocCustomizeControl[] = [
-  ...flotationTriggerOverviewBodyControls,
-  ...flotationTriggerOverviewDropdownControls,
-];
-
 /** Menu — 宽/高；自定义宽度时可选对齐；主轴默认 spacing-025，offset 可定制；crossAxisOffset 可定制 */
 export function buildFlotationMenuPanelControls(
   state: Record<string, unknown>,
@@ -419,10 +413,6 @@ export function buildFlotationMenuPanelControls(
     widthModeVariant: 'trigger-fixed-adaptive',
   });
 }
-
-/** @deprecated 使用 buildFlotationMenuPanelControls */
-export const flotationMenuPanelControls: DocCustomizeControl[] =
-  buildFlotationMenuPanelControls(flotationCustomizeDefaults);
 
 /**
  * 当前编辑行的 Item 字段（原 Item 小类；与 boxItemType / boxSelectionMode 配合）
@@ -592,9 +582,6 @@ export function buildFlotationBoxPanelControls(
   return controls;
 }
 
-/** @deprecated Overview 已拆为三面板；保留空数组以免旧引用报错 */
-export const flotationCustomizeControls: DocCustomizeControl[] = [];
-
 export function buildFlotationUsageSnippet(state: Record<string, unknown>): string {
   const widthMode = String(state.widthMode ?? 'fixed');
   const heightMode = String(state.heightMode ?? 'adaptive');
@@ -718,7 +705,7 @@ export const flotationPropRows: DocPropRow[] = [
     name: 'trigger',
     type: "'click' | 'hover' | 'focus'",
     defaultValue: "'click'",
-    description: '透传 EgAnchoredTooltip。click 下拉；hover/focus 用于地址、哈希等 Tooltip 场景。',
+    description: '透传 EgTooltip。click 下拉；hover/focus 用于地址、哈希等 Tooltip 场景。',
   },
   {
     name: 'openDelay / closeDelay',
@@ -730,7 +717,7 @@ export const flotationPropRows: DocPropRow[] = [
     name: 'placement / disabled',
     type: 'TooltipPlacement / boolean',
     defaultValue: "'bottom' / false",
-    description: '透传 EgAnchoredTooltip。',
+    description: '透传 EgTooltip。',
   },
   {
     name: 'offset',
@@ -1336,7 +1323,7 @@ const flotationTriggerShellKeys = [
   'showLink',
 ] as const;
 
-/** Props for EgComboInputItem from merged Trigger customize state. */
+/** Props for EgComboInput from merged Trigger customize state. */
 export function flotationTriggerShellProps(state: Record<string, unknown>): Record<string, unknown> {
   return {
     label: state.fieldLabel,
@@ -1413,7 +1400,7 @@ export function buildFlotationTriggerUsageSnippet(state: Record<string, unknown>
     feedback: flotationTriggerCustomizeDefaults.feedback,
   };
   const openTag = buildVueSelfClosingSnippet(
-    'EgComboInputItem',
+    'EgComboInput',
     flotationTriggerShellProps(state),
     { defaults: shellDefaults },
   )
@@ -1424,7 +1411,7 @@ export function buildFlotationTriggerUsageSnippet(state: Record<string, unknown>
     ? `\n  <template #feedback>\n    <EgFormSubmission type="${String(state.type ?? 'notes')}" text="${String(state.text ?? '')}" />\n  </template>`
     : '';
 
-  return `${openTag}>\n  ${inner}${feedbackSlot}\n</EgComboInputItem>`;
+  return `${openTag}>\n  ${inner}${feedbackSlot}\n</EgComboInput>`;
 }
 
 export const flotationTriggerPropRows: DocPropRow[] = [
@@ -1703,19 +1690,6 @@ export const flotationItemCustomizeDefaults = {
   symbolIcon: 'eds-add',
 };
 
-/** @deprecated 使用 flotationBoxPageCustomizeDefaults 或 flotationItemCustomizeDefaults */
-export const flotationBoxCustomizeDefaults = flotationItemCustomizeDefaults;
-
-/** @deprecated Item 已并入 Box 编辑行 */
-export const flotationItemCustomizeControls: DocCustomizeControl[] =
-  buildFlotationItemRowControls(1);
-
-/** @deprecated 使用 flotationItemCustomizeControls */
-export const flotationBoxStandardMenuCustomizeControls = flotationItemCustomizeControls;
-
-/** @deprecated 使用 flotationItemCustomizeControls */
-export const flotationBoxCustomizeControls = flotationItemCustomizeControls;
-
 export function buildFlotationItemUsageSnippet(state: Record<string, unknown>): string {
   return buildVueSelfClosingSnippet('EgFlotationMenuItem', state, {
     defaults: { ...flotationItemCustomizeDefaults },
@@ -1769,12 +1743,6 @@ export const flotationItemSlotRows: DocPropRow[] = [
   },
 ];
 
-/** @deprecated 使用 flotationItemPropRows */
-export const flotationBoxPropRows = flotationItemPropRows;
-
-/** @deprecated 使用 flotationItemSlotRows */
-export const flotationBoxSlotRows = flotationItemSlotRows;
-
 /** Box 页 Props / Slots（Menu + Item 合并） */
 export const flotationBoxDocPropRows: DocPropRow[] = [
   ...flotationBoxMenuPropRows,
@@ -1785,3 +1753,34 @@ export const flotationBoxDocSlotRows: DocPropRow[] = [
   ...flotationBoxMenuSlotRows,
   ...flotationItemSlotRows,
 ];
+
+export function resolveFlotationTriggerSceneComponentTag(
+  triggerKind: FlotationTriggerKind,
+): string {
+  return triggerKind === 'module-menu' ? 'EgModuleMenuTrigger' : 'EgFlotationTrigger';
+}
+
+export function resolveFlotationTriggerSceneImportCode(
+  triggerKind: FlotationTriggerKind,
+): string {
+  const tag = resolveFlotationTriggerSceneComponentTag(triggerKind);
+  return `import { ${tag} } from '@eds/desktop-components';`;
+}
+
+export function resolveFlotationBoxSceneComponentTag(boxKind: FlotationBoxKind): string {
+  switch (boxKind) {
+    case 'standard-cascade-menu':
+      return 'EgCascadeMenu';
+    case 'scene-address-dropdown':
+      return 'EgAddressDropdownMenu';
+    case 'scene-address-hover':
+      return 'EgAddressHoverMenu';
+    default:
+      return 'EgFlotationMenu';
+  }
+}
+
+export function resolveFlotationBoxSceneImportCode(boxKind: FlotationBoxKind): string {
+  const tag = resolveFlotationBoxSceneComponentTag(boxKind);
+  return `import { ${tag} } from '@eds/desktop-components';`;
+}

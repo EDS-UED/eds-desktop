@@ -198,9 +198,6 @@ export const cregisModuleMenuByTitle: Partial<
 /** 未配置模块回退：组件场景默认菜单（`buildModuleMenuCustomizeDefaults`）。 */
 export const cregisDefaultModuleMenuGroups = moduleMenuComponentDefaultPresetGroups;
 
-/** @deprecated 使用 getCregisModuleMenuGroups(title) */
-export const cregisModuleMenuGroups = cregisDefaultModuleMenuGroups;
-
 export function getCregisModuleMenuGroups(
   title: CregisModuleMenuBusinessTitle,
 ): ModuleMenuPresetGroup[] {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
-import { EgComboTextareaItem, EgFormSubmission } from '@eds/desktop-components';
+import { EgComboTextarea, EgFormSubmission } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
@@ -30,7 +30,7 @@ const formSubmissionPreviewProps = computed(() =>
 );
 
 const comboTextareaUsageSnippet = computed(() => {
-  const openTag = buildVueSelfClosingSnippet('EgComboTextareaItem', comboTextareaCustomize, {
+  const openTag = buildVueSelfClosingSnippet('EgComboTextarea', comboTextareaCustomize, {
     defaults: comboTextareaItemCustomizeDefaults,
     vModel: 'value',
     omitKeys: ['type', 'text', 'linkLabel', 'showLink'],
@@ -46,7 +46,7 @@ const comboTextareaUsageSnippet = computed(() => {
     .replace(/^/gm, '    ')
     .trim();
 
-  return `${openTag}>\n  <template #feedback>\n    ${feedbackInner}\n  </template>\n</EgComboTextareaItem>`;
+  return `${openTag}>\n  <template #feedback>\n    ${feedbackInner}\n  </template>\n</EgComboTextarea>`;
 });
 </script>
 
@@ -56,7 +56,7 @@ const comboTextareaUsageSnippet = computed(() => {
       v-model:customize-state="comboTextareaCustomize"
       title="Combo Textarea Item"
       doc-tier="scenes"
-      component-tag="EgComboTextareaItem"
+      component-tag="EgComboTextarea"
       :import-code="comboImportCode"
       :customize-controls="comboTextareaItemShellCustomizeControls"
       :customize-defaults="comboTextareaItemCustomizeDefaults"
@@ -67,7 +67,7 @@ const comboTextareaUsageSnippet = computed(() => {
     >
       <template #preview>
         <div class="desktopTokens" :class="docStyles.previewInputHost">
-          <EgComboTextareaItem
+          <EgComboTextarea
             v-model="comboTextareaValue"
             :label="String(comboTextareaCustomize.label)"
             :feedback="Boolean(comboTextareaCustomize.feedback)"
@@ -76,7 +76,7 @@ const comboTextareaUsageSnippet = computed(() => {
             <template v-if="comboTextareaCustomize.feedback" #feedback>
               <EgFormSubmission v-bind="formSubmissionPreviewProps" />
             </template>
-          </EgComboTextareaItem>
+          </EgComboTextarea>
         </div>
       </template>
 

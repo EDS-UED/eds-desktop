@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
-import { EgIcon, EgIconButtonPro, EgToolBar } from '@eds/desktop-components';
+import { EgIcon, EgIconProButton, EgToolBar } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
@@ -86,7 +86,7 @@ const sectionItems = computed(() => {
         >
           <template #functional>
             <template v-if="customize.showSection">
-              <EgIconButtonPro
+              <EgIconProButton
                 v-for="item in functionalItems"
                 :key="`functional-${item.order}-${item.icon}-${item.label}-${item.badge}`"
                 :label="item.label"
@@ -96,10 +96,10 @@ const sectionItems = computed(() => {
                 :disabled="item.disabled"
               >
                 <EgIcon :name="item.icon" size="sm" />
-              </EgIconButtonPro>
+              </EgIconProButton>
             </template>
             <template v-else>
-              <EgIconButtonPro
+              <EgIconProButton
                 v-for="item in sectionItems"
                 :key="`section-${item.order}-${item.icon}-${item.label}-${item.badge}`"
                 :label="item.label"
@@ -109,11 +109,11 @@ const sectionItems = computed(() => {
                 :disabled="item.disabled"
               >
                 <EgIcon :name="item.icon" size="sm" />
-              </EgIconButtonPro>
+              </EgIconProButton>
             </template>
           </template>
           <template v-if="customize.showSection" #section>
-            <EgIconButtonPro
+            <EgIconProButton
               v-for="item in sectionItems"
               :key="`section-split-${item.order}-${item.icon}-${item.label}-${item.badge}`"
               :label="item.label"
@@ -123,7 +123,7 @@ const sectionItems = computed(() => {
               :disabled="item.disabled"
             >
               <EgIcon :name="item.icon" size="sm" />
-            </EgIconButtonPro>
+            </EgIconProButton>
           </template>
         </EgToolBar>
       </template>
@@ -137,7 +137,7 @@ const sectionItems = computed(() => {
             embedded
             sequential
             :row-columns="iconButtonProNestedRowColumns"
-            title="EgIconButtonPro"
+            title="EgIconProButton"
             :controls="toolBarSectionCustomizeControls"
           />
           <template v-else-if="customize.showOperation && customize.showSection">
@@ -147,7 +147,7 @@ const sectionItems = computed(() => {
               embedded
               sequential
               :row-columns="iconButtonProNestedRowColumns"
-              title="EgIconButtonPro"
+              title="EgIconProButton"
               :controls="toolBarFunctionalCustomizeControls"
             />
             <CustomizePanel
@@ -156,7 +156,7 @@ const sectionItems = computed(() => {
               embedded
               sequential
               :row-columns="iconButtonProNestedRowColumns"
-              title="EgIconButtonPro"
+              title="EgIconProButton"
               :controls="toolBarSectionCustomizeControls"
             />
           </template>

@@ -1,28 +1,29 @@
 <script setup lang="ts">
-import { computed, onUnmounted, reactive, ref, watch } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import { EgDoneTick, EgIcon, EgMnemonicVerify, EgMotionProcessing, EgRipplePulse, EgVerifyRingDots } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
+import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import previewPageStyles from './InputPreview.module.css';
-import styles from './ScensMotionPreview.module.css';
+import styles from './SceneMotionPreview.module.css';
 import {
-  buildScensMotionCustomizeControls,
-  scensMotionCustomizeDefaults,
-  scensMotionDoneTickImportCode,
-  scensMotionDoneTickPropRows,
-  scensMotionMotionProcessingImportCode,
-  scensMotionMotionProcessingPropRows,
-  scensMotionMnemonicVerifyImportCode,
-  scensMotionMnemonicVerifyPropRows,
-  scensMotionRipplePulseImportCode,
-  scensMotionRipplePulsePropRows,
-  scensMotionRingDotsImportCode,
-  scensMotionRingDotsPropRows,
-} from './scensMotionDocCustomize';
-import type { ScensMotionInteraction, ScensMotionScenario } from './scensMotionDocCustomize';
+  buildSceneMotionCustomizeControls,
+  sceneMotionCustomizeDefaults,
+  sceneMotionDoneTickImportCode,
+  sceneMotionDoneTickPropRows,
+  sceneMotionMotionProcessingImportCode,
+  sceneMotionMotionProcessingPropRows,
+  sceneMotionMnemonicVerifyImportCode,
+  sceneMotionMnemonicVerifyPropRows,
+  sceneMotionRipplePulseImportCode,
+  sceneMotionRipplePulsePropRows,
+  sceneMotionRingDotsImportCode,
+  sceneMotionRingDotsPropRows,
+} from './sceneMotionDocCustomize';
+import type { SceneMotionInteraction, SceneMotionScenario } from './sceneMotionDocCustomize';
 
 const props = withDefaults(
   defineProps<{
-    initialScenario?: ScensMotionScenario;
+    initialScenario?: SceneMotionScenario;
     pageTitle?: string;
   }>(),
   {},
@@ -33,10 +34,10 @@ type RingPreviewState = 'idle' | 'verifying' | 'success' | 'error';
 const FULL_CYCLE_SEQUENCE: RingPreviewState[] = ['idle', 'verifying', 'success'];
 const FULL_CYCLE_STEP_MS = 1400;
 
-const customize = reactive({
-  ...scensMotionCustomizeDefaults,
-  ...(props.initialScenario ? { scenario: props.initialScenario } : {}),
-});
+const customize = createDocCustomizeState<typeof sceneMotionCustomizeDefaults>(
+  sceneMotionCustomizeDefaults,
+  props.initialScenario ? { scenario: props.initialScenario } : undefined,
+);
 
 const isVerifyRingDots = computed(() => customize.scenario === 'verify-ring-dots');
 const isDoneTick = computed(() => customize.scenario === 'done-tick');
@@ -45,9 +46,9 @@ const isRipplePulse = computed(() => customize.scenario === 'ripple-pulse');
 const isMnemonicVerify = computed(() => customize.scenario === 'mnemonic-verify');
 
 const motionCustomizeControls = computed(() =>
-  buildScensMotionCustomizeControls({
+  buildSceneMotionCustomizeControls({
     lockScenario: Boolean(props.initialScenario),
-    scenario: customize.scenario as ScensMotionScenario,
+    scenario: customize.scenario as SceneMotionScenario,
   }),
 );
 
@@ -69,34 +70,34 @@ const docComponentTag = computed(() => {
 
 const docImportCode = computed(() => {
   if (isDoneTick.value) {
-    return scensMotionDoneTickImportCode;
+    return sceneMotionDoneTickImportCode;
   }
   if (isMotionProcessing.value) {
-    return scensMotionMotionProcessingImportCode;
+    return sceneMotionMotionProcessingImportCode;
   }
   if (isRipplePulse.value) {
-    return scensMotionRipplePulseImportCode;
+    return sceneMotionRipplePulseImportCode;
   }
   if (isMnemonicVerify.value) {
-    return scensMotionMnemonicVerifyImportCode;
+    return sceneMotionMnemonicVerifyImportCode;
   }
-  return scensMotionRingDotsImportCode;
+  return sceneMotionRingDotsImportCode;
 });
 
 const docPropRows = computed(() => {
   if (isDoneTick.value) {
-    return scensMotionDoneTickPropRows;
+    return sceneMotionDoneTickPropRows;
   }
   if (isMotionProcessing.value) {
-    return scensMotionMotionProcessingPropRows;
+    return sceneMotionMotionProcessingPropRows;
   }
   if (isRipplePulse.value) {
-    return scensMotionRipplePulsePropRows;
+    return sceneMotionRipplePulsePropRows;
   }
   if (isMnemonicVerify.value) {
-    return scensMotionMnemonicVerifyPropRows;
+    return sceneMotionMnemonicVerifyPropRows;
   }
-  return scensMotionRingDotsPropRows;
+  return sceneMotionRingDotsPropRows;
 });
 
 const cycleState = ref<RingPreviewState>('idle');
@@ -119,7 +120,7 @@ function startFullCycle() {
   }, FULL_CYCLE_STEP_MS);
 }
 
-function resolveInteractionState(interaction: ScensMotionInteraction): RingPreviewState {
+function resolveInteractionState(interaction: SceneMotionInteraction): RingPreviewState {
   if (interaction === 'full') {
     return cycleState.value;
   }
@@ -136,7 +137,7 @@ function resolveInteractionState(interaction: ScensMotionInteraction): RingPrevi
 }
 
 const ringState = computed(() =>
-  resolveInteractionState(customize.interaction as ScensMotionInteraction),
+  resolveInteractionState(customize.interaction as SceneMotionInteraction),
 );
 
 const ringDotsActive = computed(() => ringState.value === 'verifying');
@@ -203,14 +204,14 @@ onUnmounted(() => {
   <div :class="previewPageStyles.previewPage">
     <ComponentDocLayout
       v-model:customize-state="customize"
-      :title="pageTitle ?? 'ScensMotion'"
+      :title="pageTitle ?? 'SceneMotion'"
       :show-doc-title="false"
       :component-tag="docComponentTag"
       :import-code="docImportCode"
       :customize-controls="motionCustomizeControls"
-      :customize-defaults="scensMotionCustomizeDefaults"
+      :customize-defaults="sceneMotionCustomizeDefaults"
       :prop-rows="docPropRows"
-      props-section-id="scens-motion-props"
+      props-section-id="scene-motion-props"
     >
       <template #preview>
         <div class="desktopTokens" :class="styles.stage">

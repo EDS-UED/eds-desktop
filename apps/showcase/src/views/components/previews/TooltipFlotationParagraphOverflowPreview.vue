@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { EgAnchoredTooltip } from '@eds/desktop-components';
+import { EgTooltip } from '@eds/desktop-components';
 import { tooltipFlotationParagraphOverflowSampleText } from './tooltipFlotationParagraphOverflowPreviewData';
 import styles from './TooltipPreview.module.css';
 
@@ -56,7 +56,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div :class="styles.paragraphOverflowHost">
-    <EgAnchoredTooltip
+    <EgTooltip
       :content="tooltipText"
       panel-kind="flotation"
       trigger="hover"
@@ -84,6 +84,6 @@ onBeforeUnmount(() => {
           <span ref="contentRef" :class="styles.paragraphOverflowText">{{ sampleText }}</span>
         </span>
       </span>
-    </EgAnchoredTooltip>
+    </EgTooltip>
   </div>
 </template>

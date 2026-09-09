@@ -30,12 +30,6 @@ export type ModuleMenuBusinessScenario = 'cregis' | 'udun';
 export const DEFAULT_CREGIS_MODULE_MENU_BUSINESS_TITLE: CregisModuleMenuBusinessTitle = 'Wallet';
 export const DEFAULT_UDUN_MODULE_MENU_BUSINESS_TITLE: UdunModuleMenuBusinessTitle = 'Wallet';
 
-/** @deprecated 使用场景化列表 `cregisModuleMenuBusinessTitles` / `udunModuleMenuBusinessTitles` */
-export const moduleMenuBusinessTitles = cregisModuleMenuBusinessTitles;
-
-/** @deprecated 使用 `DEFAULT_CREGIS_MODULE_MENU_BUSINESS_TITLE` 或 `DEFAULT_UDUN_MODULE_MENU_BUSINESS_TITLE` */
-export const DEFAULT_MODULE_MENU_BUSINESS_TITLE = DEFAULT_CREGIS_MODULE_MENU_BUSINESS_TITLE;
-
 /** Cregis：已在 `cregisModuleMenuByTitle` 单独维护菜单组数据的模块。 */
 export const cregisModuleMenuBusinessTitlesWithMenuPreset: readonly CregisModuleMenuBusinessTitle[] =
   ['Tasks', 'Payment Engine', 'Manage', 'Notifications', 'Account Settings'];

@@ -415,11 +415,6 @@
   background: var(--stroke-divider-page);
 }
 
-/** @deprecated 使用 minerFeePageInsetDivider */
-.minerFeeOptionsDivider {
-  composes: minerFeePageInsetDivider;
-}
-
 .minerFeeOption,
 .minerFeeCustomOption {
   composes: motion-ease is-enter-only from global;
@@ -735,7 +730,7 @@
   width: 100%;
 }
 
-/** 对齐 EgComboInputItem #feedback 槽，不覆盖 EgFormSubmission 自持字阶/色。 */
+/** 对齐 EgComboInput #feedback 槽，不覆盖 EgFormSubmission 自持字阶/色。 */
 .minerFeeTronActivationFeedback:has(:global(.eds-form-submission)) {
   color: inherit;
   font-size: inherit;
@@ -819,7 +814,7 @@
   margin-top: var(--spacing-2);
 }
 
-/** 对齐 EgComboInputItem #feedback 槽，不覆盖 EgFormSubmission 自持字阶/色。 */
+/** 对齐 EgComboInput #feedback 槽，不覆盖 EgFormSubmission 自持字阶/色。 */
 .minerFeeTronPaymentBalanceFeedback:has(:global(.eds-form-submission)) {
   color: inherit;
   font-size: inherit;

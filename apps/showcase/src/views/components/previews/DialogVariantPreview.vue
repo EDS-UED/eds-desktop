@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
 import {
+  EgBusinessDialog,
   EgDialog,
   EgIcon,
-  EgTooltip,
+  EgSymbolDialog,
+  EgTooltipPanel,
   resolveDialogPanelWidthPx,
   type DialogType,
   type IconName,
@@ -25,6 +27,8 @@ import {
   dialogPropRows,
   dialogSlotRows,
   dialogStandardFlotationToolbarControls,
+  resolveDialogSceneComponentTag,
+  resolveDialogSceneImportCode,
   type DialogCustomizeType,
 } from './dialogDocCustomize';
 
@@ -49,6 +53,9 @@ const dialogSymbolStyle = computed(() =>
 
 const customizeControls = computed(() => buildDialogCustomizeControls(props.variant));
 const customizeDefaults = computed(() => buildDialogCustomizeDefaults(props.variant));
+
+const docComponentTag = computed(() => resolveDialogSceneComponentTag(props.variant));
+const docImportCode = computed(() => resolveDialogSceneImportCode(props.variant));
 </script>
 
 <template>
@@ -58,8 +65,8 @@ const customizeDefaults = computed(() => buildDialogCustomizeDefaults(props.vari
       :title="title"
       doc-tier="molecule"
       :show-doc-title="false"
-      component-tag="EgDialog"
-      :import-code="dialogImportCode"
+      :component-tag="docComponentTag"
+      :import-code="docImportCode"
       :customize-controls="customizeControls"
       :customize-defaults="customizeDefaults"
       :customize-sequential="true"
@@ -74,7 +81,7 @@ const customizeDefaults = computed(() => buildDialogCustomizeDefaults(props.vari
           class="desktopTokens"
           :class="organismStyles.previewOrganismDialogBoxHost"
         >
-          <EgTooltip
+          <EgTooltipPanel
             panel-kind="popup"
             panel-radius="radius-lg"
             width-mode="fixed"
@@ -83,29 +90,52 @@ const customizeDefaults = computed(() => buildDialogCustomizeDefaults(props.vari
             :scrollable="false"
             panel-flush
           >
-            <EgDialog
-              :type="variant"
+            <EgSymbolDialog
+              v-if="variant === 'symbol'"
               :title="String(customize.title)"
               :show-secondary-text="customize.showSecondaryText !== false"
               :secondary-text="String(customize.secondaryText)"
               :confirm-label="String(customize.confirmLabel)"
               :cancel-label="String(customize.cancelLabel)"
               :action-count="Number(customize.actionCount) === 2 ? 2 : 1"
+              :style="dialogSymbolStyle"
+            >
+              <template #symbol>
+                <EgIcon :name="String(customize.symbolIcon) as IconName" size="lg" />
+              </template>
+            </EgSymbolDialog>
+            <EgBusinessDialog
+              v-else-if="variant === 'compose'"
+              :title="String(customize.title)"
+              :show-secondary-text="customize.showSecondaryText !== false"
+              :secondary-text="String(customize.secondaryText)"
+              :confirm-label="String(customize.confirmLabel)"
+              :cancel-label="String(customize.cancelLabel)"
               :show-clear="Boolean(customize.showClear)"
               :clear-label="String(customize.clearLabel)"
               :toolbar-tone="customize.toolbarTone as 'brand' | 'decor'"
               :toolbar-variant="customize.toolbarVariant as 'solid' | 'outline' | 'text'"
               :toolbar-divider-pinned="Boolean(customize.toolbarDividerPinned)"
-              :style="dialogSymbolStyle"
             >
-              <template v-if="variant === 'symbol'" #symbol>
-                <EgIcon :name="String(customize.symbolIcon) as IconName" size="lg" />
-              </template>
-              <template v-if="variant === 'compose'" #default>
+              <template #default>
                 <div style="white-space: pre-line">{{ customize.composeText }}</div>
               </template>
-            </EgDialog>
-          </EgTooltip>
+            </EgBusinessDialog>
+            <EgDialog
+              v-else
+              :type="variant"
+              :title="String(customize.title)"
+              :show-secondary-text="customize.showSecondaryText !== false"
+              :secondary-text="String(customize.secondaryText)"
+              :confirm-label="String(customize.confirmLabel)"
+              :cancel-label="String(customize.cancelLabel)"
+              :show-clear="Boolean(customize.showClear)"
+              :clear-label="String(customize.clearLabel)"
+              :toolbar-tone="customize.toolbarTone as 'brand' | 'decor'"
+              :toolbar-variant="customize.toolbarVariant as 'solid' | 'outline' | 'text'"
+              :toolbar-divider-pinned="Boolean(customize.toolbarDividerPinned)"
+            />
+          </EgTooltipPanel>
         </div>
       </template>
 
@@ -114,7 +144,7 @@ const customizeDefaults = computed(() => buildDialogCustomizeDefaults(props.vari
           <CustomizePanel
             v-if="variant === 'symbol'"
             v-model="customize"
-            title="EgComboActionPopupWindow"
+            title="EgComboPopupButton"
             nested
             embedded
             sequential
@@ -124,7 +154,7 @@ const customizeDefaults = computed(() => buildDialogCustomizeDefaults(props.vari
           <CustomizePanel
             v-else-if="variant === 'compose'"
             v-model="customize"
-            title="EgComboActionFlotation"
+            title="EgComboFloatButton"
             nested
             embedded
             sequential
@@ -134,7 +164,7 @@ const customizeDefaults = computed(() => buildDialogCustomizeDefaults(props.vari
           <CustomizePanel
             v-else
             v-model="customize"
-            title="EgComboActionFlotation"
+            title="EgComboFloatButton"
             nested
             embedded
             sequential

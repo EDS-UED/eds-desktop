@@ -24,7 +24,7 @@ const {
   contentEntering,
   contentDirection,
   toggleBetween,
-} = useMotionLayoutDeformPageSwitch(pages, 'a');
+} = useMotionLayoutDeformPageSwitch<keyof typeof pages>(pages, 'a');
 </script>
 
 <template>

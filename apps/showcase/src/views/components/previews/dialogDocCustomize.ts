@@ -14,20 +14,9 @@ export {
 export const DIALOG_TYPES = ['symbol', 'standard', 'compose'] as const;
 export type DialogCustomizeType = (typeof DIALOG_TYPES)[number];
 
-/** @deprecated Use DIALOG_TYPES */
-export const REMINDER_TYPES = DIALOG_TYPES;
-/** @deprecated Use DialogCustomizeType */
-export type ReminderCustomizeType = DialogCustomizeType;
-
 export const dialogFigmaNode = '2769:8357';
 
-/** @deprecated Use dialogFigmaNode */
-export const reminderFigmaNode = dialogFigmaNode;
-
 export type DialogSymbolBackground = 'default' | 'danger' | 'success';
-
-/** @deprecated Use DialogSymbolBackground */
-export type ReminderSymbolBackground = DialogSymbolBackground;
 
 const COMPOSE_BODY_TEXT =
   'Compose content\n\nScroll to preview frosted toolbar blur.';
@@ -61,9 +50,6 @@ export function buildDialogCustomizeDefaults(
 }
 
 export const dialogCustomizeDefaults = buildDialogCustomizeDefaults('symbol');
-
-/** @deprecated Use dialogCustomizeDefaults */
-export const reminderCustomizeDefaults = dialogCustomizeDefaults;
 
 export function applyDialogTypeLayout(
   state: Record<string, unknown>,
@@ -142,7 +128,7 @@ export function buildDialogCustomizeControls(
   return controls;
 }
 
-/** @deprecated Use buildDialogCustomizeControls */
+/** Symbol 场景默认控件（`buildDialogCustomizeControls('symbol')`）。 */
 export const dialogCustomizeControls = buildDialogCustomizeControls('symbol');
 
 export function buildDialogSymbolStyle(
@@ -164,18 +150,6 @@ export function buildDialogSymbolStyle(
 
   return undefined;
 }
-
-/** @deprecated Use buildDialogSymbolStyle */
-export const buildReminderSymbolStyle = buildDialogSymbolStyle;
-
-/** @deprecated Use dialogComposeFlotationToolbarControls */
-export const dialogSlotFlotationToolbarControls = dialogComposeFlotationToolbarControls;
-
-/** @deprecated Use dialogPopupWindowControls */
-export const reminderPopupWindowControls = dialogPopupWindowControls;
-
-/** @deprecated Use dialogStandardFlotationToolbarControls */
-export const reminderStandardFlotationToolbarControls = dialogStandardFlotationToolbarControls;
 
 export const dialogPropRows: DocPropRow[] = [
   {
@@ -205,7 +179,7 @@ export const dialogPropRows: DocPropRow[] = [
     defaultValue: "'Cancel'",
     description: '次按钮文案（Compose / Standard · Flotation；Symbol · PopupWindow）。',
   },
-  { name: 'actionCount', type: '1 | 2', defaultValue: '2', description: 'Symbol · EgComboActionPopupWindow 按钮数。' },
+  { name: 'actionCount', type: '1 | 2', defaultValue: '2', description: 'Symbol · EgComboPopupButton 按钮数。' },
   { name: 'showClear', type: 'boolean', defaultValue: 'false', description: 'Compose · 工具栏左侧 Clear。' },
   { name: 'clearLabel', type: 'string', defaultValue: "'Clear'", description: 'Compose · Clear 文案。' },
   { name: 'toolbarTone', type: "'brand' | 'decor'", defaultValue: "'decor'", description: '操作区按钮 Tone。' },
@@ -216,9 +190,6 @@ export const dialogPropRows: DocPropRow[] = [
     description: 'Compose / Standard · 工具栏顶部分割线常驻；false 时仅在底部仍有内容被裁切时显示。',
   },
 ];
-
-/** @deprecated Use dialogPropRows */
-export const reminderPropRows = dialogPropRows;
 
 export const dialogSlotRows: DocPropRow[] = [
   {
@@ -236,7 +207,7 @@ export const dialogSlotRows: DocPropRow[] = [
   {
     name: 'actions',
     type: 'slot',
-    defaultValue: 'EgComboActionPopupWindow / EgComboActionFlotation',
+    defaultValue: 'EgComboPopupButton / EgComboFloatButton',
     description: '操作区；默认按 type 渲染 PopupWindow 或 Flotation，可整体替换。',
   },
 ];
@@ -248,3 +219,20 @@ export const dialogEventRows: DocPropRow[] = [
 ];
 
 export const dialogImportCode = `import { EgDialog, EgPopup } from '@eds/desktop-components';`;
+
+export const DIALOG_SCENE_COMPONENT_TAG = {
+  symbol: 'EgSymbolDialog',
+  compose: 'EgBusinessDialog',
+  standard: 'EgDialog',
+} as const;
+
+export type DialogSceneVariant = keyof typeof DIALOG_SCENE_COMPONENT_TAG;
+
+export function resolveDialogSceneComponentTag(variant: DialogSceneVariant): string {
+  return DIALOG_SCENE_COMPONENT_TAG[variant];
+}
+
+export function resolveDialogSceneImportCode(variant: DialogSceneVariant): string {
+  const tag = resolveDialogSceneComponentTag(variant);
+  return `import { ${tag}, EgPopup } from '@eds/desktop-components';`;
+}

@@ -221,7 +221,7 @@ export const verifyPropRows: DocPropRow[] = [
     name: 'actionTone',
     type: "'brand' | 'decor'",
     defaultValue: "'decor'",
-    description: '交易/登录密码场景 EgComboActionPopupWindow 按钮 Tone（确认 solid、取消 text 同 tone）。',
+    description: '交易/登录密码场景 EgComboPopupButton 按钮 Tone（确认 solid、取消 text 同 tone）。',
   },
   {
     name: 'placeholder',
@@ -268,3 +268,35 @@ export const verifySlotRows: DocPropRow[] = [
     description: 'EgVerify 无公开插槽；子结构由 type 预设与 props 驱动（EgVerifyInput、EgVerifyRingDots 等）。',
   },
 ];
+
+export const VERIFY_SCENE_COMPONENT_TAG: Partial<Record<VerifyType, string>> = {
+  'single-email': 'EgEmailVerify',
+  'single-google': 'EgGoogleVerify',
+  'single-login-password': 'EgLoginPasswordVerify',
+  'single-trade-password': 'EgTransactionPasswordVerify',
+  'single-passkey': 'EgPasskeyVerify',
+  locked: 'EgLockedVerify',
+};
+
+/** 与 catalog `children[].id` / 路由 slug 对齐（§17 `{family}-scene-{scene}`）。 */
+export const VERIFY_SCENE_ANCHOR_ID: Partial<Record<VerifyType, string>> = {
+  'single-email': 'verify-scene-email',
+  'single-google': 'verify-scene-google',
+  'single-login-password': 'verify-scene-login-password',
+  'single-trade-password': 'verify-scene-transaction-password',
+  'single-passkey': 'verify-scene-passkey',
+  locked: 'verify-scene-locked',
+};
+
+export function resolveVerifySceneAnchorId(type: VerifyType): string {
+  return VERIFY_SCENE_ANCHOR_ID[type] ?? 'verify';
+}
+
+export function resolveVerifySceneComponentTag(type: VerifyType): string {
+  return VERIFY_SCENE_COMPONENT_TAG[type] ?? 'EgVerify';
+}
+
+export function resolveVerifySceneImportCode(type: VerifyType): string {
+  const tag = resolveVerifySceneComponentTag(type);
+  return `import { ${tag}, EgPopup, useVerifySubmit } from '@eds/desktop-components';`;
+}

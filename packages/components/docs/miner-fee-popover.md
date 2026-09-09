@@ -33,4 +33,4 @@
 
 ## Showcase
 
-`/components/popovers` → Scens → **矿工费**。
+`/components/popovers-scene-gas-fee`（侧栏 Popovers → Scenes → **矿工费**）。

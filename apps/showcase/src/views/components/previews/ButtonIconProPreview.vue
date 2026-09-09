@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
-import { EgIcon, EgIconButtonPro } from '@eds/desktop-components';
+import { EgIcon, EgIconProButton } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import styles from './InputPreview.module.css';
@@ -26,7 +26,7 @@ const iconButtonProUsageSnippet = computed(() =>
       v-model:customize-state="iconButtonProCustomize"
       title="IconContainerPro"
       :show-doc-title="false"
-      component-tag="EgIconButtonPro"
+      component-tag="EgIconProButton"
       :import-code="iconButtonProImportCode"
       :customize-controls="iconButtonProCustomizeControls"
       :customize-defaults="iconButtonProCustomizeDefaults"
@@ -39,7 +39,7 @@ const iconButtonProUsageSnippet = computed(() =>
     >
       <template #preview>
         <div class="desktopTokens" :class="docStyles.previewButtonHost">
-          <EgIconButtonPro
+          <EgIconProButton
             :label="String(iconButtonProCustomize.label)"
             :badge="iconButtonProCustomize.badge"
             :show-badge="Boolean(iconButtonProCustomize.showBadge)"
@@ -48,7 +48,7 @@ const iconButtonProUsageSnippet = computed(() =>
             :disabled="Boolean(iconButtonProCustomize.disabled)"
           >
             <EgIcon :name="String(iconButtonProCustomize.symbol)" fit />
-          </EgIconButtonPro>
+          </EgIconProButton>
         </div>
       </template>
     </ComponentDocLayout>

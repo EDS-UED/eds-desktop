@@ -18,7 +18,7 @@ const props = withDefaults(
     /** Motion semantic 场景；默认缓入缓出。 */
     motion?: IconButtonMotion;
     /**
-     * Use `span` when nested inside another control (e.g. EgIconButtonPro)
+     * Use `span` when nested inside another control (e.g. EgIconProButton)
      * to avoid invalid button-in-button markup.
      */
     as?: 'button' | 'span';

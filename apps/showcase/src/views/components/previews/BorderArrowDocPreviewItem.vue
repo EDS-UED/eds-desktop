@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue';
-import { EgIcon, EgPaginationItem } from '@eds/desktop-components';
+import { EgIcon, EgPaginationGroupButton } from '@eds/desktop-components';
 import { showcasePaginationBorderArrowIconName } from '@/views/shared/showcaseIcons';
 import {
   borderArrowEventHostClass,
@@ -30,7 +30,7 @@ const attrs = useAttrs();
 
 <template>
   <div :class="hostClass">
-    <EgPaginationItem
+    <EgPaginationGroupButton
       v-bind="attrs"
       kind="borderArrow"
       :disabled="disabled"
@@ -40,6 +40,6 @@ const attrs = useAttrs();
       <slot>
         <EgIcon :name="showcasePaginationBorderArrowIconName" fit />
       </slot>
-    </EgPaginationItem>
+    </EgPaginationGroupButton>
   </div>
 </template>

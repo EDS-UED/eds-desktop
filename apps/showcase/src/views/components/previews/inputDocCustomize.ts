@@ -19,11 +19,11 @@ export const inputImportCode = `import { EgInput } from '@eds/desktop-components
 
 export const textareaImportCode = `import { EgTextarea } from '@eds/desktop-components';`;
 
-export const searchImportCode = `import { EgSearch, EgVerifyInput } from '@eds/desktop-components';`;
+export const searchImportCode = `import { EgSearchInput, EgVerifyInput } from '@eds/desktop-components';`;
 
 export const comboImportCode = `import {
-  EgComboInputItem,
-  EgComboTextareaItem,
+  EgComboInput,
+  EgComboTextarea,
   EgInput,
 } from '@eds/desktop-components';`;
 
@@ -265,7 +265,7 @@ const comboInputItemShellKeys = [
   'submissionShowLink',
 ] as const;
 
-/** Props for EgComboInputItem from merged Combo customize state. */
+/** Props for EgComboInput from merged Combo customize state. */
 export function comboInputItemShellProps(state: Record<string, unknown>): Record<string, unknown> {
   return {
     label: state.label,

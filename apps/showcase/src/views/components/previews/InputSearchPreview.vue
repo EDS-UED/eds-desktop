@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
-import { EgSearch } from '@eds/desktop-components';
+import { EgSearchInput } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import { buildVueSelfClosingSnippet } from '@/views/shared/componentDoc/buildUsageSnippet';
@@ -28,7 +28,7 @@ const searchPreviewStyle = computed(() =>
 
 const searchUsageSnippet = computed(() =>
   buildWidthModeUsageSnippet(
-    'EgSearch',
+    'EgSearchInput',
     searchCustomize,
     { defaults: searchCustomizeDefaults, vModel: 'value' },
     buildVueSelfClosingSnippet,
@@ -43,7 +43,7 @@ const searchUsageSnippet = computed(() =>
       title="Search"
       doc-tier="scenes"
       :show-doc-title="false"
-      component-tag="EgSearch"
+      component-tag="EgSearchInput"
       :import-code="searchImportCode"
       :customize-controls="searchCustomizeControls"
       :customize-defaults="searchCustomizeDefaults"
@@ -55,7 +55,7 @@ const searchUsageSnippet = computed(() =>
     >
       <template #preview>
         <div class="desktopTokens" :class="docStyles.previewInputHost">
-          <EgSearch
+          <EgSearchInput
             v-if="!searchCustomize.disabled"
             v-model="searchValue"
             :style="searchPreviewStyle"
@@ -63,7 +63,7 @@ const searchUsageSnippet = computed(() =>
             :width-mode="searchCustomize.widthMode as 'fixed' | 'full'"
             :readonly="Boolean(searchCustomize.readonly)"
           />
-          <EgSearch
+          <EgSearchInput
             v-else
             model-value=""
             :style="searchPreviewStyle"

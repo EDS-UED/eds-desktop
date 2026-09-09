@@ -163,7 +163,7 @@
 /* ── CryptoAddress（16px row · Figma 463:67670）
  *
  * LAYOUT CONTRACT — List Field · Currency 双地址行（EgCryptoCombo）
- * 改 ellipsis / tooltip 时勿破坏下列不变量（详见 .cursor/rules/eds-project.mdc §16）：
+ * 改 ellipsis / tooltip 时勿破坏下列不变量（详见 .cursor/rules/work.mdc §16）：
  *
  * 1. 双地址侧（.cryptoAddress:not(.cryptoAddressSingle)）— 按内容收缩，禁止 50/50 撑满：
  *    - .eds-crypto-address-flotation → flex: 0 1 auto（禁止 flex: 1 1 auto）

@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import {
-  EgTooltip,
+  EgEmailVerify,
+  EgGoogleVerify,
+  EgLockedVerify,
+  EgLoginPasswordVerify,
+  EgPasskeyVerify,
+  EgTooltipPanel,
+  EgTransactionPasswordVerify,
   EgVerify,
   resolveVerifyPanelHeightPx,
   resolveVerifyPanelWidthPx,
@@ -19,6 +25,9 @@ import {
   verifyEventRows,
   verifyPropRows,
   verifySlotRows,
+  resolveVerifySceneComponentTag,
+  resolveVerifySceneImportCode,
+  resolveVerifySceneAnchorId,
 } from './verifyDocCustomize';
 
 const props = withDefaults(
@@ -145,17 +154,51 @@ const verifyControls = computed(() =>
 );
 
 const pageTitle = computed(() => props.pageTitle ?? 'Verify');
+
+const docAnchorId = computed(() =>
+  props.lockVerifyType
+    ? resolveVerifySceneAnchorId(verifyType.value)
+    : 'verify',
+);
+
+const docComponentTag = computed(() =>
+  props.lockVerifyType
+    ? resolveVerifySceneComponentTag(verifyType.value)
+    : 'EgVerify',
+);
+
+const docImportCode = computed(() =>
+  props.lockVerifyType
+    ? resolveVerifySceneImportCode(verifyType.value)
+    : 'import { EgVerify, EgPopup, useVerifySubmit } from \'@eds/desktop-components\';',
+);
+
+const VERIFY_SCENE_COMPONENT = {
+  'single-email': EgEmailVerify,
+  'single-google': EgGoogleVerify,
+  'single-login-password': EgLoginPasswordVerify,
+  'single-trade-password': EgTransactionPasswordVerify,
+  'single-passkey': EgPasskeyVerify,
+  locked: EgLockedVerify,
+} as const;
+
+const previewVerifyComponent = computed(() =>
+  props.lockVerifyType
+    ? VERIFY_SCENE_COMPONENT[verifyType.value as keyof typeof VERIFY_SCENE_COMPONENT] ?? EgVerify
+    : EgVerify,
+);
 </script>
 
 <template>
   <div :class="styles.previewPage">
     <ComponentDocLayout
       v-model:customize-state="customize"
+      :anchor-id="docAnchorId"
       :title="pageTitle"
       doc-tier="organism"
       :show-doc-title="false"
-      component-tag="EgVerify"
-      import-code="import { EgVerify, EgPopup, useVerifySubmit } from '@eds/desktop-components';"
+      :component-tag="docComponentTag"
+      :import-code="docImportCode"
       :customize-controls="verifyControls"
       :customize-defaults="verifyCustomizeDefaults"
       :prop-rows="verifyPropRows"
@@ -168,7 +211,7 @@ const pageTitle = computed(() => props.pageTitle ?? 'Verify');
           class="desktopTokens"
           :class="organismStyles.previewOrganismVerifyBoxHost"
         >
-          <EgTooltip
+          <EgTooltipPanel
             :class="[
               'glassMicroFloatHost',
               panelMotionActive && 'glassMicroFloatHostActive',
@@ -183,9 +226,9 @@ const pageTitle = computed(() => props.pageTitle ?? 'Verify');
             :scrollable="false"
             panel-flush
           >
-            <EgVerify
+            <component
+              :is="previewVerifyComponent"
               v-model="verify.code"
-              :type="verifyType"
               :state="verify.state"
               :title="String(customize.title)"
               :secondary-text="String(customize.secondaryText)"
@@ -196,10 +239,11 @@ const pageTitle = computed(() => props.pageTitle ?? 'Verify');
               :cancel-label="String(customize.cancelLabel)"
               :password-error-text="String(customize.passwordErrorText)"
               :action-tone="customize.actionTone as 'brand' | 'decor'"
+              v-bind="props.lockVerifyType ? {} : { type: verifyType }"
               @complete="onComplete"
               @recover="handleRecover"
             />
-          </EgTooltip>
+          </EgTooltipPanel>
         </div>
       </template>
     </ComponentDocLayout>

@@ -1,7 +1,4 @@
-import type {
-  CryptoAddressMoreTagConfig,
-  CryptoAddressTagSlotConfig,
-} from './cryptoAddressTypes';
+import type { CryptoAddressTagSlotConfig } from './cryptoAddressTypes';
 
 export const CRYPTO_ADDRESS_INLINE_TAG_LIMIT = 1;
 
@@ -62,47 +59,4 @@ export function hasAddressTags(
   custom?: CryptoAddressTagSlotConfig | CryptoAddressTagSlotConfig[],
 ): boolean {
   return flattenAddressTags(system, custom).length > 0;
-}
-
-/** @deprecated 保留供旧 API；新逻辑请用 splitTagsForDisplay。 */
-export function buildRevealedHiddenTags(
-  more?: CryptoAddressMoreTagConfig,
-  system?: CryptoAddressTagSlotConfig | CryptoAddressTagSlotConfig[],
-  custom?: CryptoAddressTagSlotConfig | CryptoAddressTagSlotConfig[],
-): CryptoAddressTagSlotConfig[] {
-  if (more?.hidden?.length) {
-    return more.hidden.filter((tag) => tag.show !== false);
-  }
-
-  const { hidden } = splitTagsForDisplay(system, custom);
-  if (hidden.length) return hidden;
-
-  const count = parseMoreTagHiddenCount(more?.label, more?.hiddenCount);
-  if (count <= 0) return [];
-
-  const systemTags = normalizeTagList(system);
-  const customTags = normalizeTagList(custom);
-
-  return Array.from({ length: count }, (_, index) => {
-    const useCustom = index % 2 === 1;
-    const template = useCustom
-      ? (customTags[index % customTags.length] ?? customTags[0])
-      : (systemTags[index % systemTags.length] ?? systemTags[0]);
-
-    if (useCustom && template?.colorfulStyle) {
-      return {
-        show: true,
-        size: template.size ?? more?.size ?? 'sm',
-        label: template.label ?? `Tag ${index + 1}`,
-        colorfulStyle: template.colorfulStyle,
-      };
-    }
-
-    return {
-      show: true,
-      size: template?.size ?? more?.size ?? 'sm',
-      label: template?.label ?? `Tag ${index + 1}`,
-      systemType: template?.systemType ?? ('stroke-subtle' as const),
-    };
-  });
 }

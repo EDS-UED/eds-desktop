@@ -12,6 +12,16 @@ import {
 
 export const tagImportCode = `import { EgTag } from '@eds/desktop-components';`;
 
+export const tagStatusSceneImportCode = `import { EgStatusTag } from '@eds/desktop-components';`;
+export const tagColorfulSceneImportCode = `import { EgColorfulTag } from '@eds/desktop-components';`;
+export const tagBusinessSceneImportCode = `import { EgBusinessTag } from '@eds/desktop-components';`;
+
+export const TAG_SCENE_COMPONENT_TAG = {
+  status: 'EgStatusTag',
+  colorful: 'EgColorfulTag',
+  custom: 'EgBusinessTag',
+} as const;
+
 const tagSizeProp: DocPropRow = {
   name: 'size',
   type: "'lg' | 'md' | 'sm'",
@@ -285,7 +295,11 @@ export const tagCustomCustomizeControls: DocCustomizeControl[] = [
   { kind: 'text', key: 'label', label: '文案' },
 ];
 
-function buildTagSnippet(state: Record<string, unknown>, defaults: Record<string, unknown>): string {
+function buildTagSnippet(
+  state: Record<string, unknown>,
+  defaults: Record<string, unknown>,
+  componentTag = 'EgTag',
+): string {
   const props: Record<string, unknown> = {
     size: state.size,
     family: state.family,
@@ -295,8 +309,8 @@ function buildTagSnippet(state: Record<string, unknown>, defaults: Record<string
   if (state.family === 'colorful') props.colorfulStyle = state.colorfulStyle;
   if (state.family === 'custom') props.customStyle = state.customStyle;
   const label = String(state.label ?? 'Tag');
-  const open = buildVueSelfClosingSnippet('EgTag', props, { defaults });
-  return open.replace('/>', `>${label}</EgTag>`);
+  const open = buildVueSelfClosingSnippet(componentTag, props, { defaults });
+  return open.replace('/>', `>${label}</${componentTag}>`);
 }
 
 export function buildTagSystemUsageSnippet(state: Record<string, unknown>): string {
@@ -304,13 +318,25 @@ export function buildTagSystemUsageSnippet(state: Record<string, unknown>): stri
 }
 
 export function buildTagStatusUsageSnippet(state: Record<string, unknown>): string {
-  return buildTagSnippet({ ...state, family: 'status' }, tagStatusCustomizeDefaults);
+  return buildTagSnippet(
+    { ...state, family: 'status' },
+    tagStatusCustomizeDefaults,
+    TAG_SCENE_COMPONENT_TAG.status,
+  );
 }
 
 export function buildTagColorfulUsageSnippet(state: Record<string, unknown>): string {
-  return buildTagSnippet({ ...state, family: 'colorful' }, tagColorfulCustomizeDefaults);
+  return buildTagSnippet(
+    { ...state, family: 'colorful' },
+    tagColorfulCustomizeDefaults,
+    TAG_SCENE_COMPONENT_TAG.colorful,
+  );
 }
 
 export function buildTagCustomUsageSnippet(state: Record<string, unknown>): string {
-  return buildTagSnippet({ ...state, family: 'custom' }, tagCustomCustomizeDefaults);
+  return buildTagSnippet(
+    { ...state, family: 'custom' },
+    tagCustomCustomizeDefaults,
+    TAG_SCENE_COMPONENT_TAG.custom,
+  );
 }

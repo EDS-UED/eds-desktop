@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EgPaginationItem } from '@eds/desktop-components';
+import { EgPaginationGroupButton } from '@eds/desktop-components';
 import type { PaginerPaginationItemState } from './buttonDocCustomize';
 import BorderArrowDocPreviewItem from './BorderArrowDocPreviewItem.vue';
 
@@ -20,7 +20,7 @@ const props = defineProps<{
   >
     <slot />
   </BorderArrowDocPreviewItem>
-  <EgPaginationItem
+  <EgPaginationGroupButton
     v-else
     :kind="pagination.kind"
     :tone="pagination.tone"
@@ -30,5 +30,5 @@ const props = defineProps<{
     :interactive="interactive"
   >
     <slot />
-  </EgPaginationItem>
+  </EgPaginationGroupButton>
 </template>

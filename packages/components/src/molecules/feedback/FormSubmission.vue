@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { EgIcon } from '../../atoms/icons';
-import { EgLink } from '../link';
+import { EgLinkButton } from '../link';
 import styles from './Feedback.module.css';
 
 export type FormSubmissionType = 'notes' | 'danger' | 'success';
@@ -41,7 +41,7 @@ const textClass = computed(() => {
   return undefined;
 });
 
-/** Notes / Danger 可在文案右侧展示 EgLink；Success 无链接。 */
+/** Notes / Danger 可在文案右侧展示 EgLinkButton；Success 无链接。 */
 const linkVisible = computed(
   () => (props.type === 'notes' || props.type === 'danger') && props.showLink,
 );
@@ -53,7 +53,7 @@ const linkVisible = computed(
       <EgIcon :name="iconName" fit fill-tone="primary" />
     </span>
     <span :class="styles.formBody">
-      <span :class="[styles.formText, textClass]">{{ text }}</span><EgLink
+      <span :class="[styles.formText, textClass]">{{ text }}</span><EgLinkButton
         v-if="linkVisible"
         :class="styles.formLink"
         tone="brand"
@@ -61,7 +61,7 @@ const linkVisible = computed(
         :href="href"
       >
         {{ linkLabel }}
-      </EgLink>
+      </EgLinkButton>
     </span>
   </div>
 </template>

@@ -2,20 +2,18 @@ export { EgButton } from './button';
 export type {
   ButtonTone,
   ButtonVariant,
-  ButtonVariantInput,
   ButtonSize,
-  LegacyButtonVariant,
 } from './button';
 
 export { EgIconButton } from './icon-button';
 export type { IconButtonShape, IconButtonSize, IconButtonMotion } from './icon-button';
 
-export { EgIconButtonPro } from './icon-button-pro';
+export { EgIconProButton } from './icon-button-pro';
 
-export { EgLink } from './link';
+export { EgLinkButton } from './link';
 export type { LinkTone, LinkSize } from './link';
 
-export { EgPaginationItem } from './pagination-item';
+export { EgPaginationGroupButton } from './pagination-item';
 export type { PaginationItemKind, PaginationItemTone } from './pagination-item';
 
 export * from './input';

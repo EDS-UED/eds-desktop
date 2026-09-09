@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue';
-import { EgAnchoredTooltip } from '../tooltip';
+import { EgTooltip } from '../tooltip';
 import styles from './Tag.module.css';
 
 export type TagSize = 'lg' | 'md' | 'sm';
@@ -223,7 +223,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EgAnchoredTooltip
+  <EgTooltip
     v-if="truncate"
     :content="tooltipText"
     :disabled="!overflowing || !tooltipText"
@@ -253,7 +253,7 @@ onBeforeUnmount(() => {
         <span ref="textRef" :class="styles.textTruncate"><slot /></span>
       </template>
     </span>
-  </EgAnchoredTooltip>
+  </EgTooltip>
 
   <span v-else :class="tagClasses">
     <template v-if="family === 'custom'">

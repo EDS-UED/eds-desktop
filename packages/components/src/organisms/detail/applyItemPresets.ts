@@ -126,7 +126,7 @@ export function buildDetailAddressApplyItemRow(
   };
 }
 
-/** ENG · Apply_Item@Cregis（2267:11092）单行变体 — DS 唯一真源 */
+/** ENG · Apply_Item@Cregis（2267:11092）单行变体 — EDS 唯一真源 */
 export const detailApplyItemVariants: DetailApplyItemVariant[] = [
   {
     id: 'crypto',
@@ -379,32 +379,4 @@ export function createDetailApplyItemRow(
     ...structuredClone(variant.item),
     ...pickApplyItemRowOverrides(overrides),
   };
-}
-
-/** @deprecated 使用 createDetailApplyItemRow */
-export function resolveDetailItemFromApplyPreset(
-  itemKey: string,
-  presetId: string,
-): DetailItemData | undefined {
-  if (!isDetailApplyItemVariantId(presetId)) return undefined;
-  return createDetailApplyItemRow(presetId, { key: itemKey });
-}
-
-/** @deprecated 使用 detailApplyItemVariants */
-export const detailApplyItemPresets = detailApplyItemVariants;
-
-/** @deprecated 使用 DetailApplyItemVariantId */
-export type DetailApplyItemPresetId = DetailApplyItemVariantId;
-
-/** @deprecated 使用 detailApplyItemVariantIds */
-export const detailApplyItemPresetIds = detailApplyItemVariantIds;
-
-/** @deprecated 使用 isDetailApplyItemVariantId */
-export function isDetailApplyItemPresetDataSource(dataSource: string): boolean {
-  return dataSource !== 'custom' && isDetailApplyItemVariantId(dataSource);
-}
-
-/** @deprecated 使用 getDetailApplyItemVariant */
-export function getDetailApplyItemPreset(presetId: string): DetailApplyItemVariant | undefined {
-  return getDetailApplyItemVariant(presetId);
 }

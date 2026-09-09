@@ -26,7 +26,7 @@ import {
   isElementTextOverflowing,
   isTextWiderThanContainers,
 } from '../../utils/overflowTextMeasure';
-import EgAnchoredTooltip, { type TooltipTrigger } from './AnchoredTooltip.vue';
+import EgTooltip, { type TooltipTrigger } from './AnchoredTooltip.vue';
 import styles from './TextOverflowTooltip.module.css';
 import {
   COPYABLE_OVERFLOW_MENU_CLASS,
@@ -479,7 +479,7 @@ async function onTooltipCopy(event: Event) {
       </span>
     </span>
 
-    <EgAnchoredTooltip
+    <EgTooltip
       v-else
       :content="resolvedTooltipText"
       :disabled="tooltipDisabled"
@@ -524,6 +524,6 @@ async function onTooltipCopy(event: Event) {
           </span>
         </span>
       </span>
-    </EgAnchoredTooltip>
+    </EgTooltip>
   </span>
 </template>

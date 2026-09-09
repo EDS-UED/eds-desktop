@@ -89,7 +89,7 @@ export type DetailItemData = {
   valueEntries?: DetailItemValueEntry[];
   /** 多地址默认态计数；省略时用 valueEntries.length */
   addressCount?: number;
-  /** 多地址默认态「查看更多」链文案；有值时渲染 EgLink */
+  /** 多地址默认态「查看更多」链文案；有值时渲染 EgLinkButton */
   addressViewMoreLabel?: string;
   /** 同一行内连续展示多条 value 文案（如钱包名 + 编号）。 */
   inlineValueEntries?: boolean;

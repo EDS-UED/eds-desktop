@@ -80,7 +80,7 @@
           },
           "parentActiveSelectors": [".is-active", ".glassMicroFloatHostActive"],
           "selfActiveSelectors": [".glassMicroFloatHostActive"],
-          "notes": ["默认自 bottom 入场；方向变体由 DS glue 扩展"]
+          "notes": ["默认自 bottom 入场；方向变体由 EDS glue 扩展"]
         }
       ]
     },

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { EgMnemonicVerify } from '@eds/desktop-animations';
 import { EgIcon } from '../../atoms/icons';
-import { EgAnchoredTooltip } from '../tooltip';
+import { EgTooltip } from '../tooltip';
 import EgIconButton from './IconButton.vue';
 import styles from './CopyActionIconButton.module.css';
 
@@ -24,7 +24,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <EgAnchoredTooltip
+  <EgTooltip
     trigger="hover"
     placement="bottom"
     align="center"
@@ -54,5 +54,5 @@ const emit = defineEmits<{
     <template #content>
       <span :class="styles.tooltipLabel">{{ label }}</span>
     </template>
-  </EgAnchoredTooltip>
+  </EgTooltip>
 </template>

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
-import { EgTag } from '@eds/desktop-components';
+import { EgStatusTag } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import styles from './InputPreview.module.css';
 import TagPreviewGallery from './TagPreviewGallery.vue';
 import type { TagStatus } from '@eds/desktop-components';
 import {
   buildTagStatusUsageSnippet,
-  tagImportCode,
+  tagStatusSceneImportCode,
   tagStatusCustomizeControls,
   tagStatusCustomizeDefaults,
   tagStatusGalleryOptions,
@@ -33,13 +33,13 @@ function selectStatus(value: string) {
       v-model:customize-state="customize"
       title="Status"
       :show-doc-title="false"
-      component-tag="EgTag"
-      :import-code="tagImportCode"
+      component-tag="EgStatusTag"
+      :import-code="tagStatusSceneImportCode"
       :customize-controls="tagStatusCustomizeControls"
       :customize-defaults="tagStatusCustomizeDefaults"
       :usage-snippet-override="usageSnippet"
       :prop-rows="tagStatusPropRows"
-      props-section-id="tag-status-props"
+      props-section-id="tag-scene-status-props"
     >
       <template #preview>
         <TagPreviewGallery
@@ -49,14 +49,14 @@ function selectStatus(value: string) {
           @select="selectStatus"
         >
           <template #main>
-            <EgTag family="status" :size="customize.size" :status="customize.status">
+            <EgStatusTag :size="customize.size" :status="customize.status">
               {{ customize.label }}
-            </EgTag>
+            </EgStatusTag>
           </template>
           <template #item="{ value }">
-            <EgTag family="status" :size="customize.size" :status="value">
+            <EgStatusTag :size="customize.size" :status="value">
               {{ customize.label }}
-            </EgTag>
+            </EgStatusTag>
           </template>
         </TagPreviewGallery>
       </template>

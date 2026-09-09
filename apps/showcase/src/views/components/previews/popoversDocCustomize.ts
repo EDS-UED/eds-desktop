@@ -1,9 +1,16 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
 import { buildVueOpeningTag } from '@/views/shared/componentDoc/buildUsageSnippet';
-import type { PopoverAlign, PopoverPlacement } from '@eds/desktop-components';
+import type {
+  PopoverAlign,
+  PopoverHeightMode,
+  PopoverPlacement,
+  PopoverWidthMode,
+  ButtonTone,
+} from '@eds/desktop-components';
 import {
   showcaseTooltipCustomizeFieldLabels,
   triggerRows,
+  buttonToneRows,
 } from '@/data/showcasePropLabels';
 import {
   buildAnchoredContainerPanelControls,
@@ -12,45 +19,27 @@ import {
 
 export const popoverComponentImportCode = `import {
   EgAnchoredPopover,
-  EgAnchoredTooltip,
+  EgTooltip,
   EgButton,
   EgPopover,
 } from '@eds/desktop-components';`;
 
-export const popoverScensImportCode = `import {
-  EgAnchoredTooltip,
+export const popoverSceneImportCode = `import {
   EgButton,
-  EgMinerFeeBitcoinPanel,
-  EgMinerFeeEthereumPanel,
-  EgMinerFeeTonPanel,
-  EgMinerFeeTronPanel,
-  EgPopover,
+  EgConfirmPopover,
+  EgGasFeePopover,
+  EgGuidancePopover,
   EgRemarkPopover,
 } from '@eds/desktop-components';`;
 
-export const popoverMinerFeeNetworkOptions = [
+export const popoverGasFeeNetworkOptions = [
   { value: 'bitcoin', label: 'Bitcoin' },
   { value: 'ethereum', label: 'Ethereum Mainnet' },
   { value: 'ton', label: 'The Open Network' },
   { value: 'tron', label: 'Tron' },
 ] as const;
 
-export type PopoverMinerFeeNetwork = (typeof popoverMinerFeeNetworkOptions)[number]['value'];
-
-const MINER_FEE_PANEL_TAG_BY_NETWORK: Record<PopoverMinerFeeNetwork, string> = {
-  bitcoin: 'EgMinerFeeBitcoinPanel',
-  ethereum: 'EgMinerFeeEthereumPanel',
-  ton: 'EgMinerFeeTonPanel',
-  tron: 'EgMinerFeeTronPanel',
-};
-
-export function resolveMinerFeePanelTag(network: unknown): string {
-  const key = String(network ?? popoverComponentCustomizeDefaults.minerFeeNetwork);
-  return (
-    MINER_FEE_PANEL_TAG_BY_NETWORK[key as PopoverMinerFeeNetwork]
-    ?? MINER_FEE_PANEL_TAG_BY_NETWORK.ethereum
-  );
-}
+export type PopoverGasFeeNetwork = (typeof popoverGasFeeNetworkOptions)[number]['value'];
 
 export const popoverPlacementOptions = [
   { value: 'top', label: 'Top' },
@@ -65,15 +54,16 @@ export const popoverAlignOptions = [
   { value: 'end', label: 'End' },
 ] as const;
 
-export const popoverScensScenarioOptions = [
-  { value: 'guide', label: '引导' },
+export const popoverSceneScenarioOptions = [
+  { value: 'guidance', label: '引导' },
   { value: 'remark', label: '备注' },
-  { value: 'miner-fee', label: '矿工费' },
+  { value: 'gas-fee', label: '矿工费' },
+  { value: 'confirm', label: '二次确认' },
 ] as const;
 
-export type PopoverScensScenario = (typeof popoverScensScenarioOptions)[number]['value'];
+export type PopoverSceneScenario = (typeof popoverSceneScenarioOptions)[number]['value'];
 
-export type PopoverScenario = 'component' | PopoverScensScenario;
+export type PopoverScenario = 'component' | PopoverSceneScenario;
 
 export const popoverComponentCustomizeDefaults = {
   scenario: 'component',
@@ -83,8 +73,8 @@ export const popoverComponentCustomizeDefaults = {
   disabled: false,
   triggerLabel: '触发',
   slotContent: 'Popover 内容',
-  guideBody: '引导说明文案',
-  guideActionLabel: '知道了',
+  guidanceBody: '引导说明文案',
+  guidanceActionLabel: '知道了',
   widthMode: 'fixed',
   presetWidth: '336',
   heightMode: 'adaptive',
@@ -99,17 +89,17 @@ export const popoverComponentCustomizeDefaults = {
   remarkPlaceholder: 'Please enter',
   remarkFeedback: 'Optional, Max. 256 characters',
   remarkConfirmLabel: 'Confirm',
-  minerFeeNetwork: 'ethereum',
-  minerFeeMulti: false,
+  confirmMessage: 'Alternate text, are you sure you want to do this?',
+  confirmActionLabel: 'Confirm',
+  confirmTone: 'danger',
+  gasFeeNetwork: 'ethereum',
+  gasFeeMulti: false,
 } as const;
 
-export const popoverScensCustomizeDefaults = {
+export const popoverSceneCustomizeDefaults = {
   ...popoverComponentCustomizeDefaults,
-  scenario: 'guide',
+  scenario: 'guidance',
 } as const;
-
-/** @deprecated Use popoverComponentCustomizeDefaults or popoverScensCustomizeDefaults */
-export const popoversCustomizeDefaults = popoverComponentCustomizeDefaults;
 
 export const popoverWidthModeOptions = [
   { value: 'adaptive', label: '自适应 adaptive' },
@@ -126,11 +116,11 @@ export const popoverPresetWidthOptions = [
 const L = showcaseTooltipCustomizeFieldLabels;
 
 function isPopoverWidthPreset(state: Record<string, unknown>): boolean {
-  return String(state.widthMode ?? popoversCustomizeDefaults.widthMode) === 'preset';
+  return String(state.widthMode ?? popoverComponentCustomizeDefaults.widthMode) === 'preset';
 }
 
 function isPopoverWidthFixed(state: Record<string, unknown>): boolean {
-  return String(state.widthMode ?? popoversCustomizeDefaults.widthMode) === 'fixed';
+  return String(state.widthMode ?? popoverComponentCustomizeDefaults.widthMode) === 'fixed';
 }
 
 function isPopoverWidthFixedOrPreset(state: Record<string, unknown>): boolean {
@@ -138,38 +128,44 @@ function isPopoverWidthFixedOrPreset(state: Record<string, unknown>): boolean {
 }
 
 function isPopoverHeightFixed(state: Record<string, unknown>): boolean {
-  return String(state.heightMode ?? popoversCustomizeDefaults.heightMode) === 'fixed';
+  return String(state.heightMode ?? popoverComponentCustomizeDefaults.heightMode) === 'fixed';
 }
 
 function isPopoverPlacementTop(state: Record<string, unknown>): boolean {
-  return String(state.placement ?? popoversCustomizeDefaults.placement) === 'top';
+  return String(state.placement ?? popoverComponentCustomizeDefaults.placement) === 'top';
 }
 
 function isPopoverTopToolEnabled(state: Record<string, unknown>): boolean {
   return isPopoverPlacementTop(state) && Boolean(state.topTool);
 }
 
-function isPopoverGuideScenario(state: Record<string, unknown>): boolean {
-  return String(state.scenario ?? popoversCustomizeDefaults.scenario) === 'guide';
+function isPopoverGuidanceScenario(state: Record<string, unknown>): boolean {
+  return String(state.scenario ?? popoverComponentCustomizeDefaults.scenario) === 'guidance';
 }
 
 function isPopoverRemarkScenario(state: Record<string, unknown>): boolean {
-  return String(state.scenario ?? popoversCustomizeDefaults.scenario) === 'remark';
+  return String(state.scenario ?? popoverComponentCustomizeDefaults.scenario) === 'remark';
 }
 
-function isPopoverMinerFeeScenario(state: Record<string, unknown>): boolean {
-  return String(state.scenario ?? popoversCustomizeDefaults.scenario) === 'miner-fee';
+function isPopoverGasFeeScenario(state: Record<string, unknown>): boolean {
+  return String(state.scenario ?? popoverComponentCustomizeDefaults.scenario) === 'gas-fee';
+}
+
+function isPopoverConfirmScenario(state: Record<string, unknown>): boolean {
+  return String(state.scenario ?? popoverComponentCustomizeDefaults.scenario) === 'confirm';
 }
 
 function isPopoverComponentScenario(state: Record<string, unknown>): boolean {
-  const scenario = String(state.scenario ?? popoversCustomizeDefaults.scenario);
-  return scenario !== 'guide' && scenario !== 'remark' && scenario !== 'miner-fee';
+  const scenario = String(state.scenario ?? popoverComponentCustomizeDefaults.scenario);
+  return (
+    scenario !== 'guidance'
+    && scenario !== 'remark'
+    && scenario !== 'gas-fee'
+    && scenario !== 'confirm'
+  );
 }
 
-const POPOVER_SCENARIO_PRESETS: Record<
-  PopoverScenario,
-  Partial<typeof popoversCustomizeDefaults>
-> = {
+const POPOVER_SCENARIO_PRESETS: Record<PopoverScenario, Record<string, unknown>> = {
   component: {
     placement: 'top',
     align: 'center',
@@ -184,7 +180,7 @@ const POPOVER_SCENARIO_PRESETS: Record<
     triggerLabel: '触发',
     slotContent: 'Popover 内容',
   },
-  guide: {
+  guidance: {
     placement: 'top',
     align: 'center',
     trigger: 'hover',
@@ -195,8 +191,8 @@ const POPOVER_SCENARIO_PRESETS: Record<
     topToolTitle: 'Title',
     topToolClosable: false,
     triggerLabel: '悬浮我',
-    guideBody: '引导说明文案',
-    guideActionLabel: '知道了',
+    guidanceBody: '引导说明文案',
+    guidanceActionLabel: '知道了',
   },
   remark: {
     placement: 'top',
@@ -214,7 +210,7 @@ const POPOVER_SCENARIO_PRESETS: Record<
     remarkFeedback: 'Optional, Max. 256 characters',
     remarkConfirmLabel: 'Confirm',
   },
-  'miner-fee': {
+  'gas-fee': {
     placement: 'top',
     align: 'center',
     trigger: 'click',
@@ -223,10 +219,26 @@ const POPOVER_SCENARIO_PRESETS: Record<
     presetWidth: '336',
     heightMode: 'adaptive',
     topTool: true,
-    topToolTitle: '矿工费',
+    topToolTitle: 'Gas Fee',
     topToolClosable: true,
     triggerLabel: '矿工费',
-    minerFeeNetwork: 'ethereum',
+    gasFeeNetwork: 'ethereum',
+  },
+  confirm: {
+    placement: 'bottom',
+    align: 'center',
+    trigger: 'click',
+    widthMode: 'fixed',
+    width: '296',
+    presetWidth: '336',
+    heightMode: 'adaptive',
+    topTool: true,
+    topToolTitle: 'Title',
+    topToolClosable: true,
+    triggerLabel: '二次确认',
+    confirmMessage: 'Alternate text, are you sure you want to do this?',
+    confirmActionLabel: 'Confirm',
+    confirmTone: 'danger',
   },
 };
 
@@ -241,7 +253,8 @@ function isPopoverTopToolClosableVisible(state: Record<string, unknown>): boolea
   return (
     isPopoverTopToolEnabled(state)
     || isPopoverRemarkScenario(state)
-    || isPopoverMinerFeeScenario(state)
+    || isPopoverGasFeeScenario(state)
+    || isPopoverConfirmScenario(state)
     || isPopoverComponentScenario(state)
   );
 }
@@ -302,9 +315,6 @@ const popoverTopToolCustomizeControls: DocCustomizeControl[] = [
   },
 ];
 
-/** @deprecated 使用 popoverPanelCustomizeControls */
-const popoverLayoutCustomizeControls = popoverPanelCustomizeControls;
-
 export const popoverComponentCustomizeControls: DocCustomizeControl[] = [
   ...buildPopoverPanelCustomizeControls(popoverComponentCustomizeDefaults),
   {
@@ -323,18 +333,18 @@ export const popoverComponentCustomizeControls: DocCustomizeControl[] = [
   ...popoverTopToolCustomizeControls,
 ];
 
-const popoverScensScenarioCustomizeControls: DocCustomizeControl[] = [
+const popoverSceneScenarioCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
-    key: 'guideBody',
+    key: 'guidanceBody',
     label: '引导正文',
-    visibleWhen: isPopoverGuideScenario,
+    visibleWhen: isPopoverGuidanceScenario,
   },
   {
     kind: 'text',
-    key: 'guideActionLabel',
+    key: 'guidanceActionLabel',
     label: '按钮文案',
-    visibleWhen: isPopoverGuideScenario,
+    visibleWhen: isPopoverGuidanceScenario,
   },
   {
     kind: 'text',
@@ -356,28 +366,47 @@ const popoverScensScenarioCustomizeControls: DocCustomizeControl[] = [
   },
   {
     kind: 'select',
-    key: 'minerFeeNetwork',
+    key: 'gasFeeNetwork',
     label: '矿工费网络',
-    options: popoverMinerFeeNetworkOptions.map((row) => ({ value: row.value, label: row.label })),
-    visibleWhen: isPopoverMinerFeeScenario,
+    options: popoverGasFeeNetworkOptions.map((row) => ({ value: row.value, label: row.label })),
+    visibleWhen: isPopoverGasFeeScenario,
   },
   {
     kind: 'boolean',
-    key: 'minerFeeMulti',
+    key: 'gasFeeMulti',
     label: '多笔',
-    visibleWhen: isPopoverMinerFeeScenario,
+    visibleWhen: isPopoverGasFeeScenario,
+  },
+  {
+    kind: 'text',
+    key: 'confirmMessage',
+    label: '确认正文',
+    visibleWhen: isPopoverConfirmScenario,
+  },
+  {
+    kind: 'text',
+    key: 'confirmActionLabel',
+    label: '确认按钮',
+    visibleWhen: isPopoverConfirmScenario,
+  },
+  {
+    kind: 'select',
+    key: 'confirmTone',
+    label: '确认 tone',
+    options: buttonToneRows.map((row) => ({ value: row.key, label: row.label })),
+    visibleWhen: isPopoverConfirmScenario,
   },
 ];
 
-export const popoverScensCustomizeControls: DocCustomizeControl[] = [
+export const popoverSceneCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'scenario',
     label: '场景',
     row: 0,
-    options: popoverScensScenarioOptions.map((row) => ({ value: row.value, label: row.label })),
+    options: popoverSceneScenarioOptions.map((row) => ({ value: row.value, label: row.label })),
   },
-  ...buildPopoverPanelCustomizeControls(popoverScensCustomizeDefaults, 1),
+  ...buildPopoverPanelCustomizeControls(popoverSceneCustomizeDefaults, 1),
   {
     kind: 'text',
     key: 'topToolTitle',
@@ -386,9 +415,10 @@ export const popoverScensCustomizeControls: DocCustomizeControl[] = [
     visibleWhen: (state) =>
       isPopoverTopToolEnabled(state)
       || isPopoverRemarkScenario(state)
-      || isPopoverMinerFeeScenario(state),
+      || isPopoverGasFeeScenario(state)
+      || isPopoverConfirmScenario(state),
   },
-  ...popoverScensScenarioCustomizeControls,
+  ...popoverSceneScenarioCustomizeControls,
   {
     kind: 'text',
     key: 'triggerLabel',
@@ -398,20 +428,20 @@ export const popoverScensCustomizeControls: DocCustomizeControl[] = [
   ...popoverTopToolCustomizeControls,
 ];
 
-/** @deprecated Use popoverComponentCustomizeControls or popoverScensCustomizeControls */
-export const popoversCustomizeControls = popoverComponentCustomizeControls;
-
 const CUSTOMIZE_ONLY_KEYS = new Set([
   'triggerLabel',
   'scenario',
   'slotContent',
-  'guideBody',
-  'guideActionLabel',
+  'guidanceBody',
+  'guidanceActionLabel',
   'remarkPlaceholder',
   'remarkFeedback',
   'remarkConfirmLabel',
-  'minerFeeNetwork',
-  'minerFeeMulti',
+  'confirmMessage',
+  'confirmActionLabel',
+  'confirmTone',
+  'gasFeeNetwork',
+  'gasFeeMulti',
 ]);
 
 function parseOptionalPx(value: unknown): number | undefined {
@@ -424,7 +454,7 @@ function parseOptionalPx(value: unknown): number | undefined {
 
 function resolvePopoverWidthPx(state: Record<string, unknown>): number | undefined {
   if (isPopoverWidthPreset(state)) {
-    return parseOptionalPx(state.presetWidth ?? popoversCustomizeDefaults.presetWidth);
+    return parseOptionalPx(state.presetWidth ?? popoverComponentCustomizeDefaults.presetWidth);
   }
   if (isPopoverWidthFixed(state)) {
     return parseOptionalPx(state.width);
@@ -464,10 +494,10 @@ function buildPopoverProps(state: Record<string, unknown>): Record<string, unkno
   }
 
   if (String(state.placement) === 'top') {
-    const isGuide = String(state.scenario ?? popoversCustomizeDefaults.scenario) === 'guide';
-    props.topTool = isGuide ? true : Boolean(state.topTool);
+    const isGuidance = String(state.scenario ?? popoverComponentCustomizeDefaults.scenario) === 'guidance';
+    props.topTool = isGuidance ? true : Boolean(state.topTool);
     if (props.topTool) {
-      props.topToolTitle = String(state.topToolTitle ?? popoversCustomizeDefaults.topToolTitle);
+      props.topToolTitle = String(state.topToolTitle ?? popoverComponentCustomizeDefaults.topToolTitle);
       props.topToolClosable = Boolean(state.topToolClosable);
     }
   }
@@ -502,54 +532,156 @@ export function buildRemarkPopoverProps(state: Record<string, unknown>): Record<
   return props;
 }
 
-function buildAnchoredPopoverScensSnippet(
+export type ConfirmPopoverPreviewBindings = {
+  message: string;
+  title: string;
+  confirmLabel: string;
+  confirmTone: ButtonTone;
+  placement: PopoverPlacement;
+  align: PopoverAlign;
+  widthMode: PopoverWidthMode;
+  heightMode: PopoverHeightMode;
+  topToolClosable: boolean;
+  width?: number;
+  maxWidth?: number;
+  height?: number;
+  maxHeight?: number;
+};
+
+export function buildConfirmPopoverProps(
   state: Record<string, unknown>,
-  slotInner: string,
-): string {
-  const anchoredProps: Record<string, unknown> = {
-    placement: state.placement,
-    align: state.align,
-    trigger: state.trigger,
-    disabled: state.disabled,
-    'wrap-tooltip': false,
+): ConfirmPopoverPreviewBindings {
+  const popoverProps = buildPopoverProps(state);
+
+  const props: ConfirmPopoverPreviewBindings = {
+    placement: popoverProps.placement as PopoverPlacement,
+    align: popoverProps.align as PopoverAlign,
+    widthMode: popoverProps.widthMode as PopoverWidthMode,
+    heightMode: popoverProps.heightMode as PopoverHeightMode,
+    topToolClosable: Boolean(state.topToolClosable),
+    message: String(state.confirmMessage ?? popoverComponentCustomizeDefaults.confirmMessage),
+    confirmLabel: String(
+      state.confirmActionLabel ?? popoverComponentCustomizeDefaults.confirmActionLabel,
+    ),
+    confirmTone: String(state.confirmTone ?? popoverComponentCustomizeDefaults.confirmTone) as ButtonTone,
+    title: String(state.topToolTitle ?? popoverComponentCustomizeDefaults.topToolTitle),
   };
 
-  const openTag = buildVueOpeningTag('EgAnchoredTooltip', anchoredProps, {
-    defaults: {
-      placement: popoverComponentCustomizeDefaults.placement,
-      align: popoverComponentCustomizeDefaults.align,
-      trigger: popoverComponentCustomizeDefaults.trigger,
-      disabled: popoverComponentCustomizeDefaults.disabled,
-    },
-    omitKeys: [...CUSTOMIZE_ONLY_KEYS],
-  }).replace(/>$/, '\n  :wrap-tooltip="false">');
+  if (popoverProps.width != null) {
+    props.width = popoverProps.width as number;
+  }
+  if (popoverProps.maxWidth != null) {
+    props.maxWidth = popoverProps.maxWidth as number;
+  }
+  if (popoverProps.height != null) {
+    props.height = popoverProps.height as number;
+  }
+  if (popoverProps.maxHeight != null) {
+    props.maxHeight = popoverProps.maxHeight as number;
+  }
 
-  const popoverOpen = buildVueOpeningTag('EgPopover', buildPopoverProps(state), {
-    defaults: {
-      placement: popoverComponentCustomizeDefaults.placement,
-      align: popoverComponentCustomizeDefaults.align,
-      widthMode: popoverComponentCustomizeDefaults.widthMode,
-      heightMode: popoverComponentCustomizeDefaults.heightMode,
-      width: Number.parseInt(popoverComponentCustomizeDefaults.width, 10),
-      height: Number.parseInt(popoverComponentCustomizeDefaults.height, 10),
-    },
-  });
-
-  const label = String(state.triggerLabel ?? popoverComponentCustomizeDefaults.triggerLabel);
-
-  return `${openTag}
-  <EgButton variant="outline">${label}</EgButton>
-  <template #content>
-    ${popoverOpen}
-      ${slotInner}
-    </EgPopover>
-  </template>
-</EgAnchoredTooltip>`;
+  return props;
 }
 
-export function buildPopoverScensUsageSnippet(state: Record<string, unknown>): string {
+export function buildGuidancePopoverProps(state: Record<string, unknown>): Record<string, unknown> {
+  const popoverProps = buildPopoverProps(state);
+
+  const props: Record<string, unknown> = {
+    placement: popoverProps.placement,
+    align: popoverProps.align,
+    widthMode: popoverProps.widthMode,
+    heightMode: popoverProps.heightMode,
+    topToolClosable: Boolean(state.topToolClosable),
+    body: String(state.guidanceBody ?? popoverComponentCustomizeDefaults.guidanceBody),
+    actionLabel: String(
+      state.guidanceActionLabel ?? popoverComponentCustomizeDefaults.guidanceActionLabel,
+    ),
+    title: String(state.topToolTitle ?? popoverComponentCustomizeDefaults.topToolTitle),
+  };
+
+  if (popoverProps.width != null) {
+    props.width = popoverProps.width;
+  }
+  if (popoverProps.maxWidth != null) {
+    props.maxWidth = popoverProps.maxWidth;
+  }
+  if (popoverProps.height != null) {
+    props.height = popoverProps.height;
+  }
+  if (popoverProps.maxHeight != null) {
+    props.maxHeight = popoverProps.maxHeight;
+  }
+
+  return props;
+}
+
+export function buildGasFeePopoverProps(state: Record<string, unknown>): Record<string, unknown> {
+  const popoverProps = buildPopoverProps(state);
+
+  const props: Record<string, unknown> = {
+    placement: popoverProps.placement,
+    align: popoverProps.align,
+    widthMode: popoverProps.widthMode,
+    heightMode: popoverProps.heightMode,
+    topToolClosable: Boolean(state.topToolClosable),
+    network: String(state.gasFeeNetwork ?? popoverComponentCustomizeDefaults.gasFeeNetwork),
+    translate: 'ui',
+    transactionCount: Boolean(state.gasFeeMulti) ? 3 : 1,
+    title: String(state.topToolTitle ?? 'Gas Fee'),
+  };
+
+  if (popoverProps.width != null) {
+    props.width = popoverProps.width;
+  }
+  if (popoverProps.maxWidth != null) {
+    props.maxWidth = popoverProps.maxWidth;
+  }
+  if (popoverProps.height != null) {
+    props.height = popoverProps.height;
+  }
+  if (popoverProps.maxHeight != null) {
+    props.maxHeight = popoverProps.maxHeight;
+  }
+
+  return props;
+}
+
+function buildScenePopoverTriggerSnippet(label: string): string {
+  return `  <template #trigger="{ active, onClick }">
+    <EgButton variant="outline" :aria-expanded="active" @click="onClick">
+      ${label}
+    </EgButton>
+  </template>`;
+}
+
+export function buildPopoverSceneUsageSnippet(state: Record<string, unknown>): string {
+  const label = String(state.triggerLabel ?? popoverComponentCustomizeDefaults.triggerLabel);
+
+  if (isPopoverConfirmScenario(state)) {
+    const confirmOpen = buildVueOpeningTag(
+      'EgConfirmPopover',
+      buildConfirmPopoverProps(state),
+      {
+        defaults: {
+          placement: 'bottom',
+          align: popoverComponentCustomizeDefaults.align,
+          widthMode: popoverComponentCustomizeDefaults.widthMode,
+          width: 296,
+          topToolClosable: popoverComponentCustomizeDefaults.topToolClosable,
+          message: popoverComponentCustomizeDefaults.confirmMessage,
+          confirmLabel: popoverComponentCustomizeDefaults.confirmActionLabel,
+          confirmTone: popoverComponentCustomizeDefaults.confirmTone,
+          title: 'Title',
+        },
+      },
+    ).replace(/>$/, '\n  @confirm="onConfirm">');
+
+    return `${confirmOpen}
+${buildScenePopoverTriggerSnippet(label)}
+</EgConfirmPopover>`;
+  }
+
   if (isPopoverRemarkScenario(state)) {
-    const label = String(state.triggerLabel ?? popoverComponentCustomizeDefaults.triggerLabel);
     const remarkOpen = buildVueOpeningTag(
       'EgRemarkPopover',
       {
@@ -577,28 +709,43 @@ export function buildPopoverScensUsageSnippet(state: Record<string, unknown>): s
     ).replace(/>$/, '\n  v-model="remark"\n  @confirm="onRemarkConfirm">');
 
     return `${remarkOpen}
-  <template #trigger="{ active, onClick }">
-    <EgButton variant="outline" :class="{ 'is-active': active }" @click="onClick">
-      ${label}
-    </EgButton>
-  </template>
+${buildScenePopoverTriggerSnippet(label)}
 </EgRemarkPopover>`;
   }
 
-  if (isPopoverMinerFeeScenario(state)) {
-    const panelTag = resolveMinerFeePanelTag(state.minerFeeNetwork);
-    const transactionCount = Boolean(state.minerFeeMulti) ? 3 : 1;
-    return buildAnchoredPopoverScensSnippet(
-      state,
-      `<${panelTag}\n  :translate="ui"\n  :transaction-count="${transactionCount}"\n  @confirm="onMinerFeeConfirm"\n/>`,
-    );
+  if (isPopoverGasFeeScenario(state)) {
+    const gasFeeOpen = buildVueOpeningTag('EgGasFeePopover', buildGasFeePopoverProps(state), {
+      defaults: {
+        placement: popoverComponentCustomizeDefaults.placement,
+        align: popoverComponentCustomizeDefaults.align,
+        widthMode: popoverComponentCustomizeDefaults.widthMode,
+        width: Number.parseInt(popoverComponentCustomizeDefaults.width, 10),
+        network: popoverComponentCustomizeDefaults.gasFeeNetwork,
+        title: 'Gas Fee',
+      },
+    }).replace(/>$/, '\n  @confirm="onGasFeeConfirm">');
+
+    return `${gasFeeOpen}
+${buildScenePopoverTriggerSnippet(label)}
+</EgGasFeePopover>`;
   }
 
-  return buildAnchoredPopoverScensSnippet(
-    state,
-    `<!-- 引导场景：match-primary 填充 + TopTool -->
-      <div><!-- … --></div>`,
-  );
+  const guidanceOpen = buildVueOpeningTag('EgGuidancePopover', buildGuidancePopoverProps(state), {
+    defaults: {
+      placement: popoverComponentCustomizeDefaults.placement,
+      align: popoverComponentCustomizeDefaults.align,
+      widthMode: 'fixed',
+      width: 256,
+      topToolClosable: false,
+      body: popoverComponentCustomizeDefaults.guidanceBody,
+      actionLabel: popoverComponentCustomizeDefaults.guidanceActionLabel,
+      title: 'Title',
+    },
+  }).replace(/>$/, '\n  @action="onGuidanceAction">');
+
+  return `${guidanceOpen}
+${buildScenePopoverTriggerSnippet(label)}
+</EgGuidancePopover>`;
 }
 
 export function buildPopoverComponentUsageSnippet(state: Record<string, unknown>): string {
@@ -610,7 +757,7 @@ export function buildPopoverComponentUsageSnippet(state: Record<string, unknown>
     'wrap-tooltip': false,
   };
 
-  const openTag = buildVueOpeningTag('EgAnchoredTooltip', anchoredProps, {
+  const openTag = buildVueOpeningTag('EgTooltip', anchoredProps, {
     defaults: {
       placement: popoverComponentCustomizeDefaults.placement,
       align: popoverComponentCustomizeDefaults.align,
@@ -641,15 +788,7 @@ export function buildPopoverComponentUsageSnippet(state: Record<string, unknown>
       <div><!-- … --></div>
     </EgPopover>
   </template>
-</EgAnchoredTooltip>`;
-}
-
-/** @deprecated Use buildPopoverComponentUsageSnippet or buildPopoverScensUsageSnippet */
-export function buildPopoversUsageSnippet(state: Record<string, unknown>): string {
-  if (isPopoverRemarkScenario(state) || isPopoverGuideScenario(state)) {
-    return buildPopoverScensUsageSnippet(state);
-  }
-  return buildPopoverComponentUsageSnippet(state);
+</EgTooltip>`;
 }
 
 export const popoverPropRows: DocPropRow[] = [
@@ -763,6 +902,9 @@ export const POPOVER_ALIGNS = ['start', 'center', 'end'] as const satisfies read
 export {
   buildPopoverPanelCustomizeControls,
   buildPopoverProps,
+  isPopoverConfirmScenario,
+  isPopoverGasFeeScenario,
+  isPopoverGuidanceScenario,
   isPopoverHeightFixed,
   isPopoverRemarkScenario,
   isPopoverWidthFixed,

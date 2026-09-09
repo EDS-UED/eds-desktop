@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed } from 'vue';
+import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import {
   EgAvatar,
+  EgCregisModuleMenu,
   EgFlotation,
   EgFlotationTrigger,
   EgIcon,
   EgModuleMenu,
   EgModuleMenuGroup,
   EgModuleMenuItem,
+  EgUdunModuleMenu,
   getProcessedIcon,
 } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
@@ -31,7 +34,7 @@ import {
   cregisModuleMenuPropRows,
   udunModuleMenuPropRows,
   buildModuleMenuBusinessTitleCustomizeControls,
-  isModuleMenuDsScenario,
+  isModuleMenuEdsScenario,
   moduleMenuCustomizeControls,
   moduleMenuCustomizeDefaults,
   moduleMenuGroupCustomizeControlsList,
@@ -58,6 +61,8 @@ import {
 import type { ModuleMenuBusinessScenario } from '@/presets/module-menu/businessModuleTitles';
 import {
   buildModuleMenuBusinessUsageSnippet,
+  resolveModuleMenuSceneComponentTag,
+  resolveModuleMenuSceneImportCode,
   buildModuleMenuComponentUsageSnippet,
   buildCregisModuleMenuCustomizeDefaults,
   buildUdunModuleMenuCustomizeDefaults,
@@ -87,14 +92,10 @@ const customizeDefaults = computed(() => {
   return moduleMenuCustomizeDefaults;
 });
 
-const customize = reactive({
-  ...(lockedScenario.value === 'cregis'
-    ? buildCregisModuleMenuCustomizeDefaults()
-    : lockedScenario.value === 'udun'
-      ? buildUdunModuleMenuCustomizeDefaults()
-      : moduleMenuCustomizeDefaults),
-  ...(props.initialScenario ? { scenario: props.initialScenario } : {}),
-});
+const customize = createDocCustomizeState<typeof moduleMenuCustomizeDefaults>(
+  customizeDefaults.value,
+  props.initialScenario ? { scenario: props.initialScenario } : undefined,
+);
 
 function resetModuleMenuCustomize() {
   const defaults = customizeDefaults.value as Record<string, unknown>;
@@ -123,8 +124,8 @@ const moduleMenuTitleEgFlotationProps = computed(() =>
   }),
 );
 
-const isDsScenario = computed(() =>
-  lockedScenario.value ? false : isModuleMenuDsScenario(customize),
+const isEdsScenario = computed(() =>
+  lockedScenario.value ? false : isModuleMenuEdsScenario(customize),
 );
 
 const isBusinessScenario = computed(() =>
@@ -176,7 +177,7 @@ const moduleMenuBusinessTitleControls = computed(() =>
 );
 
 const docPropRows = computed(() => {
-  if (isDsScenario.value) return moduleMenuPropRows;
+  if (isEdsScenario.value) return moduleMenuPropRows;
   return businessScenario.value === 'udun' ? udunModuleMenuPropRows : cregisModuleMenuPropRows;
 });
 
@@ -217,11 +218,27 @@ const moduleTitleNestedVariant = computed(() =>
 );
 
 const docImportCode = computed(() => {
+  if (lockedScenario.value) {
+    return resolveModuleMenuSceneImportCode(lockedScenario.value);
+  }
   if (!moduleMenuTitleUsesTrigger.value) return ORGANISM_IMPORT;
   return ORGANISM_IMPORT.replace(
     'EgModuleMenu,',
     'EgFlotation,\n  EgFlotationTrigger,\n  EgModuleMenu,',
   );
+});
+
+const docComponentTag = computed(() => {
+  const scenario = (lockedScenario.value ??
+    customize.scenario) as ModuleMenuScenario;
+  return resolveModuleMenuSceneComponentTag(scenario);
+});
+
+const previewModuleMenuComponent = computed(() => {
+  const scenario = (lockedScenario.value ?? customize.scenario) as ModuleMenuScenario;
+  if (scenario === 'cregis') return EgCregisModuleMenu;
+  if (scenario === 'udun') return EgUdunModuleMenu;
+  return EgModuleMenu;
 });
 
 const businessGroups = computed(() =>
@@ -378,7 +395,7 @@ const previewGroups = computed((): PreviewGroup[] => {
       :anchor-id="docAnchorId"
       :title="docTitle"
       :show-doc-title="false"
-      component-tag="EgModuleMenu"
+      :component-tag="docComponentTag"
       :import-code="docImportCode"
       :customize-controls="moduleMenuCustomizeControls"
       :customize-defaults="customizeDefaults"
@@ -396,7 +413,8 @@ const previewGroups = computed((): PreviewGroup[] => {
             organismStyles.previewOrganismPanelHost,
           ]"
         >
-          <EgModuleMenu
+          <component
+            :is="previewModuleMenuComponent"
             :key="`${customize.scenario}-${businessModuleTitle}`"
             :title="moduleMenuTitle"
             :title-mode="moduleMenuTitleUsesTrigger ? 'trigger' : 'text'"
@@ -421,7 +439,7 @@ const previewGroups = computed((): PreviewGroup[] => {
                 </template>
               </EgFlotation>
             </template>
-            <template v-if="isDsScenario">
+            <template v-if="isEdsScenario">
               <EgModuleMenuGroup
                 v-for="group in previewGroups"
                 :key="group.key"
@@ -498,14 +516,14 @@ const previewGroups = computed((): PreviewGroup[] => {
                 </template>
               </EgModuleMenuGroup>
             </template>
-          </EgModuleMenu>
+          </component>
         </div>
       </template>
 
       <template #customize-extra>
         <div :class="docStyles.customizeExtraStack">
           <CustomizePanel
-            v-if="isDsScenario"
+            v-if="isEdsScenario"
             v-model="customize"
             title="模块标题"
             nested
@@ -525,7 +543,7 @@ const previewGroups = computed((): PreviewGroup[] => {
             :nested-title-variant="moduleTitleNestedVariant"
             :controls="moduleMenuBusinessTitleControls"
           />
-          <template v-if="isDsScenario">
+          <template v-if="isEdsScenario">
             <CustomizePanel
               v-for="groupIndex in groupCountNum"
               :key="`group-panel-${groupIndex}`"

@@ -35,10 +35,12 @@ export type CatalogSection = {
   groups?: Array<{ title: string; items: CatalogItem[] }>;
 };
 
+export type AnchorDepth = 1 | 2 | 3 | 4 | 5;
+
 export type AnchorItem = {
   id: string;
   label: string;
-  depth?: 1 | 2 | 3 | 4 | 5;
+  depth?: AnchorDepth;
   /** Auto-inserted group label (Variants / Scenes / Combo) or organ subgroup (Navigation). */
   kind?: 'navGroup' | 'navSection' | 'navSubgroup';
   parentSlug?: string;

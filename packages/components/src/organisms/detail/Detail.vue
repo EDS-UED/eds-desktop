@@ -5,13 +5,13 @@ import { EgCrypto } from '../../atoms/crypto';
 import { EgDivider } from '../../atoms/divider';
 import { EgIcon } from '../../atoms/icons';
 import { EgIconButton } from '../../molecules/icon-button';
-import { EgLink } from '../../molecules/link';
+import { EgLinkButton } from '../../molecules/link';
 import DetailValueActionIcon from './DetailValueActionIcon.vue';
 import { EgTag, type TagSize, type TagStatus } from '../../molecules/tag';
 import { EgButton, type ButtonTone } from '../../molecules/button';
 import type { ComboActionPageTone } from '../../molecules/combo';
 import comboActionStyles from '../../molecules/combo/ComboAction.module.css';
-import { EgPaginationItem } from '../../molecules/pagination-item';
+import { EgPaginationGroupButton } from '../../molecules/pagination-item';
 import { EgTabs, type TabsSpacingSize } from '../../molecules/tab';
 import { hasOpenClickAnchoredTooltip } from '../../molecules/tooltip/anchoredTooltipManager';
 import cryptoComboStyles from '../../molecules/crypto-combo/CryptoCombo.module.css';
@@ -835,14 +835,14 @@ onBeforeUnmount(() => {
                               v-if="itemHasValueTrailingActions(item)"
                               :class="styles.itemValueTrailing"
                             >
-                              <EgLink
+                              <EgLinkButton
                                 v-if="item.showValueLink"
                                 size="sm"
                                 tone="brand"
                                 @click="onItemValueLinkClick(item, sectionIndex, itemIndex, $event)"
                               >
                                 {{ item.valueLinkLabel ?? 'Edit' }}
-                              </EgLink>
+                              </EgLinkButton>
                                 <span
                                   v-if="item.showValueCopy"
                                   :class="[
@@ -982,14 +982,14 @@ onBeforeUnmount(() => {
                               v-if="itemHasValueTrailingActions(item)"
                               :class="styles.itemValueTrailing"
                             >
-                              <EgLink
+                              <EgLinkButton
                                 v-if="item.showValueLink"
                                 size="sm"
                                 tone="brand"
                                 @click="onItemValueLinkClick(item, sectionIndex, itemIndex, $event)"
                               >
                                 {{ item.valueLinkLabel ?? 'Edit' }}
-                              </EgLink>
+                              </EgLinkButton>
                                 <span
                                   v-if="item.showValueCopy"
                                   :class="[
@@ -1055,13 +1055,13 @@ onBeforeUnmount(() => {
                           :class="styles.itemTitleSpacer"
                           aria-hidden="true"
                         />
-                        <EgLink
+                        <EgLinkButton
                           size="sm"
                           tone="brand"
                           @click="onItemValueLinkClick(item, sectionIndex, itemIndex, $event)"
                         >
                           {{ itemAddressViewMoreText(item) }}
-                        </EgLink>
+                        </EgLinkButton>
                       </div>
                     </div>
 
@@ -1301,9 +1301,9 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div v-if="section.showCollapse" :class="styles.collapseRow">
-                  <EgLink size="sm" tone="brand">
+                  <EgLinkButton size="sm" tone="brand">
                     {{ section.collapseLabel ?? 'Connect to EDS' }}
-                  </EgLink>
+                  </EgLinkButton>
                 </div>
               </div>
 
@@ -1371,7 +1371,7 @@ onBeforeUnmount(() => {
                 </div>
                 <div v-if="showToolbarNav" :class="styles.toolbarStart">
                   <div :class="styles.toolbarNav">
-                    <EgPaginationItem
+                    <EgPaginationGroupButton
                       kind="borderArrow"
                       label="上一项"
                       :disabled="toolbarPrevDisabled"
@@ -1379,12 +1379,12 @@ onBeforeUnmount(() => {
                       @click="onToolbarPrev"
                     >
                       <EgIcon name="eds-arrow-left" fit />
-                    </EgPaginationItem>
+                    </EgPaginationGroupButton>
                     <span :class="styles.toolbarCounter">
                       <span :class="styles.toolbarCounterCurrent">{{ toolbarCounterCurrentText }}</span>
                       <span :class="styles.toolbarCounterRest">/ {{ toolbarCounterTotalText }}</span>
                     </span>
-                    <EgPaginationItem
+                    <EgPaginationGroupButton
                       kind="borderArrow"
                       label="下一项"
                       :disabled="toolbarNextDisabled"
@@ -1392,7 +1392,7 @@ onBeforeUnmount(() => {
                       @click="onToolbarNext"
                     >
                       <EgIcon name="eds-arrow-right" fit />
-                    </EgPaginationItem>
+                    </EgPaginationGroupButton>
                   </div>
                 </div>
                 <div

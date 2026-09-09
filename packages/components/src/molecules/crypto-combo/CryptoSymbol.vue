@@ -12,23 +12,15 @@ const props = withDefaults(
     label?: string;
     /** Figma subscript=Yes → 36×32 + entry badge */
     entryBadge?: CryptoSymbolEntryBadge;
-    /** @deprecated 使用 entryBadge */
-    showEntryBadge?: boolean;
   }>(),
   {
     entryBadge: 'none',
-    showEntryBadge: false,
   },
 );
 
-const resolvedEntryBadge = computed((): CryptoSymbolEntryBadge => {
-  if (props.entryBadge !== 'none') return props.entryBadge;
-  return props.showEntryBadge ? 'in' : 'none';
-});
-
 const rootClass = computed(() => [
   styles.cryptoSymbol,
-  resolvedEntryBadge.value !== 'none'
+  props.entryBadge !== 'none'
     ? styles.cryptoSymbolWithBadge
     : styles.cryptoSymbolPlain,
 ]);
@@ -38,8 +30,8 @@ const rootClass = computed(() => [
   <span :class="rootClass">
     <EgCrypto :name="name" :label="label" fit :class="styles.cryptoSymbolIcon" />
     <CryptoItem
-      v-if="resolvedEntryBadge !== 'none'"
-      :type="resolvedEntryBadge === 'out' ? 'out' : 'in'"
+      v-if="entryBadge !== 'none'"
+      :type="entryBadge === 'out' ? 'out' : 'in'"
       :class="styles.cryptoSymbolBadge"
     />
   </span>

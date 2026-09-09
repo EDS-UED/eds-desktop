@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { EgIcon } from '../../atoms/icons';
 import { EgButton, type ButtonSize, type ButtonTone, type ButtonVariant } from '../button';
-import { EgLink, type LinkSize, type LinkTone } from '../link';
+import { EgLinkButton, type LinkSize, type LinkTone } from '../link';
 import styles from './Feedback.module.css';
 
 export type StreamerType = 'info' | 'warning' | 'danger';
@@ -98,14 +98,14 @@ const iconClass = computed(() => {
       >
         {{ buttonLabel }}
       </EgButton>
-      <EgLink
+      <EgLinkButton
         v-if="showLink"
         :tone="linkTone"
         :size="linkSize"
         :href="href"
       >
         {{ linkLabel }}
-      </EgLink>
+      </EgLinkButton>
     </div>
   </div>
 </template>

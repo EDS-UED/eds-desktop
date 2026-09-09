@@ -10,9 +10,6 @@ export const udunModuleMenuByTitle: Partial<
 /** 未配置模块回退：组件场景默认菜单（与 Cregis 共用同一套组件 defaults）。 */
 export const udunDefaultModuleMenuGroups = moduleMenuComponentDefaultPresetGroups;
 
-/** @deprecated 使用 getUdunModuleMenuGroups(title) */
-export const udunModuleMenuGroups = udunDefaultModuleMenuGroups;
-
 export function getUdunModuleMenuGroups(title: UdunModuleMenuBusinessTitle): ModuleMenuPresetGroup[] {
   return udunModuleMenuByTitle[title] ?? udunDefaultModuleMenuGroups;
 }

@@ -15,9 +15,9 @@ export type InputDemoSection = {
 export const inputImportCode = `import {
   EgInput,
   EgTextarea,
-  EgSearch,
-  EgComboInputItem,
-  EgComboTextareaItem,
+  EgSearchInput,
+  EgComboInput,
+  EgComboTextarea,
 } from '@eds/desktop-components';`;
 
 export const inputHeroCode = '<EgInput v-model="value" placeholder="请输入" width-mode="full" />';

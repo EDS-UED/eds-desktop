@@ -3,7 +3,7 @@
  * 与 CryptoCombo.module.css 配套；改 truncate / tooltip 时勿破坏：
  * - .root / .inlineTag / .eds-tag → flex-shrink: 0（禁止外层 overflow:hidden 压成 Custom 竖条）
  * - 省略只在 EgTag truncate 内部
- * 详见 .cursor/rules/eds-project.mdc §16
+ * 详见 .cursor/rules/work.mdc §16
  */
 .moreTag {
   display: inline-flex;

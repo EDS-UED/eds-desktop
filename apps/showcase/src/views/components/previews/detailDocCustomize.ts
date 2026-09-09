@@ -1,9 +1,13 @@
 import {
   buildDetailAddressApplyItemRow,
+  createDetailApplyItemRow,
   createDefaultDetailSections,
   cryptoNames,
+  detailApplyItemVariants,
   getProcessedCrypto,
+  isDetailApplyItemVariantId,
   type DetailAddressLayout,
+  type DetailApplyItemVariantId,
   type DetailSectionData,
 } from '@eds/desktop-components';
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
@@ -17,9 +21,6 @@ import { tagStatusStyleOptions } from './tagDocCustomize';
 import { resolveTabLabels, tabsCustomizeDefaults, tabsSpacingSizeOptions } from './tabDocCustomize';
 import {
   detailApplyItemDataSourceOptions,
-  detailApplyItemPresets,
-  isDetailApplyItemPresetDataSource,
-  resolveDetailItemFromApplyPreset,
 } from './detailApplyItemPresets';
 
 export const detailFigmaNode = '2170:2963';
@@ -98,7 +99,7 @@ export function createDetailApplyItemShowcaseSectionDefaults(
 ): Record<string, string | boolean> {
   const out: Record<string, string | boolean> = {};
 
-  detailApplyItemPresets.forEach((preset, index) => {
+  detailApplyItemVariants.forEach((preset, index) => {
     const itemIndex = index + 1;
     if (itemIndex > DETAIL_SECTION_MAX_ITEMS) return;
     out[detailSectionItemKey(sectionNum, 'DataSource', itemIndex)] = preset.id;
@@ -161,7 +162,7 @@ export function isDetailItemPresetDataSource(
   const dataSource = String(
     state[detailSectionItemKey(sectionNum, 'DataSource', itemIndex)] ?? 'custom',
   );
-  return isDetailApplyItemPresetDataSource(dataSource);
+  return dataSource !== 'custom' && isDetailApplyItemVariantId(dataSource);
 }
 
 export const detailCustomizeDefaults = {
@@ -180,7 +181,7 @@ export const detailCustomizeDefaults = {
   activeTab: '0',
   section1ShowTitle: true,
   section1Title: 'Section',
-  section1ItemCount: String(detailApplyItemPresets.length),
+  section1ItemCount: String(detailApplyItemVariants.length),
   section1ShowTitleIcon: true,
   section1ShowCollapse: false,
   section1CollapseLabel: 'Connect to EDS',
@@ -573,11 +574,6 @@ export function buildDetailSectionCustomizeControls(
   return controls;
 }
 
-/** @deprecated 使用 buildDetailSectionCustomizeControls(state) */
-export const detailSection1CustomizeControls: DocCustomizeControl[] = [];
-/** @deprecated 使用 buildDetailSectionCustomizeControls(state) */
-export const detailSection2CustomizeControls: DocCustomizeControl[] = [];
-
 export const detailToolbarCustomizeControls: DocCustomizeControl[] = [
   { kind: 'boolean', key: 'showToolbar', label: '显示工具栏' },
   {
@@ -640,9 +636,6 @@ export const detailToolbarCustomizeControls: DocCustomizeControl[] = [
   },
 ];
 
-/** @deprecated 使用分区控件；保留空数组以兼容旧引用 */
-export const detailCustomizeControls: DocCustomizeControl[] = [];
-
 function applyDetailSectionTitleIconVisibility(
   item: DetailSectionData['items'][number],
   sectionNum: 1 | 2,
@@ -682,7 +675,9 @@ function resolveDetailItemFromCustomize(
       return applyDetailSectionTitleIconVisibility(presetItem, sectionNum, state);
     }
 
-    const presetItem = resolveDetailItemFromApplyPreset(itemKey, dataSource);
+    const presetItem = isDetailApplyItemVariantId(dataSource)
+      ? createDetailApplyItemRow(dataSource, { key: itemKey })
+      : undefined;
     if (presetItem) {
       /** Apply_Item 挂件锁死；仅 section 级 Title 图标开关可覆盖 titleIcon 显隐。 */
       return applyDetailSectionTitleIconVisibility(presetItem, sectionNum, state);
@@ -874,7 +869,7 @@ export const detailPropRows: DocPropRow[] = [
   { name: 'activeTab', type: 'number', defaultValue: '0', description: 'v-model:activeTab — Headline Tabs 选中索引。' },
   { name: 'showToolbar', type: 'boolean', defaultValue: 'true', description: '底部工具栏（翻页 + Cancel / Confirm）。' },
   { name: 'toolbarDividerPinned', type: 'boolean', defaultValue: 'false', description: '工具栏顶部分割线常驻；false 时仅在底部仍有内容被裁切时显示。' },
-  { name: 'showToolbarNav', type: 'boolean', defaultValue: 'true', description: '工具栏中部 EgPaginationItem borderArrow 与序号计数。' },
+  { name: 'showToolbarNav', type: 'boolean', defaultValue: 'true', description: '工具栏中部 EgPaginationGroupButton borderArrow 与序号计数。' },
   { name: 'showToolbarNote', type: 'boolean', defaultValue: 'true', description: '工具栏左侧备注按钮（EgButton subtle outline）。' },
   { name: 'toolbarCurrent', type: 'string | number', defaultValue: '12', description: '当前序号（千分位格式化）。' },
   { name: 'toolbarTotal', type: 'string | number', defaultValue: '1000', description: '总条数（千分位格式化）。' },
@@ -898,7 +893,7 @@ export const detailEventRows: DocPropRow[] = [
   { name: 'toolbarNote', type: '[]', defaultValue: '-', description: '工具栏备注按钮。' },
   { name: 'toolbarConfirm', type: '[]', defaultValue: '-', description: '工具栏确认按钮。' },
   { name: 'toolbarCancel', type: '[]', defaultValue: '-', description: '工具栏取消按钮。' },
-  { name: 'itemValueLinkClick', type: '[key: string]', defaultValue: '-', description: 'Item 行尾 EgLink（showValueLink / 多地址 Expand·Orders 链）点击；payload 为 item.key 或 `${sectionIndex}-${itemIndex}`。' },
+  { name: 'itemValueLinkClick', type: '[key: string]', defaultValue: '-', description: 'Item 行尾 EgLinkButton（showValueLink / 多地址 Expand·Orders 链）点击；payload 为 item.key 或 `${sectionIndex}-${itemIndex}`。' },
 ];
 
 export const detailSlotRows: DocPropRow[] = [

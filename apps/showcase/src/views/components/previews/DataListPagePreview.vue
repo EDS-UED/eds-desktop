@@ -6,10 +6,10 @@ import {
   EgDataListCellOverflow,
   EgDataListColumn,
   EgIcon,
-  EgIconButtonPro,
+  EgIconProButton,
   EgLayout,
   EgPaginer,
-  EgPaginationItem,
+  EgPaginationGroupButton,
   EgToolBar,
 } from '@eds/desktop-components';
 import {
@@ -40,6 +40,13 @@ const props = withDefaults(
 
 const customizeRef = toRef(props, 'customize');
 const layoutSkidOpenRef = toRef(props, 'layoutSkidOpen');
+
+const selectMode = computed({
+  get: () => Boolean(props.customize.selectMode),
+  set: (value: boolean) => {
+    props.customize.selectMode = value;
+  },
+});
 
 const {
   DATA_LIST_FIGMA_TOOLBAR,
@@ -114,7 +121,7 @@ const shellClass = computed(() => {
           :show-section="showToolBarSection"
         >
           <template v-if="showBatch" #functional>
-            <EgIconButtonPro
+            <EgIconProButton
               :label="batchButton.label"
               :badge="batchButton.badge"
               :show-badge="batchButton.showBadge"
@@ -123,10 +130,10 @@ const shellClass = computed(() => {
               @click="onBatchClick"
             >
               <EgIcon :name="batchButton.icon" size="sm" />
-            </EgIconButtonPro>
+            </EgIconProButton>
           </template>
           <template v-if="showToolBarSection" #section>
-            <EgIconButtonPro
+            <EgIconProButton
               v-for="button in toolbarActionButtons"
               :key="button.key"
               :label="button.item.label"
@@ -137,10 +144,10 @@ const shellClass = computed(() => {
               @click="onToolbarActionClick(button.key)"
             >
               <EgIcon :name="button.item.icon" size="sm" />
-            </EgIconButtonPro>
+            </EgIconProButton>
           </template>
           <template v-else #functional>
-            <EgIconButtonPro
+            <EgIconProButton
               v-for="button in toolbarActionButtons"
               :key="`functional-${button.key}`"
               :label="button.item.label"
@@ -151,14 +158,14 @@ const shellClass = computed(() => {
               @click="onToolbarActionClick(button.key)"
             >
               <EgIcon :name="button.item.icon" size="sm" />
-            </EgIconButtonPro>
+            </EgIconProButton>
           </template>
         </EgToolBar>
       </template>
 
       <div :class="previewStyles.listRegion">
         <EgDataList
-          v-model:select-mode="customize.selectMode"
+          v-model:select-mode="selectMode"
           :data-list="paginatedDataList"
           :header-height="DATA_LIST_FIGMA_HEADER_HEIGHT"
           :column-height="columnHeight"
@@ -275,24 +282,24 @@ const shellClass = computed(() => {
           :settings-level-labels="[...DATA_LIST_FIGMA_PAGE_SIZE_OPTIONS]"
           @settings-jump="onSettingsJump"
         >
-          <EgPaginationItem
+          <EgPaginationGroupButton
             :kind="firstPagination.kind"
             :tone="firstPagination.tone"
             :disabled="prevNavDisabled || firstPagination.disabled"
             @click="goFirstPage"
           >
             <EgIcon name="eds-arrow-go-first" fit />
-          </EgPaginationItem>
-          <EgPaginationItem
+          </EgPaginationGroupButton>
+          <EgPaginationGroupButton
             :kind="prevPagination.kind"
             :tone="prevPagination.tone"
             :disabled="prevNavDisabled || prevPagination.disabled"
             @click="goPrevPage"
           >
             <EgIcon name="eds-arrow-left-mini-ios" fit />
-          </EgPaginationItem>
+          </EgPaginationGroupButton>
           <template v-if="!isManyPagination">
-            <EgPaginationItem
+            <EgPaginationGroupButton
               :kind="pagePagination.kind"
               :tone="pagePagination.tone"
               selected
@@ -301,7 +308,7 @@ const shellClass = computed(() => {
             />
           </template>
           <template v-else>
-            <EgPaginationItem
+            <EgPaginationGroupButton
               v-for="(item, index) in manyPageItems"
               :key="`${item.kind}-${item.label}-${index}`"
               :kind="pagePagination.kind"
@@ -313,22 +320,22 @@ const shellClass = computed(() => {
               @click="onManyPageItemClick(item)"
             />
           </template>
-          <EgPaginationItem
+          <EgPaginationGroupButton
             :kind="nextPagination.kind"
             :tone="nextPagination.tone"
             :disabled="nextNavDisabled || nextPagination.disabled"
             @click="goNextPage"
           >
             <EgIcon name="eds-arrow-right-mini-ios" fit />
-          </EgPaginationItem>
-          <EgPaginationItem
+          </EgPaginationGroupButton>
+          <EgPaginationGroupButton
             :kind="lastPagination.kind"
             :tone="lastPagination.tone"
             :disabled="nextNavDisabled || lastPagination.disabled"
             @click="goLastPage"
           >
             <EgIcon name="eds-arrow-go-last" fit />
-          </EgPaginationItem>
+          </EgPaginationGroupButton>
         </EgPaginer>
       </template>
     </EgLayout>

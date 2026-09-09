@@ -14,8 +14,8 @@
 
 ```
 TopTool: Remark + Close
-├─ EgComboTextareaItem（hideLabel：标题已在 TopTool）
-│  ├─ EgTextarea：Paste / Clear（DS 内置）
+├─ EgComboTextarea（hideLabel：标题已在 TopTool）
+│  ├─ EgTextarea：Paste / Clear（EDS 内置）
 │  └─ EgFormSubmission type="notes"：Optional, Max. 256 characters
 └─ EgButton decor solid md：Confirm（可 hideConfirm）
 ```
@@ -60,7 +60,7 @@ TopTool: Remark + Close
 - 方向：`placement="top"`（箭头朝下，锚于 BatchBar / 按钮上方）
 - `hideLabel: true`：TopTool 已展示标题，Combo 内 label 隐藏
 - `resetOnMount` / `autofocus`：打开后清空并聚焦 textarea
-- 文案 props 由业务 i18n 传入；DS 仅提供英文 fallback
+- 文案 props 由业务 i18n 传入；EDS 仅提供英文 fallback
 
 ## Showcase
 

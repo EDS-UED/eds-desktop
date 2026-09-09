@@ -1,5 +1,5 @@
 {
-  "$description": "Motion Recipe — duration role + easing + property 组合。DS glue 用 `--motion-recipe-*`；业务用 semantic 场景 class。引用：@eds/desktop-tokens/motion/recipe（需先引 base）",
+  "$description": "Motion Recipe — duration role + easing + property 组合。EDS glue 用 `--motion-recipe-*`；业务用 semantic 场景 class。引用：@eds/desktop-tokens/motion/recipe（需先引 base）",
   "groups": [
     {
       "comment": "Duration Roles（物理时长角色 → eds-motion-N）",
@@ -40,7 +40,7 @@
       ]
     },
     {
-      "comment": "Property Bundles（属性束 — DS glue 拼装用）",
+      "comment": "Property Bundles（属性束 — EDS glue 拼装用）",
       "tokenList": [
         {
           "name": "motion-property-paint",
@@ -129,7 +129,7 @@
       ]
     },
     {
-      "comment": "DS Internal — shift 方向位移（AnchoredTooltip glue）",
+      "comment": "EDS Internal — shift 方向位移（AnchoredTooltip glue）",
       "tokenList": [
         { "name": "motion-displace-from-bottom", "value": "translateY(var(--motion-offset-small))" },
         { "name": "motion-displace-from-top", "value": "translateY(calc(-1 * var(--motion-offset-small)))" },

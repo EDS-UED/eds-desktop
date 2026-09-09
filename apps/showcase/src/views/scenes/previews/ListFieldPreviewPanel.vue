@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import '@/styles/text-style-preview.css';
 import {
-  EgAnchoredTooltip,
+  EgTooltip,
   EgCrypto,
   EgCryptoAddress,
   EgCryptoCombo,

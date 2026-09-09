@@ -78,9 +78,9 @@ export const ORGANISM_IMPORT = `import {
   EgModuleMenuSection,
   EgModuleMenuSectionTitle,
   EgToolBar,
-  EgIconButtonPro,
+  EgIconProButton,
   EgPaginer,
-  EgPaginationItem,
+  EgPaginationGroupButton,
   EgDataList,
   EgDataListColumn,
   EgDialog,
@@ -91,12 +91,11 @@ export const ORGANISM_IMPORT = `import {
   EgContainer,
   EgLayout,
   EgPopup,
-  EgPopupDetail,
   EgDetail,
   EgSkid,
   EgIcon,
   EgAvatar,
-  EgComboActionPopupWindow,
+  EgComboPopupButton,
 } from '@eds/desktop-components';`;
 
 export type OrganismPropRow = DocPropRow;
@@ -509,7 +508,7 @@ function isModuleMenuTitlePresetKind(state: Record<string, unknown>): boolean {
 
 export { isModuleMenuTitleTextKind, isModuleMenuTitlePresetKind };
 
-export function isModuleMenuDsScenario(state: Record<string, unknown>): boolean {
+export function isModuleMenuEdsScenario(state: Record<string, unknown>): boolean {
   return String(state.scenario ?? 'module-menu') === 'module-menu';
 }
 
@@ -560,11 +559,6 @@ export function moduleMenuGroupItemCountKey(index: number): string {
 
 export function moduleMenuGroupItemHasSubKey(groupIndex: number, itemIndex: number): string {
   return `groupItemHasSub_${groupIndex}_${itemIndex}`;
-}
-
-/** @deprecated 使用 groupItemHasSub（yes → tier 2） */
-export function moduleMenuGroupItemTierKey(groupIndex: number, itemIndex: number): string {
-  return `groupItemTier_${groupIndex}_${itemIndex}`;
 }
 
 export function moduleMenuGroupItemLabelKey(groupIndex: number, itemIndex: number): string {
@@ -692,7 +686,7 @@ export const moduleMenuCustomizeControls: DocCustomizeControl[] = [
     key: 'groupCount',
     label: '组数量',
     options: moduleMenuGroupCountOptions,
-    visibleWhen: isModuleMenuDsScenario,
+    visibleWhen: isModuleMenuEdsScenario,
   },
   { kind: 'boolean', key: 'showEdgeDivider', label: '右侧分割线' },
   { kind: 'boolean', key: 'wide', label: 'NavBar展开' },
@@ -1094,7 +1088,7 @@ export const toolBarPropRows: OrganismPropRow[] = [
 
 export const toolBarSlotRows: OrganismPropRow[] = [
   { name: 'title', type: 'slot', defaultValue: '-', description: '标题区。' },
-  { name: 'functional', type: 'slot', defaultValue: 'EgIconButtonPro', description: 'showSection 时左区功能图标组。' },
+  { name: 'functional', type: 'slot', defaultValue: 'EgIconProButton', description: 'showSection 时左区功能图标组。' },
   { name: 'section', type: 'slot', defaultValue: '-', description: '右区功能图标组；showSection 时在分割线右侧。' },
   { name: 'operation', type: 'slot', defaultValue: '-', description: 'Operation 区额外操作。' },
 ];
@@ -1256,7 +1250,7 @@ export const paginerSlotRows: OrganismPropRow[] = [
   {
     name: 'default',
     type: 'slot',
-    defaultValue: 'EgPaginationItem×5',
+    defaultValue: 'EgPaginationGroupButton×5',
     description: 'Pagination Raw：首/前/页码/后/末（Showcase「数据量/页码」为演示状态，非组件 prop）。',
   },
   {
@@ -1786,9 +1780,6 @@ export const popupDialogTypeCustomizeControl: DocCustomizeControl = {
   visibleWhen: (state) => state.uses === 'dialog',
 };
 
-/** @deprecated Use popupDialogTypeCustomizeControl */
-export const popupReminderTypeCustomizeControl = popupDialogTypeCustomizeControl;
-
 export type PopupSceneUses = 'detail' | 'dialog' | 'verify';
 
 export type PopupCustomizeUses = 'custom' | PopupSceneUses;
@@ -1921,13 +1912,13 @@ export const skidPropRows: OrganismPropRow[] = [
     name: 'actionTone',
     type: "'brand' | 'decor' | 'danger'",
     defaultValue: "'decor'",
-    description: 'showButton 时默认 EgComboActionSkid tone。',
+    description: 'showButton 时默认 EgComboButton tone。',
   },
   {
     name: 'confirmLabel',
     type: 'string',
     defaultValue: "'Confirm'",
-    description: 'showButton 时默认 EgComboActionSkid 确认文案。',
+    description: 'showButton 时默认 EgComboButton 确认文案。',
   },
 ];
 
@@ -1936,8 +1927,8 @@ export const skidSlotRows: OrganismPropRow[] = [
   {
     name: 'action',
     type: 'slot',
-    defaultValue: 'EgComboActionSkid',
-    description: '底部 Action；默认 EgComboActionSkid。',
+    defaultValue: 'EgComboButton',
+    description: '底部 Action；默认 EgComboButton。',
   },
 ];
 
@@ -1955,7 +1946,7 @@ export function buildSkidUsageSnippet(state: Record<string, unknown>): string {
 
   if (state.showButton) {
     const comboSnippet = buildVueSelfClosingSnippet(
-      'EgComboActionSkid',
+      'EgComboButton',
       { tone: state.tone, confirmLabel: state.confirmLabel },
       { defaults: { tone: skidCustomizeDefaults.tone, confirmLabel: skidCustomizeDefaults.confirmLabel } },
     );
@@ -2056,7 +2047,7 @@ const dataListToolbarButtonOptions = [
   { value: 'export', label: '导出' },
 ];
 
-/** ToolBar 区批处理 / 筛选 / 刷新 / 导出共用一个 EgIconButtonPro 嵌套面板。 */
+/** ToolBar 区批处理 / 筛选 / 刷新 / 导出共用一个 EgIconProButton 嵌套面板。 */
 export const dataListToolbarCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',

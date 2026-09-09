@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue';
-import { EgDetail, EgPopup, EgTooltip } from '@eds/desktop-components';
+import { computed, ref, watch } from 'vue';
+import { EgDetail, EgPopup, EgTooltipPanel } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
+import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import styles from './InputPreview.module.css';
 import organismStyles from './OrganismPreview.module.css';
@@ -31,7 +32,7 @@ import {
 const DETAIL_PANEL_WIDTH = 880;
 const DETAIL_PANEL_HEIGHT = 620;
 
-const customize = reactive({ ...detailCustomizeDefaults });
+const customize = createDocCustomizeState<typeof detailCustomizeDefaults>(detailCustomizeDefaults);
 
 const detailSections = computed(() => buildDetailSectionsFromCustomize(customize));
 const detailTabLabels = computed(() => resolveDetailTabLabels(customize));
@@ -158,7 +159,7 @@ function closeOrdersPopup() {
     >
       <template #preview>
         <div class="desktopTokens" :class="organismStyles.previewOrganismPopupBoxHost">
-          <EgTooltip
+          <EgTooltipPanel
             panel-kind="popup"
             panel-radius="radius-lg"
             width-mode="fixed"
@@ -199,7 +200,7 @@ function closeOrdersPopup() {
               @toolbar-next="onToolbarNext"
               @item-value-link-click="onItemValueLinkClick"
             />
-          </EgTooltip>
+          </EgTooltipPanel>
 
           <EgPopup
             v-model:open="ordersPopupOpen"
@@ -265,7 +266,7 @@ function closeOrdersPopup() {
           />
           <CustomizePanel
             v-model="customize"
-            title="EgComboActionPage"
+            title="EgComboPageButton"
             nested
             embedded
             :controls="detailToolbarCustomizeControls"

@@ -17,11 +17,3 @@ export const DIALOG_PANEL_WIDTH_PX: Record<DialogType, number> = {
 export function resolveDialogPanelWidthPx(type: DialogTypeInput): number {
   return DIALOG_PANEL_WIDTH_PX[normalizeDialogType(type)];
 }
-
-/** @deprecated Use DIALOG_PANEL_WIDTH_PX */
-export const REMINDER_PANEL_WIDTH_PX = DIALOG_PANEL_WIDTH_PX;
-
-/** @deprecated Use resolveDialogPanelWidthPx */
-export function resolveReminderPanelWidthPx(type: DialogTypeInput): number {
-  return resolveDialogPanelWidthPx(type);
-}

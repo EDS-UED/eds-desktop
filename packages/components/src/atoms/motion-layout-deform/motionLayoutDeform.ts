@@ -34,7 +34,7 @@ function resolveDirection<T extends string>(
 
 export function useMotionLayoutDeformPageSwitch<T extends string>(
   pages: Record<T, MotionLayoutDeformPageSpec>,
-  initial: T,
+  initial: NoInfer<T>,
   swapMs: number = MOTION_LAYOUT_DEFORM_CONTENT_SWAP_MS,
 ): {
   activePage: Ref<T>;

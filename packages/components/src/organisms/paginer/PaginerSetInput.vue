@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { EgIcon } from '../../atoms/icons';
-import { EgPaginationItem } from '../../molecules/pagination-item';
+import { EgPaginationGroupButton } from '../../molecules/pagination-item';
 import styles from './Paginer.module.css';
 
 const props = withDefaults(
@@ -76,7 +76,7 @@ function onSubmit(event: MouseEvent) {
       @blur="onBlur"
     />
     <div :class="styles.setInputSubmitSlot" :aria-hidden="!showSubmit">
-      <EgPaginationItem
+      <EgPaginationGroupButton
         kind="button"
         tone="decor"
         :class="!showSubmit && styles.setInputSubmitHidden"
@@ -86,7 +86,7 @@ function onSubmit(event: MouseEvent) {
         @click="onSubmit"
       >
         <EgIcon name="eds-arrow-right" fit />
-      </EgPaginationItem>
+      </EgPaginationGroupButton>
     </div>
   </div>
 </template>

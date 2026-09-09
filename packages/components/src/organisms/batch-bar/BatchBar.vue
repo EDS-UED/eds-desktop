@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { EgDivider } from '../../atoms/divider';
-import { EgTooltip } from '../../molecules/tooltip';
+import { EgTooltipPanel } from '../../molecules/tooltip';
 import { EgFlotation, EgFlotationMenu, EgFlotationMenuItem } from '../../molecules/flotation';
 import type { TooltipAlign, TooltipPlacement } from '../../molecules/tooltip';
 import type { PopoverWidthMode } from '../../molecules/popovers';
@@ -13,8 +13,6 @@ const props = withDefaults(
   defineProps<{
     selectedCount?: string | number;
     countSuffix?: string;
-    /** @deprecated 使用 labels */
-    actionLabel?: string;
     /** Text 操作项，1–20 项。 */
     labels?: string[];
     /** 与 labels 等长；为 true 时该项 Text 使用 --text-danger-primary。 */
@@ -48,7 +46,6 @@ const props = withDefaults(
   {
     selectedCount: '0',
     countSuffix: 'Selectd',
-    actionLabel: 'Label',
     labels: undefined,
     labelDanger: undefined,
     moreLabel: 'More',
@@ -71,7 +68,7 @@ const resolvedLabels = computed(() => {
   if (props.labels?.length) {
     return props.labels.slice(0, 20).map((label) => String(label));
   }
-  return [String(props.actionLabel ?? 'Label')];
+  return ['Label'];
 });
 
 const selectedCountNumber = computed(() => {
@@ -151,7 +148,7 @@ function onDismiss() {
 
 <template>
   <div class="eds-batch-bar" :class="styles.root">
-    <EgTooltip
+    <EgTooltipPanel
       class="eds-batch-bar-glass"
       :class="styles.glassShell"
       panel-kind="flotation"
@@ -273,6 +270,6 @@ function onDismiss() {
           </EgFlotation>
         </template>
       </template>
-    </EgTooltip>
+    </EgTooltipPanel>
   </div>
 </template>

@@ -14,6 +14,21 @@ import {
   DEFAULT_UDUN_MODULE_MENU_BUSINESS_TITLE,
 } from '@/presets/module-menu/businessModuleTitles';
 import type { ModuleMenuScenario } from './organismTemplateDocData';
+
+export const MODULE_MENU_SCENE_COMPONENT_TAG: Record<ModuleMenuScenario, string> = {
+  'module-menu': 'EgModuleMenu',
+  cregis: 'EgCregisModuleMenu',
+  udun: 'EgUdunModuleMenu',
+};
+
+export function resolveModuleMenuSceneComponentTag(scenario: ModuleMenuScenario): string {
+  return MODULE_MENU_SCENE_COMPONENT_TAG[scenario] ?? 'EgModuleMenu';
+}
+
+export function resolveModuleMenuSceneImportCode(scenario: ModuleMenuScenario): string {
+  const tag = resolveModuleMenuSceneComponentTag(scenario);
+  return `import { ${tag} } from '@eds/desktop-components';`;
+}
 import {
   buildModuleMenuCustomizeDefaults,
   isModuleMenuTitlePresetKind,
@@ -297,14 +312,6 @@ export function buildModuleMenuFlotationTitleBusinessUsageSnippet(
   ]
     .filter((line) => line !== '')
     .join('\n');
-}
-
-/** @deprecated 使用 buildModuleMenuFlotationTitleBusinessUsageSnippet */
-export function buildModuleMenuWaasUsageSnippet(): string {
-  return buildModuleMenuFlotationTitleBusinessUsageSnippet({
-    scenario: 'cregis',
-    moduleBusinessTitle: 'WaaS',
-  });
 }
 
 /** Module Menu #title 浮层：Menu/Box 演示 customize（与 Combo 页默认项独立，见 moduleMenuTitleFlotationDemoState）。 */

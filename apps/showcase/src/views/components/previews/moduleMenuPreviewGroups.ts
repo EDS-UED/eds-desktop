@@ -3,7 +3,7 @@ import { showcaseDefaultIconName } from '@/views/shared/showcaseIcons';
 import {
   MODULE_MENU_MAX_GROUPS,
   MODULE_MENU_MAX_SUB_ITEMS,
-  isModuleMenuDsScenario,
+  isModuleMenuEdsScenario,
   moduleMenuGroupItemAccessoryKey,
   moduleMenuGroupItemCountKey,
   moduleMenuGroupItemHasSubKey,

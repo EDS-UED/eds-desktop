@@ -22,7 +22,7 @@
   cursor: not-allowed;
 }
 
-/* Visual-only when nested in EgIconButtonPro (as=span); parent drives hover/focus/active. */
+/* Visual-only when nested in EgIconProButton (as=span); parent drives hover/focus/active. */
 .decor {
   pointer-events: none;
   cursor: inherit;

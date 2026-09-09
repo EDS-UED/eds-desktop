@@ -9,7 +9,7 @@ Detail 内容区的标准行必须映射到 **Apply_Item 变体**。变体定义
 | 角色 | 允许 | 禁止 |
 |------|------|------|
 | **业务** | 选择变体 id；传入接口展示字段（`value`、`tag` 文案等） | 关闭/删除/替换挂件；手拼 `showValueCopy: false` 等「简化 UI」 |
-| **DS** | 维护变体 catalog 与 `EgDetail` 渲染 | 为单业务开 escape hatch（extra class、widget props） |
+| **EDS** | 维护变体 catalog 与 `EgDetail` 渲染 | 为单业务开 escape hatch（extra class、widget props） |
 | **Showcase** | 文档演示；预设行仅切换「数据来源」 | 在 preset 路径 merge customize 挂件字段 |
 
 非 catalog 行（完全自定义布局）仅用于 **例外**；须 PR 说明且不得作为常规列表详情实现。
@@ -99,4 +99,4 @@ createDetailApplyItemRow('sender', { value: addr, tag: name })
 ## 相关
 
 - 组件：`EgDetail` · `DetailItemData`  
-- 项目约定：`.cursor/rules/eds-project.mdc` §7 EgDetail · Apply_Item
+- 项目约定：`.cursor/rules/work.mdc` §7 EgDetail · Apply_Item

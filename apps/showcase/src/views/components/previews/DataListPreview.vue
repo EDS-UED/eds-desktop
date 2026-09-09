@@ -104,7 +104,7 @@ const eventRows = [
             embedded
             sequential
             :row-columns="iconButtonProNestedRowColumns"
-            title="EgIconButtonPro"
+            title="EgIconProButton"
             :controls="dataListToolbarCustomizeControls"
           />
           <CustomizePanel
@@ -122,7 +122,7 @@ const eventRows = [
             embedded
             sequential
             :row-columns="paginerPaginationNestedRowColumns"
-            title="EgPaginationItem"
+            title="EgPaginationGroupButton"
             :controls="dataListPaginationCustomizeControls"
           />
           <CustomizePanel

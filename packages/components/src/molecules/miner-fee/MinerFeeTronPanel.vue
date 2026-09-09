@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { EgComboActionPopupWindow } from '../combo';
+import { EgComboPopupButton } from '../combo';
 import { EgDivider } from '../../atoms/divider';
 import { EgFormSubmission } from '../feedback';
 import { EgIcon } from '../../atoms/icons';
 import { EgIconButton } from '../icon-button';
 import { EgTag } from '../tag';
-import { EgAnchoredTooltip } from '../tooltip';
+import { EgTooltip } from '../tooltip';
 import {
   FLOTATION_OVERFLOW_CLOSE_DELAY,
   FLOTATION_OVERFLOW_OPEN_DELAY,
@@ -107,7 +107,7 @@ defineExpose({
               <p :class="styles.minerFeeTronSectionTitle">
                 {{ ui('Miner fee tron resources title') }}
               </p>
-              <EgAnchoredTooltip
+              <EgTooltip
                 :class="styles.minerFeeTronResourcesInfoTooltipRoot"
                 panel-kind="flotation"
                 trigger="hover"
@@ -171,7 +171,7 @@ defineExpose({
                     </div>
                   </div>
                 </template>
-              </EgAnchoredTooltip>
+              </EgTooltip>
             </div>
             <p :class="styles.minerFeeTronResourcesSummaryBody">
               {{ requiredResourcesSummaryLine }}
@@ -255,7 +255,7 @@ defineExpose({
       v-if="!hideInlineConfirm"
       :class="[styles.minerFeeFooter, styles.minerFeeFooterTron]"
     >
-      <EgComboActionPopupWindow
+      <EgComboPopupButton
         tone="decor"
         :count="1"
         :confirm-label="ui('Confirm')"

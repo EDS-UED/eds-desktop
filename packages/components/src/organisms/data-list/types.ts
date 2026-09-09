@@ -10,7 +10,7 @@ export type DataListBatchAction = {
   key: string;
   label: string;
   danger?: boolean;
-  /** true 时点击打开 Popover（EgAnchoredTooltip + EgPopover），确认后再触发 batch-action。 */
+  /** true 时点击打开 Popover（EgTooltip + EgPopover），确认后再触发 batch-action。 */
   popover?: boolean;
   /** Popover 顶部工具条标题；省略时使用 DataList 的 batchPopoverTopToolTitle。 */
   popoverTitle?: string;

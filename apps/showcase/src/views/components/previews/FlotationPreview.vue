@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, watch } from 'vue';
-import { EgFlotation, EgFlotationMenu, EgFlotationTrigger } from '@eds/desktop-components';
+import { computed, onMounted, watch } from 'vue';
+import {
+  EgFlotation,
+  EgFlotationMenu,
+  EgFlotationTrigger,
+  type FlotationWidthMode,
+  type TooltipAlign,
+  type TooltipHeightMode,
+  type TooltipPlacement,
+} from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
+import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import styles from './InputPreview.module.css';
@@ -41,24 +50,9 @@ import {
   sceneAddressStateKey,
 } from './flotationBoxSceneAddressCustomize';
 
-const customize = reactive({
-  ...flotationCustomizeDefaults,
-  triggerKind: flotationCustomizeDefaults.triggerKind as 'standard-dropdown' | 'module-menu',
-  boxKind: flotationCustomizeDefaults.boxKind,
-  placement: flotationCustomizeDefaults.placement as 'top' | 'bottom' | 'left' | 'right',
-  triggerStyle: flotationCustomizeDefaults.triggerStyle as 'subtle' | 'outline' | 'text',
-  triggerSize: flotationCustomizeDefaults.triggerSize as 'lg' | 'md' | 'sm' | 'xs',
-  widthMode: flotationCustomizeDefaults.widthMode as 'trigger' | 'adaptive' | 'fixed',
-  heightMode: flotationCustomizeDefaults.heightMode as 'adaptive' | 'fixed',
-  align: flotationCustomizeDefaults.align as 'start' | 'end' | 'center',
-  tagStatus: flotationCustomizeDefaults.tagStatus as
-    | 'danger'
-    | 'warning'
-    | 'success'
-    | 'ready'
-    | 'invalid',
-  messageType: flotationCustomizeDefaults.messageType as 'subtle' | 'brand' | 'danger',
-});
+const customize = createDocCustomizeState<typeof flotationCustomizeDefaults>(
+  flotationCustomizeDefaults,
+);
 
 watch(
   () => customize.triggerKind,
@@ -240,14 +234,14 @@ onMounted(() => {
           :class="[previewHostClass, docStyles.previewEffectPanelHost]"
         >
           <EgFlotation
-            :placement="customize.placement"
+            :placement="customize.placement as TooltipPlacement"
             :offset="panelOffset"
             :cross-axis-offset="panelCrossAxisOffset"
             :disabled="Boolean(customize.disabled)"
-            :width-mode="customize.widthMode"
+            :width-mode="customize.widthMode as FlotationWidthMode"
             :width="panelWidth"
-            :align="customize.align"
-            :height-mode="customize.heightMode"
+            :align="customize.align as TooltipAlign"
+            :height-mode="customize.heightMode as TooltipHeightMode"
             :height="panelHeight"
             :max-height="panelMaxHeight"
           >

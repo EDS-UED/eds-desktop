@@ -9,7 +9,7 @@ export type PropLabelRow<K extends string = string> = {
   label: string;
 };
 
-export type SelectOption = { value: string; label: string };
+export type SelectOption<Value extends string = string> = { value: Value; label: string };
 
 /** §4.2 — 「中文 + 英文 token」 */
 export function tokenLabel(zh: string, token: string): string {
@@ -27,17 +27,7 @@ export function tokenOption(zh: string, value: string): SelectOption {
   return { value, label: tokenLabel(zh, value) };
 }
 
-/** @deprecated 使用 tokenOption */
-export function literalOption(value: string): SelectOption {
-  return { value, label: value };
-}
-
-/** @deprecated 使用 tokenOptions 或 propLabelRows */
-export function literalOptions(values: readonly string[]): SelectOption[] {
-  return values.map(literalOption);
-}
-
-/** @deprecated 使用 tokenOption */
+/** 非枚举取值（如数量 / 自定义业务词）：直接给中文标签。 */
 export function chineseOption(value: string, label: string): SelectOption {
   return { value, label };
 }
@@ -352,12 +342,7 @@ export const showcaseDialogTypeLabels = {
   symbol: tokenLabel('带符号的对话', 'symbol'),
   compose: tokenLabel('业务对话', 'compose'),
   standard: tokenLabel('标准', 'standard'),
-  /** @deprecated Use compose */
-  slot: tokenLabel('业务对话', 'compose'),
 } as const;
-
-/** @deprecated Use showcaseDialogTypeLabels */
-export const showcaseReminderTypeLabels = showcaseDialogTypeLabels;
 
 export const showcasePaginerDataVolumeLabels = {
   few: tokenLabel('少量', 'few'),
@@ -555,7 +540,7 @@ export function propLabelRows<K extends string>(
 export function propLabelSelectOptions<K extends string>(
   keys: readonly K[],
   labels: Record<K, string>,
-): SelectOption[] {
+): SelectOption<K>[] {
   return propLabelRows(keys, labels).map((row) => ({ value: row.key, label: row.label }));
 }
 

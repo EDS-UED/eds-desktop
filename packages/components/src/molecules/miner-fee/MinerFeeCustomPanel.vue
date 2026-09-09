@@ -3,7 +3,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
   EgButton,
 } from '../button';
-import { EgComboInputItem } from '../combo';
+import { EgComboInput } from '../combo';
 import { EgIcon } from '../../atoms/icons';
 import { EgIconButton } from '../icon-button';
 import { EgInput } from '../input';
@@ -171,7 +171,7 @@ defineExpose({
 
       <div :class="styles.fields">
         <template v-if="isBtcShell">
-          <EgComboInputItem :label="ui('Fee Rate')">
+          <EgComboInput :label="ui('Fee Rate')">
             <EgInput
               v-model="form.feeRate"
               width-mode="full"
@@ -179,11 +179,11 @@ defineExpose({
               unit="sats/vB"
               :clearable="false"
             />
-          </EgComboInputItem>
+          </EgComboInput>
         </template>
 
         <template v-else-if="isAdvancedMode">
-          <EgComboInputItem :label="ui('Max Fee')">
+          <EgComboInput :label="ui('Max Fee')">
             <EgInput
               v-model="form.maxFee"
               width-mode="full"
@@ -191,9 +191,9 @@ defineExpose({
               unit="GWEI"
               :clearable="false"
             />
-          </EgComboInputItem>
+          </EgComboInput>
 
-          <EgComboInputItem :label="ui('Max Priority Fee')">
+          <EgComboInput :label="ui('Max Priority Fee')">
             <EgInput
               v-model="form.maxPriorityFee"
               width-mode="full"
@@ -201,9 +201,9 @@ defineExpose({
               unit="GWEI"
               :clearable="false"
             />
-          </EgComboInputItem>
+          </EgComboInput>
 
-          <EgComboInputItem :label="ui('Gas Limit')">
+          <EgComboInput :label="ui('Gas Limit')">
             <EgInput
               v-model="form.gasLimit"
               width-mode="full"
@@ -211,11 +211,11 @@ defineExpose({
               unit="GAS"
               :clearable="false"
             />
-          </EgComboInputItem>
+          </EgComboInput>
         </template>
 
         <template v-else>
-          <EgComboInputItem :label="ui('Gas Price')">
+          <EgComboInput :label="ui('Gas Price')">
             <EgInput
               v-model="form.gasPrice"
               width-mode="full"
@@ -223,9 +223,9 @@ defineExpose({
               unit="GWEI"
               :clearable="false"
             />
-          </EgComboInputItem>
+          </EgComboInput>
 
-          <EgComboInputItem :label="ui('Gas Limit')">
+          <EgComboInput :label="ui('Gas Limit')">
             <EgInput
               v-model="form.gasLimit"
               width-mode="full"
@@ -233,7 +233,7 @@ defineExpose({
               unit="GAS"
               :clearable="false"
             />
-          </EgComboInputItem>
+          </EgComboInput>
         </template>
       </div>
 

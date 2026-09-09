@@ -2,15 +2,22 @@ import {
   CATALOG_NAV_ROLE_GROUP_LABELS,
   resolveCatalogChildNavRole,
 } from './catalogNavRole';
-import type { AnchorItem, CatalogChildItem, CatalogItem, CatalogSection } from './types';
+import type { AnchorDepth, AnchorItem, CatalogChildItem, CatalogItem, CatalogSection } from './types';
 import { catalogSectionId } from './catalogSectionId';
 
 export type CatalogChildPageSlugResolver = (child: CatalogChildItem) => string;
 
+const MAX_ANCHOR_DEPTH: AnchorDepth = 5;
+
+/** 侧栏缩进最深 5 层，超出的子层级并入最深层。 */
+function nextAnchorDepth(depth: AnchorDepth, step: 1 | 2): AnchorDepth {
+  return Math.min(depth + step, MAX_ANCHOR_DEPTH) as AnchorDepth;
+}
+
 function appendFamilyChildren(
   items: AnchorItem[],
   family: CatalogItem,
-  familyDepth: number,
+  familyDepth: AnchorDepth,
   resolveChildPageSlug?: CatalogChildPageSlugResolver,
 ) {
   let activeNavGroup: ReturnType<typeof resolveCatalogChildNavRole> | null = null;
@@ -21,7 +28,7 @@ function appendFamilyChildren(
       items.push({
         id: `${family.slug}:${child.id}`,
         label: child.label,
-        depth: familyDepth + 1,
+        depth: nextAnchorDepth(familyDepth, 1),
         kind: 'navSubgroup',
       });
       continue;
@@ -32,7 +39,7 @@ function appendFamilyChildren(
       items.push({
         id: `${family.slug}:${child.id}`,
         label: child.label,
-        depth: familyDepth + 1,
+        depth: nextAnchorDepth(familyDepth, 1),
         kind: 'navSection',
       });
       continue;
@@ -46,7 +53,7 @@ function appendFamilyChildren(
       items.push({
         id: `${family.slug}:nav-group:${navRole}:${child.id}`,
         label: CATALOG_NAV_ROLE_GROUP_LABELS[navRole],
-        depth: familyDepth + 1,
+        depth: nextAnchorDepth(familyDepth, 1),
         kind: 'navGroup',
       });
       activeNavGroup = navRole;
@@ -54,7 +61,7 @@ function appendFamilyChildren(
 
     if (!child.standalonePage) continue;
 
-    const linkDepth = child.navParent ? familyDepth + 2 : familyDepth + 1;
+    const linkDepth = nextAnchorDepth(familyDepth, child.navParent ? 2 : 1);
 
     items.push({
       id: `${family.slug}:${child.id}`,
@@ -73,7 +80,7 @@ function appendFamilyChildren(
 function appendFamilies(
   items: AnchorItem[],
   families: CatalogItem[],
-  familyDepth: number,
+  familyDepth: AnchorDepth,
   resolveChildPageSlug?: CatalogChildPageSlugResolver,
 ) {
   for (const family of families) {

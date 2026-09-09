@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
 import {
-  EgComboActionFlotation,
-  EgComboActionPage,
-  EgComboActionPopupWindow,
-  EgComboActionSkid,
+  EgComboFloatButton,
+  EgComboPageButton,
+  EgComboPopupButton,
+  EgComboButton,
 } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
@@ -79,14 +79,14 @@ const comboToneBrandDecor = computed(() =>
     >
       <template #preview>
         <div class="desktopTokens" :class="previewHostClass">
-          <EgComboActionSkid
+          <EgComboButton
             v-if="comboKind === 'skid'"
             :tone="customize.tone as 'brand' | 'decor' | 'danger'"
             :variant="customize.variant as 'solid' | 'outline' | 'text'"
             :divider="Boolean(customize.divider)"
             :confirm-label="String(customize.confirmLabel)"
           />
-          <EgComboActionPopupWindow
+          <EgComboPopupButton
             v-else-if="comboKind === 'popup-window'"
             :tone="comboToneBrandDecor"
             :variant="customize.variant as 'solid' | 'outline' | 'text'"
@@ -94,7 +94,7 @@ const comboToneBrandDecor = computed(() =>
             :confirm-label="String(customize.confirmLabel)"
             :cancel-label="String(customize.cancelLabel)"
           />
-          <EgComboActionFlotation
+          <EgComboFloatButton
             v-else-if="comboKind === 'flotation'"
             :tone="comboToneBrandDecor"
             :variant="customize.variant as 'solid' | 'outline' | 'text'"
@@ -103,7 +103,7 @@ const comboToneBrandDecor = computed(() =>
             :confirm-label="String(customize.confirmLabel)"
             :cancel-label="String(customize.cancelLabel)"
           />
-          <EgComboActionPage
+          <EgComboPageButton
             v-else
             :tone="comboToneBrandDecor"
             :variant="customize.variant as 'solid' | 'outline' | 'text'"

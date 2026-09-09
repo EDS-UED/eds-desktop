@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, watch } from 'vue';
-import { EgFlotationMenu } from '@eds/desktop-components';
+import { computed, onMounted, watch } from 'vue';
+import {
+  EgAddressDropdownMenu,
+  EgAddressHoverMenu,
+  EgCascadeMenu,
+  EgFlotationMenu,
+} from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
+import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import styles from './InputPreview.module.css';
 import {
@@ -19,6 +25,8 @@ import {
   parseFlotationBoxSelectionMode,
   flotationBoxItemKey,
   flotationDefaultCryptoAsset,
+  resolveFlotationBoxSceneComponentTag,
+  resolveFlotationBoxSceneImportCode,
   type FlotationBoxKind,
 } from './flotationDocCustomize';
 import { applyFlotationBoxSceneAddressPreset } from './flotationBoxSceneAddressCustomize';
@@ -39,10 +47,10 @@ const props = defineProps<{
   pageTitle?: string;
 }>();
 
-const customize = reactive({
-  ...flotationBoxPageCustomizeDefaults,
-  boxKind: (props.initialBoxKind ?? flotationBoxPageCustomizeDefaults.boxKind) as FlotationBoxKind,
-});
+const customize = createDocCustomizeState<typeof flotationBoxPageCustomizeDefaults>(
+  flotationBoxPageCustomizeDefaults,
+  props.initialBoxKind ? { boxKind: props.initialBoxKind } : undefined,
+);
 
 watch(
   () => customize.itemCount,
@@ -148,6 +156,26 @@ const menuShell = useFlotationBoxMenuShellProps(customize);
 
 const pageTitle = computed(() => props.pageTitle ?? 'Box');
 
+const docComponentTag = computed(() =>
+  resolveFlotationBoxSceneComponentTag(customize.boxKind as FlotationBoxKind),
+);
+const docImportCode = computed(() =>
+  resolveFlotationBoxSceneImportCode(customize.boxKind as FlotationBoxKind),
+);
+
+const previewMenuComponent = computed(() => {
+  switch (customize.boxKind) {
+    case 'standard-cascade-menu':
+      return EgCascadeMenu;
+    case 'scene-address-dropdown':
+      return EgAddressDropdownMenu;
+    case 'scene-address-hover':
+      return EgAddressHoverMenu;
+    default:
+      return EgFlotationMenu;
+  }
+});
+
 onMounted(() => {
   if (
     customize.boxKind === 'standard-cascade-menu' &&
@@ -169,8 +197,8 @@ onMounted(() => {
       anchor-id="flotation-box"
       :title="pageTitle"
       :show-doc-title="false"
-      component-tag="EgFlotationMenu"
-      :import-code="flotationBoxImportCode"
+      :component-tag="docComponentTag"
+      :import-code="docImportCode"
       :customize-controls="boxPanelControls"
       :customize-sequential="true"
       :customize-row-columns="5"
@@ -185,7 +213,8 @@ onMounted(() => {
           class="desktopTokens"
           :class="[docStyles.subPreviewWidth, docStyles.previewEffectPanelHost]"
         >
-          <EgFlotationMenu
+          <component
+            :is="previewMenuComponent"
             :class="menuShell.menuClass"
             :width-mode="menuShell.widthMode"
             :width="menuShell.width"
@@ -202,7 +231,7 @@ onMounted(() => {
               :show-filter-tabs="isSceneAddressDropdown"
             />
             <FlotationBoxStandardPreview v-else v-model:customize="customize" />
-          </EgFlotationMenu>
+          </component>
         </div>
       </template>
     </ComponentDocLayout>

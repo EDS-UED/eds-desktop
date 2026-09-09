@@ -2,10 +2,10 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { EgIcon, type IconName } from '../../atoms/icons';
 import { EgButton } from '../../molecules/button';
-import { EgComboActionPopupWindow, type ComboActionPopupTone } from '../../molecules/combo';
+import { EgComboPopupButton, type ComboActionPopupTone } from '../../molecules/combo';
 import { EgInput } from '../../molecules/input';
 import { EgFormSubmission } from '../../molecules/feedback';
-import { EgLink } from '../../molecules/link';
+import { EgLinkButton } from '../../molecules/link';
 import { EgVerifyInput } from '../../molecules/verify-input';
 import { EgVerifyRingDots, EgDoneTick } from '@eds/desktop-animations';
 import { getVerifyTypePreset, type VerifyType } from './verifyTypesCore';
@@ -433,9 +433,9 @@ watch(
   <template v-if="showStatusArea">
     <p v-if="showCountdown" :class="styles.statusLine">{{ remainingSeconds }}s</p>
     <div v-else-if="showCountdownExpiredRetry" :class="styles.statusRetryHost">
-      <EgLink tone="theme" size="sm" href="#" @click.prevent.stop="onRetryClick">
+      <EgLinkButton tone="theme" size="sm" href="#" @click.prevent.stop="onRetryClick">
         {{ retryLabel }}
-      </EgLink>
+      </EgLinkButton>
     </div>
     <p v-else :class="styles.statusLine" aria-hidden="true">&nbsp;</p>
   </template>
@@ -473,9 +473,9 @@ watch(
       @update:model-value="onPasswordUpdate"
     />
     <div v-if="showForgotPassword" :class="styles.forgotRow">
-      <EgLink tone="brand" size="sm" href="#" @click.prevent.stop="onForgotClick">
+      <EgLinkButton tone="brand" size="sm" href="#" @click.prevent.stop="onForgotClick">
         {{ forgotPasswordLabel }}
-      </EgLink>
+      </EgLinkButton>
     </div>
     <div v-else-if="showPasswordError" :class="styles.passwordErrorRow">
       <EgFormSubmission type="danger" :text="passwordErrorText" :show-link="false" />
@@ -483,7 +483,7 @@ watch(
   </div>
 
   <div v-if="showPasswordInput" :class="styles.passwordActions">
-    <EgComboActionPopupWindow
+    <EgComboPopupButton
       :tone="actionTone"
       :count="2"
       :confirm-label="confirmLabel"
@@ -495,7 +495,7 @@ watch(
   </div>
 
   <div v-if="showBottomRetry || showSwitchRow" :class="styles.bottomRow">
-    <EgLink
+    <EgLinkButton
       v-if="showBottomRetry"
       tone="theme"
       size="sm"
@@ -504,7 +504,7 @@ watch(
       @click.prevent.stop="onRetryClick"
     >
       {{ retryLabel }}
-    </EgLink>
+    </EgLinkButton>
     <EgButton
       v-if="showSwitchRow"
       tone="subtle"
