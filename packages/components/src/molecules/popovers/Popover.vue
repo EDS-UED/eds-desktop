@@ -55,7 +55,7 @@ const props = withDefaults(
     microFloat?: boolean;
     /** 显式 active；未传且非 AnchoredTooltip 注入时，挂载后自动入场。 */
     active?: boolean;
-    /** placement=top 时顶部工具条（标题 + 可选关闭）。 */
+    /** 顶部工具条（标题 + 可选关闭）；与 placement 独立，壳内布局一致。 */
     topTool?: boolean;
     topToolTitle?: string;
     /** 显示关闭按钮；点击 emit topToolClose。 */
@@ -170,11 +170,12 @@ const contentHostClass = computed(() => [
     styles.contentConstrained,
 ]);
 
-const showTopTool = computed(
-  () => props.placement === 'top' && Boolean(props.topTool),
-);
+const showTopTool = computed(() => Boolean(props.topTool));
 
-const usesTopPlacementSlotPadding = computed(() => props.placement === 'top');
+/** topTool 或 placement=top：内容区上 0 / 左右下 spacing-4（与方向解耦，保持布局一致）。 */
+const usesTopPlacementSlotPadding = computed(
+  () => props.placement === 'top' || showTopTool.value,
+);
 
 const contentBodyClass = computed(() => [
   styles.contentBody,

@@ -33,7 +33,7 @@ const props = withDefaults(
     maxWidth?: number;
     height?: number;
     maxHeight?: number;
-    /** placement=top 时顶部工具条（标题 + 可选关闭）。 */
+    /** 顶部工具条（标题 + 可选关闭）；与 placement 独立。 */
     topTool?: boolean;
     topToolTitle?: string;
     topToolClosable?: boolean;

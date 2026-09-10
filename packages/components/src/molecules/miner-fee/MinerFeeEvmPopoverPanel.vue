@@ -31,11 +31,13 @@ const props = withDefaults(
     hideInlineConfirm?: boolean;
     /** 多笔：>1 时在内容与底部确定之间展示预计总矿工费。 */
     transactionCount?: number;
+    preferBatchTotalSummary?: boolean;
   }>(),
   {
     symbol: 'ETH',
     hideInlineConfirm: false,
     transactionCount: 1,
+    preferBatchTotalSummary: false,
   },
 );
 
@@ -272,6 +274,7 @@ defineExpose({
         :confirm-disabled="minerFeeConfirmDisabled"
         :hide-inline-confirm="hideInlineConfirm"
         :transaction-count="transactionCount"
+        :prefer-batch-total-summary="preferBatchTotalSummary"
       />
     </div>
 
@@ -287,6 +290,7 @@ defineExpose({
         :custom-draft="customFeeDraft"
         custom-popover-boundary=".eds-popup"
         :transaction-count="transactionCount"
+        :prefer-batch-total-summary="preferBatchTotalSummary"
         @select-miner-fee="selectMinerFee"
         @custom-popover-open="onCustomPopoverOpen"
         @custom-popover-dismiss="onCustomPopoverDismiss"
@@ -329,6 +333,7 @@ defineExpose({
           :custom-fee-saved="customFeeSaved"
           :confirm-disabled="minerFeeConfirmDisabled"
           :transaction-count="transactionCount"
+          :prefer-batch-total-summary="preferBatchTotalSummary"
           @select-miner-fee="selectMinerFee"
           @open-custom="openCustomMinerFee"
           @confirm="onListConfirm"

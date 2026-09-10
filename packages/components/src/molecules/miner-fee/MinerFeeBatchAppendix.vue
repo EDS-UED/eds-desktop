@@ -11,14 +11,24 @@ import {
   resolveMinerFeeBatchStubKind,
   type MinerFeeBatchProfileKind,
 } from './minerFeeBatchStub';
+import { isMinerFeeBatchAppendixVisible } from './minerFeeBatchAppendixVisibility';
 import styles from './MinerFeePopoverPanel.module.css';
 
-const props = defineProps<{
-  symbol: string;
-  profileKind: MinerFeeBatchProfileKind;
-  transactionCount: number;
-  batchTotalDisplay: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    symbol: string;
+    profileKind: MinerFeeBatchProfileKind;
+    transactionCount: number;
+    batchTotalDisplay: string;
+    /** 单发送方 × 多接收方：展示预计总矿工费，而非 BTC/ADA/FIL 附录 stub。 */
+    preferBatchTotalSummary?: boolean;
+    /** false：由外层 flex（如 minerFeeOptions）统一插入顶部分割线与 gap。 */
+    showLeadingDivider?: boolean;
+  }>(),
+  {
+    showLeadingDivider: true,
+  },
+);
 
 const ui = useMinerFeeTranslate();
 
@@ -30,7 +40,19 @@ const stubKind = computed(() =>
   ),
 );
 
-const showStub = computed(() => stubKind.value != null);
+const showAppendix = computed(() =>
+  isMinerFeeBatchAppendixVisible({
+    symbol: props.symbol,
+    profileKind: props.profileKind,
+    transactionCount: props.transactionCount,
+    batchTotalDisplay: props.batchTotalDisplay,
+    preferBatchTotalSummary: props.preferBatchTotalSummary,
+  }),
+);
+
+const showStub = computed(
+  () => !props.preferBatchTotalSummary && stubKind.value != null,
+);
 
 const stubMessage = computed(() => {
   const kind = stubKind.value;
@@ -51,10 +73,14 @@ const showBatchTotal = computed(
 
 <template>
   <div
-    v-if="showStub || showBatchTotal"
+    v-if="showAppendix"
     :class="styles.minerFeeBatchTotalAppendix"
   >
-    <EgDivider type="page" :class="styles.minerFeePageInsetDivider" />
+    <EgDivider
+      v-if="showLeadingDivider"
+      type="page"
+      :class="styles.minerFeePageInsetDivider"
+    />
     <div
       v-if="showStub"
       :class="[

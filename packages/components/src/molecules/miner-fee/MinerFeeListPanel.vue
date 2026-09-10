@@ -8,6 +8,7 @@ import { useMinerFeeTranslate } from './minerFeeTranslate';
 import type { MinerFeeCustomDraft, MinerFeeCustomSaved } from './minerFeeCustomTypes';
 import MinerFeeCustomAnchoredPopover from './MinerFeeCustomAnchoredPopover.vue';
 import MinerFeeBatchAppendix from './MinerFeeBatchAppendix.vue';
+import { isMinerFeeBatchAppendixVisible } from './minerFeeBatchAppendixVisibility';
 import { buildEvmMinerFeeBatchTotalDisplay } from './minerFeeBatchTotalDisplay';
 import {
   formatMinerFeeOptionCryptoDisplay,
@@ -47,6 +48,7 @@ const props = withDefaults(
     customPopoverBoundary?: string;
     /** 多笔：>1 时在内容与底部确定之间展示预计总矿工费。 */
     transactionCount?: number;
+    preferBatchTotalSummary?: boolean;
   }>(),
   {
     symbol: 'ETH',
@@ -54,6 +56,7 @@ const props = withDefaults(
     customViaAnchoredPopover: false,
     customPopoverBoundary: '.eds-popup',
     transactionCount: 1,
+    preferBatchTotalSummary: false,
   },
 );
 
@@ -91,6 +94,16 @@ const batchTotalDisplay = computed(() =>
     props.symbol,
     props.transactionCount,
   ),
+);
+
+const showBatchAppendix = computed(() =>
+  isMinerFeeBatchAppendixVisible({
+    symbol: props.symbol,
+    profileKind: 'evm',
+    transactionCount: props.transactionCount,
+    batchTotalDisplay: batchTotalDisplay.value,
+    preferBatchTotalSummary: props.preferBatchTotalSummary,
+  }),
 );
 
 function dotToneClass(tone: 'success' | 'warning' | 'danger') {
@@ -292,12 +305,17 @@ defineExpose({
           </template>
           </div>
 
-          <MinerFeeBatchAppendix
-            :symbol="symbol"
-            profile-kind="evm"
-            :transaction-count="transactionCount"
-            :batch-total-display="batchTotalDisplay"
-          />
+          <template v-if="showBatchAppendix">
+            <EgDivider type="page" :class="styles.minerFeePageInsetDivider" />
+            <MinerFeeBatchAppendix
+              :symbol="symbol"
+              profile-kind="evm"
+              :transaction-count="transactionCount"
+              :batch-total-display="batchTotalDisplay"
+              :prefer-batch-total-summary="preferBatchTotalSummary"
+              :show-leading-divider="false"
+            />
+          </template>
         </div>
       </section>
     </div>

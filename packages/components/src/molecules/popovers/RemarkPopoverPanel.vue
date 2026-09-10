@@ -93,7 +93,7 @@ defineExpose({
 </script>
 
 <template>
-  <div :class="styles.root">
+  <div :class="styles.root" data-eds-remark-popover>
     <div
       ref="remarkFieldRef"
       :class="[

@@ -101,6 +101,7 @@ const usageSnippet = computed(() => buildPopoverSceneUsageSnippet(customize));
 const gasFeeTitle = computed(() =>
   String(customize.topToolTitle ?? showcaseGasFeeUi('Gas Fee')),
 );
+
 </script>
 
 <template>

@@ -9,6 +9,7 @@ import type {
 } from '@eds/desktop-components';
 import {
   showcaseTooltipCustomizeFieldLabels,
+  tokenLabel,
   triggerRows,
   buttonToneRows,
 } from '@/data/showcasePropLabels';
@@ -33,10 +34,10 @@ export const popoverSceneImportCode = `import {
 } from '@eds/desktop-components';`;
 
 export const popoverGasFeeNetworkOptions = [
-  { value: 'bitcoin', label: 'Bitcoin' },
-  { value: 'ethereum', label: 'Ethereum Mainnet' },
-  { value: 'ton', label: 'The Open Network' },
-  { value: 'tron', label: 'Tron' },
+  { value: 'bitcoin', label: tokenLabel('Bitcoin', 'bitcoin') },
+  { value: 'ethereum', label: tokenLabel('Ethereum Mainnet', 'ethereum') },
+  { value: 'ton', label: tokenLabel('The Open Network', 'ton') },
+  { value: 'tron', label: tokenLabel('Tron', 'tron') },
 ] as const;
 
 export type PopoverGasFeeNetwork = (typeof popoverGasFeeNetworkOptions)[number]['value'];
@@ -67,7 +68,7 @@ export type PopoverScenario = 'component' | PopoverSceneScenario;
 
 export const popoverComponentCustomizeDefaults = {
   scenario: 'component',
-  placement: 'top',
+  placement: 'bottom',
   align: 'center',
   trigger: 'hover',
   disabled: false,
@@ -136,7 +137,7 @@ function isPopoverPlacementTop(state: Record<string, unknown>): boolean {
 }
 
 function isPopoverTopToolEnabled(state: Record<string, unknown>): boolean {
-  return isPopoverPlacementTop(state) && Boolean(state.topTool);
+  return Boolean(state.topTool);
 }
 
 function isPopoverGuidanceScenario(state: Record<string, unknown>): boolean {
@@ -167,7 +168,7 @@ function isPopoverComponentScenario(state: Record<string, unknown>): boolean {
 
 const POPOVER_SCENARIO_PRESETS: Record<PopoverScenario, Record<string, unknown>> = {
   component: {
-    placement: 'top',
+    placement: 'bottom',
     align: 'center',
     trigger: 'hover',
     widthMode: 'fixed',
@@ -181,7 +182,7 @@ const POPOVER_SCENARIO_PRESETS: Record<PopoverScenario, Record<string, unknown>>
     slotContent: 'Popover 内容',
   },
   guidance: {
-    placement: 'top',
+    placement: 'bottom',
     align: 'center',
     trigger: 'hover',
     widthMode: 'preset',
@@ -195,7 +196,7 @@ const POPOVER_SCENARIO_PRESETS: Record<PopoverScenario, Record<string, unknown>>
     guidanceActionLabel: '知道了',
   },
   remark: {
-    placement: 'top',
+    placement: 'bottom',
     align: 'center',
     trigger: 'click',
     widthMode: 'fixed',
@@ -211,7 +212,7 @@ const POPOVER_SCENARIO_PRESETS: Record<PopoverScenario, Record<string, unknown>>
     remarkConfirmLabel: 'Confirm',
   },
   'gas-fee': {
-    placement: 'top',
+    placement: 'bottom',
     align: 'center',
     trigger: 'click',
     widthMode: 'fixed',
@@ -493,13 +494,11 @@ function buildPopoverProps(state: Record<string, unknown>): Record<string, unkno
     props.maxHeight = maxHeight;
   }
 
-  if (String(state.placement) === 'top') {
-    const isGuidance = String(state.scenario ?? popoverComponentCustomizeDefaults.scenario) === 'guidance';
+  const isGuidance = String(state.scenario ?? popoverComponentCustomizeDefaults.scenario) === 'guidance';
+  if (isGuidance || Boolean(state.topTool)) {
     props.topTool = isGuidance ? true : Boolean(state.topTool);
-    if (props.topTool) {
-      props.topToolTitle = String(state.topToolTitle ?? popoverComponentCustomizeDefaults.topToolTitle);
-      props.topToolClosable = Boolean(state.topToolClosable);
-    }
+    props.topToolTitle = String(state.topToolTitle ?? popoverComponentCustomizeDefaults.topToolTitle);
+    props.topToolClosable = Boolean(state.topToolClosable);
   }
 
   return props;

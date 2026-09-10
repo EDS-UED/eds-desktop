@@ -10,10 +10,12 @@ const props = withDefaults(
     hideInlineConfirm?: boolean;
     /** 多笔：>1 时在内容与底部确定之间展示预计总矿工费。 */
     transactionCount?: number;
+    preferBatchTotalSummary?: boolean;
   }>(),
   {
     hideInlineConfirm: false,
     transactionCount: 1,
+    preferBatchTotalSummary: false,
   },
 );
 
@@ -42,6 +44,7 @@ defineExpose({
     symbol="BTC"
     :hide-inline-confirm="hideInlineConfirm"
     :transaction-count="transactionCount"
+    :prefer-batch-total-summary="preferBatchTotalSummary"
     @miner-fee-screen-change="emit('miner-fee-screen-change', $event)"
     @confirm="emit('confirm', $event)"
   />

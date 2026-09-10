@@ -16,7 +16,8 @@ const props = defineProps<{
   /** Nested component customize: smaller mono heading (two type steps below section title). */
   nested?: boolean;
   /**
-   * 嵌套标题圆点：引用组件（默认）→ 品红；普通标题 → 紫色。
+   * 嵌套标题圆点：引用 Eg* 组件 → 品红；普通字段组标题 → 紫色。
+   * 未传时按 title 推断（`^Eg[A-Z]` → referenced，否则 simple）。
    */
   nestedTitleVariant?: 'referenced-component' | 'simple-title';
   /** Single-column stack (e.g. Nav Bar module names top-to-bottom). */
@@ -31,9 +32,17 @@ const props = defineProps<{
 
 const rowColumns = computed(() => Math.max(1, props.rowColumns ?? 4));
 
+function resolveNestedTitleVariant(): 'referenced-component' | 'simple-title' {
+  if (props.nestedTitleVariant) {
+    return props.nestedTitleVariant;
+  }
+  const title = (props.title ?? '').trim();
+  return /^Eg[A-Z]/.test(title) ? 'referenced-component' : 'simple-title';
+}
+
 const nestedTitleClass = computed(() => {
   if (!props.nested && !props.embedded) return undefined;
-  return props.nestedTitleVariant === 'simple-title'
+  return resolveNestedTitleVariant() === 'simple-title'
     ? styles.customizeNestedTitleSimple
     : styles.customizeNestedTitleReferenced;
 });

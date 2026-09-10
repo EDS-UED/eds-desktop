@@ -77,7 +77,7 @@ defineExpose({
       :height-mode="heightMode"
       :height="height"
       :max-height="maxHeight"
-      :top-tool="placement === 'top'"
+      top-tool
       :top-tool-title="title"
       :top-tool-closable="topToolClosable"
       :disabled="disabled"

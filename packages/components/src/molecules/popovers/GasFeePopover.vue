@@ -26,6 +26,7 @@ const props = withDefaults(
     translate: MinerFeeTranslate;
     symbol?: string;
     transactionCount?: number;
+    preferBatchTotalSummary?: boolean;
     title?: string;
     placement?: TooltipPlacement;
     align?: TooltipAlign;
@@ -43,6 +44,7 @@ const props = withDefaults(
   {
     network: 'ethereum',
     transactionCount: 1,
+    preferBatchTotalSummary: false,
     title: 'Gas Fee',
     placement: 'top',
     align: 'center',
@@ -66,6 +68,7 @@ const panelProps = computed(() => {
   const base = {
     translate: props.translate,
     transactionCount: props.transactionCount,
+    preferBatchTotalSummary: props.preferBatchTotalSummary,
   };
   return props.symbol ? { ...base, symbol: props.symbol } : base;
 });
@@ -91,7 +94,7 @@ defineExpose({
     :height-mode="heightMode"
     :height="height"
     :max-height="maxHeight"
-    :top-tool="placement === 'top'"
+    top-tool
     :top-tool-title="title"
     :top-tool-closable="topToolClosable"
     :on-before-open="onBeforeOpen"

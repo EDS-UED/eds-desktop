@@ -1,6 +1,6 @@
 /** 矿工费 EVM 列表页：选项区贴 spacing-1；备注/分割线另行缩进至 spacing-4。 */
 :global(
-  .eds-popover-content [class*='contentSlotPaddingTop']:has(
+  .eds-popover-content [class*='contentSlotPadding']:has(
     .motion-layout-deform[data-miner-fee-screen='list']
   )
 ) {
@@ -10,7 +10,7 @@
 
 /** BTC / ADA / FIL / TRON batch stub：说明文案区保持 Popover spacing-4（勿用 EVM 选项 spacing-1）。 */
 :global(
-  .eds-popover-content [class*='contentSlotPaddingTop']:has([data-miner-fee-batch-stub])
+  .eds-popover-content [class*='contentSlotPadding']:has([data-miner-fee-batch-stub])
 ) {
   padding-right: var(--spacing-4);
   padding-left: var(--spacing-4);
@@ -18,7 +18,7 @@
 
 /** 矿工费自定义页：保持 Popover 默认 spacing-4 左右边距。 */
 :global(
-  .eds-popover-content [class*='contentSlotPaddingTop']:has(
+  .eds-popover-content [class*='contentSlotPadding']:has(
     .motion-layout-deform[data-miner-fee-screen='custom']
   )
 ) {
@@ -122,7 +122,7 @@
 .minerFeeListPage {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--spacing-4);
   width: 100%;
 }
 
@@ -173,7 +173,6 @@
   flex-shrink: 0;
   box-sizing: border-box;
   width: 100%;
-  margin-top: var(--spacing-2);
   padding-right: var(--spacing-3);
   padding-left: var(--spacing-3);
 }
@@ -226,15 +225,12 @@
   gap: var(--spacing-1-5);
   box-sizing: border-box;
   width: 100%;
-  margin-top: var(--spacing-2);
-  padding-right: var(--spacing-3);
-  padding-left: var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-3) 0;
 }
 
 .minerFeeListPage:global([data-miner-fee-ton-like]) .minerFeeBatchTotal,
 .minerFeeListPage:global([data-miner-fee-tron]) .minerFeeBatchTotal {
-  padding-right: var(--spacing-1);
-  padding-left: var(--spacing-1);
+  padding: var(--spacing-2) var(--spacing-1) 0;
 }
 
 .minerFeeListPage:global([data-miner-fee-ton-like]) .minerFee {
@@ -243,7 +239,7 @@
 
 .minerFeeListPage:global([data-miner-fee-ton-like]) .minerFeeBatchTotalAppendix {
   margin-top: 0;
-  gap: var(--spacing-4);
+  gap: var(--spacing-2);
 }
 
 .minerFeeListPage:global([data-miner-fee-ton-like]) .minerFeeBatchTotal {
@@ -258,7 +254,7 @@
 
 .minerFeeListPage:global([data-miner-fee-tron]) .minerFeeBatchTotalAppendix {
   margin-top: 0;
-  gap: var(--spacing-4);
+  gap: var(--spacing-2);
 }
 
 .minerFeeListPage:global([data-miner-fee-tron]) .minerFeeBatchTotal {
@@ -322,8 +318,8 @@
 .minerFeeBatchTotalAppendix {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-2);
   width: 100%;
-  margin-top: var(--spacing-2);
 }
 
 .minerFee {
@@ -333,6 +329,7 @@
   width: 100%;
 }
 
+/** 选项区纵向节奏：速度组 / 分割线 / 自定义 / 批量附录，统一 spacing-2。 */
 .minerFeeOptions {
   display: flex;
   flex-direction: column;

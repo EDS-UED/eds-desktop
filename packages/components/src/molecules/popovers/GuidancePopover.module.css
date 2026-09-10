@@ -1,56 +1,95 @@
 /**
  * EgGuidancePopover — match-primary 引导 preset（256px · topTool）。
- * 视觉锁在 host 内，不修改 EgPopover 公共 API。
+ * 以 [data-eds-guidance-popover] 锚定，兼容 teleport（Showcase / 业务 body 挂载）。
  */
-.host :global(> .eds-anchored-popover > .eds-popover svg),
-.host :global(> .eds-popover svg) {
+:global(.eds-popover:has([data-eds-guidance-popover]) svg) {
   filter: none;
 }
 
-.host :global(> .eds-anchored-popover > .eds-popover.desktopTokens .effect-popover-box),
-.host :global(> .eds-popover.desktopTokens .effect-popover-box) {
+:global(.eds-popover:has([data-eds-guidance-popover]).desktopTokens .effect-popover-box) {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   background: transparent;
 }
 
-.host :global(> .eds-anchored-popover > .eds-popover svg path:first-of-type),
-.host :global(> .eds-popover svg path:first-of-type) {
+:global(.eds-popover:has([data-eds-guidance-popover]) svg path:first-of-type) {
   fill: var(--material-match-primary);
 }
 
-.host :global(> .eds-anchored-popover > .eds-popover svg path:last-of-type),
-.host :global(> .eds-popover svg path:last-of-type) {
+:global(.eds-popover:has([data-eds-guidance-popover]) svg path:last-of-type) {
   fill: transparent;
   mix-blend-mode: normal;
 }
 
-.host :global(.eds-popover [class*='topToolTitle']) {
-  padding: var(--spacing-3) var(--spacing-4) var(--spacing-1);
+:global(.eds-popover:has([data-eds-guidance-popover]) [class*='topToolTitle']) {
   color: var(--text-same-white-primary);
 }
 
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button),
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button:hover:not(:disabled):not(.isDisabled)),
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button:focus-visible:not(:disabled):not(.isDisabled)),
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button:active:not(:disabled):not(.isDisabled)) {
+:global(.eds-popover:has([data-eds-guidance-popover]) [class*='topToolClose'] .eds-icon-button),
+:global(
+  .eds-popover:has([data-eds-guidance-popover])
+    [class*='topToolClose']
+    .eds-icon-button:hover:not(:disabled):not(.isDisabled)
+),
+:global(
+  .eds-popover:has([data-eds-guidance-popover])
+    [class*='topToolClose']
+    .eds-icon-button:focus-visible:not(:disabled):not(.isDisabled)
+),
+:global(
+  .eds-popover:has([data-eds-guidance-popover])
+    [class*='topToolClose']
+    .eds-icon-button:active:not(:disabled):not(.isDisabled)
+) {
   background-color: transparent;
 }
 
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button > span) {
+:global(.eds-popover:has([data-eds-guidance-popover]) [class*='topToolClose'] .eds-icon-button > span) {
   color: var(--material-same-white-quaternary) !important;
 }
 
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button .eds-icon .eds-i-f),
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button .eds-icon svg path) {
+:global(
+  .eds-popover:has([data-eds-guidance-popover])
+    [class*='topToolClose']
+    .eds-icon-button
+    .eds-icon
+    .eds-i-f
+),
+:global(
+  .eds-popover:has([data-eds-guidance-popover])
+    [class*='topToolClose']
+    .eds-icon-button
+    .eds-icon
+    svg
+    path
+) {
   fill: currentColor !important;
 }
 
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button:hover:not(:disabled):not(.isDisabled) > span),
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button:focus-visible:not(:disabled):not(.isDisabled) > span) {
+:global(
+  .eds-popover:has([data-eds-guidance-popover])
+    [class*='topToolClose']
+    .eds-icon-button:hover:not(:disabled):not(.isDisabled)
+    > span
+),
+:global(
+  .eds-popover:has([data-eds-guidance-popover])
+    [class*='topToolClose']
+    .eds-icon-button:focus-visible:not(:disabled):not(.isDisabled)
+    > span
+) {
   color: var(--material-same-white-secondary) !important;
 }
 
-.host :global(.eds-popover [class*='topToolClose'] .eds-icon-button:active:not(:disabled):not(.isDisabled) > span) {
+:global(
+  .eds-popover:has([data-eds-guidance-popover])
+    [class*='topToolClose']
+    .eds-icon-button:active:not(:disabled):not(.isDisabled)
+    > span
+) {
   color: var(--material-same-white-quaternary) !important;
+}
+
+.host {
+  display: contents;
 }
