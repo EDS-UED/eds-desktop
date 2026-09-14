@@ -102,6 +102,9 @@ export const compactComponentPreviewSlugs = new Set<string>([
   'popovers-scene-remark',
   'popovers-scene-gas-fee',
   'popovers-scene-confirm',
+  'dialog-standard',
+  'dialog-scene-symbol',
+  'dialog-scene-compose',
   'avatar',
   'tool-bar',
   'paginer',
@@ -131,9 +134,6 @@ export const scrollComponentPreviewSlugs = new Set<string>([
   'popup-scene-dialog',
   'popup-scene-verify',
   'detail',
-  'dialog-standard',
-  'dialog-scene-symbol',
-  'dialog-scene-compose',
 ]);
 
 export function usesCompactComponentPreview(slug: string): boolean {

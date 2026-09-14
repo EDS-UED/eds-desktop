@@ -44,19 +44,7 @@ const anchoredRef = ref<{ close: () => void } | null>(null);
 
 const previewFloatingScopeClass = 'desktopTokens';
 
-const popoverPreviewProps = computed(() => {
-  const props = buildPopoverProps(customize);
-  delete props.topTool;
-  delete props.topToolTitle;
-  delete props.topToolClosable;
-  return props;
-});
-
-const popoverShowTopTool = computed(
-  () => customize.placement === 'top' && Boolean(customize.topTool),
-);
-
-const popoverTopToolClosable = computed(() => Boolean(customize.topToolClosable));
+const popoverPreviewProps = computed(() => buildPopoverProps(customize));
 
 const panelCrossAxisOffset = computed(() =>
   parseAnchoredContainerOptionalInt(customize.crossAxisOffset),
@@ -146,11 +134,8 @@ function matrixLabel(placement: PopoverPlacement, align: PopoverAlign): string {
             <EgButton variant="outline">{{ customize.triggerLabel }}</EgButton>
             <template #content>
               <EgPopover
-                :key="`popover-${customize.topToolClosable}`"
+                :key="`popover-${customize.placement}-${customize.topToolClosable}-${customize.topTool}`"
                 v-bind="popoverPreviewProps"
-                :top-tool="popoverShowTopTool"
-                :top-tool-title="String(customize.topToolTitle ?? 'Title')"
-                :top-tool-closable="popoverTopToolClosable"
                 @top-tool-close="onTopToolClose"
               >
                 <div

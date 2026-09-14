@@ -26,7 +26,7 @@ export const tooltipFlotationScenarioOptions = [
 export type TooltipFlotationScenarioValue =
   (typeof tooltipFlotationScenarioOptions)[number]['value'];
 
-/** 本体页「类型」下拉：panelKind（工具提示 / 客户端容器 / 弹窗容器 / 模块层级）。 */
+/** 本体页「容器」下拉：panelKind（flotation / container / popup / molde）。 */
 export const tooltipPanelKindCustomizeOptions = [
   { value: 'flotation', label: showcaseTooltipPanelKindCustomizeLabels.flotation },
   { value: 'container', label: showcaseTooltipPanelKindCustomizeLabels.container },
@@ -165,7 +165,7 @@ export function buildTooltipBodyCustomizeControls(
         {
           kind: 'select',
           key: 'panelKind',
-          label: showcaseTooltipFlotationScenarioLabels.component,
+          label: L.panelKind,
           row: 0,
           options: tooltipPanelKindCustomizeOptions.map(({ value, label }) => ({ value, label })),
         },

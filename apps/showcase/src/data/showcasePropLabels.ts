@@ -392,12 +392,12 @@ export const showcaseTooltipPanelKindLabels = {
   molde: tokenLabel('模块层级', 'molde'),
 } as const;
 
-/** Tooltip 本体页「类型」下拉 — panelKind 选项（中英）。 */
+/** Tooltip 本体页「容器」下拉 — panelKind 选项（英文 token，与 prop 一致）。 */
 export const showcaseTooltipPanelKindCustomizeLabels = {
-  flotation: tokenLabel('工具提示', 'flotation'),
-  container: tokenLabel('客户端容器', 'container'),
-  popup: tokenLabel('弹窗容器', 'popup'),
-  molde: tokenLabel('模块层级', 'molde'),
+  flotation: 'flotation',
+  container: 'container',
+  popup: 'popup',
+  molde: 'molde',
 } as const;
 
 export const showcaseTooltipFlotationScenarioLabels = {
@@ -477,6 +477,7 @@ export const showcaseInputCustomizeFieldLabels = {
 
 export const showcaseTooltipCustomizeFieldLabels = {
   scenario: '场景化',
+  panelKind: '容器',
   panelRadius: '圆角',
   widthMode: '宽度',
   width: '固定宽度',

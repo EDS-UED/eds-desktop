@@ -60,7 +60,7 @@ const props = withDefaults(
     topToolTitle?: string;
     /** 显示关闭按钮；点击 emit topToolClose。 */
     topToolClosable?: boolean;
-    /** 插槽区内边距（px）；未传时按 placement 使用 CSS 默认（top：上 0；bottom/left/right：四周 spacing-4）。 */
+    /** 插槽区内边距（px）；未传时 topTool 为上下左右 spacing-4（上 0）；否则四周 spacing-4。与 placement 无关。 */
     contentPaddingTop?: number;
     contentPaddingInline?: number;
     contentPaddingBottom?: number;
@@ -172,10 +172,8 @@ const contentHostClass = computed(() => [
 
 const showTopTool = computed(() => Boolean(props.topTool));
 
-/** topTool 或 placement=top：内容区上 0 / 左右下 spacing-4（与方向解耦，保持布局一致）。 */
-const usesTopPlacementSlotPadding = computed(
-  () => props.placement === 'top' || showTopTool.value,
-);
+/** topTool：内容区上 0 / 左右下 spacing-4；与 placement 解耦，切方向不改变壳内布局。 */
+const usesTopPlacementSlotPadding = computed(() => showTopTool.value);
 
 const contentBodyClass = computed(() => [
   styles.contentBody,

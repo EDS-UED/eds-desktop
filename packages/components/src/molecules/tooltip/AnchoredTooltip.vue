@@ -318,12 +318,23 @@ function onTriggerContextMenu(event: MouseEvent) {
   event.preventDefault();
 }
 
+/** 嵌套 Teleport 的地址/复制 Menu（如 Detail / 多签邀请内 EgTooltipOverflow），点击其内部不应关闭外层 click Popover。 */
+function isPointerDownInsideNestedOverflowMenu(target: Node): boolean {
+  return (
+    target instanceof Element
+    && Boolean(target.closest('.eds-crypto-address-tooltip-menu'))
+  );
+}
+
 function onDocumentPointerDown(event: PointerEvent) {
   if (props.trigger !== 'click' || !open.value) {
     return;
   }
   const target = event.target as Node;
   if (triggerRef.value?.contains(target) || floatingRef.value?.contains(target)) {
+    return;
+  }
+  if (isPointerDownInsideNestedOverflowMenu(target)) {
     return;
   }
   closeNow();

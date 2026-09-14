@@ -210,7 +210,7 @@ onMounted(() => {
     >
       <template #preview>
         <div
-          class="desktopTokens"
+          class="desktopTokens glassMicroFloatHostActive"
           :class="[docStyles.subPreviewWidth, docStyles.previewEffectPanelHost]"
         >
           <component

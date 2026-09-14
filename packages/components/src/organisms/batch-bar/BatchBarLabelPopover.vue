@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EgAnchoredPopover } from '../../molecules/popovers';
+import EgAnchoredPopover from '../../molecules/popovers/AnchoredPopover.vue';
 import type { PopoverWidthMode } from '../../molecules/popovers';
 import type { TooltipPlacement } from '../../molecules/tooltip';
 import BatchBarActionItem from './BatchBarActionItem.vue';

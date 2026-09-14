@@ -19,7 +19,6 @@ import {
 } from './anchoredContainerDocCustomize';
 
 export const popoverComponentImportCode = `import {
-  EgAnchoredPopover,
   EgTooltip,
   EgButton,
   EgPopover,
@@ -861,8 +860,8 @@ export const popoverPropRows: DocPropRow[] = [
   {
     name: 'contentPaddingTop',
     type: 'number',
-    defaultValue: 'placement 默认',
-    description: '插槽区内边距上（px）。未传：placement=top 为 0；bottom/left/right 为 spacing-4。',
+    defaultValue: 'topTool 默认',
+    description: '插槽区内边距上（px）。未传：topTool 为 0；否则 spacing-4。与 placement 无关。',
   },
   {
     name: 'contentPaddingInline',
@@ -890,7 +889,7 @@ export const popoverSlotRows: DocPropRow[] = [
     type: 'slot',
     defaultValue: '-',
     description:
-      '弹出层内容；默认内边距：placement=top 为上 0 / 左右下 spacing-4；bottom/left/right 为四周 spacing-4。可用 contentPadding* props 覆盖。',
+      '弹出层内容；默认内边距：topTool 为上 0 / 左右下 spacing-4；无 topTool 为四周 spacing-4。与 placement 无关。可用 contentPadding* props 覆盖。',
   },
 ];
 
