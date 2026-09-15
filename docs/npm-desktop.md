@@ -1,7 +1,7 @@
 # EverGreen Desktop 使用指南
 
 > **npm 包：** [`@eds-evergreen/desktop`](https://www.npmjs.com/package/@eds-evergreen/desktop)  
-> **在线文档：** [Showcase 预览站](https://theyangsong.github.io/eds-desktop/)  
+> **在线文档：** [Showcase 预览站](https://eds-ued.github.io/eds-desktop/)  
 > **适用版本：** `0.1.5` 起（EgIcon 线稿描边 Chrome 兼容：`--eds-icon-stroke-user` 反算；详见 `packages/components/docs/icon-stroke-scaling.md`）
 
 EverGreen Desktop 是一套面向 **Vue 3 桌面端** 的设计系统，包含设计 Token、场景动画、UI 组件等能力。对外以 **一个 npm 包** 发布，通过 **子路径（subpath）** 按需引用。
@@ -151,7 +151,7 @@ const open = ref(false);
 
 完整组件列表、Props、交互示例请查看在线 Showcase：
 
-**https://theyangsong.github.io/eds-desktop/**
+**https://eds-ued.github.io/eds-desktop/**
 
 导航结构：
 
@@ -505,7 +505,7 @@ pnpm update @eds-evergreen/desktop
 pnpm add @eds-evergreen/desktop@0.1.1
 ```
 
-升级后若样式异常，先确认入口 CSS import 未变，再对照 [Showcase](https://theyangsong.github.io/eds-desktop/) 变更说明。
+升级后若样式异常，先确认入口 CSS import 未变，再对照 [Showcase](https://eds-ued.github.io/eds-desktop/) 变更说明。
 
 ---
 
@@ -538,8 +538,8 @@ import { EgVerifyRingDots } from '@eds-evergreen/desktop/animations';
 | 资源 | 地址 |
 |------|------|
 | npm 包 | https://www.npmjs.com/package/@eds-evergreen/desktop |
-| 在线 Showcase | https://theyangsong.github.io/eds-desktop/ |
-| 源码仓库 | https://github.com/theyangsong/eds-desktop |
+| 在线 Showcase | https://eds-ued.github.io/eds-desktop/ |
+| 源码仓库 | https://github.com/EDS-UED/eds-desktop |
 
 ---
 

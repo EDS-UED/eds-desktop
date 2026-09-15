@@ -19,7 +19,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/theyangsong/eds-desktop.git",
+    "url": "https://github.com/EDS-UED/eds-desktop.git",
     "directory": "packages/desktop"
   },
   "peerDependencies": {

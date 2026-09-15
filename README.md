@@ -4,8 +4,8 @@ Vue 3 design system with CSS Modules, Figma-synced design tokens, and Showcase d
 
 | | |
 |---|---|
-| **GitHub** | [theyangsong/eds-desktop](https://github.com/theyangsong/eds-desktop) |
-| **Live Showcase** | https://theyangsong.github.io/eds-desktop/ |
+| **GitHub** | [EDS-UED/eds-desktop](https://github.com/EDS-UED/eds-desktop) |
+| **Live Showcase** | https://eds-ued.github.io/eds-desktop/ |
 | **npm** | [`@eds-evergreen/desktop`](https://www.npmjs.com/package/@eds-evergreen/desktop)（当前 **0.1.8**） |
 
 ## Requirements
@@ -78,10 +78,10 @@ pnpm --filter @eds-evergreen/desktop publish --access public --no-git-checks
 
 ## GitHub Pages（Showcase）
 
-- **URL：** https://theyangsong.github.io/eds-desktop/
+- **URL：** https://eds-ued.github.io/eds-desktop/
 - **触发：** `main` 分支 push 自动部署（`.github/workflows/deploy-pages.yml`）
 - **构建：** `pnpm build:tokens` → `build:animations` → `build:components` → `apps/showcase build:pages`
-- 仓库由 `evergreen-design-system-desktop` 更名为 `eds-desktop` 后，旧 Pages URL 不再可用
+- 组织迁移至 [EDS-UED](https://github.com/EDS-UED/eds-desktop) 后，旧 `theyangsong.github.io` Pages URL 不再可用
 
 ## Scripts
 

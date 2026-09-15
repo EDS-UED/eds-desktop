@@ -10,7 +10,7 @@ EverGreen Design System (Desktop) — **one npm package**, five pillars:
 | `@eds-evergreen/desktop/patterns` | Page-level compositions (expanding) |
 | `@eds-evergreen/desktop/workflows` | Business workflows (expanding) |
 
-**Docs:** [Consumer guide](https://github.com/theyangsong/eds-desktop/blob/main/docs/npm-desktop.md) · [Showcase](https://theyangsong.github.io/eds-desktop/)
+**Docs:** [Consumer guide](https://github.com/EDS-UED/eds-desktop/blob/main/docs/npm-desktop.md) · [Showcase](https://eds-ued.github.io/eds-desktop/)
 
 ## Changelog
 
