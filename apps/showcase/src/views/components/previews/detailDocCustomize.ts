@@ -11,6 +11,7 @@ import {
   type DetailSectionData,
 } from '@eds/desktop-components';
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   buttonToneRows,
   countSelectOptions,
@@ -63,8 +64,8 @@ const detailCryptoOptions = cryptoNames
   .map((name) => ({ value: name, label: name }));
 
 const detailValueSymbolKindOptions = [
-  { value: 'crypto', label: '币种' },
-  { value: 'avatar', label: '头像' },
+  { value: 'crypto', label: showcaseText('<g id="Bold">Currency Type<g id="Bold">:</g></g>', '币种') },
+  { value: 'avatar', label: showcaseText('Portrait', '头像') },
 ];
 
 export function createDetailSectionItemDefaults(
@@ -148,10 +149,10 @@ function parseDetailAddressLayout(
 }
 
 const detailAddressLayoutOptions = [
-  { value: 'single', label: '单地址' },
-  { value: 'multi-collapsed', label: '多地址默认' },
-  { value: 'multi-orders', label: '数量' },
-  { value: 'multi-expanded', label: '多地址展开' },
+  { value: 'single', label: showcaseText('Single address', '单地址') },
+  { value: 'multi-collapsed', label: showcaseText('Multi-address default', '多地址默认') },
+  { value: 'multi-orders', label: showcaseText('Count', '数量') },
+  { value: 'multi-expanded', label: showcaseText('Multi-address expansion', '多地址展开') },
 ] as const;
 
 export function isDetailItemPresetDataSource(
@@ -210,28 +211,28 @@ export const detailCustomizeDefaults = {
 };
 
 export const detailHeaderCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'boolean', key: 'showEyebrow', label: '显示眉题', row: 0 },
+  { kind: 'boolean', key: 'showEyebrow', label: showcaseText('Show header', '显示眉题'), row: 0 },
   {
     kind: 'text',
     key: 'eyebrow',
-    label: '眉题',
+    label: showcaseText('Headline', '眉题'),
     row: 0,
     visibleWhen: (state) => Boolean(state.showEyebrow),
   },
   { kind: 'boolean', key: 'showTabs', label: 'Headline Tab', row: 0 },
   { kind: 'text', key: 'headline', label: 'Headline', row: 0 },
-  { kind: 'boolean', key: 'showStatusTag', label: '显示 Status Tag', row: 0 },
+  { kind: 'boolean', key: 'showStatusTag', label: showcaseText('Show Status Tag', '显示 Status Tag'), row: 0 },
   {
     kind: 'text',
     key: 'statusTag',
-    label: 'Status Tag 文案',
+    label: showcaseText('Status Tag copy.', 'Status Tag 文案'),
     row: 1,
     visibleWhen: (state) => Boolean(state.showStatusTag),
   },
   {
     kind: 'select',
     key: 'statusTagStatus',
-    label: 'Status Tag 状态',
+    label: showcaseText('Status Tag Status', 'Status Tag 状态'),
     row: 1,
     visibleWhen: (state) => Boolean(state.showStatusTag),
     options: tagStatusStyleOptions,
@@ -249,35 +250,35 @@ export function buildDetailTabsCustomizeControls(
     {
       kind: 'select',
       key: 'tabCount',
-      label: '数量',
+      label: showcaseText('Count', '数量'),
       row: 0,
       options: detailTabCountOptions,
     },
     {
       kind: 'text',
       key: 'tabLabels',
-      label: '标签名',
+      label: showcaseText('Tab', '标签名'),
       row: 0,
-      placeholder: '用空格分隔，如 Overview Assets History',
+      placeholder: showcaseText('Separated by spaces, e.g. Overview Assets History', '用空格分隔，如 Overview Assets History'),
     },
     {
       kind: 'select',
       key: 'tabHorizontalGap',
-      label: '水平间距',
+      label: showcaseText('HorizontalGap', '水平间距'),
       row: 0,
       options: tabsSpacingSizeOptions.map((option) => ({ ...option })),
     },
     {
       kind: 'select',
       key: 'tabVerticalGap',
-      label: '垂直间距',
+      label: showcaseText('VerticalGap', '垂直间距'),
       row: 0,
       options: tabsSpacingSizeOptions.map((option) => ({ ...option })),
     },
     {
       kind: 'select',
       key: 'activeTab',
-      label: '选中项',
+      label: showcaseText('Selected Items', '选中项'),
       row: 0,
       options: labels.map((label, index) => ({
         value: String(index),
@@ -358,7 +359,7 @@ function buildDetailSectionItemRowControls(
     {
       kind: 'select',
       key: editItemIndexKey,
-      label: '编辑行',
+      label: showcaseText('Edit row', '编辑行'),
       row: editItemRow,
       visibleWhen,
       options: Array.from({ length: count }, (_, index) => {
@@ -369,7 +370,7 @@ function buildDetailSectionItemRowControls(
     {
       kind: 'select',
       key: dataSourceKey,
-      label: '数据来源',
+      label: showcaseText('Sources of Data Used', '数据来源'),
       row: editItemRow,
       visibleWhen,
       options: detailApplyItemDataSourceOptions,
@@ -377,7 +378,7 @@ function buildDetailSectionItemRowControls(
     {
       kind: 'select',
       key: detailSectionItemKey(sectionNum, 'AddressLayout', editIndex),
-      label: '地址形态',
+      label: showcaseText('Address Morphology', '地址形态'),
       row: editItemRow,
       visibleWhen: (s) => {
         const source = String(
@@ -390,7 +391,7 @@ function buildDetailSectionItemRowControls(
     {
       kind: 'text',
       key: detailSectionItemKey(sectionNum, 'TitleIcon', editIndex),
-      label: 'Title 图标',
+      label: showcaseText('Title Icon', 'Title 图标'),
       row: customFieldsRow,
       visibleWhen: (s) =>
         visibleWhen(s)
@@ -400,28 +401,28 @@ function buildDetailSectionItemRowControls(
     {
       kind: 'text',
       key: detailSectionItemKey(sectionNum, 'Title', editIndex),
-      label: 'Title 文案',
+      label: showcaseText('Title copy.', 'Title 文案'),
       row: customFieldsRow,
       visibleWhen: isCustom,
     },
     {
       kind: 'text',
       key: detailSectionItemKey(sectionNum, 'Value', editIndex),
-      label: 'Value 文案',
+      label: showcaseText('Value copy.', 'Value 文案'),
       row: customFieldsRow,
       visibleWhen: isCustom,
     },
     {
       kind: 'boolean',
       key: showSymbolKey,
-      label: '显示符号',
+      label: showcaseText('ShowIcon', '显示符号'),
       row: symbolRow,
       visibleWhen: isCustom,
     },
     {
       kind: 'select',
       key: symbolKindKey,
-      label: '符号类型',
+      label: showcaseText('Icon type.', '符号类型'),
       row: symbolRow,
       visibleWhen: symbolVisible,
       options: detailValueSymbolKindOptions,
@@ -429,7 +430,7 @@ function buildDetailSectionItemRowControls(
     {
       kind: 'select',
       key: detailSectionItemKey(sectionNum, 'ValueSymbolCrypto', editIndex),
-      label: '币种',
+      label: showcaseText('<g id="Bold">Currency Type<g id="Bold">:</g></g>', '币种'),
       row: symbolRow,
       visibleWhen: (s) => symbolVisible(s) && String(s[symbolKindKey] ?? 'crypto') === 'crypto',
       options: detailCryptoOptions,
@@ -437,21 +438,21 @@ function buildDetailSectionItemRowControls(
     {
       kind: 'text',
       key: detailSectionItemKey(sectionNum, 'ValueSymbolAvatarName', editIndex),
-      label: '头像名称',
+      label: showcaseText('Avatar Name', '头像名称'),
       row: symbolRow,
       visibleWhen: (s) => symbolVisible(s) && String(s[symbolKindKey]) === 'avatar',
     },
     {
       kind: 'boolean',
       key: detailSectionItemKey(sectionNum, 'ShowValueLink', editIndex),
-      label: '显示 Link',
+      label: showcaseText('Show Link', '显示 Link'),
       row: actionsRow,
       visibleWhen: isCustom,
     },
     {
       kind: 'text',
       key: detailSectionItemKey(sectionNum, 'ValueLinkLabel', editIndex),
-      label: 'Link 文案',
+      label: showcaseText('Link copy.', 'Link 文案'),
       row: actionsRow,
       visibleWhen: (s) =>
         isCustom(s) && Boolean(s[detailSectionItemKey(sectionNum, 'ShowValueLink', editIndex)]),
@@ -459,28 +460,28 @@ function buildDetailSectionItemRowControls(
     {
       kind: 'boolean',
       key: detailSectionItemKey(sectionNum, 'ShowValueCopy', editIndex),
-      label: '显示复制',
+      label: showcaseText('ShowCopy', '显示复制'),
       row: actionsRow,
       visibleWhen: isCustom,
     },
     {
       kind: 'boolean',
       key: detailSectionItemKey(sectionNum, 'ShowValueAddressBook', editIndex),
-      label: '显示添加到地址簿',
+      label: showcaseText('Show add to address book', '显示添加到地址簿'),
       row: actionsRow,
       visibleWhen: isCustom,
     },
     {
       kind: 'boolean',
       key: detailSectionItemKey(sectionNum, 'ShowValueAmlSearch', editIndex),
-      label: '显示 AML 查询',
+      label: showcaseText('Show AML Query', '显示 AML 查询'),
       row: actionsRow,
       visibleWhen: isCustom,
     },
     {
       kind: 'boolean',
       key: detailSectionItemKey(sectionNum, 'ShowValueBrowser', editIndex),
-      label: '显示区块浏览器',
+      label: showcaseText('Show block explorer', '显示区块浏览器'),
       row: actionsRow,
       visibleWhen: isCustom,
     },
@@ -511,7 +512,7 @@ export function buildDetailSectionCustomizeControls(
     controls.push({
       kind: 'boolean',
       key: 'section2Enabled',
-      label: '显示内容区 2',
+      label: showcaseText('ShowContent area 2', '显示内容区 2'),
       row: titleRow,
     });
   }
@@ -520,21 +521,21 @@ export function buildDetailSectionCustomizeControls(
     {
       kind: 'boolean',
       key: showTitleKey,
-      label: '显示标题',
+      label: showcaseText('ShowTitle', '显示标题'),
       row: titleRow,
       visibleWhen: sectionActive,
     },
     {
       kind: 'text',
       key: titleKey,
-      label: '标题文案',
+      label: showcaseText('Title copy.', '标题文案'),
       row: titleRow,
       visibleWhen: (state) => sectionActive(state) && Boolean(state[showTitleKey]),
     },
     {
       kind: 'select',
       key: itemCountKey,
-      label: '行数',
+      label: showcaseText('# of Lines', '行数'),
       row: titleRow,
       visibleWhen: sectionActive,
       options: detailItemCountOptions,
@@ -542,21 +543,21 @@ export function buildDetailSectionCustomizeControls(
     {
       kind: 'boolean',
       key: detailSectionShowTitleIconKey(sectionNum),
-      label: '显示 Title 图标',
+      label: showcaseText('Show Title Icon', '显示 Title 图标'),
       row: titleRow,
       visibleWhen: sectionActive,
     },
     {
       kind: 'boolean',
       key: showCollapseKey,
-      label: 'Collapse 链接',
+      label: showcaseText('Collapse link', 'Collapse 链接'),
       row: collapseRow,
       visibleWhen: sectionActive,
     },
     {
       kind: 'text',
       key: collapseLabelKey,
-      label: 'Collapse 文案',
+      label: showcaseText('Collapse copy.', 'Collapse 文案'),
       row: collapseRow,
       visibleWhen: (state) => sectionActive(state) && Boolean(state[showCollapseKey]),
     },
@@ -575,35 +576,35 @@ export function buildDetailSectionCustomizeControls(
 }
 
 export const detailToolbarCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'boolean', key: 'showToolbar', label: '显示工具栏' },
+  { kind: 'boolean', key: 'showToolbar', label: showcaseText('ShowToolbar', '显示工具栏') },
   {
     kind: 'boolean',
     key: 'toolbarDividerPinned',
-    label: '分割线常驻',
+    label: showcaseText('Dividers resident', '分割线常驻'),
     visibleWhen: (state) => Boolean(state.showToolbar),
   },
   {
     kind: 'boolean',
     key: 'showToolbarNav',
-    label: '翻页导航',
+    label: showcaseText('Flip Navigation', '翻页导航'),
     visibleWhen: (state) => Boolean(state.showToolbar),
   },
   {
     kind: 'boolean',
     key: 'showToolbarNote',
-    label: '备注',
+    label: showcaseText('Notes', '备注'),
     visibleWhen: (state) => Boolean(state.showToolbar),
   },
   {
     kind: 'text',
     key: 'toolbarCurrent',
-    label: '当前序号',
+    label: showcaseText('Current Sequence Number', '当前序号'),
     visibleWhen: (state) => Boolean(state.showToolbar && state.showToolbarNav),
   },
   {
     kind: 'text',
     key: 'toolbarTotal',
-    label: '总数',
+    label: showcaseText('Total', '总数'),
     visibleWhen: (state) => Boolean(state.showToolbar && state.showToolbarNav),
   },
   {
@@ -844,15 +845,15 @@ export function buildDetailUsageSnippet(state: Record<string, unknown>): string 
 }
 
 export const detailPropRows: DocPropRow[] = [
-  { name: 'eyebrow', type: 'string', defaultValue: "'Title'", description: 'Headline 眉题（Body Small Strong）。' },
-  { name: 'headline', type: 'string', defaultValue: "'Headline'", description: 'Headline 主标题。' },
-  { name: 'statusTag', type: 'string', defaultValue: "'Tag'", description: 'Headline 旁 EgTag 文案。' },
-  { name: 'statusTagSize', type: "'lg' | 'md' | 'sm'", defaultValue: "'lg'", description: 'Headline Status Tag 尺寸（EgTag size）。' },
-  { name: 'statusTagStatus', type: 'TagStatus', defaultValue: "'danger'", description: 'Headline Status Tag 语义色（EgTag status）。' },
+  { name: 'eyebrow', type: 'string', defaultValue: "'Title'", description: showcaseText('Headline Body Small Strong.', 'Headline 眉题（Body Small Strong）。') },
+  { name: 'headline', type: 'string', defaultValue: "'Headline'", description: showcaseText('Headline main title.', 'Headline 主标题。') },
+  { name: 'statusTag', type: 'string', defaultValue: "'Tag'", description: showcaseText('EgTag copy next to Headline.', 'Headline 旁 EgTag 文案。') },
+  { name: 'statusTagSize', type: "'lg' | 'md' | 'sm'", defaultValue: "'lg'", description: showcaseText('Headline Status Tag Size（EgTag size）。', 'Headline Status Tag 尺寸（EgTag size）。') },
+  { name: 'statusTagStatus', type: 'TagStatus', defaultValue: "'danger'", description: showcaseText('Headline Status Tag semantic color (EgTag status).', 'Headline Status Tag 语义色（EgTag status）。') },
   { name: 'showEyebrow', type: 'boolean', defaultValue: 'true', description: 'Figma Title=Yes/No。' },
-  { name: 'showStatusTag', type: 'boolean', defaultValue: 'true', description: '是否渲染 Status Tag。' },
-  { name: 'showTabs', type: 'boolean', defaultValue: 'true', description: 'Headline 下 EgTabs + Page Divider。' },
-  { name: 'tabLabels', type: 'string[]', defaultValue: "['Tab', …]", description: 'Tabs 标签文案。' },
+  { name: 'showStatusTag', type: 'boolean', defaultValue: 'true', description: showcaseText('Whether the Status Tag is rendered.', '是否渲染 Status Tag。') },
+  { name: 'showTabs', type: 'boolean', defaultValue: 'true', description: showcaseText('EgTabs + Page Divider under Headline.', 'Headline 下 EgTabs + Page Divider。') },
+  { name: 'tabLabels', type: 'string[]', defaultValue: "['Tab', …]", description: showcaseText('Tabs Tag copy.', 'Tabs 标签文案。') },
   {
     name: 'tabHorizontalGap',
     type: "'xl' | 'md' | 'sm' | 'xs'",
@@ -865,35 +866,35 @@ export const detailPropRows: DocPropRow[] = [
     defaultValue: "'xl'",
     description: 'EgTabs verticalGap（padding-bottom + stroke-xl）：xl → spacing-2-5；md → spacing-2；sm → spacing-1-5；xs → spacing-1。',
   },
-  { name: 'sections', type: 'DetailSectionData[]', defaultValue: 'createDefaultDetailSections()', description: '内容区 Section / Item 数据。' },
-  { name: 'activeTab', type: 'number', defaultValue: '0', description: 'v-model:activeTab — Headline Tabs 选中索引。' },
-  { name: 'showToolbar', type: 'boolean', defaultValue: 'true', description: '底部工具栏（翻页 + Cancel / Confirm）。' },
-  { name: 'toolbarDividerPinned', type: 'boolean', defaultValue: 'false', description: '工具栏顶部分割线常驻；false 时仅在底部仍有内容被裁切时显示。' },
-  { name: 'showToolbarNav', type: 'boolean', defaultValue: 'true', description: '工具栏中部 EgPaginationGroupButton borderArrow 与序号计数。' },
-  { name: 'showToolbarNote', type: 'boolean', defaultValue: 'true', description: '工具栏左侧备注按钮（EgButton subtle outline）。' },
-  { name: 'toolbarCurrent', type: 'string | number', defaultValue: '12', description: '当前序号（千分位格式化）。' },
-  { name: 'toolbarTotal', type: 'string | number', defaultValue: '1000', description: '总条数（千分位格式化）。' },
-  { name: 'toolbarPrevDisabled', type: 'boolean', defaultValue: 'false', description: '上一项 borderArrow 禁用。' },
-  { name: 'toolbarNextDisabled', type: 'boolean', defaultValue: 'false', description: '下一项 borderArrow 禁用。' },
-  { name: 'toolbarTone', type: "'brand' | 'decor'", defaultValue: "'decor'", description: '工具栏 Confirm 按钮 tone；Cancel 默认同此，可用 toolbarCancelTone 覆盖。' },
-  { name: 'toolbarCancelTone', type: 'ButtonTone', defaultValue: 'toolbarTone', description: 'Cancel 按钮 tone（如 danger 危险文字按钮）。' },
-  { name: 'toolbarDirection', type: "'left' | 'right'", defaultValue: "'right'", description: '无翻页导航时 Cancel / Confirm 对齐。' },
-  { name: 'toolbarConfirmLabel', type: 'string', defaultValue: "'Confirm'", description: '确认按钮文案。' },
-  { name: 'toolbarCancelLabel', type: 'string', defaultValue: "'Cancel'", description: '取消按钮文案。' },
-  { name: 'addressLayout', type: "'single' | 'multi-collapsed' | 'multi-expanded' | 'multi-orders'", defaultValue: "'single'", description: 'Sender / Receiver 地址展示形态（Figma 2267:11822 / 2267:11830）；multi-orders 为数量 Orders 链。' },
-  { name: 'valueEntries', type: 'DetailItemValueEntry[]', defaultValue: '-', description: '多地址条目；与 addressCount / addressLayout 配合。' },
-  { name: 'addressCount', type: 'number', defaultValue: '-', description: '多地址默认态计数。' },
-  { name: 'addressViewMoreLabel', type: 'string', defaultValue: '-', description: '多地址默认态「查看更多」链文案。' },
+  { name: 'sections', type: 'DetailSectionData[]', defaultValue: 'createDefaultDetailSections()', description: showcaseText('Section/Item data for the content area.', '内容区 Section / Item 数据。') },
+  { name: 'activeTab', type: 'number', defaultValue: '0', description: showcaseText('v-model: activeTab — Headline Tabs checks the index.', 'v-model:activeTab — Headline Tabs 选中索引。') },
+  { name: 'showToolbar', type: 'boolean', defaultValue: 'true', description: showcaseText('Bottom toolbar (flip + Cancel/Confirm).', '底部工具栏（翻页 + Cancel / Confirm）。') },
+  { name: 'toolbarDividerPinned', type: 'boolean', defaultValue: 'false', description: showcaseText('The top section of the toolbar is split-line resident; false shows only when there is still content at the bottom that has been cropped.', '工具栏顶部分割线常驻；false 时仅在底部仍有内容被裁切时显示。') },
+  { name: 'showToolbarNav', type: 'boolean', defaultValue: 'true', description: showcaseText('The EgPaginationGroupButton borderArrow and sequence number counts in the middle of the toolbar.', '工具栏中部 EgPaginationGroupButton borderArrow 与序号计数。') },
+  { name: 'showToolbarNote', type: 'boolean', defaultValue: 'true', description: showcaseText('ToolbarLeadingNotesButton（EgButton subtle outline）。', '工具栏左侧备注按钮（EgButton subtle outline）。') },
+  { name: 'toolbarCurrent', type: 'string | number', defaultValue: '12', description: showcaseText('Current sequence number (in thousands format).', '当前序号（千分位格式化）。') },
+  { name: 'toolbarTotal', type: 'string | number', defaultValue: '1000', description: showcaseText('Total number of bars (formatted in thousands).', '总条数（千分位格式化）。') },
+  { name: 'toolbarPrevDisabled', type: 'boolean', defaultValue: 'false', description: showcaseText('The previous borderArrow is disabled.', '上一项 borderArrow 禁用。') },
+  { name: 'toolbarNextDisabled', type: 'boolean', defaultValue: 'false', description: showcaseText('The next item borderArrow is disabled.', '下一项 borderArrow 禁用。') },
+  { name: 'toolbarTone', type: "'brand' | 'decor'", defaultValue: "'decor'", description: showcaseText('Toolbar Confirm button tone; Cancel is the same by default and can be overridden with toolbarCancelTone.', '工具栏 Confirm 按钮 tone；Cancel 默认同此，可用 toolbarCancelTone 覆盖。') },
+  { name: 'toolbarCancelTone', type: 'ButtonTone', defaultValue: 'toolbarTone', description: showcaseText('Cancel button tone (such as the danger button).', 'Cancel 按钮 tone（如 danger 危险文字按钮）。') },
+  { name: 'toolbarDirection', type: "'left' | 'right'", defaultValue: "'right'", description: showcaseText('Cancel/Confirm alignment when there is no page turn navigation.', '无翻页导航时 Cancel / Confirm 对齐。') },
+  { name: 'toolbarConfirmLabel', type: 'string', defaultValue: "'Confirm'", description: showcaseText('Confirm button copy.', '确认按钮文案。') },
+  { name: 'toolbarCancelLabel', type: 'string', defaultValue: "'Cancel'", description: showcaseText('CancelButton copy.', '取消按钮文案。') },
+  { name: 'addressLayout', type: "'single' | 'multi-collapsed' | 'multi-expanded' | 'multi-orders'", defaultValue: "'single'", description: showcaseText('Sender/Receiver address display form (Figma 2267: 11822/2267: 11830); multi-orders is the number of Orders chain.', 'Sender / Receiver 地址展示形态（Figma 2267:11822 / 2267:11830）；multi-orders 为数量 Orders 链。') },
+  { name: 'valueEntries', type: 'DetailItemValueEntry[]', defaultValue: '-', description: showcaseText('Multi-address entry; works with addressCount/addressLayout.', '多地址条目；与 addressCount / addressLayout 配合。') },
+  { name: 'addressCount', type: 'number', defaultValue: '-', description: showcaseText('Multi-address default state count.', '多地址默认态计数。') },
+  { name: 'addressViewMoreLabel', type: 'string', defaultValue: '-', description: showcaseText('Multi-address default "See more" chain copy.', '多地址默认态「查看更多」链文案。') },
 ];
 
 export const detailEventRows: DocPropRow[] = [
-  { name: 'close', type: '[]', defaultValue: '-', description: '系统条关闭按钮；键盘 Esc（非输入焦点时）。' },
-  { name: 'toolbarPrev', type: '[]', defaultValue: '-', description: '工具栏上一项 borderArrow。' },
-  { name: 'toolbarNext', type: '[]', defaultValue: '-', description: '工具栏下一项 borderArrow。' },
-  { name: 'toolbarNote', type: '[]', defaultValue: '-', description: '工具栏备注按钮。' },
-  { name: 'toolbarConfirm', type: '[]', defaultValue: '-', description: '工具栏确认按钮。' },
-  { name: 'toolbarCancel', type: '[]', defaultValue: '-', description: '工具栏取消按钮。' },
-  { name: 'itemValueLinkClick', type: '[key: string]', defaultValue: '-', description: 'Item 行尾 EgLinkButton（showValueLink / 多地址 Expand·Orders 链）点击；payload 为 item.key 或 `${sectionIndex}-${itemIndex}`。' },
+  { name: 'close', type: '[]', defaultValue: '-', description: showcaseText('System strip off button; keyboard Esc (when not in focus).', '系统条关闭按钮；键盘 Esc（非输入焦点时）。') },
+  { name: 'toolbarPrev', type: '[]', defaultValue: '-', description: showcaseText('The item borderArrow on the toolbar.', '工具栏上一项 borderArrow。') },
+  { name: 'toolbarNext', type: '[]', defaultValue: '-', description: showcaseText('The borderArrow next to the toolbar.', '工具栏下一项 borderArrow。') },
+  { name: 'toolbarNote', type: '[]', defaultValue: '-', description: showcaseText('ToolbarNotesButton。', '工具栏备注按钮。') },
+  { name: 'toolbarConfirm', type: '[]', defaultValue: '-', description: showcaseText('Toolbar confirmation button.', '工具栏确认按钮。') },
+  { name: 'toolbarCancel', type: '[]', defaultValue: '-', description: showcaseText('ToolbarCancelButton。', '工具栏取消按钮。') },
+  { name: 'itemValueLinkClick', type: '[key: string]', defaultValue: '-', description: showcaseText('Item End of Line EgLinkButton (showValueLink/Multi-address Expand · Orders Chain) Click; payload is item.key or `${sectionIndex} - ${itemIndex}`.', 'Item 行尾 EgLinkButton（showValueLink / 多地址 Expand·Orders 链）点击；payload 为 item.key 或 `${sectionIndex}-${itemIndex}`。') },
 ];
 
 export const detailSlotRows: DocPropRow[] = [
@@ -901,16 +902,16 @@ export const detailSlotRows: DocPropRow[] = [
     name: 'body',
     type: 'slot',
     defaultValue: '-',
-    description: '滚动区插槽（Headline + Sections）；EgDetail 置于 EgPopup 默认插槽内。',
+    description: showcaseText('Scroll zone slots (Headline + Sections); EgDetail is placed in the EgPopup default slot.', '滚动区插槽（Headline + Sections）；EgDetail 置于 EgPopup 默认插槽内。'),
   },
   {
     name: 'append',
     type: 'slot',
     defaultValue: '-',
-    description: '#body 之后的附加内容，仍在滚动区内。',
+    description: showcaseText('The additional content after # body is still in the scrolling area.', '#body 之后的附加内容，仍在滚动区内。'),
   },
-  { name: 'toolbar', type: 'slot', defaultValue: '-', description: '替换默认底部工具栏（翻页 + 操作按钮）。' },
-  { name: 'toolbar-actions', type: 'slot', defaultValue: '-', description: '替换默认 Cancel / Confirm 按钮；保留翻页导航、序号与滚动分割线。' },
+  { name: 'toolbar', type: 'slot', defaultValue: '-', description: showcaseText('Replaces the default bottom toolbar (page flip + action button).', '替换默认底部工具栏（翻页 + 操作按钮）。') },
+  { name: 'toolbar-actions', type: 'slot', defaultValue: '-', description: showcaseText('Replace the default Cancel/Confirm button; keep the page turn navigation, sequence number, and scroll divider.', '替换默认 Cancel / Confirm 按钮；保留翻页导航、序号与滚动分割线。') },
 ];
 
 /** 文档页默认 sections（与 Figma Popup Detail 2178:4299 一致） */

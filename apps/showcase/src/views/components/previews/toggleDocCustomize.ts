@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { buildVueSelfClosingSnippet } from '@/views/shared/componentDoc/buildUsageSnippet';
 import {
   inputSizeRows,
@@ -15,32 +16,32 @@ export const decideImportCode = `import { EgDecide } from '@eds/desktop-componen
 export const switchImportCode = `import { EgSwitch } from '@eds/desktop-components';`;
 
 export const checkboxPropRows: DocPropRow[] = [
-  { name: 'modelValue', type: 'boolean', defaultValue: 'false', description: '选中状态。' },
-  { name: 'indeterminate', type: 'boolean', defaultValue: 'false', description: '半选状态。' },
+  { name: 'modelValue', type: 'boolean', defaultValue: 'false', description: showcaseText('SelectedStatus。', '选中状态。') },
+  { name: 'indeterminate', type: 'boolean', defaultValue: 'false', description: showcaseText('Half-select status.', '半选状态。') },
   {
     name: 'disabled',
     type: 'boolean',
     defaultValue: 'false',
-    description: '禁用交互；未选/半选/选中对应 UnChecked Disable 或 Checked Disable 色板。',
+    description: showcaseText('Disable interaction; unselected/half-selected/checked for UnChecked Disable or Checked Disable swatches.', '禁用交互；未选/半选/选中对应 UnChecked Disable 或 Checked Disable 色板。'),
   },
 ];
 
 export const radioPropRows: DocPropRow[] = [
-  { name: 'modelValue', type: 'boolean', defaultValue: 'false', description: '选中状态。' },
-  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: '禁用（Figma 仅 UnChecked Disable）。' },
-  { name: 'name', type: 'string', defaultValue: 'undefined', description: 'Radio 组 name。' },
-  { name: 'value', type: 'string', defaultValue: "'default'", description: '选项 value。' },
+  { name: 'modelValue', type: 'boolean', defaultValue: 'false', description: showcaseText('SelectedStatus。', '选中状态。') },
+  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: showcaseText('Disabled（Figma only UnChecked Disable）。', '禁用（Figma 仅 UnChecked Disable）。') },
+  { name: 'name', type: 'string', defaultValue: 'undefined', description: showcaseText('Radio group name.', 'Radio 组 name。') },
+  { name: 'value', type: 'string', defaultValue: "'default'", description: showcaseText('Option value.', '选项 value。') },
 ];
 
 export const decidePropRows: DocPropRow[] = [
-  { name: 'modelValue', type: 'boolean', defaultValue: 'false', description: '是否已决定。' },
-  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: '禁用（Figma 仅 UnDecided Disable）。' },
+  { name: 'modelValue', type: 'boolean', defaultValue: 'false', description: showcaseText('Whether or not it has been decided.', '是否已决定。') },
+  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: showcaseText('Disabled（Figma only UnDecided Disable）。', '禁用（Figma 仅 UnDecided Disable）。') },
 ];
 
 export const switchPropRows: DocPropRow[] = [
-  { name: 'modelValue', type: 'boolean', defaultValue: 'false', description: '开关状态。' },
-  { name: 'size', type: "'lg' | 'md' | 'sm'", defaultValue: "'md'", description: '尺寸。' },
-  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: '禁用。' },
+  { name: 'modelValue', type: 'boolean', defaultValue: 'false', description: showcaseText('Switch state', '开关状态。') },
+  { name: 'size', type: "'lg' | 'md' | 'sm'", defaultValue: "'md'", description: showcaseText('Size。', '尺寸。') },
+  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: showcaseText('Disabled。', '禁用。') },
 ];
 
 /** 可交互 Preview + 固定 Figma 态（互斥） */
@@ -53,7 +54,7 @@ export const checkboxCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'mode',
-    label: '模式',
+    label: showcaseText('Mode', '模式'),
     options: propLabelRows(
       ['checkbox', 'unchecked-disable', 'checked-disable', 'indeterminate'] as const,
       showcaseToggleCheckboxModeLabels,
@@ -70,7 +71,7 @@ export const radioCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'mode',
-    label: '模式',
+    label: showcaseText('Mode', '模式'),
     options: propLabelRows(['radio', 'disable'] as const, showcaseToggleRadioModeLabels).map((row) => ({
       value: row.key,
       label: row.label,
@@ -87,7 +88,7 @@ export const decideCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'mode',
-    label: '模式',
+    label: showcaseText('Mode', '模式'),
     options: propLabelRows(['decide', 'disable'] as const, showcaseToggleDecideModeLabels).map((row) => ({
       value: row.key,
       label: row.label,
@@ -101,7 +102,7 @@ export const switchCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'mode',
-    label: '模式',
+    label: showcaseText('Mode', '模式'),
     options: propLabelRows(['switch', 'disable'] as const, showcaseToggleSwitchModeLabels).map((row) => ({
       value: row.key,
       label: row.label,
@@ -110,7 +111,7 @@ export const switchCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'size',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     options: inputSizeRows.map((row) => ({ value: row.key, label: row.label })),
   },
 ];

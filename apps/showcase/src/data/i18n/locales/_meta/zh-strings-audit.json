@@ -1,0 +1,4458 @@
+{
+  "count": 729,
+  "strings": [
+    {
+      "zh": "（legacy）容器宽度门槛。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "#body 之后的附加内容，仍在滚动区内。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "#icon 相对文案：leading 在左，trailing 在右。",
+      "files": [
+        "views/components/previews/buttonPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "1 = 无二级 item；2 = 可包 default slot 放置二级 item。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "256（引导）",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "319 或 319px",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts",
+        "views/components/previews/inputDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "336（基础业务）",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "460（复杂业务）",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "74px 模式下 Logo 内单字；210px 模式下取 corporationTitle 首字母。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "安全",
+      "files": [
+        "views/components/previews/splitScenePreviewEntries.ts"
+      ]
+    },
+    {
+      "zh": "按 align（start=-spacing-2，end=+spacing-2，center=0）",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "按 panelKind（container/flotation/subtle → radius-md；popup → radius-lg；molde → 无）",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "按钮",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "按钮 Tone",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "按钮风格，对应 Figma Style。兼容旧名 primary / secondary / ghost。",
+      "files": [
+        "views/components/previews/buttonPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "按钮色调，对应 Figma Brand / Danger / Decor / Subtle / Same White。",
+      "files": [
+        "views/components/previews/buttonPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "按钮文案",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts",
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "按钮文案；仅 showButton 为 true 时显示。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "按钮文案。",
+      "files": [
+        "views/components/previews/buttonPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "版本",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "半选状态。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "备注",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "背景色",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "背景位置",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "币种",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "币种 / 头像；symbolPosition 控制左/右。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "币种 cryptoSymbol",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "边距",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "边距 Lg · spacing-3",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "边距 Md · spacing-2",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "边距 Sm · spacing-1",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "边距 Xs · spacing-0",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "编辑",
+      "files": [
+        "views/scenes/previews/listFieldCurrencyTagCustomize.ts"
+      ]
+    },
+    {
+      "zh": "编辑行",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "变体 displayMode",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "标记",
+      "files": [
+        "layout/buildComponentsSidebarSections.ts"
+      ]
+    },
+    {
+      "zh": "标签",
+      "files": [
+        "views/scenes/previews/listFieldCurrencyAddressCustomize.ts",
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "标签。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "标签名",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "标签数",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "标签文案",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "标签状态",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "标题",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts",
+        "views/components/previews/popoversDocCustomize.ts",
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "标题；省略时使用 type 预设。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "标题区。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "标题文案",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "表单反馈类型。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "表头 2",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "表头背景；默认 --data-table-head。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "表头高度（px）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "表头排序菜单。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "表头提示 showHeaderHint",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "表头文案。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "别名",
+      "files": [
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts"
+      ]
+    },
+    {
+      "zh": "操作列；默认最后一列。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "操作列更多菜单项。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "操作列主按钮。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "操作区",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "操作区；默认按 type 渲染 PopupWindow 或 Flotation，可整体替换。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "操作区按钮 Tone。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "插槽内容",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "插槽区内边距上（px）。未传：topTool 为 0；否则 spacing-4。与 placement 无关。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "插槽区内边距下（px）；未传时使用 spacing-4。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "插槽区内边距左右（px）；未传时使用 spacing-4。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "场景",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts",
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "场景化",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts",
+        "views/components/previews/sceneMotionDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "成功",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "尺寸",
+      "files": [
+        "views/components/previews/avatarDocCustomize.ts",
+        "views/components/previews/feedbackDocCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts",
+        "views/components/previews/inputPreviewData.ts",
+        "views/components/previews/popupDocCustomize.ts",
+        "views/components/previews/tabDocCustomize.ts",
+        "views/components/previews/tagDocCustomize.ts",
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "尺寸；Sm 使用 Bar 字阶，Md/Lg 使用 Body Small Strong。",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "尺寸。",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts",
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "初始化",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "触发器",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "触发器插槽。默认 EgFlotationTrigger；可完全自定义。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "触发器文案。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "垂直对齐方式",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "垂直间距",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "次按钮 tone",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "次按钮（Cancel）",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "次按钮风格",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "次按钮文案（Compose / Standard · Flotation；Symbol · PopupWindow）。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "次操作按钮文案；Popup count=2 或 Flotation clear 时使用。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "大 lg (880×620)",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "带单位的清空",
+      "files": [
+        "views/components/previews/inputPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "单地址",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "单位",
+      "files": [
+        "views/components/previews/inputPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "单位 unit",
+      "files": [
+        "views/components/previews/inputPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "当前序号",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "当前序号（千分位格式化）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "当前选中 Tab 索引。",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "当前选中项索引。",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "导出",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "导航右侧 Module Divider（vertical）；不占导航 74px 宽度，显示时总宽 = 导航 + 线宽。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "倒计时",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "倒计时（秒）",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "倒计时结束或 error 后点击重试。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "倒计时秒数（默认 60）；归零后在倒计时位置显示 retryLabel；error 时 retryLabel 在底部。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "地址",
+      "files": [
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts",
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "地址 address",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "地址数",
+      "files": [
+        "views/scenes/previews/listFieldCurrencyAddressCustomize.ts"
+      ]
+    },
+    {
+      "zh": "地址数 N",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "地址形态",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "地址溢出",
+      "files": [
+        "views/components/previews/index.ts"
+      ]
+    },
+    {
+      "zh": "地址溢出（Item、可复制）",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "底部 Action；默认 EgComboButton。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "底部 Add 行与分隔线（Figma Menu）。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "底部操作",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "底部分割线",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "底部分割线（EgDivider type=module）；开启后默认即显示，不随滚动隐藏。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "底部工具栏（翻页 + Cancel / Confirm）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "底部切换不可用（仍展示，勿隐藏）。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "底部切换验证方式。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "底部圆形图标区（结构始终保留，默认可放 3 个 Bottom iCon）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "第 N 个模块聚焦 icon name。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "第 N 个模块默认 icon name。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "第 N 个模块文案（N=1…20），如 moduleLabel1=\"Wallet\"。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "点击 Cancel 时触发。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "点击 Clear 时触发。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "点击 Confirm 时触发。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "点击 Paste 时触发。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "点击次按钮时触发。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "点击清空时触发。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "点击忘记密码。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "点击粘贴时触发。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "点击主按钮时触发。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "顶部加载条。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "顶栏系统按钮（交通灯）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "动效",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "段落溢出",
+      "files": [
+        "views/components/previews/index.ts",
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "对齐",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "对齐。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "对齐方式",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "多笔",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "多地址默认",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "多地址默认态「查看更多」链文案。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "多地址默认态计数。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "多地址条目；与 addressCount / addressLayout 配合。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "多地址展开",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "多选模式",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "多选模式（v-model:select-mode）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "多选时 Batch Bar 操作区（batchActions 为空时）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "二次确认",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "二级 item 行，左侧缩进 spacing-8。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "二级条目数",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "发送方",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "法币 fiatValue",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "翻页导航",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "反馈",
+      "files": [
+        "layout/buildComponentsSidebarSections.ts"
+      ]
+    },
+    {
+      "zh": "返回",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "方向",
+      "files": [
+        "views/components/previews/dividerDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "方向；水平为通栏线，垂直为通高线（容器需有高度）。粗细随 type 而定（Module 为 sm，Page / Navigator 为 xs）。",
+      "files": [
+        "views/components/previews/dividerPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "分段标签文案。",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "分割线常驻",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "分页项类型：数字、符号、填充箭头或工具栏边框箭头。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "分钟",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "风格",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "风险标签 · EgTag",
+      "files": [
+        "views/scenes/previews/listFieldCurrencyTagCustomize.ts"
+      ]
+    },
+    {
+      "zh": "浮层",
+      "files": [
+        "layout/buildComponentsSidebarSections.ts"
+      ]
+    },
+    {
+      "zh": "浮层内容插槽。默认 EgFlotationMenu（内嵌 EgTooltip）；可完全自定义。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "符号",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "符号类型",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "辅助说明",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "辅助说明文案。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "复制",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "副时间 secondaryDatetime",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "副文案",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts",
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "副文本",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "副文本 secondaryValue",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "高度",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "高度：150px",
+      "files": [
+        "views/components/previews/LayoutDeformDemoPreview.vue"
+      ]
+    },
+    {
+      "zh": "高度：200px",
+      "files": [
+        "views/components/previews/LayoutDeformDemoPreview.vue"
+      ]
+    },
+    {
+      "zh": "个数",
+      "files": [
+        "views/scenes/previews/listFieldCurrencyTagCustomize.ts"
+      ]
+    },
+    {
+      "zh": "更多操作数",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "更多文案",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "工具栏 Confirm 按钮 tone；Cancel 默认同此，可用 toolbarCancelTone 覆盖。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "工具栏备注按钮。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "工具栏顶部分割线常驻；false 时仅在底部仍有内容被裁切时显示。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "工具栏附加区（如左侧说明、筛选）；与内置 Cancel / Confirm 可同时存在。",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "工具栏取消按钮。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "工具栏确认按钮。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "工具栏上一项 borderArrow。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "工具栏下一项 borderArrow。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "工具栏中部 EgPaginationGroupButton borderArrow 与序号计数。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "工具栏左侧备注按钮（EgButton subtle outline）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "功能分区",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "固定 800",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "固定 fixed",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "滚动区插槽（Headline + Sections）；EgDetail 置于 EgPopup 默认插槽内。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "滚动区业务内容；边距由 Popup Box 内容区 inset 控制（Xs 为 0，业务自行撑开）。未传时 Showcase 用占位块演示溢出与顶部渐隐。",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "滚动条",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "盒子插槽",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "横幅文案。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "红点",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "激活 Active",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "级联箭头",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "加载 Loading",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "加载中",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "见 EgTooltip",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交叉轴对齐；同时影响未传 crossAxisOffset 时的默认 inset。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交叉轴对齐：top/bottom 控制水平位置；left/right 控制垂直位置。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交叉轴偏移（px）；未传时默认 -spacing-2。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交叉轴位移（px）；未传时按 align 与 --spacing-2 计算。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交互",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts",
+        "views/components/previews/sceneMotionDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交易/登录密码场景 EgComboPopupButton 按钮 Tone（确认 solid、取消 text 同 tone）。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交易/登录密码场景「忘记密码」链接文案；error 时隐藏。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交易/登录密码场景取消按钮文案。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交易/登录密码场景确认按钮文案。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交易/登录密码输入框占位文案。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "交易/登录密码校验失败时 EgFormSubmission（type=danger）文案；重新输入后恢复忘记密码行。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "角标数字或文案；渲染为 EgMessage。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "接收方",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "金额",
+      "files": [
+        "views/components/previews/inputPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "进度",
+      "files": [
+        "layout/buildComponentsSidebarSections.ts",
+        "views/components/previews/progressDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "进度 0–100。",
+      "files": [
+        "views/components/previews/progressPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "禁用",
+      "files": [
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts",
+        "views/components/previews/inputPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "禁用 Disable",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "禁用。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "禁用（Figma 仅 UnChecked Disable）。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "禁用（Figma 仅 UnDecided Disable）。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "禁用交互；未选/半选/选中对应 UnChecked Disable 或 Checked Disable 色板。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "聚焦背景",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "聚焦时",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "聚焦图标",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "卡片正文。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "开关状态。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "可见文案与 aria-label。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "可清空 clearable",
+      "files": [
+        "views/components/previews/inputPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "可选",
+      "files": [
+        "views/components/previews/anchoredContainerDocCustomize.ts",
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts"
+      ]
+    },
+    {
+      "zh": "可选。有值为带标题组合；省略为不带标题组合。多组 EgModuleMenuGroup 在 default slot 中排列，组间距 spacing-3（12px）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "可选图标；配合 iconPosition 置于文案左或右，对应 Figma showSymbol。",
+      "files": [
+        "views/components/previews/buttonPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "可选最大高度（px）；超出时内容区纵向滚动。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "可选最大宽度（px）。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "空数据",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "空状态文案。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "空状态自定义。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "控件区；默认渲染 EgTextarea width-mode=full。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "控件区（如 EgInput）。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "宽度",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "宽度模式。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "宽度值",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "矿工费",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "矿工费网络",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "类型",
+      "files": [
+        "views/components/previews/avatarDocCustomize.ts",
+        "views/components/previews/dividerDocCustomize.ts",
+        "views/components/previews/feedbackDocCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts",
+        "views/components/previews/inputPreviewData.ts",
+        "views/components/previews/organismTemplateDocData.ts",
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "类型 amountType",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "类型 lineLayout",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "链接地址。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "链接色调。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "链接文案。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "列",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "列定义（EgDataListColumn）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "列级表头自定义（EgDataListColumn #header）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "列宽（如 160px）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "列宽百分比。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "留空为无标题",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "留空则取首字",
+      "files": [
+        "views/components/previews/avatarDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "眉题",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "每页条数标题",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "每页条数选项",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "密码场景取消。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "密码错误文案",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "面板高度模式：fixed 使用 height；adaptive 随 slot 内容（受 maxHeight 约束）。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "秒",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "名称",
+      "files": [
+        "views/components/previews/avatarDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "模块",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "模块 icon 右上角红点。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "模块导航项。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "模块数量",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "模式",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "末页",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "默认",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "默认 1px",
+      "files": [
+        "views/components/previews/anchoredContainerDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "默认 icon（如 eds-add）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "默认单字/Logo 文案。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "默认图标",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "内容区 Section / Item 数据。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "内容区域",
+      "files": [
+        "views/components/previews/LayoutDeformDemoPreview.vue"
+      ]
+    },
+    {
+      "zh": "排序",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "批处理",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "批处理按钮；无 #operation 时内置 BatchBar。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "批处理回调；失败 throw 触发 Toast。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "企业 Logo 区；默认 EgNavBarCorporation。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "企业标识",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "企业名称",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "启用微浮动进出场（semantic `.motion-flotation` + spring）。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "嵌套 EgCheckbox。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "嵌套 EgTag family=status size=sm。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "切换",
+      "files": [
+        "layout/buildComponentsSidebarSections.ts"
+      ]
+    },
+    {
+      "zh": "切换不可用",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "切换文案",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "清空",
+      "files": [
+        "views/components/previews/inputPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "区块顶部警告条，`role=\"alert\"`；用于 group_failure 组级校验失败。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "取消按钮文案。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "取消文案",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "全表初始化遮罩（延迟出现）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "确认 tone",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "确认按钮",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "确认按钮文案。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "确认文案",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts",
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "确认正文",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "容器宽度",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "容器外形：矩形 rectangular、方形 square、圆形 round（Figma Type）。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "入向角标",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "三档尺寸。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "色调",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts",
+        "views/components/previews/sceneMotionDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "色调。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "筛选",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "上一项 borderArrow 禁用。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "上一页",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "声明式：第 N 个模块（N=1…20）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "声明式：模块数量；与 moduleLabelN / moduleIconN / moduleFocusIconN 配套。有 default slot 时忽略。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "声明式：应用入口（N=1…20）；有 appEntryLabel 时自动插入 Navigator Divider。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "声明式模块数量（与 moduleLabelN / moduleIconN / moduleFocusIconN 配套）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "声明式且无 #avatar slot 时的头像缩写。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "时间 datetime",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "时区 utcOffset",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "视觉",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "视觉：brand 类型 weaken 背景；moderate 统一 `--material-card-moderate`。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "是否禁用。",
+      "files": [
+        "views/components/previews/buttonPreviewData.ts",
+        "views/components/previews/buttonSubPreviewData.ts",
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "是否显示 loading；为 true 时自动禁用。",
+      "files": [
+        "views/components/previews/buttonPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "是否显示底部 Action 区；默认显示。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "是否显示红点。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "是否显示角标。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "是否显示链接；Notes / Danger 生效，Success 无链接。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "是否显示容器顶部分隔线。用于 Skid、Flotation、Page 场景。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "是否显示左侧符号图标。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "是否渲染 Status Tag。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "是否已决定。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "是否在进度末端显示百分比气泡（eds-popover-fill）。",
+      "files": [
+        "views/components/previews/progressPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "是否在右侧显示 EgButton（默认 outline · xs · subtle，边框 `--stroke-xs`）。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "是否在右侧显示 EgLinkButton（可与按钮并存，用于文档对比）。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "是否展示 Feedback 区；间距规则同 Combo/Input Item（2404:5584）。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "是否展示副文案。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "是否展示粘贴操作。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "是否只读。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "首页",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "首字（web3-avatar）",
+      "files": [
+        "views/components/previews/avatarDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "受控文本；默认 slot 内置 EgTextarea 绑定。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "受控文本。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "输出",
+      "files": [
+        "layout/buildComponentsSidebarSections.ts"
+      ]
+    },
+    {
+      "zh": "输满 codeLength 时触发。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "输入",
+      "files": [
+        "layout/buildComponentsSidebarSections.ts"
+      ]
+    },
+    {
+      "zh": "竖线配色；见 spec/color/tag-palette.json custom（Figma 2439:7744）。",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "竖线色",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "数据来源",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "数据量",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "数量",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts",
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts",
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "数量 cryptoValue",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "数值",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "刷新",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "水平间距",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "说明文案；省略时使用 type 预设。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "说明文案。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "四档尺寸，同时影响 padding 与字号。",
+      "files": [
+        "views/components/previews/buttonPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "四档尺寸。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "搜索关键词。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "随机 web3-avatar",
+      "files": [
+        "views/components/previews/avatarDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "缩写",
+      "files": [
+        "views/components/previews/avatarDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "缩写文案，优先于 name 推导。",
+      "files": [
+        "views/components/previews/avatarPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "提醒",
+      "files": [
+        "views/components/previews/splitScenePreviewEntries.ts"
+      ]
+    },
+    {
+      "zh": "替换默认 Cancel / Confirm 按钮；保留翻页导航、序号与滚动分割线。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "替换默认底部工具栏（翻页 + 操作按钮）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "条目数",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "跳转标题",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "统计后缀",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "统计区",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "统计数字",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "统计折叠",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "头像",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "头像名称",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "头像缩写",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "透传 EgTooltip 外壳；#default 为 EgFlotationMenuItem 列表。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "透传 EgTooltip。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "透传 EgTooltip。click 下拉；hover/focus 用于地址、哈希等 Tooltip 场景。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "透传给内部 EgTooltip。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "图标",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "图标名",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "图标位置",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "图片",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "网络",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "网络名",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "危险",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "为 true 时不可打开。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "为 true 时每次渲染从原色盘随机取色（演示用）。",
+      "files": [
+        "views/components/previews/avatarPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "为 true 时使用 stroke-hide，保留占位不显示线条（如 Combo 可选顶部分隔）。",
+      "files": [
+        "views/components/previews/dividerPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "未传 default slot 时内置 EgTextarea 的占位文案。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "文案",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts",
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "文案、禁用、展开箭头方向。展开态（expanded）背景为 --event-focus；关闭后恢复默认。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "文案。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "文案或计数（Bar 11px / line-height 14px）。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "文案与交互态（hover CSS；focused → --event-focus-brand-weaken）。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "无翻页导航时 Cancel / Confirm 对齐。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "无障碍 aria-label。",
+      "files": [
+        "views/components/previews/avatarPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "无障碍标签（aria-label）。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "系统条关闭按钮；键盘 Esc（非输入焦点时）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "下级条目",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "下拉箭头。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "下拉设置 Jump 标题。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "下拉设置 Level 标题。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "下一项 borderArrow 禁用。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "下一页",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示",
+      "files": [
+        "views/scenes/previews/listFieldCurrencyTagCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示 Action",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示 Add",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示 AML 查询",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示 Bar",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示 Link",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示 Status Tag",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示 Tag",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示 Title 图标",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示按钮",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示币种图标",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示标签",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示标题",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示测试内容",
+      "files": [
+        "views/components/previews/skidPreviewDemo.ts"
+      ]
+    },
+    {
+      "zh": "显示倒计时",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示多地址",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示反馈",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示符号",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/feedbackDocCustomize.ts",
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示复制",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示副文案",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示副文本",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示工具栏",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示关闭",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示关闭按钮",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示红点",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示链接",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示眉题",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示内容区 2",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示气泡",
+      "files": [
+        "views/components/previews/progressDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示区块浏览器",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示添加到地址簿",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示图标",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示消息",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示行内 Tag",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示右侧Tag",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示正文",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "显示左侧Tag",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "相对触发器的弹出方向。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "相对锚点的弹出方向；箭头落在朝向锚点的一侧。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "详情",
+      "files": [
+        "views/components/previews/splitScenePreviewEntries.ts"
+      ]
+    },
+    {
+      "zh": "消息类型",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "消息文案",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "小 sm (656×516)",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "行高",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "行高（px）：Xl=66，Md=48。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "行数",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "行数据。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "姓名",
+      "files": [
+        "views/components/previews/avatarDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "悬浮时",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "选项 value。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "选择模式",
+      "files": [
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "选择行开始编辑",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "选中",
+      "files": [
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "选中数",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "选中态文案 primary。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "选中统计区。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "选中项",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "选中状态。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "渲染标签；嵌套在 EgIconProButton 等控件内时用 span，避免 button 套 button。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "验证方式",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "验证码 / 密码值变化。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "验证码位数。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts",
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "验证码字符串；OTP 满 codeLength 位或密码点确定 emit complete。密码为空时确认按钮禁用。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "验证码字符串（仅数字）。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "样式",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts",
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "样式名；色板见 spec/color/tag-palette.json（Figma Status/Colorful）。",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "页码",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts",
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "已废弃：1 等价于 subitem。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "已废弃：等价于 focused。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "引导",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "引导正文",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "隐藏",
+      "files": [
+        "views/components/previews/dividerDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "隐藏列。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "应用入口聚焦 icon name。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "应用入口默认 icon name。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "应用入口数量",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "应用入口文案（N=1…20）；有值时自动渲染 Module Divider 下入口项。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "用户名；未传 initials 时取首字作为缩写。",
+      "files": [
+        "views/components/previews/avatarPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "用户头像。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "用空格分隔，如 Overview Assets History",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts",
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "用空格分隔，如 Tab Home Settings",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "右",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "右侧 EgMessage 文案（便捷 prop）；Showcase 推荐 #accessory 嵌套 EgMessage。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "右侧 EgReddot；与 message 互斥。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "右侧 Message。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "右侧分割线",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "右侧配件",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "右侧配件区；嵌套 EgMessage 或 EgReddot（与 message / showReddot prop 互斥）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "右侧竖向 EgDivider type=module。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "右区功能图标组；showSection 时在分割线右侧。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "与 labels 等长；为 true 时该项 Text 使用 --text-danger-primary。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "语义色；来自 spec/color/tag-palette.json（display-p3）。",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "预留扩展位；默认由 Confirm / Cancel / Clear 按钮组合填充。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "预置宽度",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "预置宽度 preset",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "原色映射 seed，默认取 name。",
+      "files": [
+        "views/components/previews/avatarPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "圆角 / 方角容器。",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "粘贴链接文案。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "展开态",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "展示 #symbol 预置 EgIcon（币种 / 头像）。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "展示优先级，越小越靠左。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "占位符",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "占位文案。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "折叠后胶囊内可见 Label 数；其余进 More 覆层（Figma 3557:14071）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "折叠时的 More 文案。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "整块右侧区（覆盖 reddot/cascader/message）。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "正文",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "正在加载的 Label 全局 index；Text 项展示 eds-load 旋转图标，overflow 项时 More 按钮展示。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "值变化时触发。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "指定 web3 原色盘索引（0–19）；未传时按 colorSeed / name 稳定映射。",
+      "files": [
+        "views/components/previews/avatarPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "中 md (780×560)",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "主按钮 label",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "主按钮 tone",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "主按钮风格",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "主按钮文案。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "主操作按钮色调。Skid 支持 danger；Popup / Flotation / Page 为 brand / decor。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "主操作按钮文案。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "主内容",
+      "files": [
+        "views/components/previews/LayoutPreview.vue"
+      ]
+    },
+    {
+      "zh": "主内容区。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "主轴与触发器间距（px）；未传时读 --spacing-025。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts",
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "状态",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts",
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "字段标题。Figma 2404:5602。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "字段标题（Body Small primary）。Figma 2404:5584。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "字段名；默认槽未提供时取 data[prop]。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "字段溢出",
+      "files": [
+        "views/components/previews/index.ts",
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "自定义",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "自定义标签 · EgTag",
+      "files": [
+        "views/scenes/previews/listFieldCurrencyTagCustomize.ts"
+      ]
+    },
+    {
+      "zh": "自定义右侧操作区；提供时忽略 labels / More 折叠逻辑。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "自动（按 name）",
+      "files": [
+        "views/components/previews/avatarDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "自适应 adaptive",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "自适应（min 720）",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "总数",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "总条数（千分位格式化）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "组标题",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "组合",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "组级横幅语义色。info 背景 `--material-card-moderate`；warning / danger 在 visual=brand 时用类型 weaken，moderate 时统一 `--material-card-moderate`。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "组数量",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "组顺序",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "最大高度",
+      "files": [
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "最大高度（可选）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "最大宽度",
+      "files": [
+        "views/components/previews/flotationBoxSceneAddressCustomize.ts",
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "最小宽度",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts",
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "最小列宽（响应式计算）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "左",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts",
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "左侧 Nav Bar（自由布局可选）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "左侧关闭区。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "左侧选择控件。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "左右 EgTag 文案，独立配置。",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "adaptive：高度由 effect semantic 或内容决定；fixed：使用 height。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "adaptive：宽度随内容；fixed：使用 width。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Add 文案",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Bar 文案 + aria-label。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "BatchBar Action Item 类型（Figma 2840:3358）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Body Medium 文案。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Cancel 按钮 tone（如 danger 危险文字按钮）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Clear 链接文案；中文传「清空」。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "click：点击切换；click 模式下阻止右键菜单。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Collapse 链接",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Collapse 文案",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Colorful 族 Tag。",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Compose · 点击 Clear 时触发。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Compose · 工具栏左侧 Clear。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Compose · Clear 文案。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Compose / Standard · 工具栏顶部分割线常驻；false 时仅在底部仍有内容被裁切时显示。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Compose / Standard 类型 · 标题区下方的自定义内容区。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Compose 内容",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Container-Page BG 装饰条位置。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Corporation 与 Module 区之间 Page Divider。Figma Split。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Data List 单元格使用 Lg。",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Data Volume 数量。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Data Volume 下拉 Jump 确认跳转。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Data Volume 下拉 Level 选项变更。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Data Volume 下拉。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Data Volume 下拉浮层内容（Figma 2092:8003）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Data Volume Results 文案。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Data Volume Total 文案。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "default 插槽",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "default 数据列；select 由列表多选模式注入。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Disable 态：文案/图标 --text-base-quaternary。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "EgButton 尺寸。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "EgButton 风格（Style）。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "EgFlotationMenuItem 行；可用预置 props 或完全自定义。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "EgLinkButton 尺寸。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "EgMessage 聚焦背景（配合 message prop）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "EgMessage type（配合 message prop）；#accessory 嵌套时写在 EgMessage 上。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "EgReddot、级联箭头、EgMessage（type：subtle | brand | danger）。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "EgTextarea 无公开插槽；Paste / Clear 通过 props 与事件配置。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "EgTooltip：触发器。EgTooltip：面板内容。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "EgTooltip：Teleport 后面板内容（包在 EgTooltip 内）。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "EgVerify 无公开插槽；子结构由 type 预设与 props 驱动（EgVerifyInput、EgVerifyRingDots 等）。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "error 后重新输入时触发。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "false → 74px（scale-18 + scale-05）；true → 210px（scale-50 + scale-2-5）。Showcase 文档预览默认 false。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "feedback=true 时的下方内容；可嵌套 EgFormSubmission。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Figma Box Type。预置布局；整行可由 Menu #default 内容替换。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Figma Style。预置外观；整控件可由 #trigger 替换。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "fixed 模式下固定宽度（px）。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Flotation 场景点击 Clear 时触发。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Flotation 场景非 Action 变体。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Flotation 场景是否显示 Clear 操作。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Flotation 浮动面板操作区；可组合 Clear、Divider 与 Brand / Decor 主操作。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Functional 内以竖向 EgDivider type=page 分区。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Headline 眉题（Body Small Strong）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Headline 旁 EgTag 文案。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Headline 下 EgTabs + Page Divider。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Headline 主标题。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Headline Status Tag 尺寸（EgTag size）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Headline Status Tag 语义色（EgTag status）。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "heightMode=adaptive 时面板区最大高度（px）。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "heightMode=fixed 时面板高度（px）。container 场景由 effect-container-box 提供，勿传。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "heightMode=fixed 时面板区高度（px，不含箭头）。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "hover/focus 时打开/关闭延迟（ms）。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "idle 默认字色；verifying 次要字色；error 危险背景 + 轻晃。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "initials：原色盘 + 首字；robot：eds-avatar-0 机器人。",
+      "files": [
+        "views/components/previews/avatarPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "is-enter-only（仅入场）",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "is-enter-only（asym 别名）",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "is-paint（入+出）",
+      "files": [
+        "views/components/previews/buttonDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Item 宽度：adaptive=内容 hug；fixed=父级定宽后均分。",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Item 行尾 EgLinkButton（showValueLink / 多地址 Expand·Orders 链）点击；payload 为 item.key 或 `${sectionIndex}-${itemIndex}`。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "itemWidthMode=fixed 时可选容器宽度（px）；未传则 100% 跟随父级。",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Jump 输入框占位符。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Jump 输入值（v-model）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "kind 为 symbol / button / borderArrow 时的图标。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "kind=number 时显示的数字文案。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Label 数超过该值时折叠（默认 4）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Label 文案。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Level 选中索引（v-model）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Level Segmented 选项。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Link 地址。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Link 文案",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Link 文案；仅 showLink 为 true 时显示。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Max（suffix 预置）",
+      "files": [
+        "views/components/previews/inputPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Message 类型",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Message 文案",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Module Divider 下方应用入口（Figma Split=Yes Module Combo 内 Divider 2085:804 之下）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Module Menu 标题旁 EgReddot。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Module Menu 侧栏（type=module-menu | free 且传入插槽时）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "More 覆层菜单打开时。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "More 覆层交叉轴对齐；默认 start，菜单左缘贴 More，长文案向右拓展。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "More 覆层内容（Figma Menu Box 3557:14071）；默认渲染 overflow labels。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "More 覆层相对触发器的主轴方向。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "NavBar展开",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Notes / Danger 态链接地址。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Notes / Danger 态链接文案（嵌套 EgLinkButton size=sm）；Success 无链接。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Operation 开关：右侧操作 Icons。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Operation 区额外操作。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "OTP 输满或密码确认时触发。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "OTP 粘贴操作。",
+      "files": [
+        "views/components/previews/verifyDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Page 场景非 Action 变体。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Page 场景主操作对齐方向。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Page 页面级操作区；支持左右对齐与可选分隔线。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Pagination Raw：首/前/页码/后/末（Showcase「数据量/页码」为演示状态，非组件 prop）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Paginer-Data Volume；下拉触发 EgFlotation → #dropdown-content（默认 EgPaginerSettings）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Paginer-Statistics 组合；可用 #statistics 插槽替换。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Palette 族 Tag；radius-xs、左侧竖线配色、material-card-deep 底。",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Paste 链接文案；中文传「粘贴」。",
+      "files": [
+        "views/components/previews/inputSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "placement=top 时顶部工具条（标题 + 可选关闭）。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Popup 场景非 Action 变体。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Popup 弹窗底部操作区；Number=1 仅主按钮，Number=2 为主按钮 + 文本 Cancel。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Popup 是否打开；关闭时先播放 shell 出场（`.motion-layout`），再卸载。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Popup Box 高度",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Popup Box 宽度",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Popup Box 默认插槽 · 业务内容区",
+      "files": [
+        "views/components/previews/PopupCustomSlotChromePreview.vue"
+      ]
+    },
+    {
+      "zh": "Popup Window 场景下的按钮数量：1 仅 Confirm；2 为 Confirm + Cancel。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "progressbar 无障碍标签。",
+      "files": [
+        "views/components/previews/progressPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "px，如 222",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Radio 组 name。",
+      "files": [
+        "views/components/previews/toggleDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Reddot 无 props，为 8px 危险色圆点。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Scrollbar 指示条宽度。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Scrollbar 指示条位置 0–1。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Sender / Receiver 地址展示形态（Figma 2267:11822 / 2267:11830）；multi-orders 为数量 Orders 链。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Shell 进出场动效（`.motion-layout` + host active）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "showBadge 时 EgMessage 的 type。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "showButton 时默认 EgComboButton 确认文案。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "showButton 时默认 EgComboButton tone。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "showSection 时左区功能图标组。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "showSkid 右侧滑层。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "showSymbol 为 true 时的 EgIcon 名称。",
+      "files": [
+        "views/components/previews/flotationDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Skid 场景非 Action 变体；结构与 Action-Skid 相同，用于非强调操作流。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Skid 滑层开合；支持 v-model:show-skid。EgSkid 关闭按钮会将其置为 false。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Skid 模板底部的单按钮操作区；支持 Brand / Decor / Danger 与可选顶部分隔线。",
+      "files": [
+        "views/components/previews/comboPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Skid 主体内容。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Skid-Title 文案（必填）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Statistics 后缀文案。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Statistics 未折叠时。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Statistics 折叠触发器 aria-label。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Statistics 折叠时：EgFlotation + 统计浮层。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Statistics 折叠为 eds-more-ios。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Statistics 主数字。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Status 族 Tag。",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Status Tag 文案",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Status Tag 状态",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Symbol · EgComboPopupButton 按钮数。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Symbol 插槽；默认 slot 与之等价。推荐 <EgIcon name=\"eds-add\" fit />。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Symbol 插槽别名（与 #symbol 等价）。",
+      "files": [
+        "views/components/previews/buttonSubPreviewData.ts"
+      ]
+    },
+    {
+      "zh": "Symbol 关闭。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Symbol 类型 · 56px 圆形容器内符号；可用 CSS 变量 `--eds-dialog-symbol-bg` / `--eds-dialog-symbol-color` 覆盖。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Symbol：Body Large Strong；Compose / Standard：Title 角色。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Symbol：Body Small 副文案；Standard：Body Medium 正文；Compose：Bar 角色。",
+      "files": [
+        "views/components/previews/dialogDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "System 类型变体；左右 Tag 独立配置，默认 stroke-subtle。",
+      "files": [
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "System 类型变体。",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "System 族 Tag。",
+      "files": [
+        "views/components/previews/tagDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Tab 文案列表。",
+      "files": [
+        "views/components/previews/tabDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Tabs 标签文案。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Teleport 外层 class，用于加载 Desktop token。",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "text → 纯文案标题；trigger → #title 插槽嵌 EgFlotationTrigger trigger-style=\"text\"。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Text 操作项，1–20 项；超过 collapseThreshold 时折叠为前 collapsedVisibleCount 项 + More。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Text 危险态：--text-danger-primary。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Text Active 态（--event-focus 底 + --text-base-secondary）；Hover / Focus 由 CSS 驱动。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Text Label 点击。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Text Loading 态：eds-load 旋转图标（同 DataList loading）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "tier=2 父级展开态（v-model:expanded）；默认 false 收起，点击整行切换。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "tier=2 且含二级 item 时覆盖默认折叠图标（arrow-up / arrow-right）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "Title 图标",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Title 文案",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Toast 类型。",
+      "files": [
+        "views/components/previews/feedbackDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "toolbar 插槽",
+      "files": [
+        "views/components/previews/popupDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Tooltip 交互",
+      "files": [
+        "views/components/previews/tooltipDocCustomize.ts",
+        "views/scenes/previews/listFieldDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "topTool 标题文案。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "topTool 默认",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "topTool 显示关闭按钮；点击 emit topToolClose。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Type=Statistics 后缀。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "uses=custom 且尺寸=自定义时 Popup Box 高度（px）；lg/md/sm 为固定预设。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "uses=custom 且尺寸=自定义时 Popup Box 宽度（px）；lg/md/sm 为固定预设。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "uses=dialog 时 EgDialog 场景（带符号的对话 / 标准 / 业务对话；Symbol 280px / Compose·Standard 460px）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "v-model:activeTab — Headline Tabs 选中索引。",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "Value 文案",
+      "files": [
+        "views/components/previews/detailDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "wide 模式下版本文案（Footnote Strong / tertiary）。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "wide 模式下企业名称（Body Medium Strong）；Logo 内字母取其首字。",
+      "files": [
+        "views/components/previews/organismTemplateDocData.ts"
+      ]
+    },
+    {
+      "zh": "widthMode=adaptive 时面板区最大宽度（px）。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    },
+    {
+      "zh": "widthMode=fixed 时面板区宽度（px，不含箭头）。预置宽见 Showcase presetWidth。",
+      "files": [
+        "views/components/previews/popoversDocCustomize.ts"
+      ]
+    }
+  ]
+}

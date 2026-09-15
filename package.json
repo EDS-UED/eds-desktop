@@ -19,7 +19,9 @@
     "sync:list": "node scripts/sync-local-consumers.mjs --list",
     "sync:tokens": "pnpm --filter @eds/desktop-tokens sync:figma",
     "lint": "pnpm -r lint",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "i18n:showcase:extract": "pnpm --filter @eds/desktop-showcase i18n:extract",
+    "i18n:showcase:prefill": "pnpm --filter @eds/desktop-showcase i18n:prefill"
   },
   "engines": {
     "node": ">=20",

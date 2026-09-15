@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { buttonToneRows, buttonVariantRows, directionLeftRightRows, showcaseButtonCustomizeFieldLabels } from '@/data/showcasePropLabels';
 
 export const popupCustomBoxSizePresets = {
@@ -18,13 +19,13 @@ export const popupCustomBoxSizeDefaults = {
 export const popupCustomBoxSizePresetControl: DocCustomizeControl = {
   kind: 'select',
   key: 'customBoxSizePreset',
-  label: '尺寸',
+  label: showcaseText('Size', '尺寸'),
   visibleWhen: (state) => state.uses === 'custom',
   options: [
-    { value: 'lg', label: '大 lg (880×620)' },
-    { value: 'md', label: '中 md (780×560)' },
-    { value: 'sm', label: '小 sm (656×516)' },
-    { value: 'custom', label: '自定义' },
+    { value: 'lg', label: showcaseText('Large lg (880 × 620)', '大 lg (880×620)') },
+    { value: 'md', label: showcaseText('Medium md (780 × 560)', '中 md (780×560)') },
+    { value: 'sm', label: showcaseText('Small sm (656 × 516)', '小 sm (656×516)') },
+    { value: 'custom', label: showcaseText('Custom', '自定义') },
   ],
 };
 
@@ -44,13 +45,13 @@ export const popupCustomContentInsetDefaults = {
 export const popupCustomContentInsetPresetControl: DocCustomizeControl = {
   kind: 'select',
   key: 'customContentInsetPreset',
-  label: '边距',
+  label: showcaseText('margin', '边距'),
   visibleWhen: (state) => state.uses === 'custom',
   options: [
-    { value: 'lg', label: '边距 Lg · spacing-3' },
-    { value: 'md', label: '边距 Md · spacing-2' },
-    { value: 'sm', label: '边距 Sm · spacing-1' },
-    { value: 'xs', label: '边距 Xs · spacing-0' },
+    { value: 'lg', label: showcaseText('Margins Lg · spacing-3', '边距 Lg · spacing-3') },
+    { value: 'md', label: showcaseText('Margins Md · spacing-2', '边距 Md · spacing-2') },
+    { value: 'sm', label: showcaseText('Margins Sm · spacing-1', '边距 Sm · spacing-1') },
+    { value: 'xs', label: showcaseText('Margins Xs · spacing-0', '边距 Xs · spacing-0') },
   ],
 };
 
@@ -136,55 +137,55 @@ export const popupCustomChromeSlotRows: DocPropRow[] = [
     name: 'default',
     type: 'slot',
     defaultValue: '-',
-    description: '滚动区业务内容；边距由 Popup Box 内容区 inset 控制（Xs 为 0，业务自行撑开）。未传时 Showcase 用占位块演示溢出与顶部渐隐。',
+    description: showcaseText('The business content of the scrolling area; the margins are controlled by the Popup Box content area inset (Xs is 0, the business supports itself). Showcase uses placeholder blocks to demonstrate overflow and top fading when not passing.', '滚动区业务内容；边距由 Popup Box 内容区 inset 控制（Xs 为 0，业务自行撑开）。未传时 Showcase 用占位块演示溢出与顶部渐隐。'),
   },
   {
     name: 'toolbar',
     type: 'slot',
     defaultValue: '-',
-    description: '工具栏附加区（如左侧说明、筛选）；与内置 Cancel / Confirm 可同时存在。',
+    description: showcaseText('Toolbar attachment area (e.g., left-hand side description, filters); can exist with built-in Cancel/Confirm.', '工具栏附加区（如左侧说明、筛选）；与内置 Cancel / Confirm 可同时存在。'),
   },
 ];
 
 export const popupCustomSystemBarCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'boolean', key: 'customShowSystemBarClose', label: '显示关闭按钮' },
+  { kind: 'boolean', key: 'customShowSystemBarClose', label: showcaseText('ShowOffButton', '显示关闭按钮') },
 ];
 
 export const popupCustomContentCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'boolean',
     key: 'customShowScrollBody',
-    label: 'default 插槽',
+    label: showcaseText('default Slot', 'default 插槽'),
   },
 ];
 
 export const popupCustomToolbarCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'boolean', key: 'customShowToolbar', label: '显示工具栏', row: 0 },
+  { kind: 'boolean', key: 'customShowToolbar', label: showcaseText('ShowToolbar', '显示工具栏'), row: 0 },
   {
     kind: 'boolean',
     key: 'customDemoToolbarSlot',
-    label: 'toolbar 插槽',
+    label: showcaseText('toolbar Slot', 'toolbar 插槽'),
     row: 1,
     visibleWhen: isPopupCustomToolbarOn,
   },
   {
     kind: 'boolean',
     key: 'customToolbarDividerPinned',
-    label: '分割线常驻',
+    label: showcaseText('Dividers resident', '分割线常驻'),
     row: 2,
     visibleWhen: isPopupCustomToolbarOn,
   },
   {
     kind: 'boolean',
     key: 'customShowToolbarButtons',
-    label: '显示 Action',
+    label: showcaseText('Show Action', '显示 Action'),
     row: 3,
     visibleWhen: isPopupCustomToolbarOn,
   },
   {
     kind: 'select',
     key: 'customToolbarTone',
-    label: '主按钮 tone',
+    label: showcaseText('Primary button tone', '主按钮 tone'),
     row: 3,
     options: buttonToneRows
       .filter((row) => ['brand', 'decor', 'danger'].includes(row.key))
@@ -194,7 +195,7 @@ export const popupCustomToolbarCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'customToolbarVariant',
-    label: '主按钮风格',
+    label: showcaseText('Primary Button Style', '主按钮风格'),
     row: 3,
     options: buttonVariantRows.map((row) => ({ value: row.key, label: row.label })),
     visibleWhen: isPopupCustomToolbarButtonsOn,
@@ -209,14 +210,14 @@ export const popupCustomToolbarCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'boolean',
     key: 'customShowToolbarCancel',
-    label: '次按钮（Cancel）',
+    label: showcaseText('Secondary Button (Cancel)', '次按钮（Cancel）'),
     row: 4,
     visibleWhen: isPopupCustomToolbarButtonsOn,
   },
   {
     kind: 'select',
     key: 'customToolbarCancelTone',
-    label: '次按钮 tone',
+    label: showcaseText('Secondary button tone', '次按钮 tone'),
     row: 4,
     options: buttonToneRows
       .filter((row) => ['brand', 'decor', 'danger'].includes(row.key))
@@ -227,7 +228,7 @@ export const popupCustomToolbarCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'customToolbarCancelVariant',
-    label: '次按钮风格',
+    label: showcaseText('Secondary Button Style', '次按钮风格'),
     row: 4,
     options: buttonVariantRows.map((row) => ({ value: row.key, label: row.label })),
     visibleWhen: (state) =>

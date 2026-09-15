@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   EgButton,
   EgDetail,
@@ -48,6 +50,9 @@ const props = withDefaults(
   }>(),
   {},
 );
+
+const { display } = useShowcaseDisplayText();
+const reopenPopupLabel = showcaseText('Reopen Popup', '重新打开 Popup');
 
 const resolvedUses = computed((): PopupUses => props.lockedUses ?? 'custom');
 
@@ -253,7 +258,7 @@ function closePopup() {
           />
         </div>
         <div v-if="!popupOpen" :class="docStyles.previewReopenHint">
-          <EgButton size="md" tone="brand" @click="popupOpen = true">重新打开 Popup</EgButton>
+          <EgButton size="md" tone="brand" @click="popupOpen = true">{{ display(reopenPopupLabel) }}</EgButton>
         </div>
       </template>
     </ComponentDocLayout>

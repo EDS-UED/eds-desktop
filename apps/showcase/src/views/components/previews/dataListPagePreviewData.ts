@@ -6,7 +6,7 @@ import {
   listFieldSceneSlugs,
   type ListFieldSceneSlug,
 } from '@/data/scenes';
-import { tokenLabel, tokenOption } from '@/data/showcasePropLabels';
+import { showcaseText, tokenOption } from '@/data/showcasePropLabels';
 import { getListFieldDocConfig } from '@/views/scenes/previews/listFieldDocCustomize';
 import { syncCurrencyAddressesForSymbol } from '@/views/scenes/previews/listFieldCurrencyAddressCustomize';
 import { syncCurrencyMinWidthForComboMode } from '@/views/scenes/previews/listFieldCurrencyShared';
@@ -103,7 +103,7 @@ export const dataListColumnDataSourceOptions = [
     const item = findSceneCatalogItem(slug)?.item;
     const zh = listFieldDataSourceZhLabels[slug];
     const en = item?.name ?? slug;
-    return { value: slug, label: tokenLabel(zh, en) };
+    return { value: slug, label: showcaseText(en, zh) };
   }),
 ];
 

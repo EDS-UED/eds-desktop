@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useShowcaseI18n } from '@/composables/useShowcaseI18n';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import {
+  resolveCatalogSubgroupLabel,
+  resolveComponentFamilyName,
+  resolveComponentPageName,
+} from '@/data/i18n/resolveShowcaseCatalogText';
 import { componentAnchorItems } from '@/data/components';
 import { anchorItemsForFamily } from '@/data/components/anchorItemsForFamily';
 import { findComponentsSidebarFamilyId } from '@/layout/buildComponentsSidebarSections';
@@ -109,6 +116,8 @@ function buildAnchorNavBlock(
 }
 
 const route = useRoute();
+const { locale } = useShowcaseLocale();
+const i18n = useShowcaseI18n();
 
 const activeSlug = computed(() => getComponentRouteSlug(route.path, route.params.slug));
 
@@ -155,12 +164,23 @@ const anchorNavBlocks = computed((): AnchorNavBlock[] => {
   const { body, scenes } = splitBodyAndScenes(scopedAnchorItems.value);
   const blocks: AnchorNavBlock[] = [];
 
-  const bodyBlock = buildAnchorNavBlock('body', '本体', body, isNavLabel);
+  void locale.value;
+  const bodyBlock = buildAnchorNavBlock(
+    'body',
+    i18n.name('shell:body-block', 'Body'),
+    body,
+    isNavLabel,
+  );
   if (bodyBlock) {
     blocks.push(bodyBlock);
   }
 
-  const scenesBlock = buildAnchorNavBlock('scenes', '场景化', scenes, isNavLabel);
+  const scenesBlock = buildAnchorNavBlock(
+    'scenes',
+    i18n.name('shell:scenes-block', 'Scenes'),
+    scenes,
+    isNavLabel,
+  );
   if (scenesBlock) {
     blocks.push(scenesBlock);
   }
@@ -193,7 +213,20 @@ function isNavLabel(item: (typeof scopedAnchorItems.value)[number]) {
 }
 
 function anchorNavLabel(item: (typeof scopedAnchorItems.value)[number]) {
-  return item.label;
+  void locale.value;
+  if (item.kind === 'navSubgroup') {
+    return resolveCatalogSubgroupLabel(i18n, item.id, item.label);
+  }
+  if (item.standalonePage && item.pageSlug) {
+    return resolveComponentPageName(i18n, item.pageSlug, item.label, item.id);
+  }
+  return resolveComponentFamilyName(item.label);
+}
+
+function anchorSectionHeading(section: AnchorNavSection) {
+  void locale.value;
+  if (!section.heading) return '';
+  return resolveCatalogSubgroupLabel(i18n, section.id, section.heading);
 }
 
 watch(activeSlug, () => {
@@ -232,7 +265,7 @@ onMounted(() => {
           v-if="section.heading"
           :class="styles.anchorsHeading"
         >
-          {{ section.heading }}
+          {{ anchorSectionHeading(section) }}
         </span>
 
         <PageAnchorLinkNav

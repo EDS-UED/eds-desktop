@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgCregisNavBar, EgNavBar } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
@@ -35,6 +38,22 @@ const props = withDefaults(
 );
 
 const lockedScenario = computed(() => props.initialScenario);
+
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const moduleNamePanelTitle = showcaseText('Module name', '模块名称');
+const appEntryNamePanelTitle = showcaseText('App entry name', '应用入口名称');
+
+const resolvedModuleNamePanelTitle = computed(() => {
+  void locale.value;
+  return display(moduleNamePanelTitle);
+});
+
+const resolvedAppEntryNamePanelTitle = computed(() => {
+  void locale.value;
+  return display(appEntryNamePanelTitle);
+});
 
 const customizeDefaults = computed(() =>
   lockedScenario.value === 'cregis'
@@ -151,7 +170,7 @@ function resetNavBarCustomize() {
         <div :class="docStyles.customizeExtraStack">
           <CustomizePanel
             v-model="customize"
-            title="模块名称"
+            :title="resolvedModuleNamePanelTitle"
             nested
             embedded
             sequential
@@ -159,7 +178,7 @@ function resetNavBarCustomize() {
           />
           <CustomizePanel
             v-model="customize"
-            title="应用入口名称"
+            :title="resolvedAppEntryNamePanelTitle"
             nested
             embedded
             sequential

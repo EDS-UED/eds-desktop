@@ -24,7 +24,7 @@ export function createShowcaseI18nRegistry(
     tryName(key) {
       const entry = index.get(key);
       if (!entry) return undefined;
-      return resolveShowcaseI18nText(entry.name, locale);
+      return resolveShowcaseI18nText(entry.name, locale, '', key);
     },
     name(key, fallback = '') {
       return registry.tryName(key) ?? fallback;
@@ -32,7 +32,7 @@ export function createShowcaseI18nRegistry(
     description(key, fallback = '') {
       const entry = index.get(key);
       if (!entry?.description) return fallback;
-      return resolveShowcaseI18nText(entry.description, locale, fallback);
+      return resolveShowcaseI18nText(entry.description, locale, fallback, `${key}:description`);
     },
     entries() {
       return [...index.values()];

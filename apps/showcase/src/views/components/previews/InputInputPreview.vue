@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
 import { EgInput } from '@eds/desktop-components';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import { buildVueSelfClosingSnippet } from '@/views/shared/componentDoc/buildUsageSnippet';
@@ -27,6 +28,7 @@ import {
   type ShowcaseInputWidthMode,
 } from './inputPreviewWidth';
 
+const { display } = useShowcaseDisplayText();
 const heroValue = ref('');
 
 const inputCustomize = reactive({
@@ -93,7 +95,7 @@ const sharedInputProps = computed(() => ({
   type: inputCustomize.type as 'standard' | 'amount',
   size: inputCustomize.size as 'lg' | 'md' | 'sm',
   widthMode: resolveEgInputWidthMode(inputCustomize.widthMode),
-  placeholder: String(inputCustomize.placeholder),
+  placeholder: display(String(inputCustomize.placeholder)),
   disabled: previewDisabled.value,
   readonly: previewReadonly.value,
   unit: inputPreviewUnit.value,

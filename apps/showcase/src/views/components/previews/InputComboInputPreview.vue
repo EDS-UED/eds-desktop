@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
 import { EgComboInput, EgFormSubmission, EgInput } from '@eds/desktop-components';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { showcaseInputPlaceholderDemo } from '@/data/i18n/showcaseDemoText';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
@@ -28,6 +30,7 @@ import {
   type ShowcaseInputWidthMode,
 } from './inputPreviewWidth';
 
+const { display } = useShowcaseDisplayText();
 const comboInputValue = ref('');
 
 const comboInputCustomize = reactive({
@@ -119,7 +122,7 @@ const comboInputUsageSnippet = computed(() => {
               :type="comboInputCustomize.type as 'standard' | 'amount'"
               :size="comboInputCustomize.size as 'lg' | 'md' | 'sm'"
               :width-mode="resolveEgInputWidthMode(comboInputCustomize.widthMode)"
-              :placeholder="String(comboInputCustomize.placeholder)"
+              :placeholder="display(String(comboInputCustomize.placeholder))"
               :readonly="Boolean(comboInputCustomize.readonly)"
               :unit="comboInputPreviewUnit"
               :clearable="Boolean(comboInputCustomize.clearable)"
@@ -129,12 +132,12 @@ const comboInputUsageSnippet = computed(() => {
             />
             <EgInput
               v-else
-              model-value="请输入"
+              :model-value="display(showcaseInputPlaceholderDemo)"
               :style="comboInputPreviewStyle"
               :type="comboInputCustomize.type as 'standard' | 'amount'"
               :size="comboInputCustomize.size as 'lg' | 'md' | 'sm'"
               :width-mode="resolveEgInputWidthMode(comboInputCustomize.widthMode)"
-              :placeholder="String(comboInputCustomize.placeholder)"
+              :placeholder="display(String(comboInputCustomize.placeholder))"
               disabled
               :readonly="Boolean(comboInputCustomize.readonly)"
               :unit="comboInputPreviewUnit"

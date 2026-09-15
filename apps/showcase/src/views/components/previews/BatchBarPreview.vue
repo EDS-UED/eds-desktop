@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgBatchBar } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
@@ -19,6 +22,16 @@ import {
 } from './organismTemplateDocData';
 
 const customize = reactive({ ...batchBarCustomizeDefaults });
+
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const labelItemPanelTitle = showcaseText('Label item', 'Label 项');
+
+const resolvedLabelItemPanelTitle = computed(() => {
+  void locale.value;
+  return display(labelItemPanelTitle);
+});
 
 const labelPanelControls = computed(() => buildBatchBarLabelCustomizeControls(customize));
 
@@ -85,7 +98,7 @@ function onLabelClick(_label: string, index: number) {
             nested
             embedded
             sequential
-            title="Label 项"
+            :title="resolvedLabelItemPanelTitle"
             :controls="labelPanelControls"
           />
         </div>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgBusinessTag } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import styles from './InputPreview.module.css';
@@ -21,6 +22,8 @@ const customize = reactive({
 });
 
 const usageSnippet = computed(() => buildTagCustomUsageSnippet(customize));
+
+const galleryLabel = showcaseText('Vertical line color', '竖线色');
 
 function selectCustomStyle(value: string) {
   customize.customStyle = value as TagCustomStyle;
@@ -45,7 +48,7 @@ function selectCustomStyle(value: string) {
         <TagPreviewGallery
           :options="tagCustomGalleryOptions"
           :selected="customize.customStyle"
-          gallery-label="竖线色"
+          :gallery-label="galleryLabel"
           @select="selectCustomStyle"
         >
           <template #main>

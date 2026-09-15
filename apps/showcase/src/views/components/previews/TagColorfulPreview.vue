@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgColorfulTag } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import styles from './InputPreview.module.css';
@@ -21,6 +22,8 @@ const customize = reactive({
 });
 
 const usageSnippet = computed(() => buildTagColorfulUsageSnippet(customize));
+
+const galleryLabel = showcaseText('Style', '样式');
 
 function selectColorfulStyle(value: string) {
   customize.colorfulStyle = value as TagColorfulStyle;
@@ -45,7 +48,7 @@ function selectColorfulStyle(value: string) {
         <TagPreviewGallery
           :options="tagColorfulGalleryOptions"
           :selected="customize.colorfulStyle"
-          gallery-label="样式"
+          :gallery-label="galleryLabel"
           @select="selectColorfulStyle"
         >
           <template #main>

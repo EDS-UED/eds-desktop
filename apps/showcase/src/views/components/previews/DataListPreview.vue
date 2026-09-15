@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import PropsDocTables from '@/views/shared/componentDoc/PropsDocTables.vue';
@@ -29,33 +32,69 @@ import {
 } from './buttonDocCustomize';
 import { useDataListPagePreview } from './useDataListPagePreview';
 
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
 const customize = reactive({ ...dataListCustomizeDefaults });
 
 const { showStatistics } = useDataListPagePreview(computed(() => customize));
 
 const usageSnippet = computed(() => buildDataListPageUsageSnippet(customize));
 
+const columnSettingsTitle = showcaseText('Column settings', '列设置');
+const statisticsTitle = showcaseText('Statistics', '数据统计');
+const columnSectionTitle = showcaseText('Columns · EgDataListColumn', '列 EgDataListColumn');
+
 const eventRows = [
   {
     name: 'update:select-mode',
     type: '(enabled: boolean) => void',
     defaultValue: '-',
-    description: '多选模式开关；Batch Bar 关闭时同步为 false。',
+    description: showcaseText(
+      'Multi-select toggle; syncs to false when Batch Bar closes.',
+      '多选模式开关；Batch Bar 关闭时同步为 false。',
+    ),
   },
-  { name: 'row-click', type: '(row) => void', defaultValue: '-', description: '非多选时点击行。' },
+  {
+    name: 'row-click',
+    type: '(row) => void',
+    defaultValue: '-',
+    description: showcaseText('Row click when not in multi-select mode.', '非多选时点击行。'),
+  },
   {
     name: 'update:selected-list',
     type: '(rows) => void',
     defaultValue: '-',
-    description: '多选列表变更（含 _index）。',
+    description: showcaseText(
+      'Selected list change (includes _index).',
+      '多选列表变更（含 _index）。',
+    ),
   },
   {
     name: 'selected-change',
     type: '(rows) => void',
     defaultValue: '-',
-    description: '同 update:selected-list。',
+    description: showcaseText(
+      'Same as update:selected-list.',
+      '同 update:selected-list。',
+    ),
   },
 ];
+
+const resolvedColumnSettingsTitle = computed(() => {
+  void locale.value;
+  return display(columnSettingsTitle);
+});
+
+const resolvedStatisticsTitle = computed(() => {
+  void locale.value;
+  return display(statisticsTitle);
+});
+
+const resolvedColumnSectionTitle = computed(() => {
+  void locale.value;
+  return display(columnSectionTitle);
+});
 </script>
 
 <template>
@@ -113,7 +152,7 @@ const eventRows = [
             embedded
             sequential
             :row-columns="3"
-            title="列设置"
+            :title="resolvedColumnSettingsTitle"
             :controls="dataListColumnSettingControls"
           />
           <CustomizePanel
@@ -131,14 +170,14 @@ const eventRows = [
             nested
             embedded
             sequential
-            title="数据统计"
+            :title="resolvedStatisticsTitle"
             :controls="paginerStatisticsCustomizeControls"
           />
         </div>
       </template>
 
       <section id="data-list-column-props" :class="shared.section">
-        <h2 :class="shared.sectionTitle">列 EgDataListColumn</h2>
+        <h2 :class="shared.sectionTitle">{{ resolvedColumnSectionTitle }}</h2>
         <PropsDocTables bare :show-title="false" :prop-rows="dataListColumnPropRows" />
       </section>
     </ComponentDocLayout>

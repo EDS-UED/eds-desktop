@@ -1,3 +1,9 @@
+import { resolveShowcaseDisplayText } from '@/data/i18n/showcaseDisplayText';
+import { getShowcaseI18nRegistry } from '@/data/i18n/showcaseI18nRegistry';
+import { showcaseText } from '@/data/showcasePropLabels';
+
+const defaultMenuSuffixZh = showcaseText('(default menu)', '（默认菜单）');
+
 /** Cregis 业务场景 Module Menu 模块名 — 与 Cregis Nav Bar 一致。 */
 export const cregisModuleMenuBusinessTitles = [
   'Wallet',
@@ -81,11 +87,15 @@ export function moduleMenuBusinessTitleUsesFlotationTitle(
 }
 
 export function buildModuleMenuBusinessTitleOptions(scenario: ModuleMenuBusinessScenario) {
+  const suffix = resolveShowcaseDisplayText(
+    defaultMenuSuffixZh,
+    getShowcaseI18nRegistry().locale,
+  );
   return moduleMenuBusinessTitlesForScenario(scenario).map((title) => ({
     value: title,
     label: moduleMenuBusinessTitleHasMenuPreset(scenario, title)
       ? title
-      : `${title}（默认菜单）`,
+      : `${title}${suffix}`,
   }));
 }
 

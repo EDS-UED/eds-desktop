@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { buildVueSelfClosingSnippet } from '@/views/shared/componentDoc/buildUsageSnippet';
 import {
   galleryLabelFromTokenLabel,
@@ -26,7 +27,7 @@ const tagSizeProp: DocPropRow = {
   name: 'size',
   type: "'lg' | 'md' | 'sm'",
   defaultValue: "'md'",
-  description: '尺寸；Sm 使用 Bar 字阶，Md/Lg 使用 Body Small Strong。',
+  description: showcaseText('Dimensions; Sm uses Bar scale, Md/Lg uses Body Small Strong.', '尺寸；Sm 使用 Bar 字阶，Md/Lg 使用 Body Small Strong。'),
 };
 
 export const tagSystemPropRows: DocPropRow[] = [
@@ -35,13 +36,13 @@ export const tagSystemPropRows: DocPropRow[] = [
     name: 'family',
     type: "'system'",
     defaultValue: "'system'",
-    description: 'System 族 Tag。',
+    description: showcaseText('System family Tag.', 'System 族 Tag。'),
   },
   {
     name: 'systemType',
     type: "'subtle' | 'solid-brand' | 'solid-red' | 'gray' | 'stroke-subtle' | 'stroke-solid'",
     defaultValue: "'subtle'",
-    description: 'System 类型变体。',
+    description: showcaseText('System type variant.', 'System 类型变体。'),
   },
 ];
 
@@ -51,13 +52,13 @@ export const tagStatusPropRows: DocPropRow[] = [
     name: 'family',
     type: "'status'",
     defaultValue: "'status'",
-    description: 'Status 族 Tag。',
+    description: showcaseText('Status family Tag.', 'Status 族 Tag。'),
   },
   {
     name: 'status',
     type: "'danger' | 'warning' | 'success' | 'ready' | 'invalid'",
     defaultValue: "'danger'",
-    description: '语义色；来自 spec/color/tag-palette.json（display-p3）。',
+    description: showcaseText('Semantic color; from spec/color/tag-palette.json (display-p3).', '语义色；来自 spec/color/tag-palette.json（display-p3）。'),
   },
 ];
 
@@ -67,13 +68,13 @@ export const tagColorfulPropRows: DocPropRow[] = [
     name: 'family',
     type: "'colorful'",
     defaultValue: "'colorful'",
-    description: 'Colorful 族 Tag。',
+    description: showcaseText('Colorful family Tag.', 'Colorful 族 Tag。'),
   },
   {
     name: 'colorfulStyle',
     type: 'TagColorfulStyle',
     defaultValue: "'apricot'",
-    description: '样式名；色板见 spec/color/tag-palette.json（Figma Status/Colorful）。',
+    description: showcaseText('Style name; see spec/color/tag-palette.json (Figma Status/Colorful) for swatches.', '样式名；色板见 spec/color/tag-palette.json（Figma Status/Colorful）。'),
   },
 ];
 
@@ -83,13 +84,13 @@ export const tagCustomPropRows: DocPropRow[] = [
     name: 'family',
     type: "'custom'",
     defaultValue: "'custom'",
-    description: 'Palette 族 Tag；radius-xs、左侧竖线配色、material-card-deep 底。',
+    description: showcaseText('Palette Tag; radius-xs, left vertical line color scheme, material-card-deep bottom.', 'Palette 族 Tag；radius-xs、左侧竖线配色、material-card-deep 底。'),
   },
   {
     name: 'customStyle',
     type: 'TagCustomStyle',
     defaultValue: "'vermilion'",
-    description: '竖线配色；见 spec/color/tag-palette.json custom（Figma 2439:7744）。',
+    description: showcaseText('Vertical line color scheme; see spec/color/tag-palette.json custom (Figma 2439: 7744).', '竖线配色；见 spec/color/tag-palette.json custom（Figma 2439:7744）。'),
   },
 ];
 
@@ -151,16 +152,16 @@ export const tagSystemCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'systemType',
-    label: '类型',
+    label: showcaseText('Type', '类型'),
     options: tagSystemStyleOptions,
   },
   {
     kind: 'select',
     key: 'size',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     options: inputSizeRows.map((row) => ({ value: row.key, label: row.label })),
   },
-  { kind: 'text', key: 'label', label: '文案' },
+  { kind: 'text', key: 'label', label: showcaseText('Copy', '文案') },
 ];
 
 /** List Field General Structure 内嵌 Tag 固定 Sm，仅配置类型与文案。 */
@@ -168,10 +169,10 @@ export const tagSystemSmCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'systemType',
-    label: '类型',
+    label: showcaseText('Type', '类型'),
     options: tagSystemStyleOptions,
   },
-  { kind: 'text', key: 'label', label: '文案' },
+  { kind: 'text', key: 'label', label: showcaseText('Copy', '文案') },
 ];
 
 export const tagStatusStyleOptions = propLabelSelectOptions(
@@ -195,16 +196,16 @@ export const tagStatusCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'size',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     options: inputSizeRows.map((row) => ({ value: row.key, label: row.label })),
   },
   {
     kind: 'select',
     key: 'status',
-    label: '状态',
+    label: showcaseText('Status', '状态'),
     options: tagStatusStyleOptions,
   },
-  { kind: 'text', key: 'label', label: '文案' },
+  { kind: 'text', key: 'label', label: showcaseText('Copy', '文案') },
 ];
 
 export const tagColorfulCustomizeDefaults = {
@@ -218,16 +219,16 @@ export const tagColorfulCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'size',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     options: inputSizeRows.map((row) => ({ value: row.key, label: row.label })),
   },
   {
     kind: 'select',
     key: 'colorfulStyle',
-    label: '样式',
+    label: showcaseText('Style', '样式'),
     options: tagColorfulStyleOptions,
   },
-  { kind: 'text', key: 'label', label: '文案' },
+  { kind: 'text', key: 'label', label: showcaseText('Copy', '文案') },
 ];
 
 export const tagCustomStyleOptions = propLabelSelectOptions(
@@ -266,10 +267,10 @@ export const tagRiskCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'customStyle',
-    label: '样式',
+    label: showcaseText('Style', '样式'),
     options: tagAmlStyleOptions,
   },
-  { kind: 'text', key: 'label', label: '文案' },
+  { kind: 'text', key: 'label', label: showcaseText('Copy', '文案') },
 ];
 
 export const tagCustomCustomizeDefaults = {
@@ -283,16 +284,16 @@ export const tagCustomCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'size',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     options: inputSizeRows.map((row) => ({ value: row.key, label: row.label })),
   },
   {
     kind: 'select',
     key: 'customStyle',
-    label: '竖线色',
+    label: showcaseText('Vertical line color', '竖线色'),
     options: tagCustomStyleOptions,
   },
-  { kind: 'text', key: 'label', label: '文案' },
+  { kind: 'text', key: 'label', label: showcaseText('Copy', '文案') },
 ];
 
 function buildTagSnippet(

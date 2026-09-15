@@ -1,0 +1,158 @@
+.root {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.flotation {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.root :global(.eds-flotation) {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.root :global(.eds-flotation > span) {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.trigger {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.root :global(.eds-button) {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.root :global(.eds-button .label) {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.triggerLabel {
+  display: block;
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menu {
+  width: 100%;
+}
+
+/* list-header：搜索区与列表紧贴，去掉 menuBody gap 与列表顶 mask 虚化 */
+.menu:global(.eds-flotation-menu--list-header) :global(.eds-flotation-menu-body) {
+  gap: 0;
+}
+
+/* FlotationMenu scroll-fade 为 CSS Module 局部类，按 list-header 结构关闭 mask。 */
+.menu:global(.eds-flotation-menu--list-header)
+  :global(.eds-flotation-menu-body)
+  > :global(div:nth-child(2))
+  > :global(div) {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.searchHeader {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-05) var(--spacing-05) var(--spacing-1-5);
+}
+
+.optionList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
+  margin-top: var(--spacing-1);
+}
+
+.optionLtr {
+  align-items: flex-start;
+}
+
+.optionRtl {
+  align-items: flex-end;
+}
+
+.optionTextLtr {
+  direction: ltr;
+  text-align: left;
+}
+
+.optionTextRtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-05);
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-1-5) var(--spacing-2);
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color var(--eds-motion-hover-duration) ease;
+}
+
+.option:focus {
+  outline: none;
+}
+
+.option:hover:not(.optionSelected):not(:focus-visible) {
+  background-color: var(--event-hover);
+}
+
+.option:focus-visible,
+.optionSelected {
+  background-color: var(--event-focus-brand-weaken);
+}
+
+.optionSelected:hover:not(:focus-visible) {
+  background-color: var(--event-focus-brand-weaken);
+}
+
+.optionPrimary {
+  display: block;
+  width: 100%;
+  color: var(--text-base-primary);
+  font-size: var(--eds-body-small-size);
+  font-weight: var(--weight-medium);
+  line-height: var(--eds-body-small-line-height);
+}
+
+.optionSecondary {
+  display: block;
+  width: 100%;
+  color: var(--text-base-secondary);
+  font-size: var(--eds-footnote-size);
+  font-weight: var(--eds-footnote-weight);
+  line-height: var(--eds-footnote-line-height);
+}

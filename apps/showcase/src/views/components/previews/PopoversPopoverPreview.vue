@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   EgTooltip,
   EgButton,
@@ -27,6 +29,10 @@ import {
   popoverSlotRows,
 } from './popoversDocCustomize';
 import { parseAnchoredContainerOptionalInt } from './anchoredContainerDocCustomize';
+
+const { display } = useShowcaseDisplayText();
+const allDirectionsTitle = showcaseText('All directions', '全部方向');
+const popoverSlotContentAriaLabel = showcaseText('Popover slot content', 'Popover 插槽内容');
 
 const customize = reactive({
   ...popoverComponentCustomizeDefaults,
@@ -148,7 +154,7 @@ function matrixLabel(placement: PopoverPlacement, align: PopoverAlign): string {
                     v-model="customize.slotContent"
                     :class="matrixStyles.slotEditor"
                     rows="2"
-                    aria-label="Popover 插槽内容"
+                    :aria-label="display(popoverSlotContentAriaLabel)"
                   />
                 </div>
               </EgPopover>
@@ -159,7 +165,7 @@ function matrixLabel(placement: PopoverPlacement, align: PopoverAlign): string {
     </ComponentDocLayout>
 
     <section :class="matrixStyles.matrixSection">
-      <h2 :class="matrixStyles.matrixTitle">全部方向</h2>
+      <h2 :class="matrixStyles.matrixTitle">{{ display(allDirectionsTitle) }}</h2>
       <div :class="matrixStyles.matrixFrame">
         <div :class="matrixStyles.topRow">
           <div

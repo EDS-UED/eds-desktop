@@ -1,4 +1,5 @@
 import type { ComponentPreviewEntry } from './componentPreviewTypes';
+import { showcaseText } from '@/data/showcasePropLabels';
 import IconPreview from './IconPreview.vue';
 import CryptoPreview from './CryptoPreview.vue';
 import FlotationPreview from './FlotationPreview.vue';
@@ -260,9 +261,9 @@ export const componentPreviews: ComponentPreviewEntry[] = [
     usesComponentDocHeader: true,
   })),
   ...([
-    { slug: 'tooltip-scene-text-overflow', title: '字段溢出' },
-    { slug: 'tooltip-scene-paragraph-overflow', title: '段落溢出' },
-    { slug: 'tooltip-scene-multi-address', title: '地址溢出' },
+    { slug: 'tooltip-scene-text-overflow', title: showcaseText('Field overflow', '字段溢出') },
+    { slug: 'tooltip-scene-paragraph-overflow', title: showcaseText('Paragraph overflow', '段落溢出') },
+    { slug: 'tooltip-scene-multi-address', title: showcaseText('AddressOverflow', '地址溢出') },
   ] as const).map(({ slug, title }) => ({
     slug,
     title,

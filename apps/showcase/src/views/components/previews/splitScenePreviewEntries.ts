@@ -1,4 +1,5 @@
 import type { VerifyType } from '@eds/desktop-components';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { defineComponent, h, type Component } from 'vue';
 import type { ComponentPreviewEntry } from './componentPreviewTypes';
 import FlotationBoxPreview from './FlotationBoxPreview.vue';
@@ -76,9 +77,9 @@ const popupScenePages: Array<{
   title: string;
   lockedUses: PopupSceneUses;
 }> = [
-  { slug: 'popup-scene-detail', title: '详情', lockedUses: 'detail' },
-  { slug: 'popup-scene-dialog', title: '提醒', lockedUses: 'dialog' },
-  { slug: 'popup-scene-verify', title: '安全', lockedUses: 'verify' },
+  { slug: 'popup-scene-detail', title: showcaseText('Detail', '详情'), lockedUses: 'detail' },
+  { slug: 'popup-scene-dialog', title: showcaseText('Reminder', '提醒'), lockedUses: 'dialog' },
+  { slug: 'popup-scene-verify', title: showcaseText('Security', '安全'), lockedUses: 'verify' },
 ];
 
 export const splitScenePreviewEntries: ComponentPreviewEntry[] = [

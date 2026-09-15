@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   dialogComposeFlotationToolbarControls,
   dialogPopupWindowControls,
@@ -72,56 +73,56 @@ export function buildDialogCustomizeControls(
   type: DialogCustomizeType,
 ): DocCustomizeControl[] {
   const controls: DocCustomizeControl[] = [
-    { kind: 'text', key: 'title', label: '标题', row: 0 },
+    { kind: 'text', key: 'title', label: showcaseText('Title', '标题'), row: 0 },
   ];
 
   if (type === 'symbol') {
     controls.push(
-      { kind: 'boolean', key: 'showSecondaryText', label: '显示副文案' },
+      { kind: 'boolean', key: 'showSecondaryText', label: showcaseText('Show subtext', '显示副文案') },
       {
         kind: 'text',
         key: 'secondaryText',
-        label: '副文案',
+        label: showcaseText('Secondary copy', '副文案'),
         visibleWhen: (s) => s.showSecondaryText !== false,
       },
       {
         kind: 'text',
         key: 'symbolIcon',
-        label: '符号',
+        label: showcaseText('Icon', '符号'),
         placeholder: 'eds-warning-lonely',
       },
       {
         kind: 'select',
         key: 'symbolBackground',
-        label: '背景色',
+        label: showcaseText('Background', '背景色'),
         options: [
-          { value: 'default', label: '默认' },
-          { value: 'danger', label: '危险' },
-          { value: 'success', label: '成功' },
+          { value: 'default', label: showcaseText('Default', '默认') },
+          { value: 'danger', label: showcaseText('Danger', '危险') },
+          { value: 'success', label: showcaseText('Success', '成功') },
         ],
       },
     );
   } else if (type === 'standard') {
     controls.push(
-      { kind: 'boolean', key: 'showSecondaryText', label: '显示正文', row: 0 },
+      { kind: 'boolean', key: 'showSecondaryText', label: showcaseText('Show body', '显示正文'), row: 0 },
       {
         kind: 'text',
         key: 'secondaryText',
-        label: '正文',
+        label: showcaseText('Body text', '正文'),
         row: 0,
         visibleWhen: (s) => s.showSecondaryText !== false,
       },
     );
   } else {
     controls.push(
-      { kind: 'boolean', key: 'showSecondaryText', label: '显示 Bar' },
+      { kind: 'boolean', key: 'showSecondaryText', label: showcaseText('Show Bar', '显示 Bar') },
       {
         kind: 'text',
         key: 'secondaryText',
         label: 'Bar',
         visibleWhen: (s) => s.showSecondaryText !== false,
       },
-      { kind: 'text', key: 'composeText', label: 'Compose 内容' },
+      { kind: 'text', key: 'composeText', label: showcaseText('Compose Content', 'Compose 内容') },
     );
   }
 
@@ -157,37 +158,37 @@ export const dialogPropRows: DocPropRow[] = [
     type: "'symbol' | 'compose' | 'standard'",
     defaultValue: "'symbol'",
     description:
-      'Symbol：符号 + 居中文案 + PopupWindow；Compose：Title/Bar + 内容区 + Flotation 工具栏；Standard：Title + 正文 + Flotation 工具栏。',
+      showcaseText('[doc] Symbol：Icon + Copy + PopupWindow；Compose：Title/Bar + + Flotation Toolbar；Standard：Title + + Flotation Toolbar。', 'Symbol：符号 + 居中文案 + PopupWindow；Compose：Title/Bar + 内容区 + Flotation 工具栏；Standard：Title + 正文 + Flotation 工具栏。'),
   },
   {
     name: 'title',
     type: 'string',
     defaultValue: "'Title'",
-    description: 'Symbol：Body Large Strong；Compose / Standard：Title 角色。',
+    description: showcaseText('Symbol: Body Large Strong; Compose/Standard: Title role.', 'Symbol：Body Large Strong；Compose / Standard：Title 角色。'),
   },
   {
     name: 'secondaryText',
     type: 'string',
     defaultValue: "'This is a description'",
-    description: 'Symbol：Body Small 副文案；Standard：Body Medium 正文；Compose：Bar 角色。',
+    description: showcaseText('Symbol: Body Small Subtext; Standard: Body Medium Body; Compose: Bar Role.', 'Symbol：Body Small 副文案；Standard：Body Medium 正文；Compose：Bar 角色。'),
   },
-  { name: 'showSecondaryText', type: 'boolean', defaultValue: 'true', description: '是否展示副文案。' },
-  { name: 'confirmLabel', type: 'string', defaultValue: "'Confirm'", description: '主按钮文案。' },
+  { name: 'showSecondaryText', type: 'boolean', defaultValue: 'true', description: showcaseText('Whether or not to show the subcopy.', '是否展示副文案。') },
+  { name: 'confirmLabel', type: 'string', defaultValue: "'Confirm'", description: showcaseText('Primary button copy.', '主按钮文案。') },
   {
     name: 'cancelLabel',
     type: 'string',
     defaultValue: "'Cancel'",
-    description: '次按钮文案（Compose / Standard · Flotation；Symbol · PopupWindow）。',
+    description: showcaseText('Secondary button copy (Compose/Standard · Flotation; Symbol · PopupWindow).', '次按钮文案（Compose / Standard · Flotation；Symbol · PopupWindow）。'),
   },
-  { name: 'actionCount', type: '1 | 2', defaultValue: '2', description: 'Symbol · EgComboPopupButton 按钮数。' },
-  { name: 'showClear', type: 'boolean', defaultValue: 'false', description: 'Compose · 工具栏左侧 Clear。' },
-  { name: 'clearLabel', type: 'string', defaultValue: "'Clear'", description: 'Compose · Clear 文案。' },
-  { name: 'toolbarTone', type: "'brand' | 'decor'", defaultValue: "'decor'", description: '操作区按钮 Tone。' },
+  { name: 'actionCount', type: '1 | 2', defaultValue: '2', description: showcaseText('Number of Symbol · EgComboPopupButton buttons.', 'Symbol · EgComboPopupButton 按钮数。') },
+  { name: 'showClear', type: 'boolean', defaultValue: 'false', description: showcaseText('Compose · ToolbarLeading Clear。', 'Compose · 工具栏左侧 Clear。') },
+  { name: 'clearLabel', type: 'string', defaultValue: "'Clear'", description: showcaseText('Compose · Clear copy.', 'Compose · Clear 文案。') },
+  { name: 'toolbarTone', type: "'brand' | 'decor'", defaultValue: "'decor'", description: showcaseText('Operation area button Tone.', '操作区按钮 Tone。') },
   {
     name: 'toolbarDividerPinned',
     type: 'boolean',
     defaultValue: 'compose → true；standard → false',
-    description: 'Compose / Standard · 工具栏顶部分割线常驻；false 时仅在底部仍有内容被裁切时显示。',
+    description: showcaseText('Compose/Standard · Dividers are permanent at the top of the toolbar; false shows only when there is still content cut at the bottom.', 'Compose / Standard · 工具栏顶部分割线常驻；false 时仅在底部仍有内容被裁切时显示。'),
   },
 ];
 
@@ -196,26 +197,26 @@ export const dialogSlotRows: DocPropRow[] = [
     name: 'symbol',
     type: 'slot',
     defaultValue: 'EgIcon eds-warning-lonely',
-    description: 'Symbol 类型 · 56px 圆形容器内符号；可用 CSS 变量 `--eds-dialog-symbol-bg` / `--eds-dialog-symbol-color` 覆盖。',
+    description: showcaseText('Symbol type · Symbol inside 56px circular container; can be overridden with CSS variable `--eds-dialog-symbol-bg`/`--eds-dialog-symbol-color`.', 'Symbol 类型 · 56px 圆形容器内符号；可用 CSS 变量 `--eds-dialog-symbol-bg` / `--eds-dialog-symbol-color` 覆盖。'),
   },
   {
     name: 'default',
     type: 'slot',
     defaultValue: '—',
-    description: 'Compose / Standard 类型 · 标题区下方的自定义内容区。',
+    description: showcaseText('Compose/Standard type · Custom content area below the title area.', 'Compose / Standard 类型 · 标题区下方的自定义内容区。'),
   },
   {
     name: 'actions',
     type: 'slot',
     defaultValue: 'EgComboPopupButton / EgComboFloatButton',
-    description: '操作区；默认按 type 渲染 PopupWindow 或 Flotation，可整体替换。',
+    description: showcaseText('Operation area; defaults to rendering PopupWindow or Flotation by type, which can be replaced as a whole.', '操作区；默认按 type 渲染 PopupWindow 或 Flotation，可整体替换。'),
   },
 ];
 
 export const dialogEventRows: DocPropRow[] = [
-  { name: 'confirm', type: '() => void', defaultValue: '—', description: '点击主按钮时触发。' },
-  { name: 'cancel', type: '() => void', defaultValue: '—', description: '点击次按钮时触发。' },
-  { name: 'clear', type: '() => void', defaultValue: '—', description: 'Compose · 点击 Clear 时触发。' },
+  { name: 'confirm', type: '() => void', defaultValue: '—', description: showcaseText('Triggered when the main button is clicked.', '点击主按钮时触发。') },
+  { name: 'cancel', type: '() => void', defaultValue: '—', description: showcaseText('Triggered when the button is clicked times.', '点击次按钮时触发。') },
+  { name: 'clear', type: '() => void', defaultValue: '—', description: showcaseText('Emitted when Compose · Click Clear.', 'Compose · 点击 Clear 时触发。') },
 ];
 
 export const dialogImportCode = `import { EgDialog, EgPopup } from '@eds/desktop-components';`;

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgStatusTag } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import styles from './InputPreview.module.css';
@@ -21,6 +22,8 @@ const customize = reactive({
 });
 
 const usageSnippet = computed(() => buildTagStatusUsageSnippet(customize));
+
+const galleryLabel = showcaseText('Status', '状态');
 
 function selectStatus(value: string) {
   customize.status = value as TagStatus;
@@ -45,7 +48,7 @@ function selectStatus(value: string) {
         <TagPreviewGallery
           :options="tagStatusGalleryOptions"
           :selected="customize.status"
-          gallery-label="状态"
+          :gallery-label="galleryLabel"
           @select="selectStatus"
         >
           <template #main>

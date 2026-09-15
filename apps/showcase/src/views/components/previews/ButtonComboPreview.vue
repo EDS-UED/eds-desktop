@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   EgComboFloatButton,
   EgComboPageButton,
@@ -56,6 +59,25 @@ const previewHostClass = computed(() => {
 const comboToneBrandDecor = computed(() =>
   customize.tone === 'danger' ? 'brand' : (customize.tone as 'brand' | 'decor'),
 );
+
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const designReferenceLabel = showcaseText('Design reference', '设计参考');
+const designReferenceSuffix = showcaseText(
+  '（Combo/Action-Skid, Popup Window, Flotation, Page).',
+  '（Combo/Action-Skid、Popup Window、Flotation、Page）。',
+);
+
+const resolvedDesignReferenceLabel = computed(() => {
+  void locale.value;
+  return display(designReferenceLabel);
+});
+
+const resolvedDesignReferenceSuffix = computed(() => {
+  void locale.value;
+  return display(designReferenceSuffix);
+});
 </script>
 
 <template>
@@ -116,13 +138,13 @@ const comboToneBrandDecor = computed(() =>
       </template>
 
       <p :class="docStyles.comboFeedbackNote">
-        设计参考
+        {{ resolvedDesignReferenceLabel }}
         <a
           href="https://www.figma.com/design/OkYrDmatUWtgw9n1uVHt6v/EverGreen-Design-System--Desktop-?node-id=185-3456"
           target="_blank"
           rel="noopener noreferrer"
         >Figma 185:3456</a>
-        （Combo/Action-Skid、Popup Window、Flotation、Page）。
+        {{ resolvedDesignReferenceSuffix }}
       </p>
     </ComponentDocLayout>
   </div>

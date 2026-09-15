@@ -8,6 +8,9 @@ import {
   watch,
   computed,
 } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgButton, EgDivider, EgIcon, EgIconButton, type ButtonTone, type ButtonVariant } from '@eds/desktop-components';
 import comboActionStyles from '../../../../../../packages/components/src/molecules/combo/ComboAction.module.css';
 import chromeScrimStyles from '../../../../../../packages/components/src/styles/popupChromeScrim.module.css';
@@ -56,6 +59,25 @@ const emit = defineEmits<{
 }>();
 
 const slots = useSlots();
+
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const closeButtonLabel = showcaseText('Close', '关闭');
+const defaultSlotBodyText = showcaseText(
+  'Popup Box default slot · Business content area',
+  'Popup Box 默认插槽 · 业务内容区',
+);
+
+const resolvedCloseButtonLabel = computed(() => {
+  void locale.value;
+  return display(closeButtonLabel);
+});
+
+const resolvedDefaultSlotBodyText = computed(() => {
+  void locale.value;
+  return display(defaultSlotBodyText);
+});
 
 const SCROLL_EDGE_EPSILON = 2;
 
@@ -145,7 +167,7 @@ onBeforeUnmount(() => {
       <EgIconButton
         shape="square"
         size="md"
-        label="关闭"
+        :label="resolvedCloseButtonLabel"
         motion="asym"
         @click="emit('close')"
       >
@@ -174,7 +196,7 @@ onBeforeUnmount(() => {
         <div :class="styles.slotHost">
           <slot>
             <div v-if="showScrollBody" :class="styles.scrollDemoBody">
-              <p>Popup Box 默认插槽 · 业务内容区</p>
+              <p>{{ resolvedDefaultSlotBodyText }}</p>
               <div
                 v-for="index in 12"
                 :key="index"

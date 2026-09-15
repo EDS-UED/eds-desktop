@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   countSelectOptions,
   inputSizeRows,
@@ -12,40 +13,40 @@ export const segmentedImportCode = `import { EgSegmented } from '@eds/desktop-co
 export const tabsImportCode = `import { EgTabs } from '@eds/desktop-components';`;
 
 export const segmentedPropRows: DocPropRow[] = [
-  { name: 'modelValue', type: 'number', defaultValue: '0', description: '当前选中项索引。' },
-  { name: 'size', type: "'lg' | 'md' | 'sm'", defaultValue: "'md'", description: '尺寸。' },
-  { name: 'shape', type: "'circle' | 'square'", defaultValue: "'circle'", description: '圆角 / 方角容器。' },
-  { name: 'labels', type: 'string[]', defaultValue: "['Tab','Tab','Tab']", description: '分段标签文案。' },
+  { name: 'modelValue', type: 'number', defaultValue: '0', description: showcaseText('The index of the currently selected item.', '当前选中项索引。') },
+  { name: 'size', type: "'lg' | 'md' | 'sm'", defaultValue: "'md'", description: showcaseText('Size。', '尺寸。') },
+  { name: 'shape', type: "'circle' | 'square'", defaultValue: "'circle'", description: showcaseText('Rounded/Square container.', '圆角 / 方角容器。') },
+  { name: 'labels', type: 'string[]', defaultValue: "['Tab','Tab','Tab']", description: showcaseText('Segmented label copy.', '分段标签文案。') },
   {
     name: 'itemWidthMode',
     type: "'adaptive' | 'fixed'",
     defaultValue: "'adaptive'",
-    description: 'Item 宽度：adaptive=内容 hug；fixed=父级定宽后均分。',
+    description: showcaseText('Item width: adaptive = content hug; fixed = evenly split after the parent is set to width.', 'Item 宽度：adaptive=内容 hug；fixed=父级定宽后均分。'),
   },
   {
     name: 'width',
     type: 'number',
     defaultValue: 'undefined',
-    description: 'itemWidthMode=fixed 时可选容器宽度（px）；未传则 100% 跟随父级。',
+    description: showcaseText('optional container width (px) when itemWidthMode = fixed; 100% follows the parent if not passed.', 'itemWidthMode=fixed 时可选容器宽度（px）；未传则 100% 跟随父级。'),
   },
 ];
 
 export const tabsPropRows: DocPropRow[] = [
-  { name: 'modelValue', type: 'number', defaultValue: '0', description: '当前选中 Tab 索引。' },
-  { name: 'labels', type: 'string[]', defaultValue: "['Tab','Tab','Tab','Tab','Tab']", description: 'Tab 文案列表。' },
+  { name: 'modelValue', type: 'number', defaultValue: '0', description: showcaseText('Tab index is currently selected.', '当前选中 Tab 索引。') },
+  { name: 'labels', type: 'string[]', defaultValue: "['Tab','Tab','Tab','Tab','Tab']", description: showcaseText('Tab CopyList。', 'Tab 文案列表。') },
   {
     name: 'horizontalGap',
     type: "'xl' | 'md' | 'sm' | 'xs'",
     defaultValue: "'xl'",
     description:
-      '水平间距：xl → gap var(--spacing-5)；md → var(--spacing-4)；sm → var(--spacing-3)；xs → var(--spacing-2)。',
+      showcaseText('HorizontalGap：xl → gap var(--spacing-5)；md → var(--spacing-4)；sm → var(--spacing-3)；xs → var(--spacing-2)。', '水平间距：xl → gap var(--spacing-5)；md → var(--spacing-4)；sm → var(--spacing-3)；xs → var(--spacing-2)。'),
   },
   {
     name: 'verticalGap',
     type: "'xl' | 'md' | 'sm' | 'xs'",
     defaultValue: "'xl'",
     description:
-      '垂直间距（padding-bottom，含指示条 stroke-xl）：xl → spacing-2-5；md → spacing-2；sm → spacing-1-5；xs → spacing-1。',
+      showcaseText('[doc] VerticalGap（padding-bottom， stroke-xl）：xl → spacing-2-5；md → spacing-2；sm → spacing-1-5；xs → spacing-1。', '垂直间距（padding-bottom，含指示条 stroke-xl）：xl → spacing-2-5；md → spacing-2；sm → spacing-1-5；xs → spacing-1。'),
   },
 ];
 
@@ -96,7 +97,7 @@ export const segmentedCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'size',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     options: inputSizeRows.map((row) => ({ value: row.key, label: row.label })),
   },
   {
@@ -108,21 +109,21 @@ export const segmentedCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
     key: 'width',
-    label: '容器宽度',
-    placeholder: 'px，如 222',
+    label: showcaseText('Wrapper Width', '容器宽度'),
+    placeholder: showcaseText('px, e.g. 222', 'px，如 222'),
     visibleWhen: (state) => String(state.itemWidthMode) === 'fixed',
   },
   {
     kind: 'select',
     key: 'count',
-    label: '数量',
+    label: showcaseText('Count', '数量'),
     options: countOptions,
   },
   {
     kind: 'text',
     key: 'labels',
-    label: '标签名',
-    placeholder: '用空格分隔，如 Tab Home Settings',
+    label: showcaseText('Tab', '标签名'),
+    placeholder: showcaseText('Separate with spaces, e.g. Tab Home Settings', '用空格分隔，如 Tab Home Settings'),
   },
 ];
 
@@ -137,25 +138,25 @@ export const tabsCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'count',
-    label: '数量',
+    label: showcaseText('Count', '数量'),
     options: countOptions,
   },
   {
     kind: 'text',
     key: 'labels',
-    label: '标签名',
-    placeholder: '用空格分隔，如 Overview Assets History',
+    label: showcaseText('Tab', '标签名'),
+    placeholder: showcaseText('Separated by spaces, e.g. Overview Assets History', '用空格分隔，如 Overview Assets History'),
   },
   {
     kind: 'select',
     key: 'horizontalGap',
-    label: '水平间距',
+    label: showcaseText('HorizontalGap', '水平间距'),
     options: tabsSpacingSizeOptions.map((option) => ({ ...option })),
   },
   {
     kind: 'select',
     key: 'verticalGap',
-    label: '垂直间距',
+    label: showcaseText('VerticalGap', '垂直间距'),
     options: tabsSpacingSizeOptions.map((option) => ({ ...option })),
   },
 ];

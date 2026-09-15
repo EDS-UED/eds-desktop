@@ -1,4 +1,5 @@
 import type { DocCustomizeControl } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   alignStartEndRows,
   heightModeRows,
@@ -76,7 +77,7 @@ export function buildAnchoredContainerPanelControls(
       kind: 'text',
       key: 'offset',
       label: L.offset,
-      placeholder: '默认 1px',
+      placeholder: showcaseText('Default 1px.', '默认 1px'),
       row: r0,
     });
   }
@@ -128,7 +129,7 @@ export function buildAnchoredContainerPanelControls(
       kind: 'text',
       key: 'maxHeight',
       label: L.maxHeight,
-      placeholder: '可选',
+      placeholder: showcaseText('Optional', '可选'),
       row: r2,
       visibleWhen: (s) => String(s.heightMode ?? 'adaptive') === 'adaptive',
     },

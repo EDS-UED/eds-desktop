@@ -7,6 +7,10 @@ import './styles/global.css';
 import './styles/desktop-motion-global.css';
 import './styles/desktop-token-scope.css';
 import './styles/desktop-components-scope.css';
+import '@/data/i18n/showcaseAuthoringRegistry';
+import '@/data/i18n/showcaseDocCommonLabels';
+import '@/data/showcasePropLabels';
+import '@/data/i18n/showcaseDemoText';
 
 installGlobalWheelScrollContainment();
 

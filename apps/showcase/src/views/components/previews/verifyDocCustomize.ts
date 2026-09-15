@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import type { VerifyType } from '@eds/desktop-components';
 import { getVerifyTypePreset, VERIFY_TYPE_PRESETS } from '@eds/desktop-components';
 import { propLabelSelectOptions } from '@/data/showcasePropLabels';
@@ -77,7 +78,7 @@ export const popupVerifyCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'verifyType',
-    label: '验证方式',
+    label: showcaseText('Calculation', '验证方式'),
     options: propLabelSelectOptions(VERIFY_TYPES, showcaseVerifyTypeLabels),
     visibleWhen: (state) => state.uses === 'verify',
   },
@@ -87,24 +88,24 @@ export const verifyCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'type',
-    label: '验证方式',
+    label: showcaseText('Calculation', '验证方式'),
     options: propLabelSelectOptions(VERIFY_TYPES, showcaseVerifyTypeLabels),
   },
   {
     kind: 'select',
     key: 'state',
-    label: '状态',
+    label: showcaseText('Status', '状态'),
     options: propLabelSelectOptions(
       ['idle', 'verifying', 'success', 'error'] as const,
       showcaseVerifyStateLabels,
     ),
   },
-  { kind: 'text', key: 'title', label: '标题' },
-  { kind: 'text', key: 'secondaryText', label: '副文案' },
+  { kind: 'text', key: 'title', label: showcaseText('Title', '标题') },
+  { kind: 'text', key: 'secondaryText', label: showcaseText('Secondary copy', '副文案') },
   {
     kind: 'text',
     key: 'countdownSeconds',
-    label: '倒计时（秒）',
+    label: showcaseText('Countdown (seconds)', '倒计时（秒）'),
     visibleWhen: (state) =>
       state.state !== 'error'
       && state.type !== 'locked'
@@ -114,7 +115,7 @@ export const verifyCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
     key: 'switchLabel',
-    label: '切换文案',
+    label: showcaseText('Toggle copy', '切换文案'),
     visibleWhen: (state) =>
       state.type !== 'locked'
       && state.type !== 'single-trade-password'
@@ -123,7 +124,7 @@ export const verifyCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'boolean',
     key: 'switchDisabled',
-    label: '切换不可用',
+    label: showcaseText('Toggle not available', '切换不可用'),
     visibleWhen: (state) =>
       state.state === 'error'
       && state.type !== 'locked'
@@ -133,25 +134,25 @@ export const verifyCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
     key: 'confirmLabel',
-    label: '确认文案',
+    label: showcaseText('Confirm copy', '确认文案'),
     visibleWhen: (state) => isPasswordVerifyType(state.type),
   },
   {
     kind: 'text',
     key: 'cancelLabel',
-    label: '取消文案',
+    label: showcaseText('Cancel copy.', '取消文案'),
     visibleWhen: (state) => isPasswordVerifyType(state.type),
   },
   {
     kind: 'text',
     key: 'passwordErrorText',
-    label: '密码错误文案',
+    label: showcaseText('Wrong password copy', '密码错误文案'),
     visibleWhen: (state) => isPasswordVerifyType(state.type),
   },
   {
     kind: 'select',
     key: 'actionTone',
-    label: '按钮 Tone',
+    label: showcaseText('Button Tone', '按钮 Tone'),
     options: propLabelSelectOptions(
       ['brand', 'decor'] as const,
       showcaseVerifyActionToneLabels,
@@ -166,106 +167,106 @@ export const verifyPropRows: DocPropRow[] = [
     type: "'single-email' | 'single-google' | … | 'locked'",
     defaultValue: "'single-email'",
     description:
-      '验证场景。Popup Box 固定宽高随 type 变化（如邮箱 328×436、2FA 358×459），不可在 Showcase 改。',
+      showcaseText('[doc] Verification。Popup Box Fixed type （ 328×436、2FA 358×459），canin Showcase 。', '验证场景。Popup Box 固定宽高随 type 变化（如邮箱 328×436、2FA 358×459），不可在 Showcase 改。'),
   },
   {
     name: 'state',
     type: "'idle' | 'verifying' | 'success' | 'error'",
     defaultValue: "'idle'",
     description:
-      '校验状态。外圈 36 点静止/追光（仅 verifying 动）；success 仅内圈勾号；OTP error 红底 + 左右晃动；密码 error 输入框保持默认态、忘记密码行换 EgFormSubmission danger；重新输入 emit recover。',
+      showcaseText('[doc] ValidationStatus。 36 /（only verifying ）；success only；OTP error + ； error Default、Row EgFormSubmission danger； emit recover。', '校验状态。外圈 36 点静止/追光（仅 verifying 动）；success 仅内圈勾号；OTP error 红底 + 左右晃动；密码 error 输入框保持默认态、忘记密码行换 EgFormSubmission danger；重新输入 emit recover。'),
   },
   {
     name: 'title',
     type: 'string',
     defaultValue: '—',
-    description: '标题；省略时使用 type 预设。',
+    description: showcaseText('Title; use type preset when omitted.', '标题；省略时使用 type 预设。'),
   },
   {
     name: 'secondaryText',
     type: 'string',
     defaultValue: '—',
-    description: '说明文案；省略时使用 type 预设。',
+    description: showcaseText('Caption; use type preset when omitted.', '说明文案；省略时使用 type 预设。'),
   },
   {
     name: 'modelValue (v-model)',
     type: 'string',
     defaultValue: "''",
-    description: '验证码字符串；OTP 满 codeLength 位或密码点确定 emit complete。密码为空时确认按钮禁用。',
+    description: showcaseText('Captcha string; OTP full codeLength bit or password point determines emit complete. Confirm button disabled when password is empty.', '验证码字符串；OTP 满 codeLength 位或密码点确定 emit complete。密码为空时确认按钮禁用。'),
   },
   {
     name: 'forgotPasswordLabel',
     type: 'string',
     defaultValue: "'忘记密码?'",
-    description: '交易/登录密码场景「忘记密码」链接文案；error 时隐藏。',
+    description: showcaseText('Transaction/login password scene "Forgot password" link copy; hidden when error.', '交易/登录密码场景「忘记密码」链接文案；error 时隐藏。'),
   },
   {
     name: 'passwordErrorText',
     type: 'string',
     defaultValue: "'密码有误，请重试'",
-    description: '交易/登录密码校验失败时 EgFormSubmission（type=danger）文案；重新输入后恢复忘记密码行。',
+    description: showcaseText('EgFormSubmission (type = danger) copy when transaction/login password verification fails; reenter to resume forgotten password line.', '交易/登录密码校验失败时 EgFormSubmission（type=danger）文案；重新输入后恢复忘记密码行。'),
   },
   {
     name: 'confirmLabel',
     type: 'string',
     defaultValue: "'确定'",
-    description: '交易/登录密码场景确认按钮文案。',
+    description: showcaseText('Transaction/login password scene confirmation button copy.', '交易/登录密码场景确认按钮文案。'),
   },
   {
     name: 'cancelLabel',
     type: 'string',
     defaultValue: "'取消'",
-    description: '交易/登录密码场景取消按钮文案。',
+    description: showcaseText('Transaction/login password scenario cancel button copy.', '交易/登录密码场景取消按钮文案。'),
   },
   {
     name: 'actionTone',
     type: "'brand' | 'decor'",
     defaultValue: "'decor'",
-    description: '交易/登录密码场景 EgComboPopupButton 按钮 Tone（确认 solid、取消 text 同 tone）。',
+    description: showcaseText('Transaction/login password scene EgComboPopupButton button Tone (confirm solid, cancel text with tone).', '交易/登录密码场景 EgComboPopupButton 按钮 Tone（确认 solid、取消 text 同 tone）。'),
   },
   {
     name: 'placeholder',
     type: 'string',
     defaultValue: "'请输入'",
-    description: '交易/登录密码输入框占位文案。',
+    description: showcaseText('Transaction/login password input box placeholder copy.', '交易/登录密码输入框占位文案。'),
   },
   {
     name: 'codeLength',
     type: 'number',
     defaultValue: '6',
-    description: '验证码位数。',
+    description: showcaseText('The number of digits in the verification code.', '验证码位数。'),
   },
   {
     name: 'countdownSeconds',
     type: 'number | null',
     defaultValue: '60',
-    description: '倒计时秒数（默认 60）；归零后在倒计时位置显示 retryLabel；error 时 retryLabel 在底部。',
+    description: showcaseText('Countdown seconds (default 60); after zeroing, retryLabel is displayed at the countdown position; when error, retryLabel is at the bottom.', '倒计时秒数（默认 60）；归零后在倒计时位置显示 retryLabel；error 时 retryLabel 在底部。'),
   },
   {
     name: 'switchDisabled',
     type: 'boolean',
     defaultValue: 'false',
-    description: '底部切换不可用（仍展示，勿隐藏）。',
+    description: showcaseText('Bottom toggle not available (still shown, don\'t hide).', '底部切换不可用（仍展示，勿隐藏）。'),
   },
 ];
 
 export const verifyEventRows: DocPropRow[] = [
-  { name: 'update:modelValue', type: '(value: string) => void', defaultValue: '—', description: '验证码 / 密码值变化。' },
-  { name: 'complete', type: '(code: string) => void', defaultValue: '—', description: 'OTP 输满或密码确认时触发。' },
-  { name: 'recover', type: '() => void', defaultValue: '—', description: 'error 后重新输入时触发。' },
-  { name: 'retry', type: '() => void', defaultValue: '—', description: '倒计时结束或 error 后点击重试。' },
-  { name: 'cancel', type: '() => void', defaultValue: '—', description: '密码场景取消。' },
-  { name: 'forgot', type: '() => void', defaultValue: '—', description: '点击忘记密码。' },
-  { name: 'switch', type: '() => void', defaultValue: '—', description: '底部切换验证方式。' },
-  { name: 'paste', type: '() => void', defaultValue: '—', description: 'OTP 粘贴操作。' },
+  { name: 'update:modelValue', type: '(value: string) => void', defaultValue: '—', description: showcaseText('Captcha/password value change.', '验证码 / 密码值变化。') },
+  { name: 'complete', type: '(code: string) => void', defaultValue: '—', description: showcaseText('Fires when OTP is full or password confirmation.', 'OTP 输满或密码确认时触发。') },
+  { name: 'recover', type: '() => void', defaultValue: '—', description: showcaseText('fires when re-entered after error.', 'error 后重新输入时触发。') },
+  { name: 'retry', type: '() => void', defaultValue: '—', description: showcaseText('At the end of the countdown or after the error, click Retry.', '倒计时结束或 error 后点击重试。') },
+  { name: 'cancel', type: '() => void', defaultValue: '—', description: showcaseText('Password scenario canceled.', '密码场景取消。') },
+  { name: 'forgot', type: '() => void', defaultValue: '—', description: showcaseText('Click Forgot password.', '点击忘记密码。') },
+  { name: 'switch', type: '() => void', defaultValue: '—', description: showcaseText('Toggle authentication at the bottom.', '底部切换验证方式。') },
+  { name: 'paste', type: '() => void', defaultValue: '—', description: showcaseText('OTP paste operation.', 'OTP 粘贴操作。') },
 ];
 
 export const verifySlotRows: DocPropRow[] = [
   {
-    name: '(无公开插槽)',
+    name: showcaseText('(No public slots)', '(无公开插槽)'),
     type: '—',
     defaultValue: '—',
-    description: 'EgVerify 无公开插槽；子结构由 type 预设与 props 驱动（EgVerifyInput、EgVerifyRingDots 等）。',
+    description: showcaseText('EgVerify has no exposed slots; sub-structures are driven by type presets and props (EgVerifyInput, EgVerifyRingDots, etc.).', 'EgVerify 无公开插槽；子结构由 type 预设与 props 驱动（EgVerifyInput、EgVerifyRingDots 等）。'),
   },
 ];
 

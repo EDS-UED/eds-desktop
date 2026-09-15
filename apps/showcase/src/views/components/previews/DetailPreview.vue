@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgDetail, EgPopup, EgTooltipPanel } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
@@ -31,6 +34,28 @@ import {
 /** Figma Popup Detail 面板尺寸（与 EgPopup uses="detail" 一致） */
 const DETAIL_PANEL_WIDTH = 880;
 const DETAIL_PANEL_HEIGHT = 620;
+
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const headerPanelTitle = showcaseText('Header', '头部');
+const contentArea1PanelTitle = showcaseText('Content area 1', '内容区 1');
+const contentArea2PanelTitle = showcaseText('Content area 2', '内容区 2');
+
+const resolvedHeaderPanelTitle = computed(() => {
+  void locale.value;
+  return display(headerPanelTitle);
+});
+
+const resolvedContentArea1PanelTitle = computed(() => {
+  void locale.value;
+  return display(contentArea1PanelTitle);
+});
+
+const resolvedContentArea2PanelTitle = computed(() => {
+  void locale.value;
+  return display(contentArea2PanelTitle);
+});
 
 const customize = createDocCustomizeState<typeof detailCustomizeDefaults>(detailCustomizeDefaults);
 
@@ -229,7 +254,7 @@ function closeOrdersPopup() {
         <div :class="docStyles.customizeExtraStack">
           <CustomizePanel
             v-model="customize"
-            title="头部"
+            :title="resolvedHeaderPanelTitle"
             nested
             embedded
             sequential
@@ -248,7 +273,7 @@ function closeOrdersPopup() {
           />
           <CustomizePanel
             v-model="customize"
-            title="内容区 1"
+            :title="resolvedContentArea1PanelTitle"
             nested
             embedded
             sequential
@@ -257,7 +282,7 @@ function closeOrdersPopup() {
           />
           <CustomizePanel
             v-model="customize"
-            title="内容区 2"
+            :title="resolvedContentArea2PanelTitle"
             nested
             embedded
             sequential

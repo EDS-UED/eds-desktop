@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { buildVueSelfClosingSnippet } from '@/views/shared/componentDoc/buildUsageSnippet';
 import {
   buttonToneRows,
@@ -25,19 +26,19 @@ export const streamerImportCode = `import { EgStreamer } from '@eds/desktop-comp
 export const streamerFigmaNode = '2534:5785';
 
 export const endFeedbackCardPropRows: DocPropRow[] = [
-  { name: 'text', type: 'string', defaultValue: "'I am Text'", description: '卡片正文。' },
+  { name: 'text', type: 'string', defaultValue: "'I am Text'", description: showcaseText('The body of the card.', '卡片正文。') },
   {
     name: '—',
     type: '—',
     defaultValue: '—',
     description:
-      '成功勾号使用 EgDoneTick（16px 白描边，延迟 --motion-delay-feedback-tick 于绿圆入场后播放）。',
+      showcaseText('[doc] Success EgDoneTick（16px ， --motion-delay-feedback-tick ）。', '成功勾号使用 EgDoneTick（16px 白描边，延迟 --motion-delay-feedback-tick 于绿圆入场后播放）。'),
   },
 ];
 
 export const toastPropRows: DocPropRow[] = [
-  { name: 'type', type: "'result' | 'danger'", defaultValue: "'result'", description: 'Toast 类型。' },
-  { name: 'text', type: 'string', defaultValue: "'Connect to EDS'", description: '文案。' },
+  { name: 'type', type: "'result' | 'danger'", defaultValue: "'result'", description: showcaseText('Toast type.', 'Toast 类型。') },
+  { name: 'text', type: 'string', defaultValue: "'Connect to EDS'", description: showcaseText('Copy。', '文案。') },
 ];
 
 export const messagePropRows: DocPropRow[] = [
@@ -46,22 +47,22 @@ export const messagePropRows: DocPropRow[] = [
     type: "'subtle' | 'brand' | 'danger'",
     defaultValue: "'subtle'",
     description:
-      'Subtle：--material-card-moderate + --text-base-primary；Brand：--material-brand-primary + 白字；Danger：--status-danger + 白字。',
+      showcaseText('[doc] Subtle：--material-card-moderate + --text-base-primary；Brand：--material-brand-primary + ；Danger：--status-danger + 。', 'Subtle：--material-card-moderate + --text-base-primary；Brand：--material-brand-primary + 白字；Danger：--status-danger + 白字。'),
   },
-  { name: 'text', type: 'string', defaultValue: "'0'", description: '文案或计数（Bar 11px / line-height 14px）。' },
+  { name: 'text', type: 'string', defaultValue: "'0'", description: showcaseText('Copywriting or counting (Bar 11px/line-height 14px).', '文案或计数（Bar 11px / line-height 14px）。') },
   {
     name: 'focused',
     type: 'boolean',
     defaultValue: 'false',
     description:
-      '行聚焦态；Module Menu item 聚焦时由父级 provide，亦可受控。聚焦时文案 --text-same-black-primary。',
+      showcaseText('[doc] RowFocus；Module Menu item Focuswhenby provide，can。FocuswhenCopy --text-same-black-primary。', '行聚焦态；Module Menu item 聚焦时由父级 provide，亦可受控。聚焦时文案 --text-same-black-primary。'),
   },
   {
     name: 'focusBackground',
     type: "'inherit' | 'same-white'",
     defaultValue: "'inherit'",
     description:
-      '聚焦背景：inherit 保持 type 原色；same-white 为 --material-same-white-primary。Module Menu item 用 message-focus-background prop；#accessory 嵌套时写在 EgMessage 上。',
+      showcaseText('[doc] FocusBackground：inherit type ；same-white as --material-same-white-primary。Module Menu item message-focus-background prop；#accessory whenin EgMessage 。', '聚焦背景：inherit 保持 type 原色；same-white 为 --material-same-white-primary。Module Menu item 用 message-focus-background prop；#accessory 嵌套时写在 EgMessage 上。'),
   },
 ];
 
@@ -70,25 +71,25 @@ export const reddotPropRows: DocPropRow[] = [
     name: '—',
     type: '—',
     defaultValue: '—',
-    description: 'Reddot 无 props，为 8px 危险色圆点。',
+    description: showcaseText('Reddot has no props, 8px danger colored dots.', 'Reddot 无 props，为 8px 危险色圆点。'),
   },
 ];
 
 export const formSubmissionPropRows: DocPropRow[] = [
-  { name: 'type', type: "'notes' | 'danger' | 'success'", defaultValue: "'notes'", description: '表单反馈类型。' },
-  { name: 'text', type: 'string', defaultValue: "'Connect to EDS'", description: '说明文案。' },
+  { name: 'type', type: "'notes' | 'danger' | 'success'", defaultValue: "'notes'", description: showcaseText('The form feedback type.', '表单反馈类型。') },
+  { name: 'text', type: 'string', defaultValue: "'Connect to EDS'", description: showcaseText('Description copy.', '说明文案。') },
   {
     name: 'linkLabel',
     type: 'string',
     defaultValue: "'Button'",
-    description: 'Notes / Danger 态链接文案（嵌套 EgLinkButton size=sm）；Success 无链接。',
+    description: showcaseText('Notes/Danger modal copy (nested EgLinkButton size = sm); Success no link.', 'Notes / Danger 态链接文案（嵌套 EgLinkButton size=sm）；Success 无链接。'),
   },
-  { name: 'href', type: 'string', defaultValue: "'#'", description: 'Notes / Danger 态链接地址。' },
+  { name: 'href', type: 'string', defaultValue: "'#'", description: showcaseText('Notes/Danger status link address.', 'Notes / Danger 态链接地址。') },
   {
     name: 'showLink',
     type: 'boolean',
     defaultValue: 'true',
-    description: '是否显示链接；Notes / Danger 生效，Success 无链接。',
+    description: showcaseText('Whether the link is displayed or not; Notes/Danger is active and Success has no link.', '是否显示链接；Notes / Danger 生效，Success 无链接。'),
   },
 ];
 
@@ -97,38 +98,38 @@ export const streamerPropRows: DocPropRow[] = [
     name: 'type',
     type: "'info' | 'warning' | 'danger'",
     defaultValue: "'info'",
-    description: '组级横幅语义色。info 背景 `--material-card-moderate`；warning / danger 在 visual=brand 时用类型 weaken，moderate 时统一 `--material-card-moderate`。',
+    description: showcaseText('Group-level banner semantic color. info background `--material-card-moderate`; warning/danger use type weaken when visual = brand, uniform `--material-card-moderate` when moderate.', '组级横幅语义色。info 背景 `--material-card-moderate`；warning / danger 在 visual=brand 时用类型 weaken，moderate 时统一 `--material-card-moderate`。'),
   },
   {
     name: 'visual',
     type: "'brand' | 'moderate'",
     defaultValue: "'brand'",
-    description: '视觉：brand 类型 weaken 背景；moderate 统一 `--material-card-moderate`。',
+    description: showcaseText('Visual: brand type weaken background; moderate unified `--material-card-moderate`.', '视觉：brand 类型 weaken 背景；moderate 统一 `--material-card-moderate`。'),
   },
-  { name: 'text', type: 'string', defaultValue: "'Connect to EDS'", description: '横幅文案。' },
+  { name: 'text', type: 'string', defaultValue: "'Connect to EDS'", description: showcaseText('Banner copy.', '横幅文案。') },
   {
     name: 'showSymbol',
     type: 'boolean',
     defaultValue: 'true',
-    description: '是否显示左侧符号图标。',
+    description: showcaseText('Whether ShowLeadingIconIcon.', '是否显示左侧符号图标。'),
   },
   {
     name: 'showButton',
     type: 'boolean',
     defaultValue: 'false',
-    description: '是否在右侧显示 EgButton（默认 outline · xs · subtle，边框 `--stroke-xs`）。',
+    description: showcaseText('Whether inTrailingShow EgButton（Default outline · xs · subtle，Border `--stroke-xs`）.', '是否在右侧显示 EgButton（默认 outline · xs · subtle，边框 `--stroke-xs`）。'),
   },
   {
     name: 'buttonLabel',
     type: 'string',
     defaultValue: "'Button'",
-    description: '按钮文案；仅 showButton 为 true 时显示。',
+    description: showcaseText('ButtonCopy；only showButton as true whenShow。', '按钮文案；仅 showButton 为 true 时显示。'),
   },
   {
     name: 'buttonVariant',
     type: "'solid' | 'outline' | 'text'",
     defaultValue: "'outline'",
-    description: 'EgButton 风格（Style）。',
+    description: showcaseText('EgButton Style.', 'EgButton 风格（Style）。'),
   },
   {
     name: 'buttonTone',
@@ -140,19 +141,19 @@ export const streamerPropRows: DocPropRow[] = [
     name: 'buttonSize',
     type: "'lg' | 'md' | 'sm' | 'xs'",
     defaultValue: "'xs'",
-    description: 'EgButton 尺寸。',
+    description: showcaseText('EgButton size.', 'EgButton 尺寸。'),
   },
   {
     name: 'showLink',
     type: 'boolean',
     defaultValue: 'false',
-    description: '是否在右侧显示 EgLinkButton（可与按钮并存，用于文档对比）。',
+    description: showcaseText('Whether or not to display the EgLinkButton on the right (can co-exist with buttons for document comparison).', '是否在右侧显示 EgLinkButton（可与按钮并存，用于文档对比）。'),
   },
   {
     name: 'linkLabel',
     type: 'string',
     defaultValue: "'Button'",
-    description: 'Link 文案；仅 showLink 为 true 时显示。',
+    description: showcaseText('Link Copy；only showLink as true whenShow。', 'Link 文案；仅 showLink 为 true 时显示。'),
   },
   {
     name: 'linkTone',
@@ -164,20 +165,20 @@ export const streamerPropRows: DocPropRow[] = [
     name: 'linkSize',
     type: "'md'",
     defaultValue: "'md'",
-    description: 'EgLinkButton 尺寸。',
+    description: showcaseText('EgLinkButton size.', 'EgLinkButton 尺寸。'),
   },
-  { name: 'href', type: 'string', defaultValue: "'#'", description: 'Link 地址。' },
+  { name: 'href', type: 'string', defaultValue: "'#'", description: showcaseText('Link Address。', 'Link 地址。') },
   {
     name: '—',
     type: '—',
     defaultValue: '—',
-    description: '区块顶部警告条，`role="alert"`；用于 group_failure 组级校验失败。',
+    description: showcaseText('Warning bar at the top of the block, `role = "alert"`; used for group_failure group level verification failures.', '区块顶部警告条，`role="alert"`；用于 group_failure 组级校验失败。'),
   },
 ];
 
 export const endFeedbackCardCustomizeDefaults = { text: 'I am Text' };
 export const endFeedbackCardCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'text', key: 'text', label: '文案' },
+  { kind: 'text', key: 'text', label: showcaseText('Copy', '文案') },
 ];
 
 export const toastCustomizeDefaults = { type: 'result', text: 'Connect to EDS' };
@@ -185,13 +186,13 @@ export const toastCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'type',
-    label: '类型',
+    label: showcaseText('Type', '类型'),
     options: propLabelRows(['result', 'danger'] as const, showcaseFeedbackToastTypeLabels).map((row) => ({
       value: row.key,
       label: row.label,
     })),
   },
-  { kind: 'text', key: 'text', label: '文案' },
+  { kind: 'text', key: 'text', label: showcaseText('Copy', '文案') },
 ];
 
 export const messageCustomizeDefaults = {
@@ -202,12 +203,12 @@ export const messageCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'type',
-    label: '类型',
+    label: showcaseText('Type', '类型'),
     options: propLabelRows(['subtle', 'brand', 'danger'] as const, showcaseFeedbackMessageTypeLabels).map(
       (row) => ({ value: row.key, label: row.label }),
     ),
   },
-  { kind: 'text', key: 'text', label: '文案' },
+  { kind: 'text', key: 'text', label: showcaseText('Copy', '文案') },
 ];
 
 export const reddotCustomizeDefaults = {};
@@ -250,7 +251,7 @@ export function buildFormSubmissionExpandCustomizeControls(
     {
       kind: 'select',
       key: typeKey,
-      label: '类型',
+      label: showcaseText('Type', '类型'),
       row,
       options: propLabelRows(['notes', 'danger', 'success'] as const, showcaseFormSubmissionTypeLabels).map(
         (row) => ({ value: row.key, label: row.label }),
@@ -260,21 +261,21 @@ export function buildFormSubmissionExpandCustomizeControls(
     {
       kind: 'text',
       key: textKey,
-      label: '文案',
+      label: showcaseText('Copy', '文案'),
       row,
       visibleWhen: gate,
     },
     {
       kind: 'boolean',
       key: showLinkKey,
-      label: '显示链接',
+      label: showcaseText('Show Link', '显示链接'),
       row,
       visibleWhen: (s) => gate(s) && (s[typeKey] === 'notes' || s[typeKey] === 'danger'),
     },
     {
       kind: 'text',
       key: linkLabelKey,
-      label: '按钮文案',
+      label: showcaseText('Button copy.', '按钮文案'),
       row,
       visibleWhen: (s) =>
         gate(s) &&
@@ -324,7 +325,7 @@ export const streamerVisualCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'visual',
-    label: '视觉',
+    label: showcaseText('&Visual', '视觉'),
     options: propLabelRows(['brand', 'moderate'] as const, showcaseStreamerVisualLabels).map(
       (row) => ({ value: row.key, label: row.label }),
     ),
@@ -332,19 +333,19 @@ export const streamerVisualCustomizeControls: DocCustomizeControl[] = [
 ];
 
 export const streamerSymbolCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'boolean', key: 'showSymbol', label: '显示符号' },
+  { kind: 'boolean', key: 'showSymbol', label: showcaseText('ShowIcon', '显示符号') },
 ];
 
 export const streamerCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'type',
-    label: '类型',
+    label: showcaseText('Type', '类型'),
     options: propLabelRows(['info', 'warning', 'danger'] as const, showcaseStreamerTypeLabels).map(
       (row) => ({ value: row.key, label: row.label }),
     ),
   },
-  { kind: 'text', key: 'text', label: '文案' },
+  { kind: 'text', key: 'text', label: showcaseText('Copy', '文案') },
   ...streamerVisualCustomizeControls,
   ...streamerSymbolCustomizeControls,
 ];
@@ -354,11 +355,11 @@ const streamerButtonToneOptions = buttonToneRows
   .map((row) => ({ value: row.key, label: row.label }));
 
 export const streamerButtonCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'boolean', key: 'showButton', label: '显示按钮', row: 0 },
+  { kind: 'boolean', key: 'showButton', label: showcaseText('ShowButton', '显示按钮'), row: 0 },
   {
     kind: 'select',
     key: 'buttonVariant',
-    label: '风格',
+    label: showcaseText('Style', '风格'),
     row: 0,
     visibleWhen: (state) => Boolean(state.showButton),
     options: buttonVariantRows.map((row) => ({ value: row.key, label: row.label })),
@@ -366,7 +367,7 @@ export const streamerButtonCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'buttonTone',
-    label: '色调',
+    label: showcaseText('Tone', '色调'),
     row: 1,
     visibleWhen: (state) => Boolean(state.showButton),
     options: streamerButtonToneOptions,
@@ -374,7 +375,7 @@ export const streamerButtonCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'buttonSize',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     row: 1,
     visibleWhen: (state) => Boolean(state.showButton),
     options: buttonSizeRows.map((row) => ({ value: row.key, label: row.label })),
@@ -382,7 +383,7 @@ export const streamerButtonCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
     key: 'buttonLabel',
-    label: '按钮文案',
+    label: showcaseText('Button copy.', '按钮文案'),
     row: 1,
     visibleWhen: (state) => Boolean(state.showButton),
   },
@@ -397,11 +398,11 @@ const streamerLinkSizeOptions = linkSizeRows
   .map((row) => ({ value: row.key, label: row.label }));
 
 export const streamerLinkCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'boolean', key: 'showLink', label: '显示 Link', row: 0 },
+  { kind: 'boolean', key: 'showLink', label: showcaseText('Show Link', '显示 Link'), row: 0 },
   {
     kind: 'select',
     key: 'linkTone',
-    label: '色调',
+    label: showcaseText('Tone', '色调'),
     row: 0,
     visibleWhen: (state) => Boolean(state.showLink),
     options: streamerLinkToneOptions,
@@ -409,7 +410,7 @@ export const streamerLinkCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'linkSize',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     row: 0,
     visibleWhen: (state) => Boolean(state.showLink),
     options: streamerLinkSizeOptions,
@@ -417,7 +418,7 @@ export const streamerLinkCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
     key: 'linkLabel',
-    label: '文案',
+    label: showcaseText('Copy', '文案'),
     visibleWhen: (state) => Boolean(state.showLink),
   },
 ];

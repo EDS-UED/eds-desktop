@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   AVATAR_NATIVE_PALETTE,
   AVATAR_ROBOT_ASSET_NAME,
@@ -25,6 +26,8 @@ const avatarCustomize = createDocCustomizeState<typeof avatarCustomizeDefaults>(
 );
 
 const avatarUsageSnippet = computed(() => buildAvatarUsageSnippet(avatarCustomize));
+
+const galleryLabel = showcaseText('Size', '尺寸');
 
 const previewProps = computed(() => resolveAvatarPreviewProps(avatarCustomize));
 
@@ -94,7 +97,7 @@ function selectPaletteValue(value: string) {
         <TagPreviewGallery
           :options="[...avatarSizeOptions]"
           :selected="avatarCustomize.size"
-          gallery-label="尺寸"
+          :gallery-label="galleryLabel"
           :fill-preview-height="false"
           @select="selectAvatarSize"
         >

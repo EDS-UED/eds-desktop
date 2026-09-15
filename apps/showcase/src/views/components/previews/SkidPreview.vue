@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgSkid } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
@@ -28,6 +31,16 @@ const customize = reactive({
 });
 
 const usageSnippet = computed(() => buildSkidUsageSnippet(customize));
+
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const overflowTestPanelTitle = showcaseText('Overflow test', '溢出测试');
+
+const resolvedOverflowTestPanelTitle = computed(() => {
+  void locale.value;
+  return display(overflowTestPanelTitle);
+});
 </script>
 
 <template>
@@ -72,7 +85,7 @@ const usageSnippet = computed(() => buildSkidUsageSnippet(customize));
             v-model="customize"
             nested
             embedded
-            title="溢出测试"
+            :title="resolvedOverflowTestPanelTitle"
             :controls="skidDemoContentCustomizeControls"
           />
           <CustomizePanel

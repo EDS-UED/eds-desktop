@@ -1,3 +1,4 @@
+import { showcaseText } from '@/data/i18n/showcaseDisplayText';
 import type { CatalogSection } from '../types';
 import type { SceneMotionScenario } from '@/views/components/previews/sceneMotionDocCustomize';
 
@@ -13,31 +14,46 @@ export const animationCatalogMeta: AnimationCatalogMeta[] = [
     slug: 'verification-ring-dots',
     name: 'VerificationRingDots',
     scenario: 'verify-ring-dots',
-    description: '验证外圈点阵动画。',
+    description: showcaseText(
+      'Verification ring dot animation.',
+      '验证外圈点阵动画。',
+    ),
   },
   {
     slug: 'business-success',
     name: 'BusinessSuccess',
     scenario: 'done-tick',
-    description: '业务成功完成动效。',
+    description: showcaseText(
+      'Business success completion motion.',
+      '业务成功完成动效。',
+    ),
   },
   {
     slug: 'business-processing',
     name: 'BusinessProcessing',
     scenario: 'motion-processing',
-    description: '业务处理中时间动效。',
+    description: showcaseText(
+      'In-progress business processing motion.',
+      '业务处理中时间动效。',
+    ),
   },
   {
     slug: 'ripple-pulse',
     name: 'RipplePulse',
     scenario: 'ripple-pulse',
-    description: '波纹脉冲动画。',
+    description: showcaseText(
+      'Ripple pulse animation.',
+      '波纹脉冲动画。',
+    ),
   },
   {
     slug: 'mnemonic-verification',
     name: 'MnemonicVerification',
     scenario: 'mnemonic-verify',
-    description: '助记词校验中动画。',
+    description: showcaseText(
+      'Mnemonic verification in-progress animation.',
+      '助记词校验中动画。',
+    ),
   },
 ];
 

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, ref, useSlots, type ComputedRef } from 'vue';
 import { EgButton, EgSegmented, rescanCornerSmoothing } from '@eds/desktop-components';
+import { useShowcaseI18n } from '@/composables/useShowcaseI18n';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { formatShowcaseI18nTemplate } from '@/data/i18n/resolveShowcaseCatalogText';
 import CodeSnippet from '@/components/shared/CodeSnippet.vue';
 import { buildComponentAiPrompt, buildVueSelfClosingSnippet } from './buildUsageSnippet';
 import CustomizePanel from './CustomizePanel.vue';
@@ -66,7 +69,40 @@ const emit = defineEmits<{
   'reset-preview': [];
 }>();
 
+const { locale } = useShowcaseLocale();
+const i18n = useShowcaseI18n();
 const slots = useSlots();
+
+const shellPreviewLabel = computed(() => {
+  void locale.value;
+  return i18n.name('shell:preview', 'Preview');
+});
+
+const shellCodeLabel = computed(() => {
+  void locale.value;
+  return i18n.name('shell:code', 'Code');
+});
+
+const shellRefreshLabel = computed(() => {
+  void locale.value;
+  return i18n.name('shell:refresh', 'Refresh');
+});
+
+const shellCopyAiPromptLabel = computed(() => {
+  void locale.value;
+  return i18n.name('shell:copy-ai-prompt', 'Copy AI prompt');
+});
+
+const viewModeAriaLabel = computed(() => {
+  void locale.value;
+  const template = i18n.name('shell:view-mode-aria', '{title} view');
+  return formatShowcaseI18nTemplate(template, { title: props.title });
+});
+
+const copyAiPromptAriaLabel = computed(() => {
+  void locale.value;
+  return `${shellCopyAiPromptLabel.value} · ${props.title}`;
+});
 
 const injectedCompactPreview = inject<ComputedRef<boolean>>('componentDocCompactPreview');
 const injectedScrollPreview = inject<ComputedRef<boolean>>('componentDocScrollPreview');
@@ -204,7 +240,7 @@ function onResetPreview() {
   resetCustomizeState();
   viewMode.value = 'preview';
   emit('reset-preview');
-  refreshFeedback.value = '已刷新';
+  refreshFeedback.value = i18n.name('shell:refreshed', 'Refreshed');
   window.setTimeout(() => {
     refreshFeedback.value = '';
   }, 1500);
@@ -214,9 +250,9 @@ function onResetPreview() {
 async function copyAiPrompt() {
   try {
     await navigator.clipboard.writeText(aiPrompt.value);
-    copyFeedback.value = '已复制';
+    copyFeedback.value = i18n.name('shell:copied', 'Copied');
   } catch {
-    copyFeedback.value = '复制失败';
+    copyFeedback.value = i18n.name('shell:copy-failed', 'Copy failed');
   }
   window.setTimeout(() => {
     copyFeedback.value = '';
@@ -253,12 +289,12 @@ async function copyAiPrompt() {
         <div
           class="desktopTokens"
           :class="styles.previewShellToolbar"
-          :aria-label="`${title} 视图`"
+          :aria-label="viewModeAriaLabel"
         >
           <EgSegmented
             v-model="viewModeIndex"
             size="lg"
-            :labels="['预览', '代码']"
+            :labels="[shellPreviewLabel, shellCodeLabel]"
           />
           <div :class="styles.previewShellToolbarActions">
             <EgButton
@@ -267,15 +303,15 @@ async function copyAiPrompt() {
               tone="brand"
               @click="onResetPreview"
             >
-              {{ refreshFeedback || '刷新' }}
+              {{ refreshFeedback || shellRefreshLabel }}
             </EgButton>
             <EgButton
               size="md"
               tone="brand"
-              :aria-label="`复制 ${title} AI 提示词`"
+              :aria-label="copyAiPromptAriaLabel"
               @click="copyAiPrompt"
             >
-              {{ copyFeedback || '复制 AI 提示词' }}
+              {{ copyFeedback || shellCopyAiPromptLabel }}
             </EgButton>
           </div>
         </div>

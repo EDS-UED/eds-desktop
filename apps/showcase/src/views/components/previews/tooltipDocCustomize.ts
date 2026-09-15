@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { buildVueOpeningTag } from '@/views/shared/componentDoc/buildUsageSnippet';
 import {
   placementRows,
@@ -35,15 +36,15 @@ export const tooltipPanelKindCustomizeOptions = [
 ] as const;
 
 export const tooltipOverflowSceneSections = [
-  { id: 'tooltip-scene-text-overflow', label: '字段溢出', scenario: 'text-overflow' },
+  { id: 'tooltip-scene-text-overflow', label: showcaseText('Field overflow', '字段溢出'), scenario: 'text-overflow' },
   {
     id: 'tooltip-scene-paragraph-overflow',
-    label: '段落溢出',
+    label: showcaseText('Paragraph overflow', '段落溢出'),
     scenario: 'paragraph-overflow-info',
   },
   {
     id: 'tooltip-scene-multi-address',
-    label: '地址溢出（Item、可复制）',
+    label: showcaseText('Address overflow (item, copyable)', '地址溢出（Item、可复制）'),
     scenario: 'multi-address',
   },
 ] as const satisfies ReadonlyArray<{
@@ -144,10 +145,10 @@ export const tooltipOverflowSceneCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'tooltipTrigger',
-    label: 'Tooltip 交互',
+    label: showcaseText('Tooltip Interaction', 'Tooltip 交互'),
     options: [
-      { value: 'hover', label: '悬浮时' },
-      { value: 'focus', label: '聚焦时' },
+      { value: 'hover', label: showcaseText('When floating', '悬浮时') },
+      { value: 'focus', label: showcaseText('Focuswhen', '聚焦时') },
     ],
   },
 ];
@@ -335,45 +336,45 @@ export const tooltipPropRows: DocPropRow[] = [
   {
     name: 'panelRadius',
     type: "'radius-0' | 'radius-xs' | 'radius-sm' | 'radius-md' | 'radius-lg' | 'radius-full'",
-    defaultValue: '按 panelKind（container/flotation/subtle → radius-md；popup → radius-lg；molde → 无）',
+    defaultValue: showcaseText('Press panelKind (container/flotation/subtle → radius-md; popup → radius-lg; molde → none)', '按 panelKind（container/flotation/subtle → radius-md；popup → radius-lg；molde → 无）'),
     description:
-      '面板圆角，仅允许 Scale Radius token（--radius-*）。未传时使用各 panelKind 在 effect semantic 中的默认圆角。',
+      showcaseText('[doc] PanelRadius，only Scale Radius token（--radius-*）。when panelKind in effect semantic DefaultRadius。', '面板圆角，仅允许 Scale Radius token（--radius-*）。未传时使用各 panelKind 在 effect semantic 中的默认圆角。'),
   },
   {
     name: 'widthMode',
     type: "'adaptive' | 'fixed'",
     defaultValue: "'adaptive'",
-    description: 'adaptive：宽度随内容；fixed：使用 width。',
+    description: showcaseText('adaptive: width with content; fixed: use width.', 'adaptive：宽度随内容；fixed：使用 width。'),
   },
   {
     name: 'width',
     type: 'number',
     defaultValue: '—',
-    description: 'fixed 模式下固定宽度（px）。',
+    description: showcaseText('fixed width in fixed mode (px).', 'fixed 模式下固定宽度（px）。'),
   },
   {
     name: 'maxWidth',
     type: 'number',
     defaultValue: '—',
-    description: '可选最大宽度（px）。',
+    description: showcaseText('Optional maximum width (px).', '可选最大宽度（px）。'),
   },
   {
     name: 'heightMode',
     type: "'adaptive' | 'fixed'",
     defaultValue: "'adaptive'",
-    description: 'adaptive：高度由 effect semantic 或内容决定；fixed：使用 height。',
+    description: showcaseText('adaptive: height is determined by effect semantic or content; fixed: uses height.', 'adaptive：高度由 effect semantic 或内容决定；fixed：使用 height。'),
   },
   {
     name: 'height',
     type: 'number',
     defaultValue: '—',
-    description: 'heightMode=fixed 时面板高度（px）。container 场景由 effect-container-box 提供，勿传。',
+    description: showcaseText('heightMode = panel height when fixed (px). The container scene is provided by the effect-container-box, do not pass.', 'heightMode=fixed 时面板高度（px）。container 场景由 effect-container-box 提供，勿传。'),
   },
   {
     name: 'maxHeight',
     type: 'number',
     defaultValue: '—',
-    description: '可选最大高度（px）；超出时内容区纵向滚动。',
+    description: showcaseText('Optional maximum height (px); scrolls the content area vertically when exceeded.', '可选最大高度（px）；超出时内容区纵向滚动。'),
   },
 ];
 
@@ -382,49 +383,49 @@ export const anchoredTooltipPropRows: DocPropRow[] = [
     name: 'trigger',
     type: "'click' | 'hover'",
     defaultValue: "'click'",
-    description: 'click：点击切换；click 模式下阻止右键菜单。',
+    description: showcaseText('click: click to toggle; right-click menu blocked in click mode.', 'click：点击切换；click 模式下阻止右键菜单。'),
   },
   {
     name: 'placement',
     type: "'top' | 'bottom' | 'left' | 'right'",
     defaultValue: "'bottom'",
-    description: '相对触发器的弹出方向。',
+    description: showcaseText('The ejection direction relative to the trigger.', '相对触发器的弹出方向。'),
   },
   {
     name: 'offset',
     type: 'number',
     defaultValue: '--spacing-025 (1px)',
-    description: '主轴与触发器间距（px）；未传时读 --spacing-025。',
+    description: showcaseText('Spindle-to-trigger spacing (px); read when not passing - spacing-025.', '主轴与触发器间距（px）；未传时读 --spacing-025。'),
   },
   {
     name: 'crossAxisOffset',
     type: 'number',
-    defaultValue: '按 align（start=-spacing-2，end=+spacing-2，center=0）',
-    description: '交叉轴位移（px）；未传时按 align 与 --spacing-2 计算。',
+    defaultValue: showcaseText('Press align (start = -spacing-2, end = + spacing-2, center = 0)', '按 align（start=-spacing-2，end=+spacing-2，center=0）'),
+    description: showcaseText('Cross-axis displacement (px); calculated as align and --spacing-2 when not transmitted.', '交叉轴位移（px）；未传时按 align 与 --spacing-2 计算。'),
   },
   {
     name: 'align',
     type: "'start' | 'center' | 'end'",
     defaultValue: "'start'",
-    description: '交叉轴对齐；同时影响未传 crossAxisOffset 时的默认 inset。',
+    description: showcaseText('Cross-axis alignment; affects the default inset when crossAxisOffset is not passed.', '交叉轴对齐；同时影响未传 crossAxisOffset 时的默认 inset。'),
   },
   {
     name: 'disabled',
     type: 'boolean',
     defaultValue: 'false',
-    description: '为 true 时不可打开。',
+    description: showcaseText('Cannot be opened when true.', '为 true 时不可打开。'),
   },
   {
     name: 'panelKind / panelRadius / widthMode / width / height / maxHeight',
     type: '同 EgTooltip',
-    defaultValue: '见 EgTooltip',
-    description: '透传给内部 EgTooltip。',
+    defaultValue: showcaseText('See EgTooltip', '见 EgTooltip'),
+    description: showcaseText('Transparent to internal EgTooltip.', '透传给内部 EgTooltip。'),
   },
   {
     name: 'tokenScopeClass',
     type: 'string',
     defaultValue: "'desktopTokens'",
-    description: 'Teleport 外层 class，用于加载 Desktop token。',
+    description: showcaseText('Teleport outer class for loading Desktop tokens.', 'Teleport 外层 class，用于加载 Desktop token。'),
   },
 ];
 
@@ -433,13 +434,13 @@ export const tooltipSlotRows: DocPropRow[] = [
     name: 'default',
     type: '—',
     defaultValue: '—',
-    description: 'EgTooltip：触发器。EgTooltip：面板内容。',
+    description: showcaseText('EgTooltip: Trigger. EgTooltip: The panel content.', 'EgTooltip：触发器。EgTooltip：面板内容。'),
   },
   {
     name: 'content',
     type: '—',
     defaultValue: '—',
-    description: 'EgTooltip：Teleport 后面板内容（包在 EgTooltip 内）。',
+    description: showcaseText('EgTooltip: Teleport back panel content (packaged inside EgTooltip).', 'EgTooltip：Teleport 后面板内容（包在 EgTooltip 内）。'),
   },
 ];
 

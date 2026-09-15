@@ -10,7 +10,17 @@
     "build": "vue-tsc --noEmit && vite build",
     "build:pages": "vite build && cp dist/index.html dist/404.html && touch dist/.nojekyll",
     "preview": "vite preview",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "i18n:extract": "node scripts/extract-showcase-i18n-sources.mjs",
+    "i18n:registry": "node scripts/generate-showcase-authoring-registry.mjs",
+    "i18n:registry:translate": "node scripts/generate-showcase-authoring-registry.mjs --translate --delay 600",
+    "i18n:retranslate": "node scripts/retranslate-authoring-cache.mjs --delay 2000",
+    "i18n:sync-en": "node scripts/sync-showcase-text-en-from-cache.mjs && node scripts/generate-showcase-authoring-registry.mjs",
+    "i18n:prefill": "node scripts/prefill-showcase-i18n.mjs --provider auto",
+    "i18n:prefill:quality": "node scripts/prefill-all-target-locales.mjs",
+    "i18n:prefill:draft": "node scripts/prefill-showcase-i18n.mjs --mode copy",
+    "i18n:prefill:hant": "node scripts/prefill-showcase-i18n.mjs --mode hant --locale zh-TW --force && node scripts/prefill-showcase-i18n.mjs --mode hant --locale zh-HK --force",
+    "i18n:prefill:all": "node scripts/prefill-all-target-locales.mjs"
   },
   "dependencies": {
     "@eds/desktop-components": "workspace:*",

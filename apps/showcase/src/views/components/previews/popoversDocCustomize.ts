@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { buildVueOpeningTag } from '@/views/shared/componentDoc/buildUsageSnippet';
 import type {
   PopoverAlign,
@@ -55,10 +56,10 @@ export const popoverAlignOptions = [
 ] as const;
 
 export const popoverSceneScenarioOptions = [
-  { value: 'guidance', label: '引导' },
-  { value: 'remark', label: '备注' },
-  { value: 'gas-fee', label: '矿工费' },
-  { value: 'confirm', label: '二次确认' },
+  { value: 'guidance', label: showcaseText('Guidance', '引导') },
+  { value: 'remark', label: showcaseText('Notes', '备注') },
+  { value: 'gas-fee', label: showcaseText('Gas fee', '矿工费') },
+  { value: 'confirm', label: showcaseText('Confirm', '二次确认') },
 ] as const;
 
 export type PopoverSceneScenario = (typeof popoverSceneScenarioOptions)[number]['value'];
@@ -102,15 +103,15 @@ export const popoverSceneCustomizeDefaults = {
 } as const;
 
 export const popoverWidthModeOptions = [
-  { value: 'adaptive', label: '自适应 adaptive' },
-  { value: 'fixed', label: '固定 fixed' },
-  { value: 'preset', label: '预置宽度 preset' },
+  { value: 'adaptive', label: showcaseText('Adaptive adaptive', '自适应 adaptive') },
+  { value: 'fixed', label: showcaseText('Fixed fixed', '固定 fixed') },
+  { value: 'preset', label: showcaseText('PresetWidth preset', '预置宽度 preset') },
 ] as const;
 
 export const popoverPresetWidthOptions = [
-  { value: '256', label: '256（引导）' },
-  { value: '336', label: '336（基础业务）' },
-  { value: '460', label: '460（复杂业务）' },
+  { value: '256', label: showcaseText('256（Guidance）', '256（引导）') },
+  { value: '336', label: showcaseText('336 (Basic Business)', '336（基础业务）') },
+  { value: '460', label: showcaseText('460 (complex business)', '460（复杂业务）') },
 ] as const;
 
 const L = showcaseTooltipCustomizeFieldLabels;
@@ -279,7 +280,7 @@ function buildPopoverPanelCustomizeControls(
     {
       kind: 'select',
       key: 'presetWidth',
-      label: '预置宽度',
+      label: showcaseText('Preset width.', '预置宽度'),
       row: rowOffset + 1,
       options: popoverPresetWidthOptions.map((row) => ({ value: row.value, label: row.label })),
       visibleWhen: isPopoverWidthPreset,
@@ -287,7 +288,7 @@ function buildPopoverPanelCustomizeControls(
     {
       kind: 'text',
       key: 'maxWidth',
-      label: '最大宽度',
+      label: showcaseText('Max. width (%)', '最大宽度'),
       row: rowOffset + 1,
       visibleWhen: (s) => !isPopoverWidthFixedOrPreset(s),
     },
@@ -309,7 +310,7 @@ const popoverTopToolCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'boolean',
     key: 'topToolClosable',
-    label: '显示关闭',
+    label: showcaseText('ShowOff', '显示关闭'),
     row: 4,
     visibleWhen: isPopoverTopToolClosableVisible,
   },
@@ -320,14 +321,14 @@ export const popoverComponentCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
     key: 'topToolTitle',
-    label: '标题',
+    label: showcaseText('Title', '标题'),
     row: 4,
     visibleWhen: isPopoverTopToolEnabled,
   },
   {
     kind: 'text',
     key: 'slotContent',
-    label: '插槽内容',
+    label: showcaseText('Slot contents', '插槽内容'),
     row: 4,
   },
   ...popoverTopToolCustomizeControls,
@@ -337,62 +338,62 @@ const popoverSceneScenarioCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
     key: 'guidanceBody',
-    label: '引导正文',
+    label: showcaseText('Guidance Body', '引导正文'),
     visibleWhen: isPopoverGuidanceScenario,
   },
   {
     kind: 'text',
     key: 'guidanceActionLabel',
-    label: '按钮文案',
+    label: showcaseText('Button copy.', '按钮文案'),
     visibleWhen: isPopoverGuidanceScenario,
   },
   {
     kind: 'text',
     key: 'remarkPlaceholder',
-    label: '占位符',
+    label: showcaseText('Placeholder', '占位符'),
     visibleWhen: isPopoverRemarkScenario,
   },
   {
     kind: 'text',
     key: 'remarkFeedback',
-    label: '辅助说明',
+    label: showcaseText('Ancillary Instructions', '辅助说明'),
     visibleWhen: isPopoverRemarkScenario,
   },
   {
     kind: 'text',
     key: 'remarkConfirmLabel',
-    label: '确认按钮',
+    label: showcaseText('Confirm button', '确认按钮'),
     visibleWhen: isPopoverRemarkScenario,
   },
   {
     kind: 'select',
     key: 'gasFeeNetwork',
-    label: '矿工费网络',
+    label: showcaseText('Miner Fee Network', '矿工费网络'),
     options: popoverGasFeeNetworkOptions.map((row) => ({ value: row.value, label: row.label })),
     visibleWhen: isPopoverGasFeeScenario,
   },
   {
     kind: 'boolean',
     key: 'gasFeeMulti',
-    label: '多笔',
+    label: showcaseText('Multiple strokes', '多笔'),
     visibleWhen: isPopoverGasFeeScenario,
   },
   {
     kind: 'text',
     key: 'confirmMessage',
-    label: '确认正文',
+    label: showcaseText('Confirmation body', '确认正文'),
     visibleWhen: isPopoverConfirmScenario,
   },
   {
     kind: 'text',
     key: 'confirmActionLabel',
-    label: '确认按钮',
+    label: showcaseText('Confirm button', '确认按钮'),
     visibleWhen: isPopoverConfirmScenario,
   },
   {
     kind: 'select',
     key: 'confirmTone',
-    label: '确认 tone',
+    label: showcaseText('Confirm tone', '确认 tone'),
     options: buttonToneRows.map((row) => ({ value: row.key, label: row.label })),
     visibleWhen: isPopoverConfirmScenario,
   },
@@ -402,7 +403,7 @@ export const popoverSceneCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'scenario',
-    label: '场景',
+    label: showcaseText('My scene', '场景'),
     row: 0,
     options: popoverSceneScenarioOptions.map((row) => ({ value: row.value, label: row.label })),
   },
@@ -410,7 +411,7 @@ export const popoverSceneCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
     key: 'topToolTitle',
-    label: '标题',
+    label: showcaseText('Title', '标题'),
     row: 5,
     visibleWhen: (state) =>
       isPopoverTopToolEnabled(state)
@@ -794,92 +795,92 @@ export const popoverPropRows: DocPropRow[] = [
     name: 'placement',
     type: "'top' | 'bottom' | 'left' | 'right'",
     defaultValue: "'bottom'",
-    description: '相对锚点的弹出方向；箭头落在朝向锚点的一侧。',
+    description: showcaseText('The ejection direction relative to the anchor; the arrow falls on the side facing the anchor.', '相对锚点的弹出方向；箭头落在朝向锚点的一侧。'),
   },
   {
     name: 'align',
     type: "'start' | 'center' | 'end'",
     defaultValue: "'center'",
-    description: '交叉轴对齐：top/bottom 控制水平位置；left/right 控制垂直位置。',
+    description: showcaseText('Cross-axis alignment: top/bottom controls horizontal position; left/right controls vertical position.', '交叉轴对齐：top/bottom 控制水平位置；left/right 控制垂直位置。'),
   },
   {
     name: 'widthMode',
     type: "'fixed' | 'adaptive'",
     defaultValue: "'fixed'",
     description:
-      '面板宽度模式：fixed 使用 width（默认 336）；adaptive 随 slot 内容（受 maxWidth 约束）。Showcase 另有 preset（256/336/460 预置宽，映射为 fixed + width）。',
+      showcaseText('[doc] PanelWidth：fixed width（Default 336）；adaptive slot （ maxWidth ）。Showcase preset（256/336/460 Preset，as fixed + width）。', '面板宽度模式：fixed 使用 width（默认 336）；adaptive 随 slot 内容（受 maxWidth 约束）。Showcase 另有 preset（256/336/460 预置宽，映射为 fixed + width）。'),
   },
   {
     name: 'width',
     type: 'number',
     defaultValue: '336',
-    description: 'widthMode=fixed 时面板区宽度（px，不含箭头）。预置宽见 Showcase presetWidth。',
+    description: showcaseText('widthMode = panel area width when fixed (px, without arrows). Preset width see Showcase presetWidth.', 'widthMode=fixed 时面板区宽度（px，不含箭头）。预置宽见 Showcase presetWidth。'),
   },
   {
     name: 'maxWidth',
     type: 'number',
     defaultValue: '-',
-    description: 'widthMode=adaptive 时面板区最大宽度（px）。',
+    description: showcaseText('the maximum width of the panel area when widthMode = adaptive (px).', 'widthMode=adaptive 时面板区最大宽度（px）。'),
   },
   {
     name: 'heightMode',
     type: "'fixed' | 'adaptive'",
     defaultValue: "'adaptive'",
-    description: '面板高度模式：fixed 使用 height；adaptive 随 slot 内容（受 maxHeight 约束）。',
+    description: showcaseText('Panel height mode: fixed uses height; adaptive with slot content (constrained by maxHeight).', '面板高度模式：fixed 使用 height；adaptive 随 slot 内容（受 maxHeight 约束）。'),
   },
   {
     name: 'height',
     type: 'number',
     defaultValue: '490',
-    description: 'heightMode=fixed 时面板区高度（px，不含箭头）。',
+    description: showcaseText('heightMode = height of the panel area when fixed (px, without arrows).', 'heightMode=fixed 时面板区高度（px，不含箭头）。'),
   },
   {
     name: 'maxHeight',
     type: 'number',
     defaultValue: '-',
-    description: 'heightMode=adaptive 时面板区最大高度（px）。',
+    description: showcaseText('heightMode = Maximum height of the panel area when adaptive (px).', 'heightMode=adaptive 时面板区最大高度（px）。'),
   },
   {
     name: 'topTool',
     type: 'boolean',
     defaultValue: 'false',
-    description: 'placement=top 时顶部工具条（标题 + 可选关闭）。',
+    description: showcaseText('top toolbar (title + optional off) when placement = top.', 'placement=top 时顶部工具条（标题 + 可选关闭）。'),
   },
   {
     name: 'topToolTitle',
     type: 'string',
     defaultValue: "'Title'",
-    description: 'topTool 标题文案。',
+    description: showcaseText('topTool Title copy.', 'topTool 标题文案。'),
   },
   {
     name: 'topToolClosable',
     type: 'boolean',
     defaultValue: 'true',
-    description: 'topTool 显示关闭按钮；点击 emit topToolClose。',
+    description: showcaseText('topTool ShowOffButton；Click emit topToolClose。', 'topTool 显示关闭按钮；点击 emit topToolClose。'),
   },
   {
     name: 'contentPaddingTop',
     type: 'number',
-    defaultValue: 'topTool 默认',
-    description: '插槽区内边距上（px）。未传：topTool 为 0；否则 spacing-4。与 placement 无关。',
+    defaultValue: showcaseText('topTool Default', 'topTool 默认'),
+    description: showcaseText('Slot area padding top (px). Not passed: topTool is 0; otherwise spacing-4. It has nothing to do with placement.', '插槽区内边距上（px）。未传：topTool 为 0；否则 spacing-4。与 placement 无关。'),
   },
   {
     name: 'contentPaddingInline',
     type: 'number',
     defaultValue: 'spacing-4',
-    description: '插槽区内边距左右（px）；未传时使用 spacing-4。',
+    description: showcaseText('Slot area padding left and right (px); use spacing-4 when not passing.', '插槽区内边距左右（px）；未传时使用 spacing-4。'),
   },
   {
     name: 'contentPaddingBottom',
     type: 'number',
     defaultValue: 'spacing-4',
-    description: '插槽区内边距下（px）；未传时使用 spacing-4。',
+    description: showcaseText('Slot area padding bottom (px); use spacing-4 when not passing.', '插槽区内边距下（px）；未传时使用 spacing-4。'),
   },
   {
     name: 'microFloat',
     type: 'boolean',
     defaultValue: 'true',
-    description: '启用微浮动进出场（semantic `.motion-flotation` + spring）。',
+    description: showcaseText('Enable semantic \'.motion-flotation` + spring.', '启用微浮动进出场（semantic `.motion-flotation` + spring）。'),
   },
 ];
 
@@ -889,7 +890,7 @@ export const popoverSlotRows: DocPropRow[] = [
     type: 'slot',
     defaultValue: '-',
     description:
-      '弹出层内容；默认内边距：topTool 为上 0 / 左右下 spacing-4；无 topTool 为四周 spacing-4。与 placement 无关。可用 contentPadding* props 覆盖。',
+      showcaseText('[doc] ；DefaultPadding：topTool as 0 / spacing-4；None topTool as spacing-4。and placement None。can contentPadding* props 。', '弹出层内容；默认内边距：topTool 为上 0 / 左右下 spacing-4；无 topTool 为四周 spacing-4。与 placement 无关。可用 contentPadding* props 覆盖。'),
   },
 ];
 

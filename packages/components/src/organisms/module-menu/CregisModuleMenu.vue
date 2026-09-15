@@ -27,6 +27,7 @@ withDefaults(
 
 const emit = defineEmits<{
   itemSelect: [label: string];
+  titleAdd: [];
 }>();
 </script>
 
@@ -39,5 +40,6 @@ const emit = defineEmits<{
     :wide="wide"
     :show-edge-divider="showEdgeDivider"
     @item-select="emit('itemSelect', $event)"
+    @title-add="emit('titleAdd')"
   />
 </template>

@@ -1,4 +1,5 @@
 import type { DocCustomizeControl } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   countSelectOptions,
   propLabelRows,
@@ -124,20 +125,20 @@ function buildSceneAddressItemRowControls(
     {
       kind: 'text',
       key: sceneAddressItemKey('Label', editIndex),
-      label: '地址',
+      label: showcaseText('Address', '地址'),
       row: 1,
     },
     {
       kind: 'text',
       key: sceneAddressItemKey('Alias', editIndex),
-      label: '别名',
-      placeholder: '可选',
+      label: showcaseText('Alias', '别名'),
+      placeholder: showcaseText('Optional', '可选'),
       row: 2,
     },
     {
       kind: 'boolean',
       key: sceneAddressItemKey('Disabled', editIndex),
-      label: '禁用',
+      label: showcaseText('Disabled', '禁用'),
       row: 3,
     },
   ];
@@ -146,7 +147,7 @@ function buildSceneAddressItemRowControls(
     controls.push({
       kind: 'boolean',
       key: sceneAddressItemKey('Checked', editIndex),
-      label: '选中',
+      label: showcaseText('Selected', '选中'),
       row: 4,
     });
   }
@@ -167,21 +168,21 @@ export function buildFlotationBoxSceneAddressPanelControls(
     {
       kind: 'select',
       key: sceneAddressStateKey.itemCount,
-      label: '行数',
+      label: showcaseText('# of Lines', '行数'),
       options: sceneItemCountOptions,
       row: 0,
     },
     {
       kind: 'text',
       key: sceneAddressStateKey.maxWidth,
-      label: '最大宽度',
+      label: showcaseText('Max. width (%)', '最大宽度'),
       placeholder: 'px',
       row: 0,
     },
     {
       kind: 'text',
       key: sceneAddressStateKey.maxHeight,
-      label: '最大高度',
+      label: showcaseText('maxHeight', '最大高度'),
       placeholder: 'px',
       row: 0,
     },
@@ -191,7 +192,7 @@ export function buildFlotationBoxSceneAddressPanelControls(
     controls.push({
       kind: 'select',
       key: sceneAddressStateKey.selectionMode,
-      label: '选择模式',
+      label: showcaseText('Select mode', '选择模式'),
       options: sceneSelectionModeOptions,
       row: 0,
     });
@@ -200,7 +201,7 @@ export function buildFlotationBoxSceneAddressPanelControls(
   controls.push({
     kind: 'select',
     key: sceneAddressStateKey.editBoxIndex,
-    label: '编辑行',
+    label: showcaseText('Edit row', '编辑行'),
     options: buildFlotationBoxEditRowSelectOptions(count),
     row: 1,
   });

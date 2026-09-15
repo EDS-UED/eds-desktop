@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgIcon, EgPaginer } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
@@ -34,6 +37,22 @@ import {
 } from './paginerManyPagination';
 
 const customize = reactive({ ...paginerCustomizeDefaults });
+
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const dropdownSettingsPanelTitle = showcaseText('Dropdown settings', '下拉设置');
+const statisticsPanelTitle = showcaseText('Statistics', '数据统计');
+
+const resolvedDropdownSettingsPanelTitle = computed(() => {
+  void locale.value;
+  return display(dropdownSettingsPanelTitle);
+});
+
+const resolvedStatisticsPanelTitle = computed(() => {
+  void locale.value;
+  return display(statisticsPanelTitle);
+});
 
 const isManyDataVolume = computed(() => customize.dataVolume === 'many');
 
@@ -326,7 +345,7 @@ const lastPagination = computed(() => paginerPagination('last'));
             nested
             embedded
             sequential
-            title="下拉设置"
+            :title="resolvedDropdownSettingsPanelTitle"
             :controls="paginerSettingsCustomizeControls"
           />
           <CustomizePanel
@@ -335,7 +354,7 @@ const lastPagination = computed(() => paginerPagination('last'));
             nested
             embedded
             sequential
-            title="数据统计"
+            :title="resolvedStatisticsPanelTitle"
             :controls="paginerStatisticsCustomizeControls"
           />
         </div>

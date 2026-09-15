@@ -1,4 +1,5 @@
 import type { DocCustomizeControl } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { buildVueSelfClosingSnippet } from '@/views/shared/componentDoc/buildUsageSnippet';
 import { AVATAR_NATIVE_PALETTE_SIZE, formatAvatarPaletteName } from '@eds/desktop-components';
 
@@ -21,7 +22,7 @@ export const avatarSizeOptions = [
 ] as const;
 
 const colorIndexOptions = [
-  { value: 'auto', label: '自动（按 name）' },
+  { value: 'auto', label: showcaseText('Automatic (by name)', '自动（按 name）') },
   ...Array.from({ length: AVATAR_NATIVE_PALETTE_SIZE }, (_, index) => ({
     value: String(index),
     label: formatAvatarPaletteName(index),
@@ -29,30 +30,30 @@ const colorIndexOptions = [
 ];
 
 export const avatarCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'text', key: 'name', label: '姓名' },
-  { kind: 'text', key: 'initials', label: '缩写', placeholder: '留空则取首字' },
+  { kind: 'text', key: 'name', label: showcaseText('Name', '姓名') },
+  { kind: 'text', key: 'initials', label: showcaseText('Abbreviation', '缩写'), placeholder: showcaseText('Leave blank to use initials', '留空则取首字') },
   {
     kind: 'select',
     key: 'size',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     options: [...avatarSizeOptions],
   },
   {
     kind: 'select',
     key: 'variant',
-    label: '类型',
+    label: showcaseText('Type', '类型'),
     options: [
-      { value: 'initials', label: '首字（web3-avatar）' },
+      { value: 'initials', label: showcaseText('Initials (web3-avatar)', '首字（web3-avatar）') },
       { value: 'robot', label: 'eds-avatar-0' },
     ],
   },
   {
     kind: 'select',
     key: 'colorIndexMode',
-    label: '名称',
+    label: showcaseText('Name', '名称'),
     options: colorIndexOptions,
   },
-  { kind: 'boolean', key: 'randomColor', label: '随机 web3-avatar' },
+  { kind: 'boolean', key: 'randomColor', label: showcaseText('Random web3-avatar', '随机 web3-avatar') },
 ];
 
 export function buildAvatarUsageSnippet(state: Record<string, unknown>): string {

@@ -8,32 +8,32 @@ import {
 /** Figma Apply_Item@Cregis — node 2267:11092 */
 export const detailApplyItemFigmaNode = '2267:11092';
 
-/** Apply_Item 变体 — 定制下拉「中文 + 英文」 */
+/** Apply_Item 变体 — 定制下拉「中文 + 英文 token」 */
 const detailApplyItemPresetZh: Record<DetailApplyItemVariantId, string> = {
-  crypto: '代币',
-  'initiated-by': '发起人',
-  status: '状态',
-  sender: '发送方',
-  receiver: '接收方',
-  time: '时间',
-  'brand-number': '品牌编号',
-  'tripartite-number': '三方编号',
-  remark: '备注',
-  memo: '备忘',
-  txid: '交易 ID',
-  text: '文本',
-  fee: '手续费',
-  amount: '金额',
-  type: '类型',
-  reason: '原因',
-  ip: 'IP',
+  crypto: tokenLabel('Token', '代币', 'crypto'),
+  'initiated-by': tokenLabel('Initiator', '发起人', 'initiated-by'),
+  status: tokenLabel('Status', '状态', 'status'),
+  sender: tokenLabel('Sender', '发送方', 'sender'),
+  receiver: tokenLabel('Receiver', '接收方', 'receiver'),
+  time: tokenLabel('Time', '时间', 'time'),
+  'brand-number': tokenLabel('Brand number', '品牌编号', 'brand-number'),
+  'tripartite-number': tokenLabel('Third-party number', '三方编号', 'tripartite-number'),
+  remark: tokenLabel('Remark', '备注', 'remark'),
+  memo: tokenLabel('Memo', '备忘', 'memo'),
+  txid: tokenLabel('Transaction ID', '交易 ID', 'txid'),
+  text: tokenLabel('Text', '文本', 'text'),
+  fee: tokenLabel('Fee', '手续费', 'fee'),
+  amount: tokenLabel('Amount', '金额', 'amount'),
+  type: tokenLabel('Type', '类型', 'type'),
+  reason: tokenLabel('Reason', '原因', 'reason'),
+  ip: tokenLabel('IP', 'IP', 'ip'),
 };
 
 export const detailApplyItemDataSourceOptions = [
-  tokenOption('自定义', 'custom'),
+  tokenOption('Custom', '自定义', 'custom'),
   ...detailApplyItemVariants.map((variant) => ({
     value: variant.id,
-    label: tokenLabel(detailApplyItemPresetZh[variant.id], variant.label),
+    label: detailApplyItemPresetZh[variant.id],
   })),
 ];
 

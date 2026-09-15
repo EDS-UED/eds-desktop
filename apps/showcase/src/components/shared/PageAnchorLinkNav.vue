@@ -161,7 +161,7 @@ onBeforeUnmount(() => {
           isLinkActive(item) && styles.linkActive,
         ]"
       >
-        {{ item.label }}
+        {{ anchorNavLabel(item) }}
       </RouterLink>
     </template>
   </nav>

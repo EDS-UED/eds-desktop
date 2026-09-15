@@ -7,9 +7,11 @@ import {
   EgIconButton,
   EgTag,
 } from '@eds/desktop-components';
+import { useShowcaseI18n } from '@/composables/useShowcaseI18n';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
 import {
-  SCENE_ADDRESS_FILTER_TABS,
   getSceneAddressDropdownRows,
+  getSceneAddressFilterTabs,
 } from './flotationBoxSceneAddressPreviewData';
 import {
   parseSceneAddressItemCount,
@@ -28,11 +30,30 @@ const props = withDefaults(
 
 const customize = defineModel<Record<string, unknown>>('customize', { required: true });
 
+const { locale } = useShowcaseLocale();
+const i18n = useShowcaseI18n();
+
 const activeTab = ref(0);
 
+const filterTabs = computed(() => {
+  void locale.value;
+  return getSceneAddressFilterTabs(i18n);
+});
+
 const rows = computed(() => {
+  void locale.value;
   const state = customize.value;
-  return getSceneAddressDropdownRows(parseSceneAddressItemCount(state), state);
+  return getSceneAddressDropdownRows(parseSceneAddressItemCount(state), state, i18n);
+});
+
+const filterAriaLabel = computed(() => {
+  void locale.value;
+  return i18n.name('demo:scene-address-filter-aria', 'Address filter');
+});
+
+const copyButtonLabel = computed(() => {
+  void locale.value;
+  return i18n.name('demo:scene-address-copy', 'Copy');
 });
 
 const showCheckbox = computed(
@@ -102,9 +123,9 @@ onBeforeUnmount(() => {
 <template>
   <div :class="styles.root">
     <div v-if="showFilterTabs" :class="styles.filterHeader">
-      <div :class="styles.filterBar" role="tablist" aria-label="地址筛选">
+      <div :class="styles.filterBar" role="tablist" :aria-label="filterAriaLabel">
         <button
-          v-for="(tab, index) in SCENE_ADDRESS_FILTER_TABS"
+          v-for="(tab, index) in filterTabs"
           :key="tab.id"
           type="button"
           role="tab"
@@ -153,7 +174,7 @@ onBeforeUnmount(() => {
                 <EgIconButton
                   shape="square"
                   size="xs"
-                  label="复制"
+                  :label="copyButtonLabel"
                   @click="onCopyAddress(rowKey(row, index), row.address, $event)"
                 >
                   <EgIcon

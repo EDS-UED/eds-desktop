@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   EgContainer,
   EgIcon,
@@ -38,6 +41,16 @@ import {
 } from './organismTemplateDocData';
 
 type LayoutShellType = 'empty' | 'free';
+
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const mainContentLabel = showcaseText('Main content', '主内容');
+
+const resolvedMainContentLabel = computed(() => {
+  void locale.value;
+  return display(mainContentLabel);
+});
 
 type FreeLayoutToggleSnapshot = {
   showNavBar: boolean;
@@ -246,7 +259,7 @@ const docSlotRows = computed(() => layoutSlotRowsForType(customize.type));
                   :layout-skid-open="skidOpen"
                 />
                 <div v-else :class="previewStyles.mainRegion">
-                  <div :class="previewStyles.mainPlaceholder">主内容</div>
+                  <div :class="previewStyles.mainPlaceholder">{{ resolvedMainContentLabel }}</div>
                 </div>
 
                 <template v-if="showStandaloneToolbarPaginer && customize.showPaginer" #paginer>

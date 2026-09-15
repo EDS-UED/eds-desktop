@@ -1,4 +1,6 @@
 import type { DocCustomizeControl } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
+import { showcaseInputPlaceholderDemo } from '@/data/i18n/showcaseDemoText';
 import {
   propLabelSelectOptions,
   showcaseInputCustomizeFieldLabels,
@@ -33,7 +35,7 @@ export const inputCustomizeDefaults = {
   size: 'md',
   widthMode: 'full',
   fixedWidth: '319',
-  placeholder: '请输入',
+  placeholder: showcaseInputPlaceholderDemo,
   disabled: false,
   readonly: false,
   unit: '',
@@ -82,7 +84,7 @@ export const inputCustomizeControls: DocCustomizeControl[] = [
     kind: 'text',
     key: 'fixedWidth',
     label: showcaseInputCustomizeFieldLabels.fixedWidth,
-    placeholder: '319 或 319px',
+    placeholder: showcaseText('319 or 319px', '319 或 319px'),
     visibleWhen: (s) => s.widthMode === 'fixed',
   },
   { kind: 'text', key: 'placeholder', label: showcaseInputCustomizeFieldLabels.placeholder },
@@ -115,7 +117,7 @@ export const inputCustomizeControls: DocCustomizeControl[] = [
 ];
 
 export const textareaCustomizeDefaults = {
-  placeholder: '请输入',
+  placeholder: showcaseInputPlaceholderDemo,
   widthMode: 'full',
   fixedWidth: '319',
   disabled: false,
@@ -136,7 +138,7 @@ export const textareaCustomizeControls: DocCustomizeControl[] = [
     kind: 'text',
     key: 'fixedWidth',
     label: showcaseInputCustomizeFieldLabels.fixedWidth,
-    placeholder: '319 或 319px',
+    placeholder: showcaseText('319 or 319px', '319 或 319px'),
     visibleWhen: (s) => s.widthMode === 'fixed',
   },
   { kind: 'text', key: 'placeholder', label: showcaseInputCustomizeFieldLabels.placeholder },
@@ -167,7 +169,7 @@ export const searchCustomizeControls: DocCustomizeControl[] = [
     kind: 'text',
     key: 'fixedWidth',
     label: showcaseInputCustomizeFieldLabels.fixedWidth,
-    placeholder: '319 或 319px',
+    placeholder: showcaseText('319 or 319px', '319 或 319px'),
     visibleWhen: (s) => s.widthMode === 'fixed',
   },
   { kind: 'boolean', key: 'disabled', label: showcaseInputCustomizeFieldLabels.disabled },
@@ -195,7 +197,7 @@ export const verifyInputCustomizeControls: DocCustomizeControl[] = [
     kind: 'text',
     key: 'fixedWidth',
     label: showcaseInputCustomizeFieldLabels.fixedWidth,
-    placeholder: '319 或 319px',
+    placeholder: showcaseText('319 or 319px', '319 或 319px'),
     visibleWhen: (s) => s.widthMode === 'fixed',
   },
   { kind: 'boolean', key: 'disabled', label: showcaseInputCustomizeFieldLabels.disabled },

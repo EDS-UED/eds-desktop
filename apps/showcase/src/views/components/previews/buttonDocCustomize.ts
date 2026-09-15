@@ -1,4 +1,5 @@
 import type { DocCustomizeControl } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   buildVueDefaultSlotSnippet,
   buildVueSelfClosingSnippet,
@@ -59,10 +60,10 @@ export const comboActionPageImportCode = `import { EgComboPageButton } from '@ed
 
 const buttonIconPositionInlineSelect = {
   key: 'iconPosition',
-  label: '图标位置',
+  label: showcaseText('IconPosition', '图标位置'),
   options: [
-    { value: 'leading', label: '左' },
-    { value: 'trailing', label: '右' },
+    { value: 'leading', label: showcaseText('Kiri', '左') },
+    { value: 'trailing', label: showcaseText('Right', '右') },
   ],
 };
 
@@ -113,7 +114,7 @@ export const buttonCustomizeControls: DocCustomizeControl[] = [
     kind: 'text',
     key: 'fixedWidth',
     label: showcaseInputCustomizeFieldLabels.fixedWidth,
-    placeholder: '319 或 319px',
+    placeholder: showcaseText('319 or 319px', '319 或 319px'),
     visibleWhen: (s) => s.widthMode === 'fixed',
   },
   { kind: 'text', key: 'label', label: showcaseButtonCustomizeFieldLabels.label },
@@ -204,11 +205,11 @@ export const iconButtonCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'motion',
-    label: '动效',
+    label: showcaseText('Motion', '动效'),
     options: [
-      { value: 'ease', label: 'is-paint（入+出）' },
-      { value: 'hover-enter-only', label: 'is-enter-only（仅入场）' },
-      { value: 'asym', label: 'is-enter-only（asym 别名）' },
+      { value: 'ease', label: showcaseText('is-paint (in + out)', 'is-paint（入+出）') },
+      { value: 'hover-enter-only', label: showcaseText('is-enter-only', 'is-enter-only（仅入场）') },
+      { value: 'asym', label: showcaseText('is-enter-only (asym alias)', 'is-enter-only（asym 别名）') },
       { value: 'none', label: 'none' },
     ],
   },
@@ -270,7 +271,7 @@ export const iconButtonProCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'messageType',
-    label: '消息类型',
+    label: showcaseText('Type of Message', '消息类型'),
     row: 1,
     options: iconButtonProMessageTypeOptions,
     visibleWhen: (s) => Boolean(s.showBadge),
@@ -359,7 +360,7 @@ export function buildIconButtonProZoneItemControls(
     {
       kind: 'select',
       key: countKey,
-      label: '数量',
+      label: showcaseText('Count', '数量'),
       options: countOptions,
       row: 0,
     },
@@ -616,7 +617,7 @@ export const paginationCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'event',
-    label: '交互',
+    label: showcaseText('Interaction', '交互'),
     options: iconButtonEventRows.map((row) => ({ value: row.key, label: row.label })),
     visibleWhen: (s) => s.kind === 'borderArrow',
   },
@@ -668,11 +669,11 @@ export const PAGINER_PAGINATION_SLOT_KEYS: PaginerPaginationSlotKey[] = [
 ];
 
 export const paginerPaginationButtonOptions = [
-  { value: 'first', label: '首页' },
-  { value: 'prev', label: '上一页' },
-  { value: 'page', label: '页码' },
-  { value: 'next', label: '下一页' },
-  { value: 'last', label: '末页' },
+  { value: 'first', label: showcaseText('Home', '首页') },
+  { value: 'prev', label: showcaseText('Prev', '上一页') },
+  { value: 'page', label: showcaseText('Page', '页码') },
+  { value: 'next', label: showcaseText('Next\\tF8', '下一页') },
+  { value: 'last', label: showcaseText('Last', '末页') },
 ];
 
 type PaginerPaginationSeed = {
@@ -737,7 +738,7 @@ export function buildPaginerPaginationCustomizeControls(
     {
       kind: 'select',
       key: customizeKey,
-      label: '按钮',
+      label: showcaseText('Button', '按钮'),
       options: paginerPaginationButtonOptions,
       row: 0,
     },

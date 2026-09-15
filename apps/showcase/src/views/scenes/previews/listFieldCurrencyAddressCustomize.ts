@@ -1,4 +1,5 @@
 import type { DocCustomizeControl } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { countSelectOptions } from '@/data/showcasePropLabels';
 import {
   addressMatchesFamily,
@@ -119,7 +120,7 @@ export function buildCurrencyAddressTagOnlyControls(
     {
       kind: 'boolean',
       key: currencyAddressTagsEnabledKey(prefix, addressIndex),
-      label: '标签',
+      label: showcaseText('Tag', '标签'),
       row: 0,
     },
   ];
@@ -136,13 +137,16 @@ export function buildCurrencySideAddressControls(
     {
       kind: 'boolean',
       key: currencySideVisibleKey(prefix),
-      label: prefix === 'from' ? '显示发送方' : '显示接收方',
+      label:
+        prefix === 'from'
+          ? showcaseText('Show sender', '显示发送方')
+          : showcaseText('Show recipient', '显示接收方'),
       row: 0,
     },
     {
       kind: 'select',
       key: `${prefix}AddressCount`,
-      label: '地址数',
+      label: showcaseText('Number of addresses', '地址数'),
       options: currencyAddressCountOptions,
       row: 0,
       visibleWhen: sidePanelVisible(prefix),
@@ -158,21 +162,27 @@ export function buildCurrencySideAddressControls(
       {
         kind: 'text',
         key: `${prefix}Address${itemIndex}`,
-        label: itemIndex === 1 ? '地址' : `地址 ${itemIndex}`,
+        label:
+          itemIndex === 1
+            ? showcaseText('Address', '地址')
+            : showcaseText(`Address ${itemIndex}`, `地址 ${itemIndex}`),
         row,
         visibleWhen,
       },
       {
         kind: 'text',
         key: `${prefix}Alias${itemIndex}`,
-        label: itemIndex === 1 ? '地址别名' : `地址别名 ${itemIndex}`,
+        label:
+          itemIndex === 1
+            ? showcaseText('Address alias', '地址别名')
+            : showcaseText(`Address alias ${itemIndex}`, `地址别名 ${itemIndex}`),
         row,
         visibleWhen,
       },
       {
         kind: 'boolean',
         key: currencyAddressTagsEnabledKey(prefix, itemIndex),
-        label: '标签',
+        label: showcaseText('Tag', '标签'),
         row,
         visibleWhen,
       },

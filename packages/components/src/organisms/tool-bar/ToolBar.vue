@@ -20,13 +20,17 @@ withDefaults(
     showSection: false,
   },
 );
+
+const emit = defineEmits<{
+  back: [];
+}>();
 </script>
 
 <template>
   <header class="eds-tool-bar" :class="styles.root">
     <div :class="styles.chrome">
       <div :class="['eds-frosted-page-chrome', styles.raw]">
-        <ToolBarTitle :title="title" :show-back="showBack">
+        <ToolBarTitle :title="title" :show-back="showBack" @back="emit('back')">
           <slot name="title">{{ title }}</slot>
         </ToolBarTitle>
         <div v-if="showOperation" :class="styles.functional">

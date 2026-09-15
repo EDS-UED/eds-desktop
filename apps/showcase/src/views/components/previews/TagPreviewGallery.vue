@@ -6,8 +6,14 @@ export type TagGalleryOption<Value extends string = string> = {
 </script>
 
 <script setup lang="ts" generic="Value extends string = string">
+import { computed } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import galleryStyles from './TagPreviewGallery.module.css';
+
+const { locale } = useShowcaseLocale();
+const { display, gallery } = useShowcaseDisplayText();
 
 const props = withDefaults(
   defineProps<{
@@ -25,6 +31,16 @@ const props = withDefaults(
 const emit = defineEmits<{
   select: [value: Value];
 }>();
+
+const resolvedGalleryLabel = computed(() => {
+  void locale.value;
+  return display(props.galleryLabel ?? '样式');
+});
+
+function optionLabel(label: string) {
+  void locale.value;
+  return gallery(label);
+}
 </script>
 
 <template>
@@ -43,7 +59,7 @@ const emit = defineEmits<{
     <div
       :class="galleryStyles.gallery"
       role="listbox"
-      :aria-label="galleryLabel ?? '样式'"
+      :aria-label="resolvedGalleryLabel"
     >
       <button
         v-for="option in options"
@@ -58,7 +74,7 @@ const emit = defineEmits<{
         @click="emit('select', option.value)"
       >
         <slot name="item" :value="option.value" />
-        <span :class="galleryStyles.galleryLabel">{{ option.label }}</span>
+        <span :class="galleryStyles.galleryLabel">{{ optionLabel(option.label) }}</span>
       </button>
     </div>
 

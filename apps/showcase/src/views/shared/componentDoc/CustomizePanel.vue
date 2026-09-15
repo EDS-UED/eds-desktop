@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseI18n } from '@/composables/useShowcaseI18n';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
 import shared from '@/views/shared/showcase.module.css';
 import CustomizeControlField from './CustomizeControlField.vue';
 import styles from './ComponentDocLayout.module.css';
@@ -8,6 +11,10 @@ import {
   isControlVisible,
   type DocCustomizeControl,
 } from './types';
+
+const { locale } = useShowcaseLocale();
+const i18n = useShowcaseI18n();
+const { display } = useShowcaseDisplayText();
 
 const props = defineProps<{
   controls: DocCustomizeControl[];
@@ -58,6 +65,12 @@ const customizeControls = computed(() => filterDocCustomizeControls(props.contro
 const visibleControls = computed(() =>
   customizeControls.value.filter((control) => isControlVisible(control, state.value)),
 );
+
+const resolvedTitle = computed(() => {
+  void locale.value;
+  if (props.title) return display(props.title);
+  return i18n.name('shell:customize', 'Customize');
+});
 
 const useSequentialRows = computed(
   () => props.sequential && customizeControls.value.some((control) => control.row != null),
@@ -122,7 +135,7 @@ function patchInlineSelect(control: DocCustomizeControl, value: unknown) {
         nestedTitleClass,
       ]"
     >
-      {{ title ?? '定制' }}
+      {{ resolvedTitle }}
     </h2>
     <div
       v-if="useSequentialRows && visibleControls.length"
@@ -145,7 +158,7 @@ function patchInlineSelect(control: DocCustomizeControl, value: unknown) {
             :class="styles.customizeField"
           >
             <span :class="[styles.customizeLabel, styles.customizeGroupLabel]">
-              {{ control.label }}
+              {{ display(control.label) }}
             </span>
           </div>
           <CustomizeControlField

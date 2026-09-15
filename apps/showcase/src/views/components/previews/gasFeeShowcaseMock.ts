@@ -1,5 +1,10 @@
 import type { MinerFeeTranslate } from '@eds/desktop-components';
+import { getShowcaseI18nRegistry } from '@/data/i18n/showcaseI18nRegistry';
 import type { PopoverGasFeeNetwork } from './popoversDocCustomize';
+
+function isChineseShowcaseLocale(locale: string): boolean {
+  return locale === 'zh-CN' || locale === 'zh-TW' || locale === 'zh-HK';
+}
 
 /**
  * 与 work-cregis-desktop `uiTextZhCN` 对齐的矿工费 Popover 演示文案。
@@ -68,13 +73,19 @@ const SHOWCASE_GAS_FEE_UI_TEXT: Record<string, string> = {
   'Miner fee batch transaction suffix': '笔交易',
 };
 
-export const SHOWCASE_GAS_FEE_TOP_TOOL_TITLE = SHOWCASE_GAS_FEE_UI_TEXT['Gas Fee'];
+export function resolveShowcaseGasFeeUiText(key: string): string {
+  const locale = getShowcaseI18nRegistry().locale;
+  const zh = SHOWCASE_GAS_FEE_UI_TEXT[key];
+  if (!zh) return key;
+  return isChineseShowcaseLocale(locale) ? zh : key;
+}
+
+export const SHOWCASE_GAS_FEE_TOP_TOOL_TITLE = resolveShowcaseGasFeeUiText('Gas Fee');
 
 /** Showcase 多笔演示默认笔数（与批签 mock 接近）。 */
 export const SHOWCASE_GAS_FEE_BATCH_TRANSACTION_COUNT = 3;
 
-export const showcaseGasFeeUi: MinerFeeTranslate = (key) =>
-  SHOWCASE_GAS_FEE_UI_TEXT[key] ?? key;
+export const showcaseGasFeeUi: MinerFeeTranslate = (key) => resolveShowcaseGasFeeUiText(key);
 
 const SHOWCASE_GAS_FEE_SYMBOL: Partial<Record<PopoverGasFeeNetwork, string>> = {
   ethereum: 'ETH',

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
+import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import {
   EgAvatar,
@@ -83,6 +86,22 @@ const props = withDefaults(
   }>(),
   {},
 );
+
+const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const moduleTitlePanelTitle = showcaseText('Module title', '模块标题');
+const groupPanelTitlePrefix = showcaseText('Group ', '组');
+
+const resolvedModuleTitlePanelTitle = computed(() => {
+  void locale.value;
+  return display(moduleTitlePanelTitle);
+});
+
+function resolveGroupPanelTitle(groupIndex: number): string {
+  void locale.value;
+  return `${display(groupPanelTitlePrefix)}${groupIndex}`;
+}
 
 const lockedScenario = computed(() => props.initialScenario);
 
@@ -525,7 +544,7 @@ const previewGroups = computed((): PreviewGroup[] => {
           <CustomizePanel
             v-if="isEdsScenario"
             v-model="customize"
-            title="模块标题"
+            :title="resolvedModuleTitlePanelTitle"
             nested
             embedded
             sequential
@@ -536,7 +555,7 @@ const previewGroups = computed((): PreviewGroup[] => {
           <CustomizePanel
             v-else-if="isBusinessScenario"
             v-model="customize"
-            title="模块标题"
+            :title="resolvedModuleTitlePanelTitle"
             nested
             embedded
             sequential
@@ -548,7 +567,7 @@ const previewGroups = computed((): PreviewGroup[] => {
               v-for="groupIndex in groupCountNum"
               :key="`group-panel-${groupIndex}`"
               v-model="customize"
-              :title="`组${groupIndex}`"
+              :title="resolveGroupPanelTitle(groupIndex)"
               nested
               embedded
               sequential

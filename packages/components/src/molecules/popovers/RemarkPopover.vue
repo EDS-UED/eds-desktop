@@ -13,6 +13,8 @@ const props = withDefaults(
     maxLength?: number;
     label?: string;
     placeholder?: string;
+    pasteLabel?: string;
+    clearLabel?: string;
     feedbackText?: string;
     confirmLabel?: string;
     hideConfirm?: boolean;
@@ -34,6 +36,8 @@ const props = withDefaults(
     title: 'Remark',
     label: 'Remark',
     placeholder: 'Please enter',
+    pasteLabel: 'Paste',
+    clearLabel: 'Clear',
     feedbackText: 'Optional, Max. 256 characters',
     confirmLabel: 'Confirm',
     hideConfirm: false,
@@ -95,6 +99,8 @@ function onConfirm(close: () => void) {
         :max-length="maxLength"
         :label="label"
         :placeholder="placeholder"
+        :paste-label="pasteLabel"
+        :clear-label="clearLabel"
         :feedback-text="feedbackText"
         :confirm-label="confirmLabel"
         :hide-confirm="hideConfirm"

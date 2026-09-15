@@ -12,6 +12,8 @@ const props = withDefaults(
     maxLength?: number;
     label?: string;
     placeholder?: string;
+    pasteLabel?: string;
+    clearLabel?: string;
     feedbackText?: string;
     /** true：隐藏 Combo 内 label（Popover topTool 已展示标题）。 */
     hideLabel?: boolean;
@@ -28,6 +30,8 @@ const props = withDefaults(
     maxLength: REMARK_POPOVER_MAX_LENGTH,
     label: 'Remark',
     placeholder: 'Please enter',
+    pasteLabel: 'Paste',
+    clearLabel: 'Clear',
     feedbackText: 'Optional, Max. 256 characters',
     hideLabel: true,
     hideConfirm: false,
@@ -106,6 +110,8 @@ defineExpose({
         feedback
         :label="label"
         :placeholder="placeholder"
+        :paste-label="pasteLabel"
+        :clear-label="clearLabel"
       >
         <template #feedback>
           <EgFormSubmission

@@ -42,6 +42,8 @@ const props = withDefaults(
 const emit = defineEmits<{
   /** 原文（英文）label，便于业务侧路由与状态匹配。 */
   itemSelect: [label: string];
+  /** 模块标题浮层底部「创建项目」等 Add 行点击。 */
+  titleAdd: [];
 }>();
 
 const moduleTitle = computed(
@@ -90,7 +92,7 @@ const flotationProps = computed(() => ({
     :show-edge-divider="showEdgeDivider"
   >
     <template v-if="usesFlotationTitle" #title>
-      <EgFlotation v-bind="flotationProps" :items="flotationItems">
+      <EgFlotation v-bind="flotationProps" :items="flotationItems" @add="emit('titleAdd')">
         <template #trigger="{ expanded, selectedItem, hasAnyItemReddot }">
           <EgModuleMenuTrigger
             trigger-style="text"

@@ -1,4 +1,5 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { cryptoNames, getProcessedCrypto } from '@eds/desktop-components';
 import {
   buildVueOpeningTag,
@@ -31,10 +32,10 @@ import { buildFlotationBoxSceneAddressPanelControls } from './flotationBoxSceneA
 
 const flotationSymbolPositionInlineSelect = {
   key: 'symbolPosition',
-  label: '图标位置',
+  label: showcaseText('IconPosition', '图标位置'),
   options: [
-    { value: 'leading', label: '左' },
-    { value: 'trailing', label: '右' },
+    { value: 'leading', label: showcaseText('Kiri', '左') },
+    { value: 'trailing', label: showcaseText('Right', '右') },
   ],
 };
 
@@ -148,7 +149,7 @@ export function isFlotationBoxEditingRow(state: Record<string, unknown>): boolea
 
 export function buildFlotationBoxEditRowSelectOptions(count: number) {
   return [
-    { value: flotationEditBoxNoneValue, label: '选择行开始编辑' },
+    { value: flotationEditBoxNoneValue, label: showcaseText('Select row to start editing', '选择行开始编辑') },
     ...Array.from({ length: count }, (_, index) => {
       const n = index + 1;
       return { value: String(n), label: `第 ${n} 行` };
@@ -340,58 +341,58 @@ export const flotationTriggerOverviewBodyControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'triggerStyle',
-    label: '样式',
+    label: showcaseText('Style', '样式'),
     row: 0,
     options: flotationTriggerStyleRows.map((row) => ({ value: row.key, label: row.label })),
   },
   {
     kind: 'select',
     key: 'triggerSize',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     row: 0,
     options: buttonSizeRows.map((row) => ({ value: row.key, label: row.label })),
   },
-  { kind: 'text', key: 'triggerLabel', label: '文案', row: 0 },
-  { kind: 'boolean', key: 'disabled', label: '禁用', row: 0 },
-  { kind: 'boolean', key: 'showSymbol', label: '显示图标', row: 1, inlineSelect: flotationSymbolPositionInlineSelect },
+  { kind: 'text', key: 'triggerLabel', label: showcaseText('Copy', '文案'), row: 0 },
+  { kind: 'boolean', key: 'disabled', label: showcaseText('Disabled', '禁用'), row: 0 },
+  { kind: 'boolean', key: 'showSymbol', label: showcaseText('ShowIcon', '显示图标'), row: 1, inlineSelect: flotationSymbolPositionInlineSelect },
   {
     kind: 'text',
     key: 'symbolIcon',
-    label: '图标名',
+    label: showcaseText('Icon Name', '图标名'),
     row: 2,
     visibleWhen: (s) => Boolean(s.showSymbol),
   },
 ];
 
 export const flotationTriggerOverviewDropdownControls: DocCustomizeControl[] = [
-  { kind: 'boolean', key: 'showTag', label: '显示标签', row: 3 },
+  { kind: 'boolean', key: 'showTag', label: showcaseText('Show label.', '显示标签'), row: 3 },
   {
     kind: 'text',
     key: 'tagText',
-    label: '标签文案',
+    label: showcaseText('Tag copy.', '标签文案'),
     row: 4,
     visibleWhen: (s) => Boolean(s.showTag),
   },
   {
     kind: 'select',
     key: 'tagStatus',
-    label: '标签状态',
+    label: showcaseText('TagStatus', '标签状态'),
     row: 4,
     options: [...flotationTagStatusOptions],
     visibleWhen: (s) => Boolean(s.showTag),
   },
-  { kind: 'boolean', key: 'showMessage', label: '显示消息', row: 5 },
+  { kind: 'boolean', key: 'showMessage', label: showcaseText('Display message...', '显示消息'), row: 5 },
   {
     kind: 'text',
     key: 'messageText',
-    label: '消息文案',
+    label: showcaseText('Message copy', '消息文案'),
     row: 6,
     visibleWhen: (s) => Boolean(s.showMessage),
   },
   {
     kind: 'select',
     key: 'messageType',
-    label: '消息类型',
+    label: showcaseText('Type of Message', '消息类型'),
     row: 6,
     options: [...flotationMessageTypeOptions],
     visibleWhen: (s) => Boolean(s.showMessage),
@@ -400,9 +401,9 @@ export const flotationTriggerOverviewDropdownControls: DocCustomizeControl[] = [
 
 /** 纵览页 EgFlotation — 模块菜单标题触发器 */
 export const flotationTriggerOverviewModuleMenuControls: DocCustomizeControl[] = [
-  { kind: 'text', key: 'triggerLabel', label: '文案', row: 0 },
-  { kind: 'boolean', key: 'showReddot', label: '显示红点', row: 0 },
-  { kind: 'boolean', key: 'disabled', label: '禁用', row: 0 },
+  { kind: 'text', key: 'triggerLabel', label: showcaseText('Copy', '文案'), row: 0 },
+  { kind: 'boolean', key: 'showReddot', label: showcaseText('Show red dots', '显示红点'), row: 0 },
+  { kind: 'boolean', key: 'disabled', label: showcaseText('Disabled', '禁用'), row: 0 },
 ];
 
 /** Menu — 宽/高；自定义宽度时可选对齐；主轴默认 spacing-025，offset 可定制；crossAxisOffset 可定制 */
@@ -425,38 +426,38 @@ export function buildFlotationItemRowControls(editIndex: number): DocCustomizeCo
     {
       kind: 'text',
       key: flotationBoxItemKey('Label', editIndex),
-      label: '文案',
+      label: showcaseText('Copy', '文案'),
       row: 1,
     },
     {
       kind: 'boolean',
       key: flotationBoxItemKey('Disabled', editIndex),
-      label: '禁用',
+      label: showcaseText('Disabled', '禁用'),
       row: 2,
     },
     {
       kind: 'boolean',
       key: flotationBoxItemKey('Checked', editIndex),
-      label: '选中',
+      label: showcaseText('Selected', '选中'),
       row: 3,
     },
     {
       kind: 'boolean',
       key: showTagKey,
-      label: '显示标签',
+      label: showcaseText('Show label.', '显示标签'),
       row: 4,
     },
     {
       kind: 'text',
       key: flotationBoxItemKey('TagText', editIndex),
-      label: '标签文案',
+      label: showcaseText('Tag copy.', '标签文案'),
       row: 4,
       visibleWhen: (s) => Boolean(s[showTagKey]),
     },
     {
       kind: 'select',
       key: flotationBoxItemKey('TagStatus', editIndex),
-      label: '标签状态',
+      label: showcaseText('TagStatus', '标签状态'),
       options: [...flotationTagStatusOptions],
       row: 4,
       visibleWhen: (s) => Boolean(s[showTagKey]),
@@ -464,34 +465,34 @@ export function buildFlotationItemRowControls(editIndex: number): DocCustomizeCo
     {
       kind: 'boolean',
       key: flotationBoxItemKey('ShowReddot', editIndex),
-      label: '红点',
+      label: showcaseText('red dot', '红点'),
       row: 5,
       exclusiveKey: showMessageKey,
     },
     {
       kind: 'boolean',
       key: flotationBoxItemKey('ShowCascader', editIndex),
-      label: '级联箭头',
+      label: showcaseText('Cascading Arrows', '级联箭头'),
       row: 5,
     },
     {
       kind: 'boolean',
       key: showMessageKey,
-      label: '显示消息',
+      label: showcaseText('Display message...', '显示消息'),
       row: 6,
       exclusiveKey: flotationBoxItemKey('ShowReddot', editIndex),
     },
     {
       kind: 'text',
       key: flotationBoxItemKey('MessageText', editIndex),
-      label: '消息文案',
+      label: showcaseText('Message copy', '消息文案'),
       row: 6,
       visibleWhen: (s) => Boolean(s[showMessageKey]),
     },
     {
       kind: 'select',
       key: flotationBoxItemKey('MessageType', editIndex),
-      label: '消息类型',
+      label: showcaseText('Type of Message', '消息类型'),
       row: 6,
       options: [...flotationMessageTypeOptions],
       visibleWhen: (s) => Boolean(s[showMessageKey]),
@@ -499,14 +500,14 @@ export function buildFlotationItemRowControls(editIndex: number): DocCustomizeCo
     {
       kind: 'text',
       key: flotationBoxItemKey('SymbolIcon', editIndex),
-      label: '图标名',
+      label: showcaseText('Icon Name', '图标名'),
       row: 7,
       visibleWhen: (s) => parseFlotationBoxItemType(s) === 'symbol-text',
     },
     {
       kind: 'select',
       key: flotationBoxItemKey('SymbolIcon', editIndex),
-      label: '图片',
+      label: showcaseText('Images', '图片'),
       row: 7,
       options: flotationCryptoOptions,
       visibleWhen: (s) => parseFlotationBoxItemType(s) === 'image-text',
@@ -528,43 +529,43 @@ export function buildFlotationBoxPanelControls(
     {
       kind: 'select',
       key: 'itemCount',
-      label: '行数',
+      label: showcaseText('# of Lines', '行数'),
       options: flotationItemCountOptions,
       row: 0,
     },
     {
       kind: 'text',
       key: 'maxHeight',
-      label: '最大高度',
+      label: showcaseText('maxHeight', '最大高度'),
       placeholder: 'px',
       row: 0,
     },
     {
       kind: 'select',
       key: 'boxSelectionMode',
-      label: '选择模式',
+      label: showcaseText('Select mode', '选择模式'),
       options: flotationBoxSelectionModeOptions,
       row: 0,
     },
     {
       kind: 'select',
       key: 'boxItemType',
-      label: '类型',
+      label: showcaseText('Type', '类型'),
       options: flotationBoxTypeOptions,
       row: 0,
     },
-    { kind: 'boolean', key: 'showAdd', label: '显示 Add', row: 0 },
+    { kind: 'boolean', key: 'showAdd', label: showcaseText('Show Add', '显示 Add'), row: 0 },
     {
       kind: 'text',
       key: 'addLabel',
-      label: 'Add 文案',
+      label: showcaseText('Add copy.', 'Add 文案'),
       row: 0,
       visibleWhen: (s) => Boolean(s.showAdd),
     },
     {
       kind: 'select',
       key: 'editBoxIndex',
-      label: '编辑行',
+      label: showcaseText('Edit row', '编辑行'),
       options: buildFlotationBoxEditRowSelectOptions(count),
       row: 1,
     },
@@ -705,52 +706,52 @@ export const flotationPropRows: DocPropRow[] = [
     name: 'trigger',
     type: "'click' | 'hover' | 'focus'",
     defaultValue: "'click'",
-    description: '透传 EgTooltip。click 下拉；hover/focus 用于地址、哈希等 Tooltip 场景。',
+    description: showcaseText('Transparent EgTooltip. Click dropdown; hover/focus for address, hash, and other Tooltip scenarios.', '透传 EgTooltip。click 下拉；hover/focus 用于地址、哈希等 Tooltip 场景。'),
   },
   {
     name: 'openDelay / closeDelay',
     type: 'number',
     defaultValue: '0 / 0',
-    description: 'hover/focus 时打开/关闭延迟（ms）。',
+    description: showcaseText('on/Off Delay (ms) when hover/focus.', 'hover/focus 时打开/关闭延迟（ms）。'),
   },
   {
     name: 'placement / disabled',
     type: 'TooltipPlacement / boolean',
     defaultValue: "'bottom' / false",
-    description: '透传 EgTooltip。',
+    description: showcaseText('Transparent EgTooltip.', '透传 EgTooltip。'),
   },
   {
     name: 'offset',
     type: 'number',
     defaultValue: '--spacing-025 (1px)',
-    description: '主轴与触发器间距（px）；未传时读 --spacing-025。',
+    description: showcaseText('Spindle-to-trigger spacing (px); read when not passing - spacing-025.', '主轴与触发器间距（px）；未传时读 --spacing-025。'),
   },
   {
     name: 'crossAxisOffset',
     type: 'number',
     defaultValue: '-spacing-2 (-8px)',
-    description: '交叉轴偏移（px）；未传时默认 -spacing-2。',
+    description: showcaseText('Cross axis offset (px); default -spacing-2 when not transmitted.', '交叉轴偏移（px）；未传时默认 -spacing-2。'),
   },
   {
     name: 'triggerLabel / triggerStyle / triggerSize / showSymbol / symbolIcon / symbolPosition / showTag / showMessage',
     type: '…',
     defaultValue: 'Trigger / subtle / lg / false / eds-coin-btc / leading…',
     description:
-      '无 #trigger 时的 EgFlotationTrigger 预置（见「触发器 Trigger」定制）。showSymbol + symbolIcon + symbolPosition（leading | trailing）控制 #symbol 左/右。',
+      showcaseText('[doc] None #trigger when EgFlotationTrigger Preset（「Trigger Trigger」）。showSymbol + symbolIcon + symbolPosition（leading | trailing） #symbol /。', '无 #trigger 时的 EgFlotationTrigger 预置（见「触发器 Trigger」定制）。showSymbol + symbolIcon + symbolPosition（leading | trailing）控制 #symbol 左/右。'),
   },
   {
     name: 'widthMode / width / align / heightMode / height / maxHeight',
     type: 'trigger|fixed|adaptive / number / start|end / …',
     defaultValue: 'fixed / 280 / start / adaptive / 306 / —',
     description:
-      'trigger：宽=触发器+2×spacing-2，左右各扩 spacing-2。fixed/adaptive：宽自定义或自适应；align=start 时交叉轴 -spacing-2，align=end 时 +spacing-2。heightMode=adaptive 时可传 maxHeight（px，可选）。主轴间距默认 spacing-025，可经 offset 覆盖。',
+      showcaseText('[doc] trigger：=Trigger+2×spacing-2， spacing-2。fixed/adaptive：CustomorAdaptive；align=start when -spacing-2，align=end when +spacing-2。heightMode=adaptive whencan maxHeight（px，can）。GapDefault spacing-025，can offset 。', 'trigger：宽=触发器+2×spacing-2，左右各扩 spacing-2。fixed/adaptive：宽自定义或自适应；align=start 时交叉轴 -spacing-2，align=end 时 +spacing-2。heightMode=adaptive 时可传 maxHeight（px，可选）。主轴间距默认 spacing-025，可经 offset 覆盖。'),
   },
   {
     name: 'items / showAdd / addLabel',
     type: 'FlotationMenuItemPreset[] / boolean / string',
     defaultValue: 'Label 1–8 / true / Add',
     description:
-      '无 #content 时的 Box 行与底部 Add。Showcase「Box」面板配置类型、Add 文案及按编辑行的 Label/Tag 等；点击行关闭菜单并回显 Trigger。',
+      showcaseText('[doc] None #content when Box RowandBottom Add。Showcase「Box」PanelType、Add CopyEdit row Label/Tag ；ClickRowOffMenuand Trigger。', '无 #content 时的 Box 行与底部 Add。Showcase「Box」面板配置类型、Add 文案及按编辑行的 Label/Tag 等；点击行关闭菜单并回显 Trigger。'),
   },
 ];
 
@@ -759,13 +760,13 @@ export const flotationSlotRows: DocPropRow[] = [
     name: 'trigger',
     type: '—',
     defaultValue: '—',
-    description: '触发器插槽。默认 EgFlotationTrigger；可完全自定义。',
+    description: showcaseText('Trigger slot. Default EgFlotationTrigger; fully customizable.', '触发器插槽。默认 EgFlotationTrigger；可完全自定义。'),
   },
   {
     name: 'content',
     type: '—',
     defaultValue: '—',
-    description: '浮层内容插槽。默认 EgFlotationMenu（内嵌 EgTooltip）；可完全自定义。',
+    description: showcaseText('Floating content slot. Default EgFlotationMenu (embedded EgTooltip); fully customizable.', '浮层内容插槽。默认 EgFlotationMenu（内嵌 EgTooltip）；可完全自定义。'),
   },
 ];
 
@@ -1119,7 +1120,7 @@ export const flotationTriggerKindCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'triggerKind',
-    label: '触发器',
+    label: showcaseText('Link ‘Trigger’', '触发器'),
     row: 0,
     options: flotationTriggerKindOptions,
   },
@@ -1135,7 +1136,7 @@ export const flotationTriggerShellCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'text',
     key: 'fieldLabel',
-    label: '标题文案',
+    label: showcaseText('Title copy.', '标题文案'),
     visibleWhen: (s) => Boolean(s.showFieldLabel),
   },
   {
@@ -1155,38 +1156,38 @@ export const flotationTriggerBodyCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'triggerStyle',
-    label: '样式',
+    label: showcaseText('Style', '样式'),
     row: 2,
     options: flotationTriggerStyleRows.map((row) => ({ value: row.key, label: row.label })),
   },
   {
     kind: 'select',
     key: 'size',
-    label: '尺寸',
+    label: showcaseText('Size', '尺寸'),
     row: 2,
     options: buttonSizeRows.map((row) => ({ value: row.key, label: row.label })),
   },
   {
     kind: 'select',
     key: 'widthMode',
-    label: '宽度',
+    label: showcaseText('Width', '宽度'),
     row: 2,
     options: widthModeTriggerFixedAdaptiveRows.map((row) => ({ value: row.key, label: row.label })),
   },
   {
     kind: 'text',
     key: 'width',
-    label: '宽度值',
+    label: showcaseText('Width value', '宽度值'),
     row: 2,
     visibleWhen: (s) => String(s.widthMode ?? 'adaptive') === 'fixed',
   },
-  { kind: 'text', key: 'label', label: '文案', row: 2 },
-  { kind: 'boolean', key: 'disabled', label: '禁用', row: 3 },
-  { kind: 'boolean', key: 'showSymbol', label: '显示图标', row: 4, inlineSelect: flotationSymbolPositionInlineSelect },
+  { kind: 'text', key: 'label', label: showcaseText('Copy', '文案'), row: 2 },
+  { kind: 'boolean', key: 'disabled', label: showcaseText('Disabled', '禁用'), row: 3 },
+  { kind: 'boolean', key: 'showSymbol', label: showcaseText('ShowIcon', '显示图标'), row: 4, inlineSelect: flotationSymbolPositionInlineSelect },
   {
     kind: 'text',
     key: 'symbolIcon',
-    label: '图标名',
+    label: showcaseText('Icon Name', '图标名'),
     row: 5,
     visibleWhen: (s) => Boolean(s.showSymbol),
   },
@@ -1194,39 +1195,39 @@ export const flotationTriggerBodyCustomizeControls: DocCustomizeControl[] = [
 
 /** 下拉选项 · 标准下拉框：Tag / Message / 展开箭头 */
 export const flotationTriggerDropdownCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'boolean', key: 'showTag', label: '显示标签', row: 6 },
+  { kind: 'boolean', key: 'showTag', label: showcaseText('Show label.', '显示标签'), row: 6 },
   {
     kind: 'text',
     key: 'tagText',
-    label: '标签文案',
+    label: showcaseText('Tag copy.', '标签文案'),
     row: 6,
     visibleWhen: (s) => Boolean(s.showTag),
   },
   {
     kind: 'select',
     key: 'tagStatus',
-    label: '标签状态',
+    label: showcaseText('TagStatus', '标签状态'),
     row: 6,
     options: [...flotationTagStatusOptions],
     visibleWhen: (s) => Boolean(s.showTag),
   },
-  { kind: 'boolean', key: 'showMessage', label: '显示消息', row: 7 },
+  { kind: 'boolean', key: 'showMessage', label: showcaseText('Display message...', '显示消息'), row: 7 },
   {
     kind: 'text',
     key: 'messageText',
-    label: '消息文案',
+    label: showcaseText('Message copy', '消息文案'),
     row: 7,
     visibleWhen: (s) => Boolean(s.showMessage),
   },
   {
     kind: 'select',
     key: 'messageType',
-    label: '消息类型',
+    label: showcaseText('Type of Message', '消息类型'),
     row: 7,
     options: [...flotationMessageTypeOptions],
     visibleWhen: (s) => Boolean(s.showMessage),
   },
-  { kind: 'boolean', key: 'expanded', label: '展开态', row: 8 },
+  { kind: 'boolean', key: 'expanded', label: showcaseText('Expand State', '展开态'), row: 8 },
 ];
 
 export const flotationTriggerNestedBodyCustomizeControls: DocCustomizeControl[] = [
@@ -1236,10 +1237,10 @@ export const flotationTriggerNestedBodyCustomizeControls: DocCustomizeControl[] 
 
 /** 模块菜单 · Figma TriggerComboModuleTitle（2090:2655） */
 export const flotationTriggerModuleMenuCustomizeControls: DocCustomizeControl[] = [
-  { kind: 'text', key: 'label', label: '文案', row: 0 },
-  { kind: 'boolean', key: 'showReddot', label: '显示红点', row: 0 },
-  { kind: 'boolean', key: 'disabled', label: '禁用', row: 0 },
-  { kind: 'boolean', key: 'expanded', label: '展开态', row: 0 },
+  { kind: 'text', key: 'label', label: showcaseText('Copy', '文案'), row: 0 },
+  { kind: 'boolean', key: 'showReddot', label: showcaseText('Show red dots', '显示红点'), row: 0 },
+  { kind: 'boolean', key: 'disabled', label: showcaseText('Disabled', '禁用'), row: 0 },
+  { kind: 'boolean', key: 'expanded', label: showcaseText('Expand State', '展开态'), row: 0 },
 ];
 
 function withCustomizeRow(
@@ -1419,7 +1420,7 @@ export const flotationTriggerPropRows: DocPropRow[] = [
     name: 'triggerStyle',
     type: "'subtle' | 'outline' | 'text'",
     defaultValue: "'subtle'",
-    description: 'Figma Style。预置外观；整控件可由 #trigger 替换。',
+    description: showcaseText('Figma Style. Presets appearance; whole controls can be replaced by # trigger.', 'Figma Style。预置外观；整控件可由 #trigger 替换。'),
   },
   {
     name: 'size',
@@ -1432,39 +1433,39 @@ export const flotationTriggerPropRows: DocPropRow[] = [
     type: "'trigger' | 'adaptive' | 'fixed' / number",
     defaultValue: "'adaptive' / —",
     description:
-      '等于触发器：内容 hug；自适应：100% 父宽；固定宽度：widthMode=fixed 时 width（px）。',
+      showcaseText('[doc] Trigger： hug；Adaptive：100% ；FixedWidth：widthMode=fixed when width（px）。', '等于触发器：内容 hug；自适应：100% 父宽；固定宽度：widthMode=fixed 时 width（px）。'),
   },
   {
     name: 'label / disabled / expanded',
     type: 'string / boolean / boolean',
     defaultValue: "'Trigger' / false / false",
-    description: '文案、禁用、展开箭头方向。展开态（expanded）背景为 --event-focus；关闭后恢复默认。',
+    description: showcaseText('Copywriting, Disabled, Expand arrow direction. Expanded with --event-focus in the background; default restored when closed.', '文案、禁用、展开箭头方向。展开态（expanded）背景为 --event-focus；关闭后恢复默认。'),
   },
   {
     name: 'moduleMenuTitle / showReddot',
     type: 'boolean / boolean',
     defaultValue: 'false / false',
     description:
-      'Figma TriggerComboModuleTitle（2090:2655）。Module Menu 标题区 text 触发器：Body Large Strong + spacing-1-5/spacing-2 内边距；可选 EgReddot。',
+      showcaseText('[doc] Figma TriggerComboModuleTitle（2090:2655）。Module Menu Title text Trigger：Body Large Strong + spacing-1-5/spacing-2 Padding；can EgReddot。', 'Figma TriggerComboModuleTitle（2090:2655）。Module Menu 标题区 text 触发器：Body Large Strong + spacing-1-5/spacing-2 内边距；可选 EgReddot。'),
   },
   {
     name: 'showSymbol',
     type: 'boolean',
     defaultValue: 'false',
-    description: '展示 #symbol 预置 EgIcon（币种 / 头像）。',
+    description: showcaseText('Show # symbol preset EgIcon (currency/avatar).', '展示 #symbol 预置 EgIcon（币种 / 头像）。'),
   },
   {
     name: 'symbolIcon',
     type: 'string',
     defaultValue: "'eds-coin-btc'",
-    description: 'showSymbol 为 true 时的 EgIcon 名称。',
+    description: showcaseText('showSymbol as true when EgIcon Name。', 'showSymbol 为 true 时的 EgIcon 名称。'),
   },
   {
     name: 'symbolPosition',
     type: "'leading' | 'trailing'",
     defaultValue: "'leading'",
     description:
-      'showSymbol 为 true 时图标位置：leading 文案左侧；trailing 文案右侧（下拉箭头前）。',
+      showcaseText('[doc] showSymbol as true whenIconPosition：leading CopyLeading；trailing CopyTrailing（）。', 'showSymbol 为 true 时图标位置：leading 文案左侧；trailing 文案右侧（下拉箭头前）。'),
   },
   {
     name: 'showTag / tagText / tagStatus / showMessage / messageType',
@@ -1475,12 +1476,12 @@ export const flotationTriggerPropRows: DocPropRow[] = [
 ];
 
 export const flotationTriggerSlotRows: DocPropRow[] = [
-  { name: 'default', type: '—', defaultValue: '—', description: '触发器文案。' },
-  { name: 'symbol', type: '—', defaultValue: '—', description: '币种 / 头像；symbolPosition 控制左/右。' },
+  { name: 'default', type: '—', defaultValue: '—', description: showcaseText('Trigger copy.', '触发器文案。') },
+  { name: 'symbol', type: '—', defaultValue: '—', description: showcaseText('Currency/avatar; symbolPosition controls left/right.', '币种 / 头像；symbolPosition 控制左/右。') },
   { name: 'tag', type: '—', defaultValue: '—', description: 'EgTag Status sm。' },
-  { name: 'message', type: '—', defaultValue: '—', description: '右侧 Message。' },
-  { name: 'reddot', type: '—', defaultValue: '—', description: 'Module Menu 标题旁 EgReddot。' },
-  { name: 'arrow', type: '—', defaultValue: '—', description: '下拉箭头。' },
+  { name: 'message', type: '—', defaultValue: '—', description: showcaseText('Trailing Message。', '右侧 Message。') },
+  { name: 'reddot', type: '—', defaultValue: '—', description: showcaseText('EgReddot next to the Module Menu title.', 'Module Menu 标题旁 EgReddot。') },
+  { name: 'arrow', type: '—', defaultValue: '—', description: showcaseText('Dropdown Arrow', '下拉箭头。') },
 ];
 
 /* ── Box 小类 ── */
@@ -1533,7 +1534,7 @@ export function buildFlotationComboTriggerPanelControls(
     : flotationTriggerOverviewControls;
 
   return [
-    { ...triggerKindControl!, label: '场景', row: 0 },
+    { ...triggerKindControl!, label: showcaseText('My scene', '场景'), row: 0 },
     ...bodyControls.map((control) => ({
       ...control,
       row: (control.row ?? 0) + 1,
@@ -1553,7 +1554,7 @@ export function buildFlotationComboBoxPanelControls(
     {
       kind: 'select',
       key: 'boxKind',
-      label: '场景',
+      label: showcaseText('My scene', '场景'),
       row: 0,
       options: flotationComboBoxSceneOptions.map((row) => ({
         value: row.key,
@@ -1572,7 +1573,7 @@ export const flotationBoxKindCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'boxKind',
-    label: '盒子插槽',
+    label: showcaseText('Box Slot', '盒子插槽'),
     options: flotationBoxKindOptions.map((row) => ({ value: row.key, label: row.label })),
   },
 ];
@@ -1651,13 +1652,13 @@ export const flotationBoxMenuPropRows: DocPropRow[] = [
     name: 'showAdd / addLabel / showDivider',
     type: 'boolean / string / boolean',
     defaultValue: 'true / Add / true',
-    description: '底部 Add 行与分隔线（Figma Menu）。',
+    description: showcaseText('Bottom Add line with divider (Figma Menu).', '底部 Add 行与分隔线（Figma Menu）。'),
   },
   {
     name: 'widthMode / width / heightMode / height / maxHeight',
     type: 'TooltipWidthMode / number / …',
     defaultValue: 'fixed / — / adaptive / — / —',
-    description: '透传 EgTooltip 外壳；#default 为 EgFlotationMenuItem 列表。',
+    description: showcaseText('Transparent EgTooltip shell; # default is EgFlotationMenuItem list.', '透传 EgTooltip 外壳；#default 为 EgFlotationMenuItem 列表。'),
   },
 ];
 
@@ -1666,7 +1667,7 @@ export const flotationBoxMenuSlotRows: DocPropRow[] = [
     name: 'default',
     type: '—',
     defaultValue: '—',
-    description: 'EgFlotationMenuItem 行；可用预置 props 或完全自定义。',
+    description: showcaseText('EgFlotationMenuItem row; can be preset props or fully customized.', 'EgFlotationMenuItem 行；可用预置 props 或完全自定义。'),
   },
 ];
 
@@ -1674,7 +1675,7 @@ export const flotationBoxMenuSlotRows: DocPropRow[] = [
 
 export const flotationItemCustomizeDefaults = {
   boxType: 'text',
-  label: '文案',
+  label: showcaseText('Copy', '文案'),
   disabled: false,
   focused: false,
   showCheckbox: false,
@@ -1701,45 +1702,45 @@ export const flotationItemPropRows: DocPropRow[] = [
     name: 'boxType',
     type: "'text' | 'symbol-text' | 'image-text'",
     defaultValue: "'text'",
-    description: 'Figma Box Type。预置布局；整行可由 Menu #default 内容替换。',
+    description: showcaseText('Figma Box Type. Preset layout; entire row can be replaced by Menu # default content.', 'Figma Box Type。预置布局；整行可由 Menu #default 内容替换。'),
   },
   {
     name: 'label / disabled / focused',
     type: 'string / boolean / boolean',
     defaultValue: "'Label' / false / false",
-    description: '文案与交互态（hover CSS；focused → --event-focus-brand-weaken）。',
+    description: showcaseText('Copywriting and interaction (hover CSS; focused → --event-focus-brand-weaken).', '文案与交互态（hover CSS；focused → --event-focus-brand-weaken）。'),
   },
   {
     name: 'showCheckbox / checked',
     type: 'boolean',
     defaultValue: 'false',
-    description: '嵌套 EgCheckbox。',
+    description: showcaseText('Nested EgCheckbox.', '嵌套 EgCheckbox。'),
   },
   {
     name: 'showTag / tagText / tagStatus',
     type: 'boolean / string / TagStatus',
     defaultValue: 'true / Tag / danger',
-    description: '嵌套 EgTag family=status size=sm。',
+    description: showcaseText('Nested EgTag family = status size = sm.', '嵌套 EgTag family=status size=sm。'),
   },
   {
     name: 'showReddot / showCascader / showMessage / messageType',
     type: 'boolean / … / MessageType',
     defaultValue: 'false / subtle',
-    description: 'EgReddot、级联箭头、EgMessage（type：subtle | brand | danger）。',
+    description: showcaseText('EgReddot, cascading arrows, EgMessage (type: subtle | brand | danger).', 'EgReddot、级联箭头、EgMessage（type：subtle | brand | danger）。'),
   },
 ];
 
 export const flotationItemSlotRows: DocPropRow[] = [
-  { name: 'default', type: '—', defaultValue: '—', description: 'Label 文案。' },
-  { name: 'checkbox', type: '—', defaultValue: '—', description: '左侧选择控件。' },
+  { name: 'default', type: '—', defaultValue: '—', description: showcaseText('Label copy.', 'Label 文案。') },
+  { name: 'checkbox', type: '—', defaultValue: '—', description: showcaseText('Select the control on the left.', '左侧选择控件。') },
   { name: 'leading', type: '—', defaultValue: '—', description: 'Symbol / Image。' },
-  { name: 'tag', type: '—', defaultValue: '—', description: '标签。' },
-  { name: 'message', type: '—', defaultValue: '—', description: '右侧 Message。' },
+  { name: 'tag', type: '—', defaultValue: '—', description: showcaseText('Tag。', '标签。') },
+  { name: 'message', type: '—', defaultValue: '—', description: showcaseText('Trailing Message。', '右侧 Message。') },
   {
     name: 'trailing',
     type: '—',
     defaultValue: '—',
-    description: '整块右侧区（覆盖 reddot/cascader/message）。',
+    description: showcaseText('Entire block right area (overrides reddot/cascader/message).', '整块右侧区（覆盖 reddot/cascader/message）。'),
   },
 ];
 

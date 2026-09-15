@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+import { showcaseText } from '@/data/showcasePropLabels';
 import { EgTag } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import styles from './InputPreview.module.css';
@@ -21,6 +22,8 @@ const customize = reactive({
 });
 
 const usageSnippet = computed(() => buildTagSystemUsageSnippet(customize));
+
+const galleryLabel = showcaseText('Type', '类型');
 
 function selectSystemType(value: string) {
   customize.systemType = value as TagSystemType;
@@ -45,7 +48,7 @@ function selectSystemType(value: string) {
         <TagPreviewGallery
           :options="tagSystemGalleryOptions"
           :selected="customize.systemType"
-          gallery-label="类型"
+          :gallery-label="galleryLabel"
           @select="selectSystemType"
         >
           <template #main>

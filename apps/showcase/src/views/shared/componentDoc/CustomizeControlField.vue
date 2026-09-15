@@ -6,7 +6,7 @@ import {
   EgFlotationTrigger,
   EgInput,
 } from '@eds/desktop-components';
-import { galleryLabelFromTokenLabel } from '@/data/showcasePropLabels';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
 import styles from './ComponentDocLayout.module.css';
 import type {
   DocCustomizeBooleanControl,
@@ -19,6 +19,8 @@ const props = defineProps<{
   value: unknown;
   inlineSelectValue?: unknown;
 }>();
+
+const { display, gallery } = useShowcaseDisplayText();
 
 const emit = defineEmits<{
   update: [value: unknown];
@@ -55,7 +57,7 @@ function selectOptionIndex(
 }
 
 function customizeSelectDisplayLabel(label: string): string {
-  return galleryLabelFromTokenLabel(label);
+  return gallery(label);
 }
 
 function selectFlotationItems(control: { options: DocCustomizeSelectControl['options'] }) {
@@ -105,7 +107,7 @@ function handleSelectItemClick(control: DocCustomizeControl, index: number) {
 
 <template>
   <div :class="styles.customizeField">
-    <span :class="styles.customizeLabel">{{ control.label }}</span>
+    <span :class="styles.customizeLabel">{{ display(control.label) }}</span>
     <div
       :class="[
         styles.customizeControlSlot,
@@ -119,7 +121,7 @@ function handleSelectItemClick(control: DocCustomizeControl, index: number) {
           @update:model-value="emit('update', $event)"
         />
         <div v-if="showInlineSelect && inlineSelect" :class="styles.customizeInlineSelectGroup">
-          <span :class="styles.customizeInlineSelectLabel">{{ inlineSelect.label }}</span>
+          <span :class="styles.customizeInlineSelectLabel">{{ display(inlineSelect.label) }}</span>
           <EgFlotation
             :key="`${inlineSelect.key}-${inlineSelectModel}`"
             :class="styles.customizeInlineFlotation"
@@ -173,8 +175,8 @@ function handleSelectItemClick(control: DocCustomizeControl, index: number) {
         width-mode="full"
         clearable
         :class="styles.customizeInput"
-        :model-value="String(value ?? '')"
-        :placeholder="control.placeholder"
+        :model-value="display(String(value ?? ''))"
+        :placeholder="control.placeholder ? display(control.placeholder) : undefined"
         @update:model-value="emit('update', $event)"
       />
     </div>

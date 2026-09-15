@@ -1,4 +1,5 @@
 import type { DocCustomizeControl } from '@/views/shared/componentDoc/types';
+import { showcaseText } from '@/data/showcasePropLabels';
 import {
   type CryptoAddressSideTags,
   type CryptoAddressTagSlotConfig,
@@ -243,11 +244,11 @@ export function buildCurrencyTagPanelControls(
   );
 
   return [
-    { kind: 'boolean', key: showKey, label: '显示', row: 0 },
+    { kind: 'boolean', key: showKey, label: showcaseText('Show', '显示'), row: 0 },
     {
       kind: 'select',
       key: currencyTagCountKey(config.side, config.addressIndex, config.slot),
-      label: '个数',
+      label: showcaseText('Numbers', '个数'),
       options: tagCountOptions,
       row: 0,
       visibleWhen: (customize) => customize[showKey] !== false,
@@ -255,7 +256,7 @@ export function buildCurrencyTagPanelControls(
     {
       kind: 'select',
       key: currencyTagEditIndexKey(config.side, config.addressIndex, config.slot),
-      label: '编辑',
+      label: showcaseText('Edit', '编辑'),
       options: Array.from({ length: count }, (_, index) => {
         const n = index + 1;
         return { value: String(n), label: `第 ${n} 个` };
@@ -340,14 +341,14 @@ export function buildCurrencyTagPanelsForAddress(
 ): CurrencyTagPanelConfig[] {
   return [
     {
-      title: '风险标签 · EgTag',
+      title: showcaseText('Risk tags · EgTag', '风险标签 · EgTag'),
       side,
       addressIndex,
       slot: 'system',
       family: 'custom',
     },
     {
-      title: '自定义标签 · EgTag',
+      title: showcaseText('CustomTag · EgTag', '自定义标签 · EgTag'),
       side,
       addressIndex,
       slot: 'custom',

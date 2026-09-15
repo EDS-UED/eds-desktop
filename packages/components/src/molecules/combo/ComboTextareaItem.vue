@@ -9,11 +9,15 @@ withDefaults(
     label?: string;
     feedback?: boolean;
     placeholder?: string;
+    pasteLabel?: string;
+    clearLabel?: string;
   }>(),
   {
     label: 'Label',
     feedback: false,
     placeholder: '请输入',
+    pasteLabel: 'Paste',
+    clearLabel: 'Clear',
   },
 );
 </script>
@@ -25,7 +29,13 @@ withDefaults(
         <span :class="fieldStyles.label">{{ label }}</span>
         <div :class="fieldStyles.control">
           <slot>
-            <EgTextarea v-model="modelValue" :placeholder="placeholder" width-mode="full" />
+            <EgTextarea
+              v-model="modelValue"
+              :placeholder="placeholder"
+              :paste-label="pasteLabel"
+              :clear-label="clearLabel"
+              width-mode="full"
+            />
           </slot>
         </div>
       </div>
@@ -37,7 +47,13 @@ withDefaults(
       <span :class="fieldStyles.label">{{ label }}</span>
       <div :class="fieldStyles.control">
         <slot>
-          <EgTextarea v-model="modelValue" :placeholder="placeholder" width-mode="full" />
+          <EgTextarea
+            v-model="modelValue"
+            :placeholder="placeholder"
+            :paste-label="pasteLabel"
+            :clear-label="clearLabel"
+            width-mode="full"
+          />
         </slot>
       </div>
     </template>
