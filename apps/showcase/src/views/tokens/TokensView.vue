@@ -17,6 +17,7 @@ import { textStyleOrder } from '@/data/tokens/textStyles';
 import { scaleSemanticGroups, toAnchorId } from '@/data/tokens/scaleSemantic';
 import {
   entriesToRows,
+  entriesToResolvedRows,
   formatEffectSemantic,
   formatStyleLabel,
   formatTextStyleMetrics,
@@ -99,7 +100,9 @@ const typographyBaseRows = computed(() => entriesToRows(typographyBase));
 
 const typographySemantic = tokens.typographySemantic as Record<string, string>;
 
-const typographySemanticRows = computed(() => entriesToRows(typographySemantic));
+const typographySemanticRows = computed(() =>
+  entriesToResolvedRows(typographySemantic, typographyBase),
+);
 
 const textStyles = tokens.textStyles as Record<
   string,
