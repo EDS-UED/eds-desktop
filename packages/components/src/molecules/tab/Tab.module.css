@@ -115,6 +115,7 @@
 .tabItem {
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
   border: none;
   padding: 0;
   background: transparent;
@@ -122,6 +123,7 @@
   font-size: var(--eds-body-small-strong-size);
   line-height: var(--eds-body-small-strong-line-height);
   color: var(--text-base-primary);
+  white-space: nowrap;
   composes: motion-ease is-paint from global;
 }
 
@@ -140,6 +142,52 @@
   display: inline-block;
 }
 
+.tabsRootFixedWidth {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+.tabsScrollViewport {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+.tabsClipPassive {
+  display: contents;
+}
+
+/* 定宽溢出滚动：左右边缘 mask 虚化（不叠 blur 层） */
+.tabsScrollFadeLeft {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--spacing-2));
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--spacing-2));
+  transition: var(--motion-recipe-scroll-fade);
+}
+
+.tabsScrollFadeRight {
+  -webkit-mask-image: linear-gradient(to left, transparent 0, #000 var(--spacing-2));
+  mask-image: linear-gradient(to left, transparent 0, #000 var(--spacing-2));
+  transition: var(--motion-recipe-scroll-fade);
+}
+
+.tabsScrollFadeLeft.tabsScrollFadeRight {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--spacing-2),
+    #000 calc(100% - var(--spacing-2)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--spacing-2),
+    #000 calc(100% - var(--spacing-2)),
+    transparent 100%
+  );
+}
+
 .tabsSlideIndicator {
   position: absolute;
   bottom: 0;
@@ -155,8 +203,14 @@
 }
 
 .tabs {
+  position: relative;
   display: inline-flex;
+  flex-wrap: nowrap;
   align-items: flex-start;
+}
+
+.tabsTrackPannableReady {
+  transition: transform var(--motion-duration-shift) var(--motion-easing-standard);
 }
 
 .tabsHorizontalGapXl {

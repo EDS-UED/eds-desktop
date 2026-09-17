@@ -522,6 +522,19 @@ function isModuleMenuBusinessFlotationTitleState(state: Record<string, unknown>)
   return moduleMenuBusinessTitleUsesFlotationTitle(scenario, title);
 }
 
+function isCregisPaymentEngineModuleState(state: Record<string, unknown>): boolean {
+  if (String(state.scenario ?? 'module-menu') !== 'cregis') return false;
+  return (
+    resolveModuleMenuBusinessTitleForScenario('cregis', state.moduleBusinessTitle) ===
+    'Payment Engine'
+  );
+}
+
+function isCregisWaasModuleState(state: Record<string, unknown>): boolean {
+  if (String(state.scenario ?? 'module-menu') !== 'cregis') return false;
+  return resolveModuleMenuBusinessTitleForScenario('cregis', state.moduleBusinessTitle) === 'WaaS';
+}
+
 export function buildModuleMenuBusinessTitleCustomizeControls(
   scenario: ModuleMenuBusinessScenario,
 ): DocCustomizeControl[] {
@@ -543,7 +556,43 @@ export function buildModuleMenuBusinessTitleCustomizeControls(
       },
     }));
 
-  return [moduleControl, ...flotationTriggerControls];
+  const paymentOrderMenuControls: DocCustomizeControl[] =
+    scenario === 'cregis'
+      ? [
+          {
+            kind: 'select',
+            key: 'paymentEngineMenuVariant',
+            label: showcaseText('Type', '类型'),
+            row: 2,
+            options: [{ value: 'engine', label: 'Payment' }],
+            visibleWhen: isCregisPaymentEngineModuleState,
+          },
+        ]
+      : [];
+
+  const waasOrderMenuControls: DocCustomizeControl[] =
+    scenario === 'cregis'
+      ? [
+          {
+            kind: 'select',
+            key: 'waasMenuVariant',
+            label: showcaseText('Type', '类型'),
+            row: 2,
+            options: [
+              { value: 'waas', label: 'WaaS' },
+              { value: 'order', label: 'WaaS (Order)' },
+            ],
+            visibleWhen: isCregisWaasModuleState,
+          },
+        ]
+      : [];
+
+  return [
+    moduleControl,
+    ...flotationTriggerControls,
+    ...paymentOrderMenuControls,
+    ...waasOrderMenuControls,
+  ];
 }
 
 export function moduleMenuGroupTitleKey(index: number): string {

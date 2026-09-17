@@ -501,6 +501,13 @@
   color: var(--status-danger);
 }
 
+.boxTagGroup {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
 .boxTag {
   display: inline-flex;
   flex-shrink: 0;

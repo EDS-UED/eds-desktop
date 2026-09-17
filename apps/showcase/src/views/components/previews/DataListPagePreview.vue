@@ -12,9 +12,11 @@ import {
   EgPaginationGroupButton,
   EgToolBar,
 } from '@eds/desktop-components';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
 import {
   DATA_LIST_FIGMA_HEADER_HEIGHT,
   DATA_LIST_FIGMA_PAGE_SIZE_OPTIONS,
+  DATA_LIST_INITING_TEXT,
 } from './dataListPagePreviewData';
 import DataListColumnCellPreview from './DataListColumnCellPreview.vue';
 import DataListHeaderSortTrigger from './DataListHeaderSortTrigger.vue';
@@ -40,6 +42,8 @@ const props = withDefaults(
 
 const customizeRef = toRef(props, 'customize');
 const layoutSkidOpenRef = toRef(props, 'layoutSkidOpen');
+const { display } = useShowcaseDisplayText();
+const initingText = computed(() => display(DATA_LIST_INITING_TEXT));
 
 const selectMode = computed({
   get: () => Boolean(props.customize.selectMode),
@@ -171,6 +175,7 @@ const shellClass = computed(() => {
           :column-height="columnHeight"
           :loading="Boolean(customize.loading)"
           :initing="Boolean(customize.initing)"
+          :initing-text="initingText"
           :skid-open="skidOpen"
           :batch-actions="[...dataListBatchActions]"
           :on-batch-action="onBatchAction"

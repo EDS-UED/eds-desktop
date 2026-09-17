@@ -14,12 +14,14 @@
 
 .initing {
   position: absolute;
-  z-index: 11;
+  top: calc(var(--eds-layout-chrome-inset-top, 0px) + var(--eds-data-list-header-height));
+  right: 0;
+  bottom: var(--eds-layout-chrome-inset-bottom, 0px);
   left: 0;
+  z-index: 11;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   background-color: var(--box-page);
 }
 
@@ -28,8 +30,6 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-2);
-  /* Optical nudge from source TableList (keeps spinner above vertical center). */
-  transform: translate(-50%, calc(var(--spacing-10) * -1 - var(--spacing-0-5)));
 }
 
 .initingIcon {
@@ -281,9 +281,9 @@
 
 .empty {
   position: absolute;
-  top: var(--eds-data-list-header-height);
+  top: calc(var(--eds-layout-chrome-inset-top, 0px) + var(--eds-data-list-header-height));
   right: 0;
-  bottom: 0;
+  bottom: var(--eds-layout-chrome-inset-bottom, 0px);
   left: 0;
   z-index: 1;
   display: flex;

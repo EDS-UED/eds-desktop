@@ -17,6 +17,7 @@ export {
   cregisModuleMenuByTitle,
   udunModuleMenuByTitle,
   cregisWaasModuleMenuGroups,
+  cregisPaymentOrderModuleMenuGroups,
   moduleMenuFallbackGroups,
   cregisModuleMenuTitleFlotationItems,
   cregisModuleMenuTitleFlotationProps,

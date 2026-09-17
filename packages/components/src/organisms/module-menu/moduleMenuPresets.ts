@@ -129,6 +129,27 @@ const cregisTasksModuleMenuGroups: ModuleMenuPresetGroup[] = [
   },
 ];
 
+/** Cregis Payment (Order) — WaaS 订单模式同步项目的模块菜单。 */
+export const cregisPaymentOrderModuleMenuGroups: ModuleMenuPresetGroup[] = [
+  {
+    items: [
+      { label: 'Payment Record', icon: 'eds-text-journal' },
+      { label: 'Settlement Record', icon: 'eds-task-list' },
+      { label: 'Payment Exception Record', icon: 'eds-text-abnormal', showReddot: true },
+    ],
+  },
+  {
+    title: 'Callback',
+    items: [
+      { label: 'Callback Error', icon: 'eds-text-abnormal' },
+      { label: 'History Callback', icon: 'eds-history' },
+    ],
+  },
+  {
+    items: [{ label: 'Settings', icon: 'eds-gear' }],
+  },
+];
+
 const cregisPaymentEngineModuleMenuGroups: ModuleMenuPresetGroup[] = [
   {
     items: [
@@ -346,9 +367,9 @@ export const cregisModuleMenuTitleFlotationItems: FlotationMenuItemPreset[] =
     return {
       label,
       boxType: 'text',
-      showTag: true,
-      tag: enabled ? 'Enable' : 'Disabled',
-      tagStatus: enabled ? 'success' : 'danger',
+      showTag: !enabled,
+      tag: enabled ? undefined : 'Disabled',
+      tagStatus: 'danger',
       showReddot: FLOTATION_TITLE_REDDOT_ROWS.has(row),
     };
   });

@@ -51,6 +51,15 @@ watch(
             :labels="labels"
             :horizontal-gap="customize.horizontalGap as 'xl' | 'md' | 'sm' | 'xs'"
             :vertical-gap="customize.verticalGap as 'xl' | 'md' | 'sm' | 'xs'"
+            :width-mode="customize.widthMode as 'adaptive' | 'fixed'"
+            :width="
+              customize.widthMode === 'fixed' &&
+              Number.isFinite(Number.parseInt(String(customize.width), 10)) &&
+              Number.parseInt(String(customize.width), 10) > 0
+                ? Number.parseInt(String(customize.width), 10)
+                : undefined
+            "
+            :scroll-fade="Boolean(customize.scrollFade)"
           />
         </div>
       </template>

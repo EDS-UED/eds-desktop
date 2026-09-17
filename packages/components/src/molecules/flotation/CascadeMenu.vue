@@ -40,6 +40,7 @@ const hasHeaderSlot = computed(() => Boolean(slots.header));
         :show-tag="Boolean(item.showTag)"
         :tag-text="item.tag ?? 'Tag'"
         :tag-status="item.tagStatus ?? 'danger'"
+        :mode-tag="item.modeTag"
         :show-reddot="item.showReddot"
         show-cascader
         :show-message="item.showMessage"

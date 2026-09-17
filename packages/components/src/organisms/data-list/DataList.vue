@@ -72,6 +72,7 @@ const props = withDefaults(
     selectMode?: boolean;
     dataList?: DataListItem[];
     emptyText?: string;
+    initingText?: string;
     skidOpen?: boolean;
     batchActions?: DataListBatchAction[];
     onBatchAction?: (
@@ -103,6 +104,7 @@ const props = withDefaults(
     initing: false,
     dataList: () => [],
     emptyText: 'No data',
+    initingText: 'Loading',
     skidOpen: false,
     batchActions: () => [],
     batchCountSuffix: 'selected',
@@ -211,6 +213,7 @@ watch(
   () => props.initing,
   (value) => {
     if (value) {
+      tableContentRef.value?.scrollTo({ top: 0, behavior: 'instant' });
       initingTimer = window.setTimeout(() => {
         showIniting.value = true;
       }, 500);
@@ -312,7 +315,7 @@ const loadingRowStyle = computed(() => ({
   width: `${size.value.width}px`,
 }));
 
-const isScrollLocked = computed(() => props.loading);
+const isScrollLocked = computed(() => props.loading || props.initing);
 
 const rowHeightRef = computed(() => props.columnHeight);
 const rowCountRef = computed(() => props.dataList.length);
@@ -1054,17 +1057,6 @@ function onTableScroll(event: Event) {
       '--eds-data-list-select-content-translate-x': selectContentTranslateX,
     }"
   >
-    <div
-      v-if="showIniting"
-      :class="styles.initing"
-      :style="{ top: headerHeightCss, height: `calc(100% - ${headerHeightCss})` }"
-    >
-      <div :class="styles.initingContent">
-        <EgIcon :class="styles.initingIcon" name="eds-load" size="md" />
-        <div :class="styles.initingText">Loading</div>
-      </div>
-    </div>
-
     <Transition
       :enter-active-class="styles.operationBarEnterActive"
       :leave-active-class="styles.operationBarLeaveActive"
@@ -1277,7 +1269,15 @@ function onTableScroll(event: Event) {
         </tbody>
       </table>
 
-      <div v-if="!loading && dataList.length === 0" :class="styles.empty">
+      <div v-if="showIniting" :class="styles.initing">
+        <div :class="styles.initingContent">
+          <EgIcon :class="styles.initingIcon" name="eds-load" size="md" />
+          <div :class="styles.initingText">{{ initingText }}</div>
+        </div>
+      </div>
+
+      <!-- initing = 首次加载未完成，此时无数据不等于空结果，不得宣称 emptyText。 -->
+      <div v-if="!loading && !initing && dataList.length === 0" :class="styles.empty">
         <slot name="empty">
           <div :class="styles.emptyInner">
             <EgIcon :class="styles.emptyIcon" name="eds-business-7" fit />

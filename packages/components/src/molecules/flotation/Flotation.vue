@@ -473,6 +473,7 @@ onBeforeUnmount(() => {
             :show-tag="Boolean(item.showTag)"
             :tag-text="item.tag ?? tagText"
             :tag-status="item.tagStatus ?? tagStatus"
+            :mode-tag="item.modeTag"
             :show-reddot="item.showReddot"
             :show-cascader="item.showCascader"
             :show-message="item.showMessage"

@@ -22,6 +22,12 @@ export const DATA_LIST_FIGMA_PAGE_SIZE_OPTIONS = ['20', '50', '100'] as const;
 /** Figma Data Table-BG. 固定 32px，不作为 Showcase 定制项。 */
 export const DATA_LIST_FIGMA_HEADER_HEIGHT = 32;
 
+export const DATA_LIST_INITING_TEXT = showcaseText(
+  'Loading',
+  '稍作等待',
+  { 'zh-TW': '請稍候', 'zh-HK': '請稍候' },
+);
+
 export const DATA_LIST_PAGE_HEIGHT_FIXED = 800;
 export const DATA_LIST_PAGE_HEIGHT_MIN = 720;
 

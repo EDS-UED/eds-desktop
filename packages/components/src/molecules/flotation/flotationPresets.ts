@@ -12,6 +12,8 @@ export type FlotationMenuItemPreset = {
   showTag?: boolean;
   tag?: string;
   tagStatus?: TagStatus;
+  /** 模式 Tag（EgTag system stroke-subtle sm）；如收款 / 提币。 */
+  modeTag?: string;
   showReddot?: boolean;
   showCascader?: boolean;
   showMessage?: boolean;

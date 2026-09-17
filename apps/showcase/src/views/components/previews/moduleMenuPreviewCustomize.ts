@@ -59,6 +59,8 @@ export function buildCregisModuleMenuCustomizeDefaults(): Record<string, unknown
     ...buildModuleMenuCustomizeDefaults(),
     scenario: 'cregis',
     moduleBusinessTitle: DEFAULT_CREGIS_MODULE_MENU_BUSINESS_TITLE,
+    paymentEngineMenuVariant: 'engine',
+    waasMenuVariant: 'waas',
   };
 }
 
@@ -73,6 +75,7 @@ export function buildUdunModuleMenuCustomizeDefaults(): Record<string, unknown> 
 export function resolveModuleMenuBusinessGroups(
   scenario: ModuleMenuScenario,
   title: string,
+  state?: Record<string, unknown>,
 ): ModuleMenuPresetGroup[] {
   if (scenario === 'udun') {
     return getUdunModuleMenuGroups(
@@ -80,6 +83,12 @@ export function resolveModuleMenuBusinessGroups(
     );
   }
   if (scenario === 'cregis') {
+    if (title === 'Payment Engine') {
+      return getCregisModuleMenuGroups('Payment (Order)');
+    }
+    if (state && isWaasOrderMenuVariant(state)) {
+      return getCregisModuleMenuGroups('WaaS (Order)');
+    }
     return getCregisModuleMenuGroups(
       title as Parameters<typeof getCregisModuleMenuGroups>[0],
     );
@@ -265,6 +274,13 @@ export function resolveModuleMenuBusinessFlotationTitle(state: Record<string, un
   return label === '' ? flotationTriggerModuleMenuDefaults.label : label;
 }
 
+export function isWaasOrderMenuVariant(state: Record<string, unknown>): boolean {
+  return (
+    resolveModuleMenuBusinessTitle(state) === 'WaaS' &&
+    String(state.waasMenuVariant ?? 'waas') === 'order'
+  );
+}
+
 export function isCregisWaasBusinessState(state: Record<string, unknown>): boolean {
   return (
     String(state.scenario ?? 'module-menu') === 'cregis' &&
@@ -283,7 +299,7 @@ export function buildModuleMenuFlotationTitleBusinessUsageSnippet(
   const maxHeight = parseFlotationMaxHeight(menuState) ?? 540;
   const addLabel = String(menuState.addLabel ?? 'Create Project');
   const titleLabel = resolveModuleMenuBusinessFlotationTitle(state);
-  const groupSnippets = resolveModuleMenuBusinessGroups(scenario, moduleTitle)
+  const groupSnippets = resolveModuleMenuBusinessGroups(scenario, moduleTitle, state)
     .map(buildModuleMenuGroupSnippet)
     .join('\n');
 
@@ -349,13 +365,15 @@ export function buildModuleMenuTitleTriggerSnippet(
 }
 
 export function buildModuleMenuBusinessUsageSnippet(state: Record<string, unknown>): string {
-  if (moduleMenuBusinessTitleUsesFlotationTrigger(state)) {
+  const waasOrderActive = isWaasOrderMenuVariant(state);
+
+  if (moduleMenuBusinessTitleUsesFlotationTrigger(state) && !waasOrderActive) {
     return buildModuleMenuFlotationTitleBusinessUsageSnippet(state);
   }
 
   const scenario = String(state.scenario ?? 'module-menu') as ModuleMenuScenario;
-  const menuTitle = resolveModuleMenuBusinessTitle(state);
-  const groups = resolveModuleMenuBusinessGroups(scenario, menuTitle);
+  const menuTitle = waasOrderActive ? 'Module' : resolveModuleMenuBusinessTitle(state);
+  const groups = resolveModuleMenuBusinessGroups(scenario, resolveModuleMenuBusinessTitle(state), state);
   const groupSnippets = groups.map(buildModuleMenuGroupSnippet).join('\n');
 
   return [`<EgModuleMenu title="${escapeAttr(menuTitle)}">`, groupSnippets, '</EgModuleMenu>']

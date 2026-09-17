@@ -7,6 +7,7 @@ import EgModuleMenuTrigger from '../../molecules/flotation/ModuleMenuTrigger.vue
 import EgModuleMenu from './ModuleMenu.vue';
 import EgModuleMenuGroup from './ModuleMenuGroup.vue';
 import EgModuleMenuItem from './ModuleMenuItem.vue';
+import type { FlotationMenuItemPreset } from '../../molecules/flotation/flotationPresets';
 import {
   cregisModuleMenuTitleFlotationItems,
   cregisModuleMenuTitleFlotationProps,
@@ -27,6 +28,10 @@ const props = withDefaults(
     translate?: ModuleMenuTranslate;
     /** 覆盖 preset 组数据（如 Tasks 动态 badge）；未传时按 title 从 preset 解析。 */
     groups?: ModuleMenuPresetGroup[];
+    /** 覆盖标题浮层项目列表（如 Payment Engine 按 WaaS 订单模式同步）。 */
+    titleFlotationItems?: FlotationMenuItemPreset[];
+    /** 标题浮层当前选中行；与 EgFlotation selectedIndex 对齐，勿再设 item.focused。 */
+    titleFlotationSelectedIndex?: number;
     wide?: boolean;
     showEdgeDivider?: boolean;
   }>(),
@@ -34,6 +39,8 @@ const props = withDefaults(
     title: undefined,
     translate: undefined,
     groups: undefined,
+    titleFlotationItems: undefined,
+    titleFlotationSelectedIndex: undefined,
     wide: false,
     showEdgeDivider: true,
   },
@@ -44,6 +51,8 @@ const emit = defineEmits<{
   itemSelect: [label: string];
   /** 模块标题浮层底部「创建项目」等 Add 行点击。 */
   titleAdd: [];
+  /** 标题浮层项目行点击（原文 label + 行索引）。 */
+  titleFlotationItemSelect: [label: string, index: number];
 }>();
 
 const moduleTitle = computed(
@@ -70,12 +79,14 @@ const menuTitle = computed(() =>
   ),
 );
 
-const flotationItems = computed(() =>
-  cregisModuleMenuTitleFlotationItems.map((item) => ({
+const flotationItems = computed(() => {
+  const items = props.titleFlotationItems ?? cregisModuleMenuTitleFlotationItems;
+  return items.map((item) => ({
     ...item,
     tag: item.tag ? t(item.tag) : item.tag,
-  })),
-);
+    modeTag: item.modeTag ? t(item.modeTag) : item.modeTag,
+  }));
+});
 
 const flotationProps = computed(() => ({
   ...cregisModuleMenuTitleFlotationProps,
@@ -92,7 +103,13 @@ const flotationProps = computed(() => ({
     :show-edge-divider="showEdgeDivider"
   >
     <template v-if="usesFlotationTitle" #title>
-      <EgFlotation v-bind="flotationProps" :items="flotationItems" @add="emit('titleAdd')">
+      <EgFlotation
+        v-bind="flotationProps"
+        :items="flotationItems"
+        :selected-index="titleFlotationSelectedIndex"
+        @item-click="(_item, index) => emit('titleFlotationItemSelect', _item.label, index)"
+        @add="emit('titleAdd')"
+      >
         <template #trigger="{ expanded, selectedItem, hasAnyItemReddot }">
           <EgModuleMenuTrigger
             trigger-style="text"

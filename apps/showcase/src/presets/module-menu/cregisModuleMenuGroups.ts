@@ -29,6 +29,12 @@ export type ModuleMenuPresetGroup = {
   items: ModuleMenuPresetItem[];
 };
 
+/** Showcase preset 键；含 Nav Bar 未单独列出的派生菜单变体。 */
+export type CregisModuleMenuPresetTitle =
+  | CregisModuleMenuBusinessTitle
+  | 'Payment (Order)'
+  | 'WaaS (Order)';
+
 const cregisTasksModuleMenuGroups: ModuleMenuPresetGroup[] = [
   {
     title: 'To Do',
@@ -59,6 +65,48 @@ const cregisTasksModuleMenuGroups: ModuleMenuPresetGroup[] = [
         avatar: { name: 'Point', colorIndex: 10, size: 'xs' },
       },
     ],
+  },
+];
+
+/** Cregis Payment (Order) — 业务定稿菜单。 */
+const cregisPaymentOrderModuleMenuGroups: ModuleMenuPresetGroup[] = [
+  {
+    items: [
+      { label: 'Payment Record', icon: 'eds-text-journal' },
+      { label: 'Settlement Record', icon: 'eds-task-list' },
+      { label: 'Payment Exception Record', icon: 'eds-text-abnormal', showReddot: true },
+    ],
+  },
+  {
+    title: 'Callback',
+    items: [
+      { label: 'Callback Error', icon: 'eds-text-abnormal' },
+      { label: 'History Callback', icon: 'eds-history' },
+    ],
+  },
+  {
+    items: [{ label: 'Settings', icon: 'eds-gear' }],
+  },
+];
+
+/** Cregis WaaS (Order) — 业务定稿菜单。 */
+const cregisWaasOrderModuleMenuGroups: ModuleMenuPresetGroup[] = [
+  {
+    items: [
+      { label: 'Payment Record', icon: 'eds-text-journal' },
+      { label: 'Settlement Record', icon: 'eds-task-list' },
+      { label: 'Payment Exception Record', icon: 'eds-text-abnormal', showReddot: true },
+    ],
+  },
+  {
+    title: 'Callback',
+    items: [
+      { label: 'Callback Error', icon: 'eds-text-abnormal' },
+      { label: 'History Callback', icon: 'eds-history' },
+    ],
+  },
+  {
+    items: [{ label: 'Settings', icon: 'eds-gear' }],
   },
 ];
 
@@ -185,11 +233,13 @@ export const cregisWaasModuleMenuGroups: ModuleMenuPresetGroup[] = [
 ];
 
 export const cregisModuleMenuByTitle: Partial<
-  Record<CregisModuleMenuBusinessTitle, ModuleMenuPresetGroup[]>
+  Record<CregisModuleMenuPresetTitle, ModuleMenuPresetGroup[]>
 > = {
   Tasks: cregisTasksModuleMenuGroups,
   WaaS: cregisWaasModuleMenuGroups,
+  'WaaS (Order)': cregisWaasOrderModuleMenuGroups,
   'Payment Engine': cregisPaymentEngineModuleMenuGroups,
+  'Payment (Order)': cregisPaymentOrderModuleMenuGroups,
   Manage: cregisManageModuleMenuGroups,
   Notifications: cregisNotificationsModuleMenuGroups,
   'Account Settings': cregisAccountSettingsModuleMenuGroups,
@@ -199,7 +249,7 @@ export const cregisModuleMenuByTitle: Partial<
 export const cregisDefaultModuleMenuGroups = moduleMenuComponentDefaultPresetGroups;
 
 export function getCregisModuleMenuGroups(
-  title: CregisModuleMenuBusinessTitle,
+  title: CregisModuleMenuPresetTitle,
 ): ModuleMenuPresetGroup[] {
   return cregisModuleMenuByTitle[title] ?? cregisDefaultModuleMenuGroups;
 }

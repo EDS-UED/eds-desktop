@@ -48,6 +48,24 @@ export const tabsPropRows: DocPropRow[] = [
     description:
       showcaseText('[doc] VerticalGap（padding-bottom， stroke-xl）：xl → spacing-2-5；md → spacing-2；sm → spacing-1-5；xs → spacing-1。', '垂直间距（padding-bottom，含指示条 stroke-xl）：xl → spacing-2-5；md → spacing-2；sm → spacing-1-5；xs → spacing-1。'),
   },
+  {
+    name: 'widthMode',
+    type: "'adaptive' | 'fixed'",
+    defaultValue: "'adaptive'",
+    description: showcaseText('Outermost container width: adaptive = content hug; fixed = set container width without changing Tab item layout.', '最外层容器宽度：adaptive=内容 hug；fixed=定宽容器，Tab 项布局不变。'),
+  },
+  {
+    name: 'width',
+    type: 'number',
+    defaultValue: 'undefined',
+    description: showcaseText('optional container width (px) when widthMode = fixed; 100% follows the parent if not passed.', 'widthMode=fixed 时可选容器宽度（px）；未传则 100% 跟随父级。'),
+  },
+  {
+    name: 'scrollFade',
+    type: 'boolean',
+    defaultValue: 'true',
+    description: showcaseText('When widthMode=fixed and tabs overflow, fade left/right scroll edges with mask.', 'widthMode=fixed 且 Tab 溢出横向滚动时，左右边缘 mask 虚化。'),
+  },
 ];
 
 export type TabsSpacingSize = 'xl' | 'md' | 'sm' | 'xs';
@@ -132,6 +150,9 @@ export const tabsCustomizeDefaults = {
   labels: 'Tab Tab Tab Tab Tab',
   horizontalGap: 'xl' as TabsSpacingSize,
   verticalGap: 'xl' as TabsSpacingSize,
+  widthMode: 'adaptive' as 'adaptive' | 'fixed',
+  width: '400',
+  scrollFade: true,
 };
 
 export const tabsCustomizeControls: DocCustomizeControl[] = [
@@ -158,6 +179,25 @@ export const tabsCustomizeControls: DocCustomizeControl[] = [
     key: 'verticalGap',
     label: showcaseText('VerticalGap', '垂直间距'),
     options: tabsSpacingSizeOptions.map((option) => ({ ...option })),
+  },
+  {
+    kind: 'select',
+    key: 'widthMode',
+    label: showcaseInputCustomizeFieldLabels.widthMode,
+    options: widthModeAdaptiveFixedRows.map((row) => ({ value: row.key, label: row.label })),
+  },
+  {
+    kind: 'text',
+    key: 'width',
+    label: showcaseText('Wrapper Width', '容器宽度'),
+    placeholder: showcaseText('px, e.g. 400', 'px，如 400'),
+    visibleWhen: (state) => String(state.widthMode) === 'fixed',
+  },
+  {
+    kind: 'boolean',
+    key: 'scrollFade',
+    label: showcaseText('Scroll edge fade', '溢出虚化'),
+    visibleWhen: (state) => String(state.widthMode) === 'fixed',
   },
 ];
 
@@ -189,6 +229,16 @@ export function buildTabsUsageSnippet(state: Record<string, unknown>): string {
   }
   if (state.verticalGap !== 'xl') {
     parts.push(`vertical-gap="${String(state.verticalGap)}"`);
+  }
+  if (state.widthMode === 'fixed') {
+    parts.push('width-mode="fixed"');
+    const width = Number.parseInt(String(state.width ?? ''), 10);
+    if (Number.isFinite(width) && width > 0) {
+      parts.push(`:width="${width}"`);
+    }
+    if (state.scrollFade === false) {
+      parts.push(':scroll-fade="false"');
+    }
   }
   return `<EgTabs\n  ${parts.join('\n  ')}\n/>`;
 }

@@ -189,7 +189,12 @@ export function resolveShowcaseGalleryLabel(
 ): string {
   const resolved = resolveShowcaseDisplayText(raw, locale);
   const parsed = parseTokenLabel(resolved);
-  if (parsed) return parsed.semantic;
+  if (parsed) {
+    const token = parsed.token.trim();
+    // 「WaaS (Order)」等括号后缀是完整语义，不是 prop token。
+    if (/^\([^)]+\)$/.test(token)) return resolved;
+    return parsed.semantic;
+  }
   return resolved;
 }
 

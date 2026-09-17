@@ -31,6 +31,8 @@ const props = withDefaults(
     tagText?: string;
     /** 嵌套 EgTag family=status size=sm */
     tagStatus?: TagStatus;
+    /** 模式 Tag（EgTag family=system stroke-subtle size=sm）。 */
+    modeTag?: string;
     showReddot?: boolean;
     showCascader?: boolean;
     showMessage?: boolean;
@@ -50,9 +52,10 @@ const props = withDefaults(
     showCheckbox: false,
     checked: false,
     danger: false,
-    showTag: true,
+    showTag: false,
     tagText: 'Tag',
     tagStatus: 'danger',
+    modeTag: undefined,
     showReddot: false,
     showCascader: false,
     showMessage: false,
@@ -78,6 +81,8 @@ const showLeading = computed(
     props.boxType === 'image-text',
 );
 
+const showModeTag = computed(() => Boolean(props.modeTag?.trim()));
+
 const showTrailing = computed(
   () =>
     props.showReddot ||
@@ -85,6 +90,10 @@ const showTrailing = computed(
     props.showMessage ||
     Boolean(slots.trailing) ||
     Boolean(slots.message),
+);
+
+const showTagGroup = computed(
+  () => props.showTag || showModeTag.value || Boolean(slots.tag) || Boolean(slots.modeTag),
 );
 
 const leadingAsset = computed(() => props.symbolIcon);
@@ -170,10 +179,19 @@ function onKeydown(event: KeyboardEvent) {
       >
         <slot>{{ label }}</slot>
       </span>
-      <span v-if="showTag || slots.tag" :class="styles.boxTag">
-        <slot name="tag">
-          <EgTag family="status" size="sm" :status="tagStatus">{{ tagText }}</EgTag>
-        </slot>
+      <span v-if="showTagGroup" :class="styles.boxTagGroup">
+        <span v-if="showModeTag || slots.modeTag" :class="styles.boxTag">
+          <slot name="modeTag">
+            <EgTag family="system" system-type="stroke-subtle" size="sm">
+              {{ modeTag }}
+            </EgTag>
+          </slot>
+        </span>
+        <span v-if="showTag || slots.tag" :class="styles.boxTag">
+          <slot name="tag">
+            <EgTag family="status" size="sm" :status="tagStatus">{{ tagText }}</EgTag>
+          </slot>
+        </span>
       </span>
     </span>
 

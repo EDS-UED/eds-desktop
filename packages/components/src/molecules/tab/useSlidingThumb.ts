@@ -39,11 +39,8 @@ export function useSlidingThumb(activeIndex: Ref<number>, itemCount: Ref<number>
       applyThumb(0, 0);
       return;
     }
-    const trackRect = track.getBoundingClientRect();
-    const activeRect = active.getBoundingClientRect();
-    applyThumb(activeRect.width, activeRect.left - trackRect.left);
-    if (!ready.value && activeRect.width > 0) {
-      // Next frame so the first paint is already at the correct position.
+    applyThumb(active.offsetWidth, active.offsetLeft);
+    if (!ready.value && active.offsetWidth > 0) {
       requestAnimationFrame(() => {
         ready.value = true;
       });
@@ -85,5 +82,5 @@ export function useSlidingThumb(activeIndex: Ref<number>, itemCount: Ref<number>
     transform: `translateX(${thumb.value.x}px)`,
   }));
 
-  return { trackRef, setItemRef, thumbStyle, ready };
+  return { trackRef, setItemRef, thumbStyle, ready, scheduleUpdate, itemEls };
 }
