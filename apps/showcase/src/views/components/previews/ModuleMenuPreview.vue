@@ -79,7 +79,6 @@ import {
   buildUdunModuleMenuCustomizeDefaults,
   isModuleMenuBusinessScenario,
   moduleMenuBusinessTitleUsesFlotationTrigger,
-  isWaasOrderMenuVariant,
   resolveModuleMenuBusinessGroups,
   resolveModuleMenuBusinessTitle,
   resolveModuleMenuBusinessFlotationTitle,
@@ -177,11 +176,8 @@ const docTitle = computed(() => props.pageTitle ?? 'ModuleMenu');
 const businessModuleUsesFlotationTitle = computed(() => {
   if (!isBusinessScenario.value) return false;
   if (!moduleMenuBusinessTitleUsesFlotationTrigger(customize)) return false;
-  if (waasOrderMenuActive.value) return false;
   return true;
 });
-
-const waasOrderMenuActive = computed(() => isWaasOrderMenuVariant(customize));
 
 const moduleMenuTitleFlotationTriggerState = computed(() => {
   if (businessModuleUsesFlotationTitle.value) {
@@ -234,9 +230,6 @@ const groupCountNum = computed(() => {
 
 const moduleMenuTitle = computed(() => {
   if (isModuleMenuBusinessScenario(customize.scenario)) {
-    if (waasOrderMenuActive.value) {
-      return 'Module';
-    }
     if (businessModuleUsesFlotationTitle.value) {
       return resolveModuleMenuBusinessFlotationTitle(customize);
     }
@@ -451,58 +444,9 @@ const previewGroups = computed((): PreviewGroup[] => {
             organismStyles.previewOrganismPanelHost,
           ]"
         >
-          <EgModuleMenu
-            v-if="isBusinessScenario && waasOrderMenuActive"
-            :key="`${customize.scenario}-waas-order`"
-            title="Module"
-            :wide="Boolean(customize.wide)"
-            :show-edge-divider="Boolean(customize.showEdgeDivider)"
-          >
-            <EgModuleMenuGroup
-              v-for="(group, groupIndex) in displayBusinessGroups"
-              :key="`business-waas-order-group-${groupIndex}`"
-              :title="group.title"
-            >
-              <template
-                v-for="(item, itemIndex) in group.items"
-                :key="`business-waas-order-group-${groupIndex}-item-${itemIndex}`"
-              >
-                <EgModuleMenuItem
-                  :tier="item.tier ?? 1"
-                  :label="item.label"
-                  :message="item.message?.trim() || undefined"
-                  :message-type="item.messageType ?? 'subtle'"
-                  :message-focus-background="item.focusBackground ?? 'inherit'"
-                  :show-reddot="Boolean(item.showReddot)"
-                >
-                  <template #icon>
-                    <EgAvatar
-                      v-if="item.avatar"
-                      :name="item.avatar.name"
-                      :size="item.avatar.size ?? 'xs'"
-                      :color-index="item.avatar.colorIndex"
-                    />
-                    <EgIcon v-else :name="item.icon" size="sm" />
-                  </template>
-                  <template v-if="(item.tier ?? 1) === 2 && item.subitems?.length">
-                    <EgModuleMenuItem
-                      v-for="(subItem, subIndex) in item.subitems"
-                      :key="`business-waas-order-group-${groupIndex}-item-${itemIndex}-sub-${subIndex}`"
-                      subitem
-                      :label="subItem.label"
-                    >
-                      <template #icon>
-                        <EgIcon :name="subItem.icon" size="sm" />
-                      </template>
-                    </EgModuleMenuItem>
-                  </template>
-                </EgModuleMenuItem>
-              </template>
-            </EgModuleMenuGroup>
-          </EgModuleMenu>
           <EgCregisModuleMenu
-            v-else-if="isBusinessScenario && businessScenario === 'cregis'"
-            :key="`${customize.scenario}-${businessModuleTitle}`"
+            v-if="isBusinessScenario && businessScenario === 'cregis'"
+            :key="`${customize.scenario}-${businessModuleTitle}-${customize.waasMenuVariant}`"
             :title="businessModuleTitle as CregisModuleMenuBusinessTitle"
             :groups="businessGroups"
             :translate="cregisModuleMenuTranslate"

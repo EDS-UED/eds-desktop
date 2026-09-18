@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
-import {
-  MOTION_LAYOUT_DEFORM_CONTENT,
-  MOTION_LAYOUT_DEFORM_CONTENT_ENTERING,
-  MOTION_LAYOUT_DEFORM_CONTENT_EXITING,
-  useMotionLayoutDeformPageSwitch,
-  type MotionLayoutDeformPageSpec,
-} from '../../atoms/motion-layout-deform';
+import { EgMotionLayoutContent } from '../../atoms/motion-layout-content';
+import { useMotionLayoutDeformPageSwitch, type MotionLayoutDeformPageSpec } from '../../atoms/motion-layout-deform';
 import { useMinerFeeTranslate } from './minerFeeTranslate';
 import type { MinerFeeConfirmPayload } from './minerFeeTypes';
 import { buildEvmMinerFeeDisplay } from './minerFeeEvmDisplay';
@@ -308,12 +303,9 @@ defineExpose({
       :data-shell-ready="shellMeasureReady || undefined"
       :style="deformShellStyle"
     >
-      <div
-        :class="[
-          MOTION_LAYOUT_DEFORM_CONTENT,
-          contentExiting && MOTION_LAYOUT_DEFORM_CONTENT_EXITING,
-          contentEntering && MOTION_LAYOUT_DEFORM_CONTENT_ENTERING,
-        ]"
+      <EgMotionLayoutContent
+        :content-exiting="contentExiting"
+        :content-entering="contentEntering"
       >
         <MinerFeeCustomPanel
           v-if="isMinerFeeCustomPage"
@@ -338,7 +330,7 @@ defineExpose({
           @open-custom="openCustomMinerFee"
           @confirm="onListConfirm"
         />
-      </div>
+      </EgMotionLayoutContent>
     </div>
   </div>
 </template>

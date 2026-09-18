@@ -13,7 +13,18 @@
         { "name": "motion-duration-hover-asym", "value": "var(--eds-motion-5)", "comment": "600ms · is-asym 入场（仅 motion-recipe-hover-asym）" },
         { "name": "motion-duration-shift", "value": "var(--eds-motion-4)", "comment": "Layout / Skid" },
         { "name": "motion-duration-emphasis", "value": "var(--eds-motion-5)", "comment": "强调 / 大面板" },
-        { "name": "motion-duration-page", "value": "var(--eds-motion-6)", "comment": "页面切换推动" },
+        { "name": "motion-duration-page", "value": "460ms", "comment": "Motion Page Push · 默认 page 时长" },
+        { "name": "motion-duration-page-pop", "value": "400ms", "comment": "Motion Page Pop" },
+        {
+          "name": "motion-duration-page-content",
+          "value": "420ms",
+          "comment": "Motion Page content parallax · Push"
+        },
+        {
+          "name": "motion-duration-page-content-pop",
+          "value": "360ms",
+          "comment": "Motion Page content parallax · Pop"
+        },
         { "name": "motion-duration-control", "value": "var(--eds-motion-8)", "comment": "Toggle / Tab 滑块" },
         { "name": "motion-duration-feedback", "value": "var(--eds-motion-9)", "comment": "EndFeedback 圆环" },
         { "name": "motion-duration-scroll-fade", "value": "var(--eds-motion-6)", "comment": "Nav 滚动遮罩" },
@@ -36,7 +47,27 @@
         { "name": "motion-easing-spring", "value": "var(--eds-motion-ease-6)", "comment": "弹性反馈（圆环）" },
         { "name": "motion-easing-spring-emphasis", "value": "var(--eds-motion-ease-7)", "comment": "弹性反馈（勾号）" },
         { "name": "motion-easing-decelerate", "value": "var(--eds-motion-ease-8)", "comment": "减速渐隐" },
-        { "name": "motion-easing-float", "value": "var(--eds-motion-ease-8)", "comment": "微浮动" }
+        { "name": "motion-easing-float", "value": "var(--eds-motion-ease-8)", "comment": "微浮动" },
+        {
+          "name": "motion-easing-page-enter",
+          "value": "var(--eds-motion-ease-9)",
+          "comment": "Motion Page Push · 新页进入"
+        },
+        {
+          "name": "motion-easing-page-leave",
+          "value": "var(--eds-motion-ease-10)",
+          "comment": "Motion Page Push · 旧页后退"
+        },
+        {
+          "name": "motion-easing-page-content",
+          "value": "var(--eds-motion-ease-11)",
+          "comment": "Motion Page content parallax · Push"
+        },
+        {
+          "name": "motion-easing-page-pop",
+          "value": "var(--eds-motion-ease-12)",
+          "comment": "Motion Page Pop"
+        }
       ]
     },
     {
@@ -116,7 +147,38 @@
         },
         {
           "name": "motion-recipe-page-push",
-          "value": "opacity var(--motion-duration-page) var(--motion-easing-enter), transform var(--motion-duration-page) var(--motion-easing-enter)"
+          "value": "opacity var(--motion-duration-page) var(--motion-easing-page-enter), transform var(--motion-duration-page) var(--motion-easing-page-enter)",
+          "comment": "Motion Page semantic 默认 · idle / fallback"
+        },
+        {
+          "name": "motion-recipe-page-enter-active",
+          "value": "opacity var(--motion-duration-page) var(--motion-easing-page-enter), transform var(--motion-duration-page) var(--motion-easing-page-enter)",
+          "comment": "Motion Page glue · forward enter-active"
+        },
+        {
+          "name": "motion-recipe-page-leave-active-forward",
+          "value": "opacity var(--motion-duration-page) var(--motion-easing-page-leave), transform var(--motion-duration-page) var(--motion-easing-page-leave)",
+          "comment": "Motion Page glue · forward leave-active"
+        },
+        {
+          "name": "motion-recipe-page-enter-active-pop",
+          "value": "opacity var(--motion-duration-page-pop) var(--motion-easing-page-pop), transform var(--motion-duration-page-pop) var(--motion-easing-page-pop)",
+          "comment": "Motion Page glue · backward enter-active"
+        },
+        {
+          "name": "motion-recipe-page-leave-active-pop",
+          "value": "opacity var(--motion-duration-page-pop) var(--motion-easing-page-pop), transform var(--motion-duration-page-pop) var(--motion-easing-page-pop)",
+          "comment": "Motion Page glue · backward leave-active"
+        },
+        {
+          "name": "motion-recipe-page-content-push",
+          "value": "transform var(--motion-duration-page-content) var(--motion-easing-page-content)",
+          "comment": "Motion Page glue · content parallax Push"
+        },
+        {
+          "name": "motion-recipe-page-content-pop",
+          "value": "transform var(--motion-duration-page-content-pop) var(--motion-easing-page-pop)",
+          "comment": "Motion Page glue · content parallax Pop"
         },
         {
           "name": "motion-recipe-layout-deform-shell",
@@ -148,6 +210,9 @@
     { "name": "motion-duration-shift", "value": "var(--eds-motion-0)" },
     { "name": "motion-duration-emphasis", "value": "var(--eds-motion-0)" },
     { "name": "motion-duration-page", "value": "var(--eds-motion-0)" },
+    { "name": "motion-duration-page-pop", "value": "var(--eds-motion-0)" },
+    { "name": "motion-duration-page-content", "value": "var(--eds-motion-0)" },
+    { "name": "motion-duration-page-content-pop", "value": "var(--eds-motion-0)" },
     { "name": "motion-duration-control", "value": "var(--eds-motion-0)" },
     { "name": "motion-duration-feedback", "value": "var(--eds-motion-0)" },
     { "name": "motion-duration-scroll-fade", "value": "var(--eds-motion-0)" },

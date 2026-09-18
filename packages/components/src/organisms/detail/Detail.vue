@@ -21,8 +21,15 @@ import { EgFormSubmission } from '../../molecules/feedback';
 import { copyToClipboard } from '../../utils/copyToClipboard';
 import { formatGroupedNumber } from '../../utils/formatGroupedNumber';
 import chromeScrimStyles from '../../styles/popupChromeScrim.module.css';
+import {
+  EgMotionLayoutContent,
+  useMotionLayoutContentSwitch,
+} from '../../atoms/motion-layout-content';
+import { useMotionPageTransition } from '../../atoms/motion-page';
+import '../../styles/motionLayoutContentTransition.css';
 import '../../styles/motionPageTransition.css';
 import '../../styles/popupInnerBackdrop.css';
+import DetailScrollContentShell from './DetailScrollContentShell.vue';
 import styles from './Detail.module.css';
 import {
   createDefaultDetailSections,
@@ -392,14 +399,45 @@ let toolbarNavFlashTimer: ReturnType<typeof setTimeout> | undefined;
 
 const TOOLBAR_NAV_FLASH_MS = 300;
 
-const resolvedToolbarPageKey = computed(() =>
-  props.toolbarPageKey != null ? String(props.toolbarPageKey) : String(props.toolbarCurrent),
+const resolvedToolbarPageKey = computed(() => {
+  if (props.toolbarPageKey != null) return String(props.toolbarPageKey);
+  if (toolbarSwitchMode.value === 'content' && props.showTabs) {
+    return `tab-${activeTab.value}`;
+  }
+  return String(props.toolbarCurrent);
+});
+
+const motionContentKey = computed(() =>
+  props.showToolbarNav && props.showToolbar ? resolvedToolbarPageKey.value : 'static',
 );
 
-const contentPageStackDirection = computed((): 'forward' | 'backward' | 'none' => {
+/** Tab 等内容切换（showToolbarNav 且无工具栏）只 deform sections；翻页条目才走 motion-page push。 */
+const toolbarSwitchMode = computed((): 'none' | 'content' | 'page' => {
   if (!props.showToolbarNav) return 'none';
+  if (!props.showToolbar) return 'content';
+  return 'page';
+});
+
+const contentPageStackDirection = computed((): 'forward' | 'backward' | 'none' => {
+  if (toolbarSwitchMode.value !== 'page') return 'none';
   return contentNavDirection.value === 'prev' ? 'backward' : 'forward';
 });
+
+const displayedSections = ref(props.sections);
+
+const sectionsForRender = computed(() =>
+  toolbarSwitchMode.value === 'content' ? displayedSections.value : props.sections,
+);
+
+const {
+  contentExiting,
+  contentEntering,
+  switchContent,
+  reset: resetContentSwitch,
+} = useMotionLayoutContentSwitch();
+
+const { isAnimating: motionPageAnimating, transitionHandlers: motionPageTransitionHandlers } =
+  useMotionPageTransition();
 
 const showToolbarDivider = computed(
   () => scrollOverflows.value || props.toolbarDividerPinned,
@@ -592,14 +630,26 @@ watch(
     const keyChanged = nextKey !== prevKey;
     if (!currentChanged && !keyChanged) return;
 
-    if (currentChanged) {
-      const nextNum = Number(nextCurrent);
-      const prevNum = Number(prevCurrent);
-      if (Number.isFinite(nextNum) && Number.isFinite(prevNum) && nextNum !== prevNum) {
-        contentNavDirection.value = nextNum > prevNum ? 'next' : 'prev';
+    if (toolbarSwitchMode.value === 'content') {
+      if (keyChanged) {
+        switchContent(() => {
+          displayedSections.value = props.sections;
+        });
       }
-    } else if (keyChanged) {
-      contentNavDirection.value = 'next';
+      scrollRef.value?.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
+
+    if (toolbarSwitchMode.value === 'page') {
+      if (currentChanged) {
+        const nextNum = Number(nextCurrent);
+        const prevNum = Number(prevCurrent);
+        if (Number.isFinite(nextNum) && Number.isFinite(prevNum) && nextNum !== prevNum) {
+          contentNavDirection.value = nextNum > prevNum ? 'next' : 'prev';
+        }
+      } else if (keyChanged) {
+        contentNavDirection.value = 'next';
+      }
     }
 
     scrollRef.value?.scrollTo({ top: 0, behavior: 'instant' });
@@ -607,8 +657,34 @@ watch(
 );
 
 watch(
+  () => props.sections,
+  (next) => {
+    if (toolbarSwitchMode.value !== 'content') {
+      displayedSections.value = next;
+      return;
+    }
+    if (!contentExiting.value && !contentEntering.value) {
+      displayedSections.value = next;
+    }
+  },
+  { deep: true },
+);
+
+watch(toolbarSwitchMode, (mode, previousMode) => {
+  if (mode === 'content') {
+    displayedSections.value = props.sections;
+    return;
+  }
+  if (previousMode === 'content') {
+    resetContentSwitch();
+    displayedSections.value = props.sections;
+  }
+});
+
+watch(
   () => [
     props.sections,
+    displayedSections.value,
     props.showEyebrow,
     props.showStatusTag,
     props.showTabs,
@@ -660,14 +736,9 @@ onBeforeUnmount(() => {
         aria-hidden="true"
       />
 
-      <div
-        class="motion-page-stack"
-        :class="styles.scrollPageHost"
-        :data-page-direction="contentPageStackDirection"
-      >
-        <Transition name="motion-page">
-          <div :key="resolvedToolbarPageKey" :class="['motion-page', styles.scrollBody]">
-      <slot name="body">
+      <div :class="styles.scrollBody">
+        <slot v-if="$slots.body" name="body" />
+        <template v-else>
           <header :class="styles.headline">
             <div :class="styles.headlineMain">
               <span v-if="showEyebrow" :class="styles.eyebrow">{{ eyebrow }}</span>
@@ -709,9 +780,19 @@ onBeforeUnmount(() => {
             />
           </header>
 
+          <DetailScrollContentShell
+            :mode="toolbarSwitchMode"
+            :motion-content-key="motionContentKey"
+            :content-page-stack-direction="contentPageStackDirection"
+            :content-exiting="contentExiting"
+            :content-entering="contentEntering"
+            :motion-page-animating="motionPageAnimating"
+            :scroll-page-host-class="styles.scrollPageHost"
+            :transition-handlers="motionPageTransitionHandlers"
+          >
           <div :class="styles.sections">
             <template
-              v-for="(section, sectionIndex) in sections"
+              v-for="(section, sectionIndex) in sectionsForRender"
               :key="section.key ?? sectionIndex"
             >
               <div :class="styles.sectionContent">
@@ -1308,20 +1389,19 @@ onBeforeUnmount(() => {
               </div>
 
               <EgDivider
-                v-if="section.showDivider && sectionIndex < sections.length - 1"
+                v-if="section.showDivider && sectionIndex < sectionsForRender.length - 1"
                 :class="styles.sectionDivider"
                 type="page"
                 direction="horizontal"
               />
             </template>
           </div>
-        </slot>
 
         <div v-if="$slots.append" :class="styles.append">
           <slot name="append" />
         </div>
-          </div>
-        </Transition>
+          </DetailScrollContentShell>
+        </template>
       </div>
       </div>
     </div>

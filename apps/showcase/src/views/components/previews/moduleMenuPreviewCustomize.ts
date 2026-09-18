@@ -83,9 +83,6 @@ export function resolveModuleMenuBusinessGroups(
     );
   }
   if (scenario === 'cregis') {
-    if (title === 'Payment Engine') {
-      return getCregisModuleMenuGroups('Payment (Order)');
-    }
     if (state && isWaasOrderMenuVariant(state)) {
       return getCregisModuleMenuGroups('WaaS (Order)');
     }
@@ -365,14 +362,12 @@ export function buildModuleMenuTitleTriggerSnippet(
 }
 
 export function buildModuleMenuBusinessUsageSnippet(state: Record<string, unknown>): string {
-  const waasOrderActive = isWaasOrderMenuVariant(state);
-
-  if (moduleMenuBusinessTitleUsesFlotationTrigger(state) && !waasOrderActive) {
+  if (moduleMenuBusinessTitleUsesFlotationTrigger(state)) {
     return buildModuleMenuFlotationTitleBusinessUsageSnippet(state);
   }
 
   const scenario = String(state.scenario ?? 'module-menu') as ModuleMenuScenario;
-  const menuTitle = waasOrderActive ? 'Module' : resolveModuleMenuBusinessTitle(state);
+  const menuTitle = resolveModuleMenuBusinessTitle(state);
   const groups = resolveModuleMenuBusinessGroups(scenario, resolveModuleMenuBusinessTitle(state), state);
   const groupSnippets = groups.map(buildModuleMenuGroupSnippet).join('\n');
 

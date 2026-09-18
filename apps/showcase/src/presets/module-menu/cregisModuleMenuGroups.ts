@@ -32,7 +32,6 @@ export type ModuleMenuPresetGroup = {
 /** Showcase preset 键；含 Nav Bar 未单独列出的派生菜单变体。 */
 export type CregisModuleMenuPresetTitle =
   | CregisModuleMenuBusinessTitle
-  | 'Payment (Order)'
   | 'WaaS (Order)';
 
 const cregisTasksModuleMenuGroups: ModuleMenuPresetGroup[] = [
@@ -68,50 +67,29 @@ const cregisTasksModuleMenuGroups: ModuleMenuPresetGroup[] = [
   },
 ];
 
-/** Cregis Payment (Order) — 业务定稿菜单。 */
-const cregisPaymentOrderModuleMenuGroups: ModuleMenuPresetGroup[] = [
-  {
-    items: [
-      { label: 'Payment Record', icon: 'eds-text-journal' },
-      { label: 'Settlement Record', icon: 'eds-task-list' },
-      { label: 'Payment Exception Record', icon: 'eds-text-abnormal', showReddot: true },
-    ],
-  },
-  {
-    title: 'Callback',
-    items: [
-      { label: 'Callback Error', icon: 'eds-text-abnormal' },
-      { label: 'History Callback', icon: 'eds-history' },
-    ],
-  },
-  {
-    items: [{ label: 'Settings', icon: 'eds-gear' }],
-  },
-];
-
-/** Cregis WaaS (Order) — 业务定稿菜单。 */
-const cregisWaasOrderModuleMenuGroups: ModuleMenuPresetGroup[] = [
-  {
-    items: [
-      { label: 'Payment Record', icon: 'eds-text-journal' },
-      { label: 'Settlement Record', icon: 'eds-task-list' },
-      { label: 'Payment Exception Record', icon: 'eds-text-abnormal', showReddot: true },
-    ],
-  },
-  {
-    title: 'Callback',
-    items: [
-      { label: 'Callback Error', icon: 'eds-text-abnormal' },
-      { label: 'History Callback', icon: 'eds-history' },
-    ],
-  },
-  {
-    items: [{ label: 'Settings', icon: 'eds-gear' }],
-  },
-];
-
 /** Cregis Payment Engine — 业务定稿菜单。 */
 const cregisPaymentEngineModuleMenuGroups: ModuleMenuPresetGroup[] = [
+  {
+    items: [
+      { label: 'Payment Record', icon: 'eds-text-journal' },
+      { label: 'Settlement Record', icon: 'eds-task-list' },
+      { label: 'Payment Exception Record', icon: 'eds-text-abnormal', showReddot: true },
+    ],
+  },
+  {
+    title: 'Callback',
+    items: [
+      { label: 'Callback Error', icon: 'eds-text-abnormal' },
+      { label: 'History Callback', icon: 'eds-history' },
+    ],
+  },
+  {
+    items: [{ label: 'Settings', icon: 'eds-gear' }],
+  },
+];
+
+/** Cregis WaaS (Order) — 订单模式项目模块菜单（与 Payment Engine 无关）。 */
+const cregisWaasOrderModuleMenuGroups: ModuleMenuPresetGroup[] = [
   {
     items: [
       { label: 'Order Record', icon: 'eds-text-journal' },
@@ -239,7 +217,6 @@ export const cregisModuleMenuByTitle: Partial<
   WaaS: cregisWaasModuleMenuGroups,
   'WaaS (Order)': cregisWaasOrderModuleMenuGroups,
   'Payment Engine': cregisPaymentEngineModuleMenuGroups,
-  'Payment (Order)': cregisPaymentOrderModuleMenuGroups,
   Manage: cregisManageModuleMenuGroups,
   Notifications: cregisNotificationsModuleMenuGroups,
   'Account Settings': cregisAccountSettingsModuleMenuGroups,

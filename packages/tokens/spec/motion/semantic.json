@@ -121,12 +121,15 @@
       "comment": "5 · Page（页面切换）",
       "styles": [
         {
-          "title": "页面切换 · 推动 + 淡入淡出",
+          "title": "页面切换 · macOS Navigation Push / Pop",
           "className": "motion-page",
           "properties": {
             "transition": "var(--motion-recipe-page-push)"
           },
-          "notes": ["Detail / 列表详情等前后页切换"]
+          "notes": [
+            "Motion Page 体系：`.motion-page-stack` + `data-page-direction` + `.motion-layout-content`",
+            "A→B 带返回的页面切换统一走 glue · `motionPageTransition.css` + `useMotionPageStack`"
+          ]
         }
       ]
     },
@@ -142,7 +145,26 @@
           },
           "notes": [
             "浮层 shell：固定宽 + overflow hidden；A↔B 宽/高 morph 350ms · ease-8",
-            "内容：`.motion-layout-deform-content` + to-smaller/to-larger · 变矮下→上 · 变高上→下"
+            "内层 content 挂 `.motion-layout-content` + `useMotionLayoutContentSwitch`"
+          ]
+        }
+      ]
+    },
+    {
+      "comment": "7 · Layout Content（同壳内容切换 · crossfade）",
+      "styles": [
+        {
+          "title": "内容切换 · Detail Tab / Segmented / Popover 内页",
+          "className": "motion-layout-content",
+          "properties": {
+            "transition": "var(--motion-recipe-layout-deform-content)",
+            "opacity": "var(--motion-opacity-visible)",
+            "transform": "translateY(0)"
+          },
+          "notes": [
+            "同壳换内容 · translateY(+offset) crossfade；无 shell morph 时单独使用",
+            "Glue：`.is-exiting` / `.is-entering` + `useMotionLayoutContentSwitch` · 120ms mid-swap",
+            "Layout Deform / Motion Page 内层 content 亦挂本 class"
           ]
         }
       ]
@@ -165,6 +187,7 @@
     "motion-flotation",
     "motion-deform",
     "motion-page",
-    "motion-layout-deform"
+    "motion-layout-deform",
+    "motion-layout-content"
   ]
 }

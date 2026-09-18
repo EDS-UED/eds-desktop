@@ -1,48 +1,107 @@
 /**
- * Page 切换 EDS glue — Vue Transition lifecycle + 叠层布局。
+ * Motion Page — macOS App Store Navigation Push / Pop（EDS glue）
+ *
  * 必须是普通 CSS（禁止 .module.css）：生产构建若把本文件当非 module 打进包，
  * `:global()` 会原样保留，选择器无法匹配，Pages 上 motion-page 失效。
  *
- * Stack：`.motion-page-stack` + `data-page-direction="forward|backward|none"`
- * Transition：`name="motion-page"`
+ * 契约：
+ * - `.motion-page-stack` + `data-page-direction="forward|backward|none"`
+ * - `<Transition name="motion-page">` + `.motion-page` + `.motion-layout-content`
+ * - Page：Push 新页 100%→0 / 旧页 0→-18% · Pop 对称反向
+ * - Content：Forward · translateY(+offset) crossfade；Backward · 纵移 0，仅 opacity
+ *
+ * Stack / direction / idle：见 `useMotionPageStack` · `EgMotionPageStack`
  */
 
 .motion-page-stack {
   display: grid;
   grid-template: 1fr / 1fr;
+  flex: 1 1 auto;
   min-width: 0;
+  min-height: 0;
+  width: 100%;
   overflow: hidden;
+  isolation: isolate;
 }
 
-.motion-page-stack > * {
+.motion-page-stack .motion-page {
   grid-area: 1 / 1;
   min-width: 0;
+  width: 100%;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
-.motion-page-enter-active,
-.motion-page-leave-active {
-  transition: var(--motion-recipe-page-push);
+.motion-page-stack.is-animating {
+  pointer-events: none;
+}
+
+/* ── Forward (Push) ── */
+
+.motion-page-stack[data-page-direction='forward'] .motion-page-enter-active {
+  transition: var(--motion-recipe-page-enter-active);
+  z-index: 2;
+}
+
+.motion-page-stack[data-page-direction='forward'] .motion-page-leave-active {
+  transition: var(--motion-recipe-page-leave-active-forward);
+  z-index: 1;
 }
 
 .motion-page-stack[data-page-direction='forward'] .motion-page-enter-from {
-  opacity: var(--motion-opacity-hidden);
-  transform: translateX(var(--motion-offset-page-push));
+  opacity: var(--motion-opacity-page-enter-from);
+  transform: translateX(var(--motion-offset-page-enter-x));
 }
 
 .motion-page-stack[data-page-direction='forward'] .motion-page-leave-to {
-  opacity: var(--motion-opacity-hidden);
-  transform: translateX(calc(-1 * var(--motion-offset-page-push)));
+  opacity: var(--motion-opacity-page-leave-to);
+  transform: translateX(calc(-1 * var(--motion-offset-page-leave-x)));
+}
+
+/* ── Backward (Pop) ── */
+
+.motion-page-stack[data-page-direction='backward'] .motion-page-enter-active {
+  transition: var(--motion-recipe-page-enter-active-pop);
+  z-index: 1;
+}
+
+.motion-page-stack[data-page-direction='backward'] .motion-page-leave-active {
+  transition: var(--motion-recipe-page-leave-active-pop);
+  z-index: 2;
 }
 
 .motion-page-stack[data-page-direction='backward'] .motion-page-enter-from {
-  opacity: var(--motion-opacity-hidden);
-  transform: translateX(calc(-1 * var(--motion-offset-page-push)));
+  opacity: var(--motion-opacity-page-leave-to);
+  transform: translateX(calc(-1 * var(--motion-offset-page-leave-x)));
 }
 
 .motion-page-stack[data-page-direction='backward'] .motion-page-leave-to {
-  opacity: var(--motion-opacity-hidden);
-  transform: translateX(var(--motion-offset-page-push));
+  opacity: var(--motion-opacity-page-enter-from);
+  transform: translateX(var(--motion-offset-page-enter-x));
 }
+
+/* ── Content · Forward（进详情 · +offset crossfade）── */
+
+.motion-page-enter-active .motion-layout-content,
+.motion-page-leave-active .motion-layout-content {
+  transition: var(--motion-recipe-layout-deform-content);
+}
+
+.motion-page-stack[data-page-direction='forward'] .motion-page-enter-from .motion-layout-content,
+.motion-page-stack[data-page-direction='forward'] .motion-page-leave-to .motion-layout-content {
+  opacity: var(--motion-opacity-hidden);
+  transform: translateY(var(--motion-offset-layout-deform-y));
+}
+
+/* ── Content · Backward（返回 · 纵移 0，仅 opacity）── */
+
+.motion-page-stack[data-page-direction='backward'] .motion-page-enter-from .motion-layout-content,
+.motion-page-stack[data-page-direction='backward'] .motion-page-leave-to .motion-layout-content {
+  opacity: var(--motion-opacity-hidden);
+  transform: translateY(var(--motion-offset-page-content-y-pop));
+}
+
+/* ── Instant switch ── */
 
 .motion-page-stack[data-page-direction='none'] .motion-page-enter-active,
 .motion-page-stack[data-page-direction='none'] .motion-page-leave-active {
@@ -51,7 +110,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .motion-page-enter-active,
-  .motion-page-leave-active {
+  .motion-page-leave-active,
+  .motion-page-enter-active .motion-layout-content,
+  .motion-page-leave-active .motion-layout-content {
     transition: none !important;
   }
 }

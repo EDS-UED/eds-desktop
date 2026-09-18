@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import {
-  MOTION_LAYOUT_DEFORM_CONTENT,
-  MOTION_LAYOUT_DEFORM_CONTENT_ENTERING,
-  MOTION_LAYOUT_DEFORM_CONTENT_EXITING,
+  EgMotionLayoutContent,
   MOTION_LAYOUT_DEFORM_TO_LARGER,
   MOTION_LAYOUT_DEFORM_TO_SMALLER,
   useMotionLayoutDeformPageSwitch,
@@ -101,13 +99,10 @@ const resolvedDirectionMeta = computed(() => {
           :class="['motion-layout-deform', styles.shell]"
           :style="{ width: `${PANEL_WIDTH}px`, height: `${shellHeight}px` }"
         >
-          <div
-            :class="[
-              MOTION_LAYOUT_DEFORM_CONTENT,
-              contentDirection,
-              contentExiting && MOTION_LAYOUT_DEFORM_CONTENT_EXITING,
-              contentEntering && MOTION_LAYOUT_DEFORM_CONTENT_ENTERING,
-            ]"
+          <EgMotionLayoutContent
+            :class="contentDirection"
+            :content-exiting="contentExiting"
+            :content-entering="contentEntering"
           >
             <div
               v-if="activePage === 'a'"
@@ -121,7 +116,7 @@ const resolvedDirectionMeta = computed(() => {
               <div :class="styles.title">Popover B</div>
               <div :class="styles.item">{{ resolvedHeight150Label }}</div>
             </div>
-          </div>
+          </EgMotionLayoutContent>
         </div>
 
         <p :class="styles.meta">

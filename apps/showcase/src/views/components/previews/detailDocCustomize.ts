@@ -187,7 +187,7 @@ export const detailCustomizeDefaults = {
   section1ShowCollapse: false,
   section1CollapseLabel: 'Connect to EDS',
   section2Enabled: true,
-  section2ShowTitle: false,
+  section2ShowTitle: true,
   section2Title: 'Section',
   section2ItemCount: '3',
   section2ShowTitleIcon: true,
@@ -762,6 +762,16 @@ export function buildDetailSectionsFromCustomize(
   state: Record<string, unknown>,
 ): DetailSectionData[] {
   const sections: DetailSectionData[] = [buildDetailSectionFromCustomize(1, state)];
+  const activeTab = resolveDetailActiveTab(state);
+  const tabLabels = resolveDetailTabLabels(state);
+  const activeTabLabel = tabLabels[activeTab] ?? `Tab ${activeTab + 1}`;
+
+  if (sections[0]?.title) {
+    sections[0] = {
+      ...sections[0],
+      title: `${sections[0].title} · ${activeTabLabel}`,
+    };
+  }
 
   if (isDetailSection2Active(state)) {
     sections.push(buildDetailSectionFromCustomize(2, state));

@@ -128,30 +128,54 @@
   max-width: 100%;
 }
 
+.bodyFlex .titleRow {
+  width: 100%;
+}
+
 .networkTag {
   display: inline-flex;
-  flex: 0 1 auto;
-  max-width: calc(var(--scale-16) + var(--scale-6));
+  flex: 1 1 auto;
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.networkTag :global(.eds-anchored-tooltip) {
+  display: inline-flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.networkTag :global(.eds-anchored-tooltip .trigger) {
+  display: inline-flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
 }
 
 .networkTag :global(.eds-tag) {
+  display: inline-flex;
+  flex: 1 1 auto;
+  width: 100%;
   max-width: 100%;
   min-width: 0;
+  overflow: hidden;
+  justify-content: flex-start;
 }
 
 .symbolTextWrap {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-width: 0;
   max-width: 100%;
 }
 
 .networkSuffix {
   flex: 0 1 auto;
-  max-width: calc(var(--scale-16) + var(--scale-6));
   min-width: 0;
-  overflow: hidden;
+  max-width: 100%;
   color: var(--text-base-secondary);
   font-size: var(--eds-body-medium-size);
   line-height: var(--eds-body-medium-line-height);

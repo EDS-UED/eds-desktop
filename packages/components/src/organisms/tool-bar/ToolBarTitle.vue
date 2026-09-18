@@ -22,7 +22,10 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="eds-tool-bar-title" :class="styles.titleRow">
+  <div
+    class="eds-tool-bar-title"
+    :class="[styles.titleRow, showBack && styles.titleRowWithBack]"
+  >
     <EgIconButton
       v-if="showBack"
       size="md"

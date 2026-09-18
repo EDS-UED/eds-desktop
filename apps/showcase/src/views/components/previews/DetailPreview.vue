@@ -75,6 +75,16 @@ const detailActiveTab = computed({
   },
 });
 
+const detailToolbarPageKey = computed(
+  () => (Boolean(customize.showTabs) ? `preview:tab-${detailActiveTab.value}` : undefined),
+);
+
+const detailShowToolbarNav = computed(
+  () =>
+    (Boolean(customize.showTabs) && !Boolean(customize.showToolbar))
+    || (Boolean(customize.showToolbar) && Boolean(customize.showToolbarNav)),
+);
+
 const usageSnippet = computed(() => buildDetailUsageSnippet(customize));
 
 watch(detailTabLabels, (labels) => {
@@ -211,7 +221,8 @@ function closeOrdersPopup() {
               :sections="detailSections"
               :show-toolbar="Boolean(customize.showToolbar)"
               :toolbar-divider-pinned="Boolean(customize.toolbarDividerPinned)"
-              :show-toolbar-nav="Boolean(customize.showToolbarNav)"
+              :show-toolbar-nav="detailShowToolbarNav"
+              :toolbar-page-key="detailToolbarPageKey"
               :show-toolbar-note="Boolean(customize.showToolbarNote)"
               :toolbar-current="String(customize.toolbarCurrent)"
               :toolbar-total="String(customize.toolbarTotal)"

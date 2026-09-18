@@ -11,6 +11,15 @@ export type AnimationCatalogMeta = {
 
 export const animationCatalogMeta: AnimationCatalogMeta[] = [
   {
+    slug: 'motion-page-navigation',
+    name: 'MotionPage',
+    scenario: 'verify-ring-dots',
+    description: showcaseText(
+      'macOS App Store Navigation Push / Pop (.motion-page).',
+      'macOS App Store 风格页面 Push / Pop（.motion-page）。',
+    ),
+  },
+  {
     slug: 'verification-ring-dots',
     name: 'VerificationRingDots',
     scenario: 'verify-ring-dots',

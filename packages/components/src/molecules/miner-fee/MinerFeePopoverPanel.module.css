@@ -115,7 +115,7 @@
 }
 
 .minerFeeDeformShell:global([data-miner-fee-screen='custom'])
-  > :global(.motion-layout-deform-content) {
+  > :global(.motion-layout-content) {
   height: 100%;
 }
 

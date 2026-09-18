@@ -129,8 +129,8 @@ const cregisTasksModuleMenuGroups: ModuleMenuPresetGroup[] = [
   },
 ];
 
-/** Cregis Payment (Order) — WaaS 订单模式同步项目的模块菜单。 */
-export const cregisPaymentOrderModuleMenuGroups: ModuleMenuPresetGroup[] = [
+/** Cregis Payment Engine — 支付引擎项目模块菜单。 */
+export const cregisPaymentEngineModuleMenuGroups: ModuleMenuPresetGroup[] = [
   {
     items: [
       { label: 'Payment Record', icon: 'eds-text-journal' },
@@ -150,7 +150,8 @@ export const cregisPaymentOrderModuleMenuGroups: ModuleMenuPresetGroup[] = [
   },
 ];
 
-const cregisPaymentEngineModuleMenuGroups: ModuleMenuPresetGroup[] = [
+/** Cregis WaaS (Order) — WaaS 订单模式项目模块菜单（与 Payment Engine 无关）。 */
+export const cregisWaasOrderModuleMenuGroups: ModuleMenuPresetGroup[] = [
   {
     items: [
       { label: 'Order Record', icon: 'eds-text-journal' },

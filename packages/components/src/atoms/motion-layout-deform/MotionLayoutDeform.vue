@@ -1,10 +1,8 @@
 <script setup lang="ts" generic="T extends string">
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import styles from './MotionLayoutDeform.module.css';
+import { EgMotionLayoutContent } from '../motion-layout-content';
 import {
-  MOTION_LAYOUT_DEFORM_CONTENT,
-  MOTION_LAYOUT_DEFORM_CONTENT_ENTERING,
-  MOTION_LAYOUT_DEFORM_CONTENT_EXITING,
   useMotionLayoutDeformPageSwitch,
   type MotionLayoutDeformPageSpec,
 } from './motionLayoutDeform';
@@ -52,12 +50,6 @@ const {
 
 const measureRefs = ref<Partial<Record<T, HTMLElement>>>({});
 const pendingExternalSwitch = ref(false);
-
-const contentClass = computed(() => [
-  MOTION_LAYOUT_DEFORM_CONTENT,
-  contentExiting.value && MOTION_LAYOUT_DEFORM_CONTENT_EXITING,
-  contentEntering.value && MOTION_LAYOUT_DEFORM_CONTENT_ENTERING,
-]);
 
 function setMeasureRef(page: T) {
   return (element: unknown) => {
@@ -193,14 +185,17 @@ defineExpose({
       :style="{ height: `${shellHeight}px`, ...($attrs.style as object | undefined) }"
       v-bind="{ ...$attrs, class: undefined, style: undefined }"
     >
-      <div :class="contentClass">
+      <EgMotionLayoutContent
+        :content-exiting="contentExiting"
+        :content-entering="contentEntering"
+      >
         <slot
           v-if="slots[activePage as T]"
           :name="activePage as T"
           :measure-only="false"
           :active="true"
         />
-      </div>
+      </EgMotionLayoutContent>
     </div>
   </div>
 </template>

@@ -36,7 +36,11 @@
         "eds-motion-ease-5": "linear",
         "eds-motion-ease-6": "cubic-bezier(0.34, 1.4, 0.64, 1)",
         "eds-motion-ease-7": "cubic-bezier(0.34, 1.45, 0.64, 1)",
-        "eds-motion-ease-8": "cubic-bezier(0.22, 1, 0.36, 1)"
+        "eds-motion-ease-8": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "eds-motion-ease-9": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "eds-motion-ease-10": "cubic-bezier(0.3, 0, 0.8, 0.15)",
+        "eds-motion-ease-11": "cubic-bezier(0.12, 0.8, 0.2, 1)",
+        "eds-motion-ease-12": "cubic-bezier(0.2, 0.8, 0.2, 1)"
       },
       "usageNotes": [
         "ease-1 = 缓入缓出（对称 hover，默认）",
@@ -54,8 +58,42 @@
         { "name": "motion-offset-small", "value": "var(--spacing-2)", "comment": "8px · shift" },
         { "name": "motion-offset-nudge-y", "value": "calc(-1 * var(--spacing-1-5))", "comment": "-6px · nudge（legacy）" },
         { "name": "motion-offset-flotation-y", "value": "calc(-1 * var(--spacing-2-5))", "comment": "-10px · Flotation 入场" },
-        { "name": "motion-offset-page-push", "value": "30%", "comment": "页面推动位移（相对容器宽度）" },
-        { "name": "motion-offset-layout-deform-y", "value": "var(--spacing-2-5)", "comment": "10px · Layout Deform 内容 vertical nudge（Popover crossfade）" }
+        {
+          "name": "motion-offset-page-enter-x",
+          "value": "100%",
+          "comment": "Motion Page Push · 新页从右侧进入"
+        },
+        {
+          "name": "motion-offset-page-leave-x",
+          "value": "18%",
+          "comment": "Motion Page Push · 旧页 parallax 后退"
+        },
+        {
+          "name": "motion-offset-page-content-enter",
+          "value": "calc(var(--spacing-5) + var(--spacing-05))",
+          "comment": "22px · Motion Page content parallax 进入"
+        },
+        {
+          "name": "motion-offset-page-content-leave",
+          "value": "var(--spacing-2)",
+          "comment": "8px · Motion Page content parallax 离开"
+        },
+        {
+          "name": "motion-opacity-page-enter-from",
+          "value": "0.96",
+          "comment": "Motion Page Push · 新页起始 opacity"
+        },
+        {
+          "name": "motion-opacity-page-leave-to",
+          "value": "0.94",
+          "comment": "Motion Page Push · 旧页结束 opacity"
+        },
+        { "name": "motion-offset-layout-deform-y", "value": "var(--spacing-2-5)", "comment": "10px · Layout Deform 内容 vertical nudge（Popover crossfade）" },
+        {
+          "name": "motion-offset-page-content-y-pop",
+          "value": "0",
+          "comment": "Motion Page Pop · 内层 content 纵移；0 = 返回时不上下挪"
+        }
       ]
     }
   ]
