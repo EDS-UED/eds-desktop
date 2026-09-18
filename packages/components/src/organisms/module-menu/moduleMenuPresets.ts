@@ -129,6 +129,27 @@ const cregisTasksModuleMenuGroups: ModuleMenuPresetGroup[] = [
   },
 ];
 
+/** Cregis Risk Control — 风控模块菜单。 */
+export const cregisRiskControlModuleMenuGroups: ModuleMenuPresetGroup[] = [
+  {
+    items: [
+      { label: 'Policy Settings', icon: 'eds-engine' },
+      { label: 'Automation', icon: 'eds-automatic' },
+      { label: 'AML', icon: 'eds-aml-search' },
+    ],
+  },
+  {
+    items: [{ label: 'Logs', icon: 'eds-text-logs' }],
+  },
+  {
+    title: 'Address Book',
+    items: [
+      { label: 'Whitelist', icon: 'eds-white-list' },
+      { label: 'Blacklist', icon: 'eds-black-list' },
+    ],
+  },
+];
+
 /** Cregis Payment Engine — 支付引擎项目模块菜单。 */
 export const cregisPaymentEngineModuleMenuGroups: ModuleMenuPresetGroup[] = [
   {
@@ -306,6 +327,7 @@ export const cregisModuleMenuByTitle: Partial<
   Tasks: cregisTasksModuleMenuGroups,
   WaaS: cregisWaasModuleMenuGroups,
   'Payment Engine': cregisPaymentEngineModuleMenuGroups,
+  'Risk Control': cregisRiskControlModuleMenuGroups,
   Manage: cregisManageModuleMenuGroups,
   Notifications: cregisNotificationsModuleMenuGroups,
   'Account Settings': cregisAccountSettingsModuleMenuGroups,

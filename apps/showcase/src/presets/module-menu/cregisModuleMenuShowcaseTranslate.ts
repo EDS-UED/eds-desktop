@@ -157,9 +157,9 @@ const CREGIS_MODULE_MENU_SHOWCASE_LABELS: Record<string, LocaleLabelMap> = {
   },
   'Settlement Record': {
     'en-US': 'Settlement Record',
-    'zh-CN': '批量转账记录',
-    'zh-TW': '批量轉賬記錄',
-    'zh-HK': '批量轉賬記錄',
+    'zh-CN': '结算记录',
+    'zh-TW': '結算記錄',
+    'zh-HK': '結算記錄',
   },
   'Payment Exception Record': {
     'en-US': 'Payment Exception Record',
@@ -184,6 +184,48 @@ const CREGIS_MODULE_MENU_SHOWCASE_LABELS: Record<string, LocaleLabelMap> = {
     'zh-CN': '退款记录',
     'zh-TW': '退款記錄',
     'zh-HK': '退款記錄',
+  },
+  'Policy Settings': {
+    'en-US': 'Policy Settings',
+    'zh-CN': '策略',
+    'zh-TW': '策略',
+    'zh-HK': '策略',
+  },
+  Automation: {
+    'en-US': 'Automation',
+    'zh-CN': '自动化',
+    'zh-TW': '自動化',
+    'zh-HK': '自動化',
+  },
+  AML: {
+    'en-US': 'AML',
+    'zh-CN': 'AML',
+    'zh-TW': 'AML',
+    'zh-HK': 'AML',
+  },
+  Logs: {
+    'en-US': 'Logs',
+    'zh-CN': '日志',
+    'zh-TW': '日誌',
+    'zh-HK': '日誌',
+  },
+  'Address Book': {
+    'en-US': 'Address Book',
+    'zh-CN': '地址簿',
+    'zh-TW': '地址簿',
+    'zh-HK': '地址簿',
+  },
+  Whitelist: {
+    'en-US': 'Whitelist',
+    'zh-CN': '白名单',
+    'zh-TW': '白名單',
+    'zh-HK': '白名單',
+  },
+  Blacklist: {
+    'en-US': 'Blacklist',
+    'zh-CN': '黑名单',
+    'zh-TW': '黑名單',
+    'zh-HK': '黑名單',
   },
 };
 

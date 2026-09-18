@@ -38,7 +38,7 @@ export const DEFAULT_UDUN_MODULE_MENU_BUSINESS_TITLE: UdunModuleMenuBusinessTitl
 
 /** Cregis：已在 `cregisModuleMenuByTitle` 单独维护菜单组数据的模块。 */
 export const cregisModuleMenuBusinessTitlesWithMenuPreset: readonly CregisModuleMenuBusinessTitle[] =
-  ['Tasks', 'Payment Engine', 'Manage', 'Notifications', 'Account Settings'];
+  ['Tasks', 'Payment Engine', 'Risk Control', 'Manage', 'Notifications', 'Account Settings'];
 
 /** UDun：已在 `udunModuleMenuByTitle` 单独维护菜单组数据的模块。 */
 export const udunModuleMenuBusinessTitlesWithMenuPreset: readonly UdunModuleMenuBusinessTitle[] = [];
