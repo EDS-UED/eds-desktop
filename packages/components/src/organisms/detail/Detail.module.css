@@ -204,7 +204,7 @@
   align-items: stretch;
   gap: var(--spacing-4);
   width: 100%;
-  padding: var(--spacing-5) var(--spacing-3) var(--spacing-3);
+  padding: var(--spacing-4) var(--spacing-3) var(--spacing-3);
   box-sizing: border-box;
 }
 
@@ -230,12 +230,8 @@
   box-sizing: border-box;
 }
 
-.sections .sectionContent ~ .sectionContent .sectionTitleRow {
-  padding-top: var(--spacing-1);
-}
-
 .sectionTitle {
-  padding: var(--spacing-0) 0 var(--spacing-2) var(--spacing-3);
+  padding: var(--spacing-1) 0 var(--spacing-2) var(--spacing-3);
   box-sizing: border-box;
   color: var(--text-base-primary);
   font-size: var(--eds-body-small-strong-size);
