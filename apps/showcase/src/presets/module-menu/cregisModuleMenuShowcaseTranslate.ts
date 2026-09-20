@@ -151,9 +151,9 @@ const CREGIS_MODULE_MENU_SHOWCASE_LABELS: Record<string, LocaleLabelMap> = {
   },
   'Payment Record': {
     'en-US': 'Payment Record',
-    'zh-CN': '订单记录',
-    'zh-TW': '訂單記錄',
-    'zh-HK': '訂單記錄',
+    'zh-CN': '支付记录',
+    'zh-TW': '支付記錄',
+    'zh-HK': '支付記錄',
   },
   'Settlement Record': {
     'en-US': 'Settlement Record',
