@@ -151,12 +151,15 @@ function onKeydown(event: KeyboardEvent) {
       </slot>
     </span>
 
-    <span v-if="showLeading" :class="styles.boxLeading">
+    <span
+      v-if="showLeading"
+      :class="[styles.boxLeading, boxType === 'image-text' && styles.boxLeadingImage]"
+    >
       <slot name="leading">
         <EgCrypto
           v-if="boxType === 'image-text'"
           :name="leadingCryptoName"
-          size="sm"
+          size="md"
           fit
         />
         <EgIcon v-else :name="leadingAsset" size="sm" fit />

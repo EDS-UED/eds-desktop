@@ -128,7 +128,7 @@ export function createFlotationBoxItemDefaults(): Record<string, string | boolea
     out[flotationBoxItemKey('ShowMessage', n)] = false;
     out[flotationBoxItemKey('MessageText', n)] = '0';
     out[flotationBoxItemKey('MessageType', n)] = 'subtle';
-    out[flotationBoxItemKey('SymbolIcon', n)] = 'eds-add';
+    out[flotationBoxItemKey('SymbolIcon', n)] = '';
   }
   return out;
 }
@@ -787,10 +787,14 @@ export function buildFlotationPresetItems(
     const boxType = parseFlotationBoxItemType(state ?? {});
     const leadingDefault = flotationBoxItemLeadingDefault(boxType);
     const leadingRaw = state?.[flotationBoxItemKey('SymbolIcon', n)];
-    const leadingAsset =
-      leadingRaw != null && String(leadingRaw).trim() !== ''
-        ? String(leadingRaw)
-        : leadingDefault;
+    const leadingTrimmed = leadingRaw != null ? String(leadingRaw).trim() : '';
+    let leadingAsset = leadingTrimmed !== '' ? leadingTrimmed : leadingDefault;
+    if (boxType === 'image-text') {
+      const isValidCrypto =
+        leadingTrimmed !== '' &&
+        flotationCryptoOptions.some((option) => option.value === leadingTrimmed);
+      leadingAsset = isValidCrypto ? leadingTrimmed : leadingDefault;
+    }
 
     const tagStatusRaw = String(state?.[flotationBoxItemKey('TagStatus', n)] ?? 'danger');
     const tagStatuses = ['danger', 'warning', 'success', 'ready', 'invalid'] as const;

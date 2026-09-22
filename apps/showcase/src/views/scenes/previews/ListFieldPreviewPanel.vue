@@ -169,6 +169,27 @@ const fullAddress = () => String(props.customize.address ?? SAMPLE_ADDRESS);
 const displayMode = () => String(props.customize.displayMode ?? 'single');
 
 const amountType = () => String(props.customize.amountType ?? 'conversion');
+const amountAddressType = () => String(props.customize.addressType ?? 'single');
+const amountAddressState = computed(() => ({
+  ...props.customize,
+  symbol: cryptoAmountSymbol.value,
+}));
+const amountFromAddress = computed(() => buildCurrencySideAddressData('from', amountAddressState.value));
+const amountToAddress = computed(() => buildCurrencySideAddressData('to', amountAddressState.value));
+const amountFromTagsList = computed(() =>
+  props.slug === 'list-field-amount' &&
+  amountType() === 'amount-address' &&
+  amountAddressType() === 'double'
+    ? buildCurrencySideTagsList('from', amountAddressState.value)
+    : undefined,
+);
+const amountToTagsList = computed(() =>
+  props.slug === 'list-field-amount' &&
+  amountType() === 'amount-address' &&
+  amountAddressType() === 'double'
+    ? buildCurrencySideTagsList('to', amountAddressState.value)
+    : undefined,
+);
 const fiatValue = () => String(props.customize.fiatValue ?? '$10');
 const cryptoValue = () => String(props.customize.cryptoValue ?? '12,500.000001');
 const cryptoAmountSymbol = computed(() => {
@@ -222,7 +243,7 @@ const showCountdown = computed(() => {
     return !hashLikeIsDoubleLine.value;
   }
   if (props.slug === 'list-field-amount') {
-    return amountType() !== 'fiat';
+    return amountType() !== 'fiat' && amountType() !== 'amount-address';
   }
   return false;
 });
@@ -626,6 +647,50 @@ const actionMinWidthStyle = computed(() => {
           <span :class="styles.generalStructureCountdownTime">{{ countdownTime }}</span>
           <span :class="styles.generalStructureCountdownSuffix"> Until Expiry</span>
         </span>
+      </div>
+      <div v-else-if="amountType() === 'amount-address'" :class="styles.amountPreview" :style="cellMinWidthStyle">
+        <div :class="styles.amountPrimaryRow">
+          <span v-if="showAmountCryptoIcon" :class="styles.cryptoInlineIcon">
+            <EgCrypto :name="cryptoAmountCryptoName" fit :label="cryptoAmountSymbol" />
+          </span>
+          <EgListFieldOverflowText
+            :text="cryptoAmountText"
+            variant="primary"
+            tabular
+            :tooltip-trigger="listFieldTooltipTrigger"
+          />
+          <EgTag
+            v-if="showAmountTag"
+            size="sm"
+            :system-type="amountTagSystemType"
+          >
+            {{ amountTagLabel }}
+          </EgTag>
+        </div>
+        <EgListFieldOverflowText
+          v-if="amountAddressType() === 'single'"
+          :text="fullAddress()"
+          variant="secondary"
+          :tooltip-trigger="listFieldTooltipTrigger"
+        />
+        <EgCryptoAddress
+          v-else
+          address-mode="double"
+          :from-text="amountFromAddress.address"
+          :from-alias="amountFromAddress.alias || undefined"
+          :to-text="amountToAddress.address"
+          :to-alias="amountToAddress.alias || undefined"
+          :from-address-count="amountFromAddress.count"
+          :to-address-count="amountToAddress.count"
+          :from-addresses="amountFromAddress.addresses"
+          :to-addresses="amountToAddress.addresses"
+          :from-tags-list="amountFromTagsList"
+          :to-tags-list="amountToTagsList"
+          :show-from="resolveCurrencySideVisible('from', customize)"
+          :show-to="resolveCurrencySideVisible('to', customize)"
+          :min-width="addressMinWidth"
+          :address-tooltip-trigger="addressTooltipTrigger"
+        />
       </div>
       <div v-else :class="styles.amountPreview" :style="cellMinWidthStyle">
         <div :class="styles.amountPrimaryRow">

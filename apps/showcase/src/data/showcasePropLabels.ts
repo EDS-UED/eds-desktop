@@ -59,6 +59,7 @@ const CHINESE_OPTION_I18N: Record<string, string> = {
   法币: 'Fiat',
   加密货币: 'Crypto',
   折合: 'Converted',
+  金额和地址: 'Amount and address',
   左: 'Left',
   中: 'Center',
   右: 'Right',

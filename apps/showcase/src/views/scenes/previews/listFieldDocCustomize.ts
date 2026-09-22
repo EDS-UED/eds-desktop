@@ -194,6 +194,7 @@ const amountTypeOptions = [
   chineseOption('fiat', '法币'),
   chineseOption('crypto', '加密货币'),
   chineseOption('conversion', '折合'),
+  chineseOption('amount-address', '金额和地址'),
 ];
 
 export type ListFieldCustomizePanel = {
@@ -495,6 +496,32 @@ function buildAmountUsageSnippet(state: Record<string, unknown>): string {
     return ['<div class="list-field-amount">', primary, buildCountdownUsageSnippet(state), '</div>'].join(
       '\n',
     );
+  }
+
+  if (amountType === 'amount-address') {
+    const symbol = String(state.cryptoSymbol ?? 'USDT');
+    const primary = buildAmountPrimaryRowSnippet(state, symbol, '12,500.000001');
+    const addressType = String(state.addressType ?? 'single');
+
+    if (addressType === 'double') {
+      const cryptoProps = buildAddressCryptoProps({ ...state, symbol });
+      return [
+        '<div class="list-field-amount">',
+        primary,
+        `  ${buildVueSelfClosingSnippet('EgCryptoAddress', cryptoProps, {
+          defaults: { 'address-mode': 'double', 'address-tooltip-trigger': 'hover' },
+        })}`,
+        '</div>',
+      ].join('\n');
+    }
+
+    const address = String(state.address ?? SAMPLE_ADDRESS);
+    return [
+      '<div class="list-field-amount">',
+      primary,
+      `  <span class="typography-footnote">${address}</span>`,
+      '</div>',
+    ].join('\n');
   }
 
   const symbol = String(state.cryptoSymbol ?? 'USDT');
@@ -1443,13 +1470,21 @@ const generalStructureConfig: ListFieldDocConfig = {
 
 const amountConfig: ListFieldDocConfig = {
   componentTag: 'EgListFieldAmount',
-  importCode: `${LIST_FIELD_IMPORT}\n// formatGroupedNumber for grouped digits`,
+  importCode: `${LIST_FIELD_IMPORT}\nimport { EgCryptoAddress } from '@eds/desktop-components';\n// formatGroupedNumber for grouped digits`,
   propsSectionId: 'list-field-amount-props',
+  compactPreview: true,
+  customizeSequential: true,
+  customizeRowColumns: 5,
   customizeDefaults: {
     amountType: 'conversion',
     fiatValue: '$12,500.01',
     cryptoValue: '12,500.000001',
     cryptoSymbol: 'USDT',
+    addressType: 'single',
+    address: SAMPLE_ADDRESS,
+    addressTooltipTrigger: 'hover',
+    ...currencySideAddressDefaults('from', 'USDT'),
+    ...currencySideAddressDefaults('to', 'USDT'),
     showCryptoIcon: true,
     showAmountTag: true,
     amountTagSystemType: 'stroke-subtle',
@@ -1465,50 +1500,68 @@ const amountConfig: ListFieldDocConfig = {
       key: 'amountType',
       label: showcaseText('Type amountType', '类型 amountType'),
       options: amountTypeOptions,
-      row: 1,
+      row: 0,
     },
-    listFieldMinWidthControl(1),
+    listFieldMinWidthControl(0),
+    {
+      kind: 'select',
+      key: 'addressType',
+      label: showcaseText('Address type addressType', '地址类型 addressType'),
+      options: addressDisplayOptions,
+      row: 0,
+      visibleWhen: (state) => state.amountType === 'amount-address',
+    },
     {
       kind: 'text',
       key: 'fiatValue',
       label: showcaseText('Fiat currency fiatValue', '法币 fiatValue'),
-      row: 2,
-      visibleWhen: (state) => state.amountType !== 'crypto',
+      row: 1,
+      visibleWhen: (state) =>
+        state.amountType === 'fiat' || state.amountType === 'conversion',
+    },
+    {
+      kind: 'text',
+      key: 'address',
+      label: showcaseText('Address address', '地址 address'),
+      row: 1,
+      visibleWhen: (state) =>
+        state.amountType === 'amount-address' &&
+        String(state.addressType ?? 'single') === 'single',
     },
     {
       kind: 'text',
       key: 'cryptoValue',
       label: showcaseText('Count cryptoValue', '数量 cryptoValue'),
-      row: 2,
+      row: 1,
       visibleWhen: (state) => state.amountType !== 'fiat',
     },
     {
       kind: 'text',
       key: 'cryptoSymbol',
       label: showcaseText('Currency cryptoSymbol', '币种 cryptoSymbol'),
-      row: 2,
+      row: 1,
       visibleWhen: (state) => state.amountType !== 'fiat',
     },
     {
       kind: 'boolean',
       key: 'showCryptoIcon',
       label: showcaseText('Show currency icon', '显示币种图标'),
-      row: 2,
+      row: 1,
       visibleWhen: (state) => state.amountType !== 'fiat',
     },
     {
       kind: 'boolean',
       key: 'showAmountTag',
       label: showcaseText('Show Tag', '显示 Tag'),
-      row: 2,
+      row: 1,
       visibleWhen: (state) => state.amountType !== 'fiat',
     },
     {
       kind: 'boolean',
       key: 'showCountdown',
       label: showcaseText('Show countdown', '显示倒计时'),
-      row: 2,
-      visibleWhen: (state) => state.amountType !== 'fiat',
+      row: 1,
+      visibleWhen: (state) => state.amountType === 'conversion',
     },
   ],
   customizePanels: [
@@ -1522,19 +1575,37 @@ const amountConfig: ListFieldDocConfig = {
       title: showcaseText('Countdown', '倒计时'),
       controls: countdownTimeCustomizeControls,
       visibleWhen: (state) =>
-        state.amountType !== 'fiat' && Boolean(state.showCountdown),
+        state.amountType === 'conversion' && Boolean(state.showCountdown),
     },
   ],
   propRows: [
     sceneProp(
       'amountType',
-      "'fiat' | 'crypto' | 'conversion'",
+      "'fiat' | 'crypto' | 'conversion' | 'amount-address'",
       "'crypto'",
-      showcaseText('[doc] 、、orRow。', '法币、加密货币、或带折合行。'),
+      showcaseText(
+        '[doc] 、、、orRow。',
+        '法币、加密货币、折合、或主行金额 + 副行地址。',
+      ),
     ),
     sceneProp('groupSeparator', 'boolean', 'true', showcaseText('[doc] 。', '千分位分隔符。')),
     sceneProp('fiatPrecision', 'number', '2', showcaseText('[doc] 。', '法币小数精度。')),
     sceneProp('conversionLine', 'string', '-', showcaseText('[doc] Row：`Count ≈ `。', '折合行：`数量 币种 ≈ 折合法币`。')),
+    sceneProp(
+      'addressType',
+      "'single' | 'double'",
+      "'single'",
+      showcaseText(
+        '[doc] amount-address: Row or /。',
+        'amount-address 类型：副行单地址或双地址（发送方/接收方）。',
+      ),
+    ),
+    sceneProp(
+      'address',
+      'string',
+      '-',
+      showcaseText('[doc] amount-address RowAddress。', 'amount-address 单地址：副行地址文案。'),
+    ),
     sceneProp('cryptoSymbol', 'string', "'USDT'", showcaseText('[doc] / RowIcon； EgCrypto Icon。', '加密货币 / 折合主行币种符号；驱动 EgCrypto 图标。')),
     sceneProp('showCryptoIcon', 'boolean', 'true', showcaseText('[doc] Rowotherwise EgCrypto Icon（`--avatar-xs`）。', '主行是否展示 EgCrypto 图标（`--avatar-xs`）。')),
     sceneProp('showAmountTag', 'boolean', 'true', showcaseText('[doc] Rowotherwise EgTag（spacing-1，Fixed Sm）。', '主行是否展示 EgTag（spacing-1，固定 Sm）。')),

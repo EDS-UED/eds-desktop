@@ -40,7 +40,6 @@ function onLevelSelect(index: number) {
       <span :class="styles.settingsLabel">{{ levelLabel }}</span>
       <EgSegmented
         v-model="levelIndexModel"
-        size="md"
         shape="square"
         item-width-mode="fixed"
         :labels="levelLabels"

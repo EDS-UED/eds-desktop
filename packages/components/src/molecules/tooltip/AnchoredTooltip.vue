@@ -24,6 +24,7 @@ import {
 } from '../../shared/cssSpacingTokens';
 import '../../styles/overlayGlassMicroFloat.module.css';
 import styles from './AnchoredTooltip.module.css';
+import { resolveNearestThemeScope, type ThemeMode } from '../../composables/useTheme';
 import { registerAnchoredTooltipClose, setClickAnchoredTooltipOpen } from './anchoredTooltipManager';
 
 export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
@@ -115,6 +116,7 @@ const emit = defineEmits<{
 
 const triggerRef = ref<HTMLElement | null>(null);
 const floatingRef = ref<HTMLElement | null>(null);
+const floatingTheme = ref<ThemeMode | undefined>(undefined);
 const open = ref(false);
 const resolvedPlacement = ref<TooltipPlacement>(props.placement);
 const floatingStyle = ref<Record<string, string>>({});
@@ -647,12 +649,41 @@ function unbindWindowListeners() {
   window.removeEventListener('resize', updatePosition);
 }
 
+let themeScopeObserver: MutationObserver | undefined;
+
+function unbindThemeScopeObserver() {
+  themeScopeObserver?.disconnect();
+  themeScopeObserver = undefined;
+}
+
+function syncFloatingTheme() {
+  floatingTheme.value = resolveNearestThemeScope(triggerRef.value) ?? undefined;
+}
+
+function bindThemeScopeObserver() {
+  unbindThemeScopeObserver();
+
+  const trigger = triggerRef.value;
+  if (!trigger) return;
+
+  const scope = trigger.closest('[data-theme]');
+  if (!scope) return;
+
+  themeScopeObserver = new MutationObserver(() => {
+    syncFloatingTheme();
+  });
+  themeScopeObserver.observe(scope, { attributes: true, attributeFilter: ['data-theme'] });
+}
+
 function onFloatingBeforeEnter(el: Element) {
   floatingRef.value = el as HTMLElement;
+  syncFloatingTheme();
   updatePosition();
 }
 
 function bindOpenSideEffects() {
+  syncFloatingTheme();
+  bindThemeScopeObserver();
   bindFloatingResizeObserver();
   bindWindowListeners();
   requestAnimationFrame(() => {
@@ -668,6 +699,7 @@ function bindOpenSideEffects() {
 }
 
 function unbindOpenSideEffects() {
+  unbindThemeScopeObserver();
   unbindFloatingResizeObserver();
   unbindWindowListeners();
   document.removeEventListener('pointerdown', onDocumentPointerDown, true);
@@ -787,6 +819,7 @@ defineExpose({
           ref="floatingRef"
           :id="describedById"
           :class="[styles.floating, tokenScopeClass]"
+          :data-theme="floatingTheme"
           :style="floatingStyle"
           @mouseenter="trigger === 'hover' ? onFloatingEnter() : undefined"
           @mouseleave="trigger === 'hover' ? onFloatingLeave() : undefined"

@@ -457,6 +457,11 @@
   color: var(--stroke-base-secondary);
 }
 
+.boxLeadingImage {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
 .boxLeading :global(.eds-i-f) {
   fill: currentColor;
 }

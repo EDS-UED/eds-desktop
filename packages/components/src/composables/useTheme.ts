@@ -2,6 +2,19 @@ export type ThemeMode = 'light' | 'dark';
 
 const STORAGE_KEY = 'evergreen-theme';
 
+/** 触发器所在最近的主题作用域（Showcase 内容区 / documentElement 等）。 */
+export function resolveNearestThemeScope(el: HTMLElement | null): ThemeMode | null {
+  if (!el) return null;
+
+  const scope = el.closest('[data-theme]');
+  if (!scope) return null;
+
+  const theme = scope.getAttribute('data-theme');
+  if (theme === 'light' || theme === 'dark') return theme;
+
+  return null;
+}
+
 export function getPreferredTheme(): ThemeMode {
   if (typeof window === 'undefined') return 'light';
 
