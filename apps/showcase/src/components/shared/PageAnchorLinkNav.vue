@@ -123,7 +123,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <nav ref="listRef" :class="styles.nav">
+  <nav ref="listRef" :class="styles.nav" data-no-corner-smoothing>
     <div
       :class="[
         styles.activeIndicator,

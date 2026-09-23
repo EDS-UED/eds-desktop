@@ -105,7 +105,7 @@ onBeforeUnmount(() => {
 
 <template>
   <aside :class="styles.anchors" aria-label="Page anchors">
-    <nav ref="listRef" :class="styles.nav">
+    <nav ref="listRef" :class="styles.nav" data-no-corner-smoothing>
       <div
         :class="[
           styles.activeIndicator,

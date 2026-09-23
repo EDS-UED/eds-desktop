@@ -1113,10 +1113,20 @@ function buildTypographyFonts() {
     copyFileSync(join(srcFontsDir, fileName), join(distFontsDir, fileName));
   }
 
+  // EDS Text source TTFs have usWinAscent/Descent rewritten to sTypo metrics
+  // (1932 / 572). Raw win metrics were ~24px at 15px and grew the line box past
+  // --line-height-lg (22px). ascent-override covers browsers that still read OS/2.
+  const edsTextMetricsOverride = {
+    ascentOverride: '96.6%',
+    descentOverride: '28.6%',
+    lineGapOverride: '0%',
+  };
+
   const fontFamilies = [
     {
       name: 'EDS Text',
       comment: 'UI font (Regular / Medium / SemiBold / Bold).',
+      metricsOverride: edsTextMetricsOverride,
       faces: [
         { weight: 400, file: 'EDSText-Regular.ttf' },
         { weight: 500, file: 'EDSText-Medium.ttf' },
@@ -1154,7 +1164,14 @@ function buildTypographyFonts() {
       lines.push('  font-style: normal;');
       lines.push(`  font-weight: ${face.weight};`);
       lines.push('  font-display: swap;');
-      lines.push(`  src: url('../../assets/fonts/${face.file}') format('truetype');`);
+      if (family.metricsOverride) {
+        lines.push(`  ascent-override: ${family.metricsOverride.ascentOverride};`);
+        lines.push(`  descent-override: ${family.metricsOverride.descentOverride};`);
+        lines.push(`  line-gap-override: ${family.metricsOverride.lineGapOverride};`);
+      }
+      lines.push(
+        `  src: url('../../assets/fonts/${face.file}?v=eds-typo-metrics-1') format('truetype');`,
+      );
       lines.push('}');
       lines.push('');
     }

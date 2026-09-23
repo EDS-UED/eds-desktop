@@ -56,7 +56,7 @@
   left: 0;
   box-sizing: border-box;
   width: 100%;
-  border: var(--stroke-sm) solid var(--stroke-base-secondary);
+  border: var(--stroke-xs) solid var(--stroke-base-secondary);
   border-radius: var(--radius-full);
   background-color: var(--box-page);
   opacity: 0;
@@ -88,20 +88,20 @@
   align-items: center;
   box-sizing: border-box;
   width: 100%;
+  min-height: var(--scale-8);
   padding-block: var(--spacing-2);
   padding-inline: var(--spacing-4);
-  border: var(--stroke-xs) solid transparent;
+  border: 0;
   border-radius: var(--radius-full);
   background-color: transparent;
   color: var(--text-base-secondary);
-  font-size: var(--eds-body-small-size);
-  line-height: var(--eds-body-small-line-height);
-  font-weight: var(--eds-body-small-strong-weight);
+  font-size: var(--eds-footnote-size);
+  line-height: var(--eds-footnote-line-height);
+  font-weight: var(--eds-footnote-strong-weight);
   white-space: nowrap;
   transition:
     background-color var(--eds-motion-hover-duration) ease,
-    color var(--eds-motion-hover-duration) ease,
-    border-color var(--eds-motion-hover-duration) ease;
+    color var(--eds-motion-hover-duration) ease;
 }
 
 .link:hover:not(.linkActive) {
@@ -119,8 +119,8 @@
 .link.linkNested.linkActive:focus-visible {
   background-color: var(--event-focus);
   color: var(--text-base-primary);
-  font-weight: var(--eds-body-small-strong-weight);
-  border-color: var(--stroke-color-brand);
+  font-weight: var(--eds-footnote-strong-weight);
+  outline: none;
 }
 
 .linkNested {
@@ -147,7 +147,7 @@
 
 .linkActive {
   color: var(--text-base-primary);
-  font-weight: var(--eds-body-small-strong-weight);
+  font-weight: var(--eds-footnote-strong-weight);
 }
 
 .linkActive:hover:not(:focus-visible) {
