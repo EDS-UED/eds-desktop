@@ -88,7 +88,7 @@ export type EgFilterField = {
 };
 
 export const FILTER_SELECT_PLACEHOLDER = '请选择';
-export const FILTER_TIME_RANGE_PLACEHOLDER = '开始日期 - 结束日期';
+export const FILTER_TIME_RANGE_PLACEHOLDER = '开始 - 结束';
 export const FILTER_INPUT_PLACEHOLDER = '请输入';
 export const FILTER_NUMERIC_PLACEHOLDER = '0';
 export const FILTER_NUMERIC_RANGE_MIN_PLACEHOLDER = '最小';

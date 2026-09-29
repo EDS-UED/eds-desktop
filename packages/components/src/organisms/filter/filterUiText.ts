@@ -35,9 +35,9 @@ const FILTER_UI_TEXT: Record<string, Partial<Record<FilterLocale, string>>> = {
   添加条件: { en: 'Add Condition', 'zh-TW': '新增條件' },
   筛选: { en: 'Filter', 'zh-TW': '篩選' },
   请选择: { en: 'Please Select', 'zh-TW': '請選擇' },
-  '开始日期 - 结束日期': {
-    en: 'Start Date - End Date',
-    'zh-TW': '開始日期 - 結束日期',
+  '开始 - 结束': {
+    en: 'Start - End',
+    'zh-TW': '開始 - 結束',
   },
   请输入: { en: 'Enter', 'zh-TW': '請輸入' },
   符合以下: { en: 'Match', 'zh-TW': '符合以下' },

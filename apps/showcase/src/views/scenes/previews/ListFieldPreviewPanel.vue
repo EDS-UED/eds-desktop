@@ -21,6 +21,7 @@ import {
 import type { ListFieldSceneSlug } from '@/data/scenes';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import hashLikeStyles from '../../../../../../packages/components/src/molecules/list-field/ListFieldHashLike.module.css';
+import { truncateAddressMiddle } from '../../../../../../packages/components/src/molecules/crypto-combo/cryptoAddressUtils';
 import DataListActionCell from '../../../../../../packages/components/src/organisms/data-list/DataListActionCell.vue';
 import {
   buildCurrencySideAddressData,
@@ -165,6 +166,7 @@ const addressToTagsList = computed(() =>
 const addressMinWidth = computed(() => parsePreviewMinWidth(props.customize));
 
 const fullAddress = () => String(props.customize.address ?? SAMPLE_ADDRESS);
+const truncatedAddressDisplay = computed(() => truncateAddressMiddle(fullAddress()));
 
 const displayMode = () => String(props.customize.displayMode ?? 'single');
 
@@ -676,6 +678,7 @@ const actionMinWidthStyle = computed(() => {
         <EgListFieldOverflowText
           v-if="amountAddressType() === 'single'"
           :text="fullAddress()"
+          :display-text="truncatedAddressDisplay"
           variant="secondary"
           :tooltip-trigger="listFieldTooltipTrigger"
         />
