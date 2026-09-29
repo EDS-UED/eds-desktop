@@ -23,12 +23,6 @@ export const filterPropRows: DocPropRow[] = [
     ),
   },
   {
-    name: 'operators',
-    type: 'EgFilterOperator[]',
-    defaultValue: 'DEFAULT_FILTER_OPERATORS',
-    description: showcaseText('Operator list for each condition row.', '每行可选运算符列表。'),
-  },
-  {
     name: 'logicMode',
     type: "'all' | 'any'",
     defaultValue: "'all'",
@@ -141,8 +135,8 @@ export const filterCompositionRows: DocPropRow[] = [
     type: 'EgFilterFieldKind',
     defaultValue: '—',
     description: showcaseText(
-      'Presets: currency, member, amount, miner-fee, time, time-range, status, input, dropdown; see FILTER_FIELD_KIND_PRESETS.',
-      '预置：币种、成员、金额、矿工费、时间、时间段、状态类、输入类、下拉类；见 FILTER_FIELD_KIND_PRESETS。',
+      'Presets: currency, member, amount, gas-fee, time, time-range, status, input, dropdown; see FILTER_FIELD_KIND_PRESETS.',
+      '预置：币种、成员、金额、Gas Fee、时间、时间段、状态类、输入类、下拉类；见 FILTER_FIELD_KIND_PRESETS。',
     ),
   },
   {
@@ -150,8 +144,8 @@ export const filterCompositionRows: DocPropRow[] = [
     type: '—',
     defaultValue: '—',
     description: showcaseText(
-      'Filter panel uses EgTooltip flotation shell; field/operator pickers use EgFlotation; value editors use EgCryptoTooltip / EgMemberTooltip / EgDatePickerTooltip / EgStatusTooltip / EgInput.',
-      '面板壳为 EgTooltip flotation；字段/运算符为 EgFlotation；值编辑器为 EgCryptoTooltip / EgMemberTooltip / EgDatePickerTooltip / EgStatusTooltip / EgInput。',
+      'Filter panel uses EgTooltip flotation shell; field/operator pickers use EgFlotation; value editors use EgCryptoTooltip / EgMemberTooltip / EgDatePickerTooltip / EgStatusTooltip / EgInput. Operators are resolved by EgFilterField.kind (amount / gas-fee → numeric; others → content).',
+      '面板壳为 EgTooltip flotation；字段/运算符为 EgFlotation；值编辑器为 EgCryptoTooltip / EgMemberTooltip / EgDatePickerTooltip / EgStatusTooltip / EgInput。运算符由 EgFilterField.kind 自动解析（amount / gas-fee → 数值类；其余 → 内容类）。',
     ),
   },
   {

@@ -20,6 +20,7 @@ import {
   resolveFilterSelectValueOption,
   type FilterSelectValueOption,
 } from './filterSelectValuePresets';
+import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionSelectValue.module.css';
 
@@ -32,6 +33,7 @@ const props = withDefaults(
     placeholder?: string;
     disabled?: boolean;
     selectionMode?: EgFilterFieldSelectionMode;
+    dropdownOpenId?: string;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -47,6 +49,11 @@ const emit = defineEmits<{
 const t = useFilterTranslate();
 
 const draftValues = ref<Set<string>>(new Set());
+const flotationRef = ref<{ close?: () => void } | null>(null);
+const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
+  () => props.dropdownOpenId,
+  flotationRef,
+);
 const scrollRef = ref<HTMLElement | null>(null);
 const optionListRef = ref<HTMLElement | null>(null);
 
@@ -109,12 +116,17 @@ function parseValueSet(raw: string): Set<string> {
 }
 
 function onPickerOpen() {
+  onDropdownOpen();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
   void nextTick(() => {
     updatePickerScroll();
   });
+}
+
+function onPickerClose() {
+  onDropdownClose();
 }
 
 function isOptionSelected(option: FilterSelectValueOption): boolean {
@@ -221,11 +233,13 @@ const triggerCountText = computed(() => String(selectedCount.value));
       :options="selectOptions"
       :placeholder="placeholder"
       :disabled="disabled"
+      :open-id="dropdownOpenId"
       @update:model-value="emit('update:modelValue', $event)"
     />
 
     <EgFlotation
       v-else
+      ref="flotationRef"
       :disabled="disabled"
       placement="bottom"
       align="start"
@@ -234,6 +248,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
       :show-menu-divider="false"
       flip
       @open="onPickerOpen"
+      @close="onPickerClose"
     >
       <template #trigger="{ expanded }">
         <EgFlotationTrigger

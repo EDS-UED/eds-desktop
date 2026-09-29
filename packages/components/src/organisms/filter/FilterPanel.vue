@@ -12,14 +12,16 @@ import type {
   EgFilterCondition,
   EgFilterField,
   EgFilterLogicMode,
-  EgFilterOperator,
 } from './types';
 import {
   createFilterCondition,
   isValuelessOperator,
 } from './types';
+import { provideFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterPanel.module.css';
+
+provideFilterPanelDropdownMutex();
 
 const t = useFilterTranslate();
 
@@ -27,7 +29,6 @@ const props = withDefaults(
   defineProps<{
     conditions: EgFilterCondition[];
     fields: EgFilterField[];
-    operators: EgFilterOperator[];
     title?: string;
     addLabel?: string;
     placeholder?: string;
@@ -79,12 +80,21 @@ function applyCondition(index: number, patch: Partial<EgFilterCondition>) {
 }
 
 function onOperatorChange(index: number, operatorId: string) {
+  const condition = props.conditions[index];
+  if (!condition) return;
+
   const patch: Partial<EgFilterCondition> = { operatorId };
   if (isValuelessOperator(operatorId)) {
     patch.value = '';
     applyCondition(index, patch);
     return;
   }
+
+  if (condition.value.trim()) {
+    applyCondition(index, patch);
+    return;
+  }
+
   updateCondition(index, patch);
 }
 
@@ -169,11 +179,11 @@ watch(
           <FilterConditionRow
             v-for="(condition, index) in conditions"
             :key="condition.id"
+            :condition-id="condition.id"
             :field-id="condition.fieldId"
             :operator-id="condition.operatorId"
             :value="condition.value"
             :fields="fields"
-            :operators="operators"
             :placeholder="placeholder"
             :remove-label="removeLabel"
             @patch="updateCondition(index, $event)"

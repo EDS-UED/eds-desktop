@@ -15,11 +15,9 @@ import type {
   EgFilterCondition,
   EgFilterField,
   EgFilterLogicMode,
-  EgFilterOperator,
 } from './types';
 import {
   cloneFilterConditions,
-  DEFAULT_FILTER_OPERATORS,
   isValuelessOperator,
 } from './types';
 import {
@@ -33,7 +31,6 @@ const props = withDefaults(
   defineProps<{
     modelValue?: EgFilterCondition[];
     fields: EgFilterField[];
-    operators?: EgFilterOperator[];
     title?: string;
     addLabel?: string;
     placeholder?: string;
@@ -56,7 +53,6 @@ const props = withDefaults(
   {
     modelValue: () => [],
     logicMode: 'all',
-    operators: () => DEFAULT_FILTER_OPERATORS,
     title: '设置筛选条件',
     addLabel: '添加条件',
     placeholder: '请输入',
@@ -220,7 +216,6 @@ function onDraftLogicModeUpdate(logicMode: EgFilterLogicMode) {
           <FilterPanel
             :conditions="draftConditions"
             :fields="fields"
-            :operators="operators"
             :title="title"
             :add-label="addLabel"
             :placeholder="placeholder"

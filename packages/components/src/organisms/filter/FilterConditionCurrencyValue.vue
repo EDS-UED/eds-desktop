@@ -27,6 +27,7 @@ import {
   parseFilterCurrencyValue,
   type FilterCurrencyPreset,
 } from './filterCurrencyPresets';
+import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionCurrencyValue.module.css';
 
@@ -47,6 +48,8 @@ const props = withDefaults(
     trigger?: TooltipTrigger;
     /** 多链级联子菜单方向；auto 默认右侧，空间不足自动翻转到左侧。 */
     cascadePlacement?: EgFilterCascadePlacement;
+    /** EgFilter 面板内下拉互斥 id。 */
+    dropdownOpenId?: string;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -76,6 +79,11 @@ const scrollRef = ref<HTMLElement | null>(null);
 const optionListRef = ref<HTMLElement | null>(null);
 const cascadeScrollRef = ref<HTMLElement | null>(null);
 const cascadeListRef = ref<HTMLElement | null>(null);
+const flotationRef = ref<{ close?: () => void } | null>(null);
+const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
+  () => props.dropdownOpenId,
+  flotationRef,
+);
 
 const {
   canScroll: pickerCanScroll,
@@ -209,6 +217,7 @@ function clearActiveCascade() {
 }
 
 function onPickerOpen() {
+  onDropdownOpen();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
@@ -483,6 +492,7 @@ function onNetworkClick(
 }
 
 function onPickerClose() {
+  onDropdownClose();
   resetSearch();
   clearActiveCascade();
 }
@@ -491,6 +501,7 @@ function onPickerClose() {
 <template>
   <div :class="styles.root">
     <EgFlotation
+      ref="flotationRef"
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"

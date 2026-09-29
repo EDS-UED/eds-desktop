@@ -26,6 +26,7 @@ import {
 } from './filterDateUtils';
 import type { TooltipTrigger } from '../../molecules/tooltip';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
+import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionTimeRangeValue.module.css';
 
@@ -39,6 +40,7 @@ const props = withDefaults(
     triggerWidthMode?: FlotationTriggerWidthMode;
     triggerWidth?: number;
     trigger?: TooltipTrigger;
+    dropdownOpenId?: string;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -55,6 +57,12 @@ const flotationWidthMode = computed(() =>
 const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
+
+const flotationRef = ref<{ close?: () => void } | null>(null);
+const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
+  () => props.dropdownOpenId,
+  flotationRef,
+);
 
 const parsedRange = computed(() => parseFilterDateRangeValue(props.modelValue));
 
@@ -138,6 +146,7 @@ function onPresetClick(presetId: FilterTimeQuickPresetId, close: () => void) {
 }
 
 function onPickerOpen() {
+  onDropdownOpen();
   closeBarBlockingAnchoredTooltips();
   pendingRangeStart.value = null;
   rangeHoverEnd.value = null;
@@ -147,6 +156,7 @@ function onPickerOpen() {
 }
 
 function onPickerClose() {
+  onDropdownClose();
   pendingRangeStart.value = null;
   rangeHoverEnd.value = null;
   panelFocusedDate.value = null;
@@ -166,6 +176,7 @@ function shiftViewYear(offset: number) {
 <template>
   <div :class="styles.root">
     <EgFlotation
+      ref="flotationRef"
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"

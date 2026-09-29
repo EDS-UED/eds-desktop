@@ -9,7 +9,6 @@ import NavBarPreview from './NavBarPreview.vue';
 import PopupPreview from './PopupPreview.vue';
 import PopoversScenePreview from './PopoversScenePreview.vue';
 import VerifyPreview from './VerifyPreview.vue';
-import FilterPreview from './FilterPreview.vue';
 import type { FlotationBoxKind } from './flotationDocCustomize';
 import type { ModuleMenuScenario, NavBarScenario, PopupSceneUses } from './organismTemplateDocData';
 import type { PopoverSceneScenario } from './popoversDocCustomize';
@@ -150,26 +149,6 @@ export const splitScenePreviewEntries: ComponentPreviewEntry[] = [
         pageTitle: 'ModuleMenu',
       },
     ),
-    usesComponentDocHeader: true,
-  },
-  {
-    slug: 'filter-scene-standard',
-    title: 'Standard',
-    component: defineScenePreview('FilterSceneStandardPreview', FilterPreview, {
-      initialScenario: 'standard',
-      pageTitle: 'Standard',
-      lockScenario: true,
-    }),
-    usesComponentDocHeader: true,
-  },
-  {
-    slug: 'filter-scene-advanced',
-    title: 'Advanced',
-    component: defineScenePreview('FilterSceneAdvancedPreview', FilterPreview, {
-      initialScenario: 'advanced',
-      pageTitle: 'Advanced',
-      lockScenario: true,
-    }),
     usesComponentDocHeader: true,
   },
   ...flotationBoxScenePages.map(({ slug, title, boxKind }) => ({

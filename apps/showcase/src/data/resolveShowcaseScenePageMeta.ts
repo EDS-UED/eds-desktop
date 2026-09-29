@@ -70,8 +70,6 @@ const SHOWCASE_PAGE_COMPONENT_TAG: Record<string, string> = {
   'data-list': 'EgDataList',
   paginer: 'EgPaginer',
   filter: 'EgFilter',
-  'filter-scene-standard': 'EgFilter',
-  'filter-scene-advanced': 'EgFilter',
   verify: 'EgVerify',
   'verify-scene-email': 'EgEmailVerify',
   'verify-scene-google': 'EgGoogleVerify',

@@ -65,7 +65,7 @@ const FILTER_UI_TEXT: Record<string, Partial<Record<FilterLocale, string>>> = {
   最小: { en: 'Min', 'zh-TW': '最小' },
   最大: { en: 'Max', 'zh-TW': '最大' },
   金额: { en: 'Amount', 'zh-TW': '金額' },
-  矿工费: { en: 'Miner Fee', 'zh-TW': '礦工費' },
+  'Gas Fee': { en: 'Gas Fee', 'zh-TW': 'Gas Fee' },
   币种: { en: 'Currency', 'zh-TW': '幣種' },
   成员: { en: 'Member', 'zh-TW': '成員' },
   WaaS项目: { en: 'WaaS Project', 'zh-TW': 'WaaS項目' },

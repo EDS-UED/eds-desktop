@@ -11,14 +11,14 @@ import EgDatePickerTooltip from './DatePickerTooltip.vue';
 import EgStatusTooltip from './FilterConditionStatusValue.vue';
 import FilterSelect from './FilterSelect.vue';
 import { FILTER_DROPDOWN_PRESETS } from './filterSelectValuePresets';
-import type { EgFilterField, EgFilterFieldKind, EgFilterOperator } from './types';
+import type { EgFilterField, EgFilterFieldKind } from './types';
 import {
-  FILTER_NUMERIC_OPERATORS,
   defaultPlaceholderForFilterFieldKind,
   isNumericFilterFieldKind,
   isNumericFilterOperator,
   isValuelessOperator,
   resolveFilterFieldKind,
+  resolveFilterOperatorsForFieldKind,
 } from './types';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionRow.module.css';
@@ -27,11 +27,11 @@ const t = useFilterTranslate();
 
 const props = withDefaults(
   defineProps<{
+    conditionId: string;
     fieldId: string;
     operatorId: string;
     value: string;
     fields: EgFilterField[];
-    operators: EgFilterOperator[];
     placeholder?: string;
     removeLabel?: string;
   }>(),
@@ -46,6 +46,10 @@ type EgFilterConditionRowPatch = {
   operatorId: string;
   value: string;
 };
+
+const fieldSelectOpenId = computed(() => `${props.conditionId}:field`);
+const operatorSelectOpenId = computed(() => `${props.conditionId}:operator`);
+const valueSelectOpenId = computed(() => `${props.conditionId}:value`);
 
 const emit = defineEmits<{
   'update:operatorId': [value: string];
@@ -83,7 +87,7 @@ const isDropdownField = computed(() => activeFieldKind.value === 'dropdown');
 const isInputField = computed(() => activeFieldKind.value === 'input');
 
 const operatorOptions = computed(() =>
-  isNumericField.value ? FILTER_NUMERIC_OPERATORS : props.operators,
+  resolveFilterOperatorsForFieldKind(activeFieldKind.value),
 );
 
 const valuePlaceholder = computed(() => {
@@ -106,8 +110,12 @@ watch(
       props.fields.find((item) => item.id === fieldId),
       fieldId,
     );
-    if (!kind || !isNumericFilterFieldKind(kind)) return;
-    if (isNumericFilterOperator(operatorId)) return;
+    if (!kind) return;
+
+    const allowedOperatorIds = new Set(
+      resolveFilterOperatorsForFieldKind(kind).map((operator) => operator.id),
+    );
+    if (allowedOperatorIds.has(operatorId)) return;
     emit('patch', { operatorId: 'equals' });
   },
 );
@@ -140,6 +148,7 @@ function onFieldChange(nextFieldId: string) {
       variant="field"
       :model-value="fieldId"
       :options="fields"
+      :open-id="fieldSelectOpenId"
       @update:model-value="onFieldChange"
     />
     <div :class="styles.valueGroup">
@@ -147,6 +156,7 @@ function onFieldChange(nextFieldId: string) {
         variant="operator"
         :model-value="operatorId"
         :options="operatorOptions"
+        :open-id="operatorSelectOpenId"
         @update:model-value="emit('update:operatorId', $event)"
       />
       <div :class="styles.value">
@@ -157,6 +167,7 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
+          :dropdown-open-id="valueSelectOpenId"
           @update:model-value="onValueCommit($event)"
         />
         <EgMemberTooltip
@@ -166,6 +177,7 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
+          :dropdown-open-id="valueSelectOpenId"
           @update:model-value="onValueCommit($event)"
         />
         <FilterConditionNumericValue
@@ -187,6 +199,7 @@ function onFieldChange(nextFieldId: string) {
           :model-value="value"
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
+          :dropdown-open-id="valueSelectOpenId"
           @update:model-value="onValueCommit($event)"
         />
         <EgDatePickerTooltip
@@ -196,6 +209,7 @@ function onFieldChange(nextFieldId: string) {
           :model-value="value"
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
+          :dropdown-open-id="valueSelectOpenId"
           @update:model-value="onValueCommit($event)"
         />
         <EgStatusTooltip
@@ -205,6 +219,7 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
+          :dropdown-open-id="valueSelectOpenId"
           @update:model-value="onValueCommit($event)"
         />
         <FilterConditionSelectValue
@@ -215,6 +230,7 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
+          :dropdown-open-id="valueSelectOpenId"
           @update:model-value="onValueCommit($event)"
         />
         <EgInput

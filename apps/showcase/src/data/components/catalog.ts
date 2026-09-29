@@ -395,12 +395,7 @@ export const componentCatalog: CatalogSection[] = [
             slug: 'filter',
             description: 'Filter panel for narrowing list and table results.',
             status: 'implemented',
-            children: [
-              catalogBody('filter', 'Filter'),
-              catalogScenesSection('filter-scenes'),
-              catalogScene('filter-scene-standard', 'Standard', 'filter-scenes'),
-              catalogScene('filter-scene-advanced', 'Advanced', 'filter-scenes'),
-            ],
+            children: catalogBodyWithScenesSection('filter', 'Filter', 'filter-scenes'),
           },
         ],
       },

@@ -310,6 +310,8 @@ export const router = createRouter({
                   'verify-transaction-password': 'verify-scene-transaction-password',
                   'verify-passkey': 'verify-scene-passkey',
                   'verify-locked': 'verify-scene-locked',
+                  'filter-scene-standard': 'filter-scenes-extending',
+                  'filter-scene-advanced': 'filter-scenes-extending',
                 };
 
                 if (slug in sceneLegacySlugs) {

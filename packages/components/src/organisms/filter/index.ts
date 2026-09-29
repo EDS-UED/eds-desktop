@@ -15,7 +15,6 @@ export type {
   EgFilterOperator,
 } from './types';
 export {
-  ADVANCED_FILTER_OPERATORS,
   DEFAULT_FILTER_OPERATORS,
   FILTER_FIELD_KIND_PRESETS,
   FILTER_INPUT_PLACEHOLDER,
@@ -36,6 +35,7 @@ export {
   isValuelessOperator,
   parseFilterNumericRangeValue,
   resolveFilterFieldKind,
+  resolveFilterOperatorsForFieldKind,
 } from './types';
 export {
   FILTER_TIME_QUICK_PRESETS,

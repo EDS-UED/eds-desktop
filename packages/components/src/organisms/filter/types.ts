@@ -3,7 +3,7 @@ export type EgFilterFieldSelectionMode = 'single' | 'multi';
 /** 币种级联子菜单展开方向；auto 优先右侧，边界不足时翻转到左侧。 */
 export type EgFilterCascadePlacement = 'auto' | 'right' | 'left';
 
-/** 金额 / 矿工费：单值或区间。 */
+/** 金额 / Gas Fee：单值或区间。 */
 export type EgFilterAmountMode = 'single' | 'range';
 
 /** 条件字段类型；带 selectionMode 的 kind 支持单选 / 多选。 */
@@ -11,7 +11,7 @@ export type EgFilterFieldKind =
   | 'currency'
   | 'member'
   | 'amount'
-  | 'miner-fee'
+  | 'gas-fee'
   | 'time'
   | 'time-range'
   | 'status'
@@ -22,11 +22,11 @@ export type EgFilterField = {
   id: string;
   label: string;
   kind: EgFilterFieldKind;
-  /** currency / member / amount / miner-fee / status / dropdown 等可选。 */
+  /** currency / member / amount / gas-fee / status / dropdown 等可选。 */
   selectionMode?: EgFilterFieldSelectionMode;
-  /** amount / miner-fee：单值或区间。 */
+  /** amount / gas-fee：单值或区间。 */
   amountMode?: EgFilterAmountMode;
-  /** amount / miner-fee：EgInput unit（如 BTC）。 */
+  /** amount / gas-fee：EgInput unit（如 BTC）。 */
   unit?: string;
   /** 条件值编辑区占位；未传时回退 EgFilter placeholder。 */
   placeholder?: string;
@@ -38,13 +38,13 @@ export const FILTER_NUMERIC_PLACEHOLDER = '0';
 export const FILTER_NUMERIC_RANGE_MIN_PLACEHOLDER = '最小';
 export const FILTER_NUMERIC_RANGE_MAX_PLACEHOLDER = '最大';
 
-const NUMERIC_FIELD_KINDS = new Set<EgFilterFieldKind>(['amount', 'miner-fee']);
+const NUMERIC_FIELD_KINDS = new Set<EgFilterFieldKind>(['amount', 'gas-fee']);
 
 const FILTER_FIELD_ID_TO_KIND: Record<string, EgFilterFieldKind> = {
   currency: 'currency',
   member: 'member',
   amount: 'amount',
-  'miner-fee': 'miner-fee',
+  'gas-fee': 'gas-fee',
   time: 'time',
   'time-range': 'time-range',
   status: 'status',
@@ -71,9 +71,9 @@ export function resolveFilterFieldKind(
   return field?.kind;
 }
 
-/** 金额 / 矿工费值区左侧标记。 */
+/** 金额 / Gas Fee 值区左侧标记。 */
 export function filterNumericMarkerLabel(kind: EgFilterFieldKind): string {
-  if (kind === 'miner-fee') return '矿工费';
+  if (kind === 'gas-fee') return 'Gas Fee';
   return '金额';
 }
 
@@ -95,8 +95,8 @@ export const FILTER_FIELD_KIND_PRESETS: EgFilterField[] = [
   { id: 'member-multi', label: '成员', kind: 'member', selectionMode: 'multi', placeholder: FILTER_SELECT_PLACEHOLDER },
   { id: 'amount', label: '金额', kind: 'amount', amountMode: 'range', unit: 'BTC', placeholder: FILTER_NUMERIC_PLACEHOLDER },
   { id: 'amount-range', label: '金额', kind: 'amount', amountMode: 'single', unit: 'BTC', placeholder: FILTER_NUMERIC_PLACEHOLDER },
-  { id: 'miner-fee', label: '矿工费', kind: 'miner-fee', amountMode: 'single', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
-  { id: 'miner-fee-range', label: '矿工费', kind: 'miner-fee', amountMode: 'range', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
+  { id: 'gas-fee', label: 'Gas Fee', kind: 'gas-fee', amountMode: 'single', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
+  { id: 'gas-fee-range', label: 'Gas Fee', kind: 'gas-fee', amountMode: 'range', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
   { id: 'time', label: '时间', kind: 'time', placeholder: FILTER_SELECT_PLACEHOLDER },
   { id: 'time-range', label: '时间范围', kind: 'time-range', placeholder: FILTER_SELECT_PLACEHOLDER },
   { id: 'status', label: '状态类', kind: 'status', selectionMode: 'single', placeholder: FILTER_SELECT_PLACEHOLDER },
@@ -134,15 +134,7 @@ export const DEFAULT_FILTER_OPERATORS: EgFilterOperator[] = [
   { id: 'is-not-empty', label: '不为空' },
 ];
 
-export const ADVANCED_FILTER_OPERATORS: EgFilterOperator[] = [
-  ...DEFAULT_FILTER_OPERATORS,
-  { id: 'greater-than', label: '大于' },
-  { id: 'less-than', label: '小于' },
-  { id: 'greater-or-equal', label: '大于等于' },
-  { id: 'less-or-equal', label: '小于等于' },
-];
-
-/** 金额 / 矿工费条件运算符。 */
+/** 金额 / Gas Fee 条件运算符（数值类）。 */
 export const FILTER_NUMERIC_OPERATORS: EgFilterOperator[] = [
   { id: 'equals', label: '等于' },
   { id: 'not-equals', label: '不等于' },
@@ -160,6 +152,16 @@ const FILTER_NUMERIC_OPERATOR_IDS = new Set(
 
 export function isNumericFilterOperator(operatorId: string): boolean {
   return FILTER_NUMERIC_OPERATOR_IDS.has(operatorId);
+}
+
+/** 按字段 kind 解析运算符：仅 amount / gas-fee 为数值类，其余为内容类。 */
+export function resolveFilterOperatorsForFieldKind(
+  kind: EgFilterFieldKind | undefined,
+): EgFilterOperator[] {
+  if (kind && isNumericFilterFieldKind(kind)) {
+    return FILTER_NUMERIC_OPERATORS;
+  }
+  return DEFAULT_FILTER_OPERATORS;
 }
 
 export function parseFilterNumericRangeValue(raw: string): { min: string; max: string } {

@@ -29,6 +29,7 @@ import {
   type FilterWaasProjectPreset,
 } from './filterMemberPresets';
 import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
+import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionMemberValue.module.css';
 
@@ -48,6 +49,7 @@ const props = withDefaults(
     trigger?: TooltipTrigger;
     /** 成员 / WaaS 项目 Tab；关闭时仅展示成员列表。 */
     showTypeTabs?: boolean;
+    dropdownOpenId?: string;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -64,6 +66,11 @@ const emit = defineEmits<{
 }>();
 
 const searchQuery = ref('');
+const flotationRef = ref<{ close?: () => void } | null>(null);
+const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
+  () => props.dropdownOpenId,
+  flotationRef,
+);
 const activeTabIndex = ref(0);
 const draftValues = ref<Set<string>>(new Set());
 const scrollRef = ref<HTMLElement | null>(null);
@@ -164,6 +171,7 @@ function resetSearch() {
 }
 
 function onPickerOpen() {
+  onDropdownOpen();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
@@ -173,6 +181,7 @@ function onPickerOpen() {
 }
 
 function onPickerClose() {
+  onDropdownClose();
   resetSearch();
   activeTabIndex.value = 0;
 }
@@ -280,6 +289,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
 <template>
   <div :class="styles.root">
     <EgFlotation
+      ref="flotationRef"
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"

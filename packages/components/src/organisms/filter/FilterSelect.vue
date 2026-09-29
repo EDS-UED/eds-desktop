@@ -8,6 +8,7 @@ import {
 } from '../../molecules/flotation';
 import type { FlotationWidthMode } from '../../molecules/flotation/Flotation.vue';
 import { OVERFLOW_EPSILON } from '../../utils/overflowTextMeasure';
+import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterSelect.module.css';
 
@@ -27,9 +28,8 @@ const props = withDefaults(
     menuMaxHeight?: number;
     /** 仅列表区滚动（配合 menuMaxHeight）。 */
     menuListScroll?: boolean;
-    /** 互斥展开组 id；配合 activeOpenId 保证同组仅一个菜单打开。 */
+    /** EgFilter 面板内互斥 id；未传时不参与互斥。 */
     openId?: string;
-    activeOpenId?: string | null;
     boundarySelector?: string;
     placeholder?: string;
   }>(),
@@ -43,18 +43,20 @@ const props = withDefaults(
     menuMaxHeight: undefined,
     menuListScroll: false,
     openId: undefined,
-    activeOpenId: null,
     boundarySelector: undefined,
   },
 );
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];
-  'update:activeOpenId': [value: string | null];
 }>();
 
 const rootRef = ref<HTMLElement | null>(null);
 const flotationRef = ref<{ close?: () => void } | null>(null);
+const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
+  () => props.openId,
+  flotationRef,
+);
 const menuWidthMode = ref<FlotationWidthMode>('trigger');
 
 const menuItems = computed((): FlotationMenuItemPreset[] =>
@@ -167,26 +169,14 @@ function onRootPointerDown() {
 }
 
 function onFlotationOpen() {
+  onDropdownOpen();
   syncOperatorMenuWidthMode();
-  if (props.openId) {
-    emit('update:activeOpenId', props.openId);
-  }
   void syncOperatorMenuWidthModeAfterLayout();
 }
 
 function onFlotationClose() {
-  if (props.openId && props.activeOpenId === props.openId) {
-    emit('update:activeOpenId', null);
-  }
+  onDropdownClose();
 }
-
-watch(
-  () => props.activeOpenId,
-  (activeOpenId) => {
-    if (!props.openId || !activeOpenId || activeOpenId === props.openId) return;
-    flotationRef.value?.close?.();
-  },
-);
 </script>
 
 <template>

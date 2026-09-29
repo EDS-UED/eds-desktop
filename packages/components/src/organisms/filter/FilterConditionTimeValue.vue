@@ -16,6 +16,7 @@ import {
 } from './filterDateUtils';
 import type { TooltipTrigger } from '../../molecules/tooltip';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
+import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionTimeValue.module.css';
 
@@ -29,6 +30,7 @@ const props = withDefaults(
     triggerWidthMode?: FlotationTriggerWidthMode;
     triggerWidth?: number;
     trigger?: TooltipTrigger;
+    dropdownOpenId?: string;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -45,6 +47,12 @@ const flotationWidthMode = computed(() =>
 const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
+
+const flotationRef = ref<{ close?: () => void } | null>(null);
+const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
+  () => props.dropdownOpenId,
+  flotationRef,
+);
 
 const viewYear = ref(startOfTodayParts().year);
 const viewMonth = ref(startOfTodayParts().month);
@@ -74,6 +82,7 @@ watch(
 );
 
 function onPickerOpen() {
+  onDropdownOpen();
   if (!selectedDate.value) {
     panelFocusedDate.value = todayParts.value;
     viewYear.value = todayParts.value.year;
@@ -86,6 +95,7 @@ function onPickerOpen() {
 }
 
 function onPickerClose() {
+  onDropdownClose();
   panelFocusedDate.value = null;
 }
 
@@ -106,6 +116,7 @@ function onTodayClick() {
 <template>
   <div :class="styles.root">
     <EgFlotation
+      ref="flotationRef"
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"

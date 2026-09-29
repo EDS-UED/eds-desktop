@@ -26,30 +26,14 @@ import {
   filterCustomizeDefaults,
   filterFieldCustomizeControls,
   syncFieldEditorFromKind,
-  filterScenePropRows,
   resolveFilterPreviewProps,
-  resolveFilterSceneAnchorId,
   resolveFilterSceneComponentTag,
-  resolveFilterSceneImportCode,
-  type FilterScenario,
 } from './filterDocCustomize';
-
-const props = withDefaults(
-  defineProps<{
-    initialScenario?: FilterScenario;
-    lockScenario?: boolean;
-    pageTitle?: string;
-  }>(),
-  {
-    lockScenario: false,
-  },
-);
 
 const { locale } = useShowcaseLocale();
 
 const customize = createDocCustomizeState<typeof filterCustomizeDefaults>(
   filterCustomizeDefaults,
-  props.initialScenario ? { scenario: props.initialScenario } : undefined,
 );
 
 const filterTranslate = computed(() => createFilterTranslate(locale.value));
@@ -65,17 +49,6 @@ watch(
 );
 
 watch(
-  () => customize.conditionType,
-  () => {
-    conditions.value = conditions.value.map((condition) => ({
-      ...condition,
-      operatorId: 'equals',
-      value: '',
-    }));
-  },
-);
-
-watch(
   () => customize.selectionMode,
   () => {
     conditions.value = conditions.value.map((condition) => ({
@@ -86,7 +59,7 @@ watch(
 );
 
 watch(
-  () => [customize.scenario, customize.initialConditionCount, customize.maxConditions],
+  () => [customize.initialConditionCount, customize.maxConditions],
   () => {
     conditions.value = createInitialFilterConditions(customize);
   },
@@ -95,21 +68,9 @@ watch(
 const filterProps = computed(() => resolveFilterPreviewProps(customize));
 const usageSnippet = computed(() => buildFilterUsageSnippet(customize));
 
-const importCode = computed(() =>
-  props.lockScenario && props.initialScenario
-    ? resolveFilterSceneImportCode(props.initialScenario)
-    : filterImportCode,
-);
-
-const propsSectionId = computed(() =>
-  props.initialScenario
-    ? `${resolveFilterSceneAnchorId(props.initialScenario)}-props`
-    : 'filter-props',
-);
-
-const propRows = computed(() =>
-  props.lockScenario ? [...filterPropRows, ...filterScenePropRows] : filterPropRows,
-);
+const importCode = filterImportCode;
+const propsSectionId = 'filter-props';
+const propRows = filterPropRows;
 
 const visibleCustomizeControls = filterCustomizeControls;
 
@@ -123,7 +84,7 @@ function onResetPreview() {
   <div :class="styles.previewPage">
     <ComponentDocLayout
       v-model:customize-state="customize"
-      :title="pageTitle ?? 'Filter'"
+      title="Filter"
       doc-tier="organism"
       compact-preview
       effect-panel-preview

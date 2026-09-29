@@ -116,8 +116,6 @@ export const compactComponentPreviewSlugs = new Set<string>([
   'paginer',
   'batch-bar',
   'filter',
-  'filter-scene-standard',
-  'filter-scene-advanced',
   'verify',
   'verify-scene-email',
   'verify-scene-google',

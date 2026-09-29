@@ -15,6 +15,7 @@ const props = withDefaults(
     triggerWidthMode?: FlotationTriggerWidthMode;
     triggerWidth?: number;
     trigger?: TooltipTrigger;
+    dropdownOpenId?: string;
   }>(),
   {
     disabled: false,
@@ -38,6 +39,7 @@ defineEmits<{
     :trigger-width-mode="triggerWidthMode"
     :trigger-width="triggerWidth"
     :trigger="trigger"
+    :dropdown-open-id="dropdownOpenId"
     @update:model-value="$emit('update:modelValue', $event)"
   />
   <FilterConditionTimeValue
@@ -48,6 +50,7 @@ defineEmits<{
     :trigger-width-mode="triggerWidthMode"
     :trigger-width="triggerWidth"
     :trigger="trigger"
+    :dropdown-open-id="dropdownOpenId"
     @update:model-value="$emit('update:modelValue', $event)"
   />
 </template>

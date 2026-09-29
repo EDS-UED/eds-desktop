@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import {
   EgFlotation,
   EgFlotationTrigger,
   type FlotationMenuItemPreset,
 } from '../../molecules/flotation';
 import { FILTER_LOGIC_MODE_OPTIONS, type EgFilterLogicMode } from './types';
+import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterLogicRow.module.css';
 
@@ -18,6 +19,12 @@ const props = defineProps<{
 const emit = defineEmits<{
   'update:modelValue': [value: EgFilterLogicMode];
 }>();
+
+const flotationRef = ref<{ close?: () => void } | null>(null);
+const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
+  () => 'logic-mode',
+  flotationRef,
+);
 
 const menuItems = computed((): FlotationMenuItemPreset[] =>
   FILTER_LOGIC_MODE_OPTIONS.map((option) => ({ label: t(option.label) })),
@@ -45,6 +52,7 @@ function onItemClick(_item: FlotationMenuItemPreset, index: number) {
     <span :class="styles.text">{{ t('符合以下') }}</span>
     <div :class="styles.logicSelect">
       <EgFlotation
+        ref="flotationRef"
         placement="bottom"
         align="start"
         width-mode="trigger"
@@ -56,6 +64,8 @@ function onItemClick(_item: FlotationMenuItemPreset, index: number) {
         :items="menuItems"
         :selected-index="selectedIndex"
         flip
+        @open="onDropdownOpen"
+        @close="onDropdownClose"
         @item-click="onItemClick"
       >
         <template #trigger="{ expanded }">

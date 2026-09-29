@@ -25,6 +25,7 @@ import {
   type FilterStatusPreset,
 } from './filterStatusPresets';
 import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
+import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionStatusValue.module.css';
 
@@ -41,6 +42,7 @@ const props = withDefaults(
     triggerWidthMode?: FlotationTriggerWidthMode;
     triggerWidth?: number;
     trigger?: TooltipTrigger;
+    dropdownOpenId?: string;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -56,6 +58,11 @@ const emit = defineEmits<{
 }>();
 
 const searchQuery = ref('');
+const flotationRef = ref<{ close?: () => void } | null>(null);
+const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
+  () => props.dropdownOpenId,
+  flotationRef,
+);
 const draftValues = ref<Set<string>>(new Set());
 const scrollRef = ref<HTMLElement | null>(null);
 const optionListRef = ref<HTMLElement | null>(null);
@@ -131,6 +138,7 @@ function resetSearch() {
 }
 
 function onPickerOpen() {
+  onDropdownOpen();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
@@ -140,6 +148,7 @@ function onPickerOpen() {
 }
 
 function onPickerClose() {
+  onDropdownClose();
   resetSearch();
 }
 
@@ -237,6 +246,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
 <template>
   <div :class="styles.root">
     <EgFlotation
+      ref="flotationRef"
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"
