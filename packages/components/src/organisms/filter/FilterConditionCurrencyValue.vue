@@ -16,7 +16,7 @@ import {
 } from '../../molecules/flotation';
 import { EgComboFloatButton } from '../../molecules/combo';
 import { EgSearchInput } from '../../molecules/search';
-import type { TooltipPlacement, TooltipTrigger } from '../../molecules/tooltip';
+import type { TooltipAlign, TooltipPlacement, TooltipTrigger } from '../../molecules/tooltip';
 import type { EgFilterCascadePlacement, EgFilterFieldSelectionMode } from './types';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
 import {
@@ -27,7 +27,9 @@ import {
   parseFilterCurrencyValue,
   type FilterCurrencyPreset,
 } from './filterCurrencyPresets';
+import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
+import { useFilterSearchPickerListAreaHeight } from './useFilterSearchPickerListAreaHeight';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionCurrencyValue.module.css';
 
@@ -50,6 +52,12 @@ const props = withDefaults(
     cascadePlacement?: EgFilterCascadePlacement;
     /** EgFilter 面板内下拉互斥 id。 */
     dropdownOpenId?: string;
+    boundarySelector?: string;
+    pickerAlign?: TooltipAlign;
+    /** 业务传入时仅展示列表数据对应的币种 preset id。 */
+    currencyPresetIds?: readonly string[];
+    /** 业务传入时按 symbol 展示列表中出现的币种（优先于 currencyPresetIds）。 */
+    currencySymbols?: readonly string[];
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -58,6 +66,7 @@ const props = withDefaults(
     triggerWidthMode: 'adaptive',
     trigger: 'click',
     cascadePlacement: 'auto',
+    pickerAlign: 'end',
   },
 );
 
@@ -125,18 +134,54 @@ const selectedCount = computed(() => selectedValueList.value.length);
 
 const hasDraftSelection = computed(() => draftValues.value.size > 0);
 
+const visibleCurrencyPresets = computed(() => {
+  const symbolAllowlist = props.currencySymbols;
+  if (symbolAllowlist?.length) {
+    const allowed = new Set(
+      symbolAllowlist.map((symbol) => symbol.trim().toUpperCase()).filter(Boolean),
+    );
+    const seen = new Set<string>();
+    return FILTER_CURRENCY_PRESETS.filter((option) => {
+      const label = option.label.trim().toUpperCase();
+      if (!allowed.has(label) || seen.has(label)) return false;
+      seen.add(label);
+      return true;
+    });
+  }
+
+  const allowlist = props.currencyPresetIds;
+  if (!allowlist?.length) return FILTER_CURRENCY_PRESETS;
+  const allowed = new Set(allowlist);
+  return FILTER_CURRENCY_PRESETS.filter((option) => allowed.has(option.id));
+});
+
 const filteredOptions = computed(() => {
   const query = searchQuery.value.trim().toLowerCase();
-  if (!query) return FILTER_CURRENCY_PRESETS;
-  return FILTER_CURRENCY_PRESETS.filter((option) =>
-    option.label.toLowerCase().includes(query),
-  );
+  const presets = visibleCurrencyPresets.value;
+  if (!query) return presets;
+  return presets.filter((option) => option.label.toLowerCase().includes(query));
+});
+
+const showSearchEmpty = computed(
+  () => Boolean(searchQuery.value.trim()) && filteredOptions.value.length === 0,
+);
+
+const {
+  listAreaStyle,
+  resetListAreaHeight,
+  scheduleCaptureListAreaHeight,
+  onScrollMetricsDepsChange,
+} = useFilterSearchPickerListAreaHeight({
+  scrollRef,
+  searchQuery,
+  showSearchEmpty,
 });
 
 watch(
-  () => [filteredOptions.value.length, searchQuery.value, isMulti.value],
+  () => [filteredOptions.value.length, searchQuery.value, isMulti.value, showSearchEmpty.value],
   () => {
     updatePickerScroll();
+    onScrollMetricsDepsChange();
   },
 );
 
@@ -150,7 +195,9 @@ function resolveTriggerValueParts(valueKey: string): {
   cryptoName: CryptoName | null;
 } {
   const { currencyId, networkKey } = parseFilterCurrencyValue(valueKey);
-  const option = FILTER_CURRENCY_PRESETS.find((item) => item.id === currencyId);
+  const option =
+    visibleCurrencyPresets.value.find((item) => item.id === currencyId)
+    ?? FILTER_CURRENCY_PRESETS.find((item) => item.id === currencyId);
   if (!option) return { symbol: valueKey, networkLabel: '', cryptoName: null };
   const network = networkKey
     ? option.networks?.find((item) => item.key === networkKey)
@@ -209,6 +256,7 @@ function parseValueSet(raw: string): Set<string> {
 
 function resetSearch() {
   searchQuery.value = '';
+  resetListAreaHeight();
 }
 
 function clearActiveCascade() {
@@ -218,11 +266,13 @@ function clearActiveCascade() {
 
 function onPickerOpen() {
   onDropdownOpen();
+  resetListAreaHeight();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
   void nextTick(() => {
     updatePickerScroll();
+    scheduleCaptureListAreaHeight();
   });
 }
 
@@ -505,10 +555,11 @@ function onPickerClose() {
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"
-      align="start"
+      :align="pickerAlign"
       width-mode="trigger"
       :show-add="false"
       :show-menu-divider="false"
+      :boundary-selector="boundarySelector"
       flip
       @open="onPickerOpen"
       @close="onPickerClose"
@@ -584,10 +635,13 @@ function onPickerClose() {
               ref="scrollRef"
               :class="[
                 styles.optionListScroll,
-                pickerBottomScrim && !isMulti && styles.listScrollFadeBottom,
+                showSearchEmpty && styles.optionListScrollEmpty,
+                pickerBottomScrim && !isMulti && !showSearchEmpty && styles.listScrollFadeBottom,
               ]"
+              :style="listAreaStyle"
             >
-              <div ref="optionListRef" :class="styles.optionList">
+              <FilterSearchPickerEmpty v-if="showSearchEmpty" />
+              <div v-else ref="optionListRef" :class="styles.optionList">
                 <EgFlotationMenuItem
                   v-if="isMulti"
                   box-type="text"
@@ -648,6 +702,7 @@ function onPickerClose() {
                             :show-message="Boolean(option.multiChain && option.messageText)"
                             :message-text="option.messageText ?? ''"
                             message-type="subtle"
+                            message-static
                             show-cascader
                             :show-tag="false"
                             :show-checkbox="isMulti"
@@ -768,6 +823,7 @@ function onPickerClose() {
                     :mode-tag="option.multiChain && option.modeTag ? t(option.modeTag) : undefined"
                     :show-message="Boolean(option.multiChain && option.messageText)"
                     :message-text="option.messageText ?? ''"
+                    message-static
                     :focused="!isMulti && isOptionSelected(option)"
                     :show-checkbox="isMulti"
                     :checked="isOptionSelected(option)"

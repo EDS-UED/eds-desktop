@@ -1,4 +1,5 @@
 import { cryptoNames, getProcessedCrypto, type CryptoName } from '../../atoms/crypto';
+import { FILTER_DROPDOWN_MAX_HEIGHT } from './types';
 
 export type FilterCurrencyNetwork = {
   key: string;
@@ -21,8 +22,8 @@ export type FilterCurrencyPreset = {
 
 /** 与 consumer WaasSubAddressCurrencyPicker 一致。 */
 export const FILTER_CURRENCY_PICKER_WIDTH = 280;
-export const FILTER_CURRENCY_PICKER_HEIGHT = 360;
-export const FILTER_CURRENCY_CASCADE_PICKER_HEIGHT = 480;
+export const FILTER_CURRENCY_PICKER_HEIGHT = FILTER_DROPDOWN_MAX_HEIGHT;
+export const FILTER_CURRENCY_CASCADE_PICKER_HEIGHT = FILTER_DROPDOWN_MAX_HEIGHT;
 export const FILTER_CURRENCY_OPTION_COUNT = 28;
 
 /** 多链级联子菜单网络项（顺序与 design / consumer 一致）。 */

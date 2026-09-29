@@ -8,6 +8,7 @@ import {
 import { EgButton } from '../../molecules/button';
 import FilterConditionRow from './FilterConditionRow.vue';
 import FilterLogicRow from './FilterLogicRow.vue';
+import type { TooltipAlign } from '../../molecules/tooltip';
 import type {
   EgFilterCondition,
   EgFilterField,
@@ -35,6 +36,8 @@ const props = withDefaults(
     removeLabel?: string;
     maxConditions?: number;
     logicMode?: EgFilterLogicMode;
+    boundarySelector?: string;
+    valueAlign?: TooltipAlign;
   }>(),
   {
     title: '设置筛选条件',
@@ -43,6 +46,7 @@ const props = withDefaults(
     removeLabel: 'Remove condition',
     maxConditions: 10,
     logicMode: 'all',
+    valueAlign: 'end',
   },
 );
 
@@ -186,6 +190,8 @@ watch(
             :fields="fields"
             :placeholder="placeholder"
             :remove-label="removeLabel"
+            :boundary-selector="boundarySelector"
+            :value-align="valueAlign"
             @patch="updateCondition(index, $event)"
             @update:operator-id="onOperatorChange(index, $event)"
             @update:value="onValueDraft(index, $event)"

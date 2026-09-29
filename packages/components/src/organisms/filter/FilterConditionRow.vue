@@ -9,6 +9,7 @@ import FilterConditionNumericValue from './FilterConditionNumericValue.vue';
 import FilterConditionSelectValue from './FilterConditionSelectValue.vue';
 import EgDatePickerTooltip from './DatePickerTooltip.vue';
 import EgStatusTooltip from './FilterConditionStatusValue.vue';
+import type { TooltipAlign } from '../../molecules/tooltip';
 import FilterSelect from './FilterSelect.vue';
 import { FILTER_DROPDOWN_PRESETS } from './filterSelectValuePresets';
 import type { EgFilterField, EgFilterFieldKind } from './types';
@@ -34,10 +35,13 @@ const props = withDefaults(
     fields: EgFilterField[];
     placeholder?: string;
     removeLabel?: string;
+    boundarySelector?: string;
+    valueAlign?: TooltipAlign;
   }>(),
   {
     placeholder: '请输入',
     removeLabel: 'Remove condition',
+    valueAlign: 'end',
   },
 );
 
@@ -101,6 +105,10 @@ const valuePlaceholder = computed(() => {
 const valueEditorKey = computed(
   () =>
     `${props.fieldId}:${activeFieldKind.value ?? 'unknown'}:${activeField.value?.amountMode ?? ''}:${activeField.value?.selectionMode ?? ''}`,
+);
+
+const dropdownOptions = computed(
+  () => activeField.value?.dropdownOptions ?? FILTER_DROPDOWN_PRESETS,
 );
 
 watch(
@@ -168,6 +176,10 @@ function onFieldChange(nextFieldId: string) {
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
           :dropdown-open-id="valueSelectOpenId"
+          :boundary-selector="boundarySelector"
+          :picker-align="valueAlign"
+          :currency-preset-ids="activeField?.currencyPresetIds"
+          :currency-symbols="activeField?.currencySymbols"
           @update:model-value="onValueCommit($event)"
         />
         <EgMemberTooltip
@@ -178,6 +190,8 @@ function onFieldChange(nextFieldId: string) {
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
           :dropdown-open-id="valueSelectOpenId"
+          :boundary-selector="boundarySelector"
+          :picker-align="valueAlign"
           @update:model-value="onValueCommit($event)"
         />
         <FilterConditionNumericValue
@@ -200,6 +214,8 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :dropdown-open-id="valueSelectOpenId"
+          :boundary-selector="boundarySelector"
+          picker-align="center"
           @update:model-value="onValueCommit($event)"
         />
         <EgDatePickerTooltip
@@ -210,6 +226,8 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :dropdown-open-id="valueSelectOpenId"
+          :boundary-selector="boundarySelector"
+          :picker-align="valueAlign"
           @update:model-value="onValueCommit($event)"
         />
         <EgStatusTooltip
@@ -226,11 +244,13 @@ function onFieldChange(nextFieldId: string) {
           v-else-if="isDropdownField"
           :key="valueEditorKey"
           :model-value="value"
-          :options="FILTER_DROPDOWN_PRESETS"
+          :options="dropdownOptions"
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
           :dropdown-open-id="valueSelectOpenId"
+          :boundary-selector="boundarySelector"
+          :picker-align="valueAlign"
           @update:model-value="onValueCommit($event)"
         />
         <EgInput

@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, useAttrs, useSlots, watch } from 'vue';
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useAttrs,
+  useSlots,
+  watch,
+} from 'vue';
 import { EgDivider } from '../../atoms/divider';
 import { EgIcon } from '../../atoms/icons';
 import EgTooltipPanel, {
@@ -7,11 +16,14 @@ import EgTooltipPanel, {
   type TooltipWidthMode,
 } from '../tooltip/Tooltip.vue';
 import type { TooltipPanelKind, TooltipPanelRadiusToken } from '../tooltip/tooltipPanelRadius';
+import { readCssTokenLength } from '../../shared/cssSpacingTokens';
 import styles from './Flotation.module.css';
 
 defineOptions({ inheritAttrs: false });
 
 const SCROLL_EDGE_EPSILON = 2;
+const SCROLL_SELECTED_CENTER_BIAS = '--spacing-4';
+const FALLBACK_SCROLL_SELECTED_CENTER_BIAS_PX = 16;
 
 const attrs = useAttrs();
 
@@ -34,6 +46,9 @@ const props = withDefaults(
     addLabel?: string;
     /** 无 Add 底栏时仅 #default 列表区滚动（配合吸顶 Header 等）。 */
     listScroll?: boolean;
+    /** 打开时将 selectedIndex 对应项滚至列表可视区中间。 */
+    selectedIndex?: number | null;
+    scrollSelectedToCenter?: boolean;
   }>(),
   {
     panelKind: 'flotation',
@@ -47,6 +62,8 @@ const props = withDefaults(
     showAdd: true,
     addLabel: 'Add',
     listScroll: false,
+    selectedIndex: undefined,
+    scrollSelectedToCenter: false,
   },
 );
 
@@ -92,6 +109,39 @@ function onListScroll() {
   updateListScrollFade();
 }
 
+function scrollSelectedItemToCenter() {
+  if (!props.scrollSelectedToCenter || !useScrollableList.value || !props.scrollable) {
+    return;
+  }
+
+  const container = listScrollRef.value;
+  const index = props.selectedIndex;
+  if (!container || index == null || index < 0) return;
+
+  const items = container.querySelectorAll('.eds-flotation-menu-item');
+  const item = items[index] as HTMLElement | undefined;
+  if (!item) return;
+
+  const centerBiasPx = readCssTokenLength(
+    container,
+    SCROLL_SELECTED_CENTER_BIAS,
+    FALLBACK_SCROLL_SELECTED_CENTER_BIAS_PX,
+  );
+  const targetScrollTop =
+    item.offsetTop - (container.clientHeight - item.offsetHeight) / 2 - centerBiasPx;
+  container.scrollTop = Math.max(0, targetScrollTop);
+  updateListScrollFade();
+}
+
+async function scheduleScrollSelectedItemToCenter() {
+  if (!props.scrollSelectedToCenter) return;
+  await nextTick();
+  scrollSelectedItemToCenter();
+  requestAnimationFrame(() => {
+    scrollSelectedItemToCenter();
+  });
+}
+
 onMounted(() => {
   updateListScrollFade();
   listResizeObserver = new ResizeObserver(() => {
@@ -116,8 +166,20 @@ watch(useScrollableList, () => {
   updateListScrollFade();
 });
 
+watch(
+  () => props.selectedIndex,
+  () => {
+    void scheduleScrollSelectedItemToCenter();
+  },
+);
+
 onBeforeUnmount(() => {
   listResizeObserver?.disconnect();
+});
+
+defineExpose({
+  scrollSelectedItemToCenter,
+  scheduleScrollSelectedItemToCenter,
 });
 </script>
 

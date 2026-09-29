@@ -91,6 +91,7 @@ function stripTokenColors(attrs: string): string {
   return attrs
     .replace(/\sstyle="[^"]*"/gi, '')
     .replace(/\s(stroke|fill)="#[^"]*"/gi, '')
+    .replace(/\s(stroke|fill)-opacity="[^"]*"/gi, '')
     .replace(/\sstroke-width="[^"]*"/gi, '')
     .replace(/\svector-effect="[^"]*"/gi, '');
 }
@@ -195,7 +196,7 @@ function detectShapePaint(raw: string): { hasStroke: boolean; hasFill: boolean }
 
 /** 区分 token 单色图标与彩色硬编码图标；token 图标仅替换配色，不改结构。 */
 export function processSvg(iconName: string, raw: string): ProcessedIcon {
-  if (/^eds-application-\d+$/.test(iconName) || /^eds-business-\d+$/.test(iconName)) {
+  if (/^eds-application-\d+$/.test(iconName)) {
     return processFixedSvg(iconName, raw);
   }
 

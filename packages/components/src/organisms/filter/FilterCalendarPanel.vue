@@ -114,9 +114,17 @@ const resolvedHeaderActionLabel = computed(() => {
 });
 
 const activeHeaderSelectId = ref<'year' | 'month' | null>(null);
+const yearSelectRef = ref<{ close?: () => void } | null>(null);
+const monthSelectRef = ref<{ close?: () => void } | null>(null);
 
 function onHeaderSelectOpenChange(value: string | null) {
-  activeHeaderSelectId.value = value === 'year' || value === 'month' ? value : null;
+  const next = value === 'year' || value === 'month' ? value : null;
+  if (next === 'year') {
+    monthSelectRef.value?.close?.();
+  } else if (next === 'month') {
+    yearSelectRef.value?.close?.();
+  }
+  activeHeaderSelectId.value = next;
 }
 
 function onYearChange(value: string) {
@@ -300,14 +308,16 @@ function onHeaderActionClick() {
       <div :class="styles.headerSelectRow">
         <div :class="styles.headerSelectGroup">
           <FilterSelect
+            ref="yearSelectRef"
             variant="operator"
             layout="adaptive"
             trigger-style="subtle"
             trigger-size="xs"
-            open-id="year"
+            group-open-id="year"
             :active-open-id="activeHeaderSelectId"
             :menu-max-height="FILTER_CALENDAR_SELECT_MENU_MAX_HEIGHT"
             menu-list-scroll
+            scroll-selected-to-center
             :model-value="String(viewYear)"
             :options="yearOptions"
             :disabled="disabled"
@@ -315,12 +325,16 @@ function onHeaderActionClick() {
             @update:model-value="onYearChange"
           />
           <FilterSelect
+            ref="monthSelectRef"
             variant="operator"
             layout="adaptive"
             trigger-style="subtle"
             trigger-size="xs"
-            open-id="month"
+            group-open-id="month"
             :active-open-id="activeHeaderSelectId"
+            :menu-max-height="FILTER_CALENDAR_SELECT_MENU_MAX_HEIGHT"
+            menu-list-scroll
+            scroll-selected-to-center
             :model-value="String(viewMonth)"
             :options="monthOptions"
             :disabled="disabled"

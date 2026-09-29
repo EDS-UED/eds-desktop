@@ -150,6 +150,14 @@
   -ms-overflow-style: none;
 }
 
+.optionListScrollEmpty {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+}
+
 .optionListScroll::-webkit-scrollbar {
   display: none;
   width: 0;

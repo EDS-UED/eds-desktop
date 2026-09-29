@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import {
+  FALLBACK_EDGE_INSET_PX,
+  readCssTokenLength,
+  SPACING_EDGE_INSET,
+} from '../../shared/cssSpacingTokens';
 import { EgDivider } from '../../atoms/divider';
 import { EgIcon } from '../../atoms/icons';
 import { EgButton } from '../../molecules/button';
@@ -24,7 +29,7 @@ import {
   type FilterDateParts,
   type FilterTimeQuickPresetId,
 } from './filterDateUtils';
-import type { TooltipTrigger } from '../../molecules/tooltip';
+import type { TooltipAlign, TooltipTrigger } from '../../molecules/tooltip';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
@@ -41,12 +46,15 @@ const props = withDefaults(
     triggerWidth?: number;
     trigger?: TooltipTrigger;
     dropdownOpenId?: string;
+    boundarySelector?: string;
+    pickerAlign?: TooltipAlign;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
     disabled: false,
     triggerWidthMode: 'adaptive',
     trigger: 'click',
+    pickerAlign: 'end',
   },
 );
 
@@ -58,7 +66,9 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 
+const rootRef = ref<HTMLElement | null>(null);
 const flotationRef = ref<{ close?: () => void } | null>(null);
+const pickerCrossAxisOffset = ref<number | undefined>(undefined);
 const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
   () => props.dropdownOpenId,
   flotationRef,
@@ -171,19 +181,29 @@ function shiftViewMonth(offset: number) {
 function shiftViewYear(offset: number) {
   leftViewYear.value += offset;
 }
+
+onMounted(() => {
+  const el = rootRef.value;
+  if (!el) return;
+  const edgeInset = readCssTokenLength(el, SPACING_EDGE_INSET, FALLBACK_EDGE_INSET_PX);
+  const extraShift = readCssTokenLength(el, '--spacing-7', 28);
+  pickerCrossAxisOffset.value = edgeInset + extraShift;
+});
 </script>
 
 <template>
-  <div :class="styles.root">
+  <div ref="rootRef" :class="styles.root">
     <EgFlotation
       ref="flotationRef"
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"
-      align="center"
+      :align="pickerAlign"
+      :cross-axis-offset="pickerCrossAxisOffset"
       :width-mode="flotationWidthMode"
       :show-add="false"
       :show-menu-divider="false"
+      :boundary-selector="boundarySelector"
       flip
       @open="onPickerOpen"
       @close="onPickerClose"

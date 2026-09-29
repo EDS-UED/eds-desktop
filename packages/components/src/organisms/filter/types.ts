@@ -18,12 +18,23 @@ export type EgFilterFieldKind =
   | 'input'
   | 'dropdown';
 
+export type EgFilterFieldDropdownOption = {
+  id: string;
+  label: string;
+};
+
 export type EgFilterField = {
   id: string;
   label: string;
   kind: EgFilterFieldKind;
   /** currency / member / amount / gas-fee / status / dropdown 等可选。 */
   selectionMode?: EgFilterFieldSelectionMode;
+  /** kind=dropdown 时业务自定义选项；未传时用 Filter 内置演示项。 */
+  dropdownOptions?: readonly EgFilterFieldDropdownOption[];
+  /** kind=currency 时限定可选 preset id（与 FILTER_CURRENCY_PRESETS.id 对齐）。 */
+  currencyPresetIds?: readonly string[];
+  /** kind=currency 时按 symbol 限定可选项（优先于 currencyPresetIds，与列表数据对齐）。 */
+  currencySymbols?: readonly string[];
   /** amount / gas-fee：单值或区间。 */
   amountMode?: EgFilterAmountMode;
   /** amount / gas-fee：EgInput unit（如 BTC）。 */
@@ -37,6 +48,9 @@ export const FILTER_INPUT_PLACEHOLDER = '请输入';
 export const FILTER_NUMERIC_PLACEHOLDER = '0';
 export const FILTER_NUMERIC_RANGE_MIN_PLACEHOLDER = '最小';
 export const FILTER_NUMERIC_RANGE_MAX_PLACEHOLDER = '最大';
+
+/** Filter 内所有下拉菜单统一最大高度（px）。 */
+export const FILTER_DROPDOWN_MAX_HEIGHT = 380;
 
 const NUMERIC_FIELD_KINDS = new Set<EgFilterFieldKind>(['amount', 'gas-fee']);
 
@@ -73,7 +87,7 @@ export function resolveFilterFieldKind(
 
 /** 金额 / Gas Fee 值区左侧标记。 */
 export function filterNumericMarkerLabel(kind: EgFilterFieldKind): string {
-  if (kind === 'gas-fee') return 'Gas Fee';
+  if (kind === 'gas-fee') return '矿工费';
   return '金额';
 }
 
@@ -95,8 +109,8 @@ export const FILTER_FIELD_KIND_PRESETS: EgFilterField[] = [
   { id: 'member-multi', label: '成员', kind: 'member', selectionMode: 'multi', placeholder: FILTER_SELECT_PLACEHOLDER },
   { id: 'amount', label: '金额', kind: 'amount', amountMode: 'range', unit: 'BTC', placeholder: FILTER_NUMERIC_PLACEHOLDER },
   { id: 'amount-range', label: '金额', kind: 'amount', amountMode: 'single', unit: 'BTC', placeholder: FILTER_NUMERIC_PLACEHOLDER },
-  { id: 'gas-fee', label: 'Gas Fee', kind: 'gas-fee', amountMode: 'single', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
-  { id: 'gas-fee-range', label: 'Gas Fee', kind: 'gas-fee', amountMode: 'range', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
+  { id: 'gas-fee', label: '矿工费', kind: 'gas-fee', amountMode: 'single', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
+  { id: 'gas-fee-range', label: '矿工费', kind: 'gas-fee', amountMode: 'range', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
   { id: 'time', label: '时间', kind: 'time', placeholder: FILTER_SELECT_PLACEHOLDER },
   { id: 'time-range', label: '时间范围', kind: 'time-range', placeholder: FILTER_SELECT_PLACEHOLDER },
   { id: 'status', label: '状态类', kind: 'status', selectionMode: 'single', placeholder: FILTER_SELECT_PLACEHOLDER },

@@ -99,6 +99,8 @@ const props = withDefaults(
     closeDelay?: number;
     /** 菜单高亮行；定制区等需与当前值对齐时传入。未传时默认 0。 */
     selectedIndex?: number | null;
+    /** listScroll 打开时将 selectedIndex 滚至列表中间。 */
+    scrollSelectedToCenter?: boolean;
   }>(),
   {
     placement: 'bottom',
@@ -131,6 +133,7 @@ const props = withDefaults(
     trigger: 'click',
     openDelay: 0,
     closeDelay: 0,
+    scrollSelectedToCenter: false,
   },
 );
 
@@ -146,6 +149,7 @@ const slots = useSlots();
 const menuOpen = ref(false);
 const selectedIndex = ref<number | null>(props.selectedIndex ?? 0);
 const anchoredRef = ref<AnchoredApi | null>(null);
+const menuRef = ref<{ scheduleScrollSelectedItemToCenter?: () => Promise<void> } | null>(null);
 const triggerMatchWidth = ref<number | undefined>(undefined);
 const mainAxisGapPx = ref(FALLBACK_MAIN_AXIS_PX);
 const edgeInsetPx = ref(FALLBACK_EDGE_INSET_PX);
@@ -372,6 +376,7 @@ async function onOpen() {
   await nextTick();
   syncTriggerSize();
   scheduleMenuReposition();
+  await menuRef.value?.scheduleScrollSelectedItemToCenter?.();
   emit('open');
 }
 
@@ -459,6 +464,7 @@ defineExpose({
       >
         <FlotationMenu
           v-if="usePresetContent"
+          ref="menuRef"
           panel-kind="flotation"
           :width-mode="menuWidthMode"
           :width="menuWidth"
@@ -466,6 +472,8 @@ defineExpose({
           :height="height"
           :max-height="maxHeight"
           :list-scroll="listScroll"
+          :selected-index="selectedIndex"
+          :scroll-selected-to-center="scrollSelectedToCenter"
           :show-divider="showMenuDivider"
           :show-add="showAdd"
           :add-label="addLabel"

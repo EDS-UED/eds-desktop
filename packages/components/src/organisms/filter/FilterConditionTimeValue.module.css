@@ -61,3 +61,30 @@
   height: var(--icon-md);
   color: var(--text-base-secondary);
 }
+
+.triggerValueText {
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  color: inherit;
+}
+
+.triggerPlaceholder {
+  color: var(--text-subtle-primary);
+}
+
+.root :global(.eds-flotation-trigger) :global(.triggerTitle),
+.root :global(.eds-flotation-trigger) :global(.triggerRaw) {
+  justify-content: center;
+}
+
+.root :global(.eds-flotation-trigger) :global(.triggerLabel) {
+  flex: 1 1 auto;
+  text-align: center;
+}

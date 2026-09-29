@@ -1,3 +1,5 @@
+import { FILTER_DROPDOWN_MAX_HEIGHT } from './types';
+
 export type FilterMemberPreset = {
   id: string;
   label: string;
@@ -10,7 +12,7 @@ export type FilterWaasProjectPreset = {
   name: string;
 };
 
-export const FILTER_MEMBER_PICKER_HEIGHT = 360;
+export const FILTER_MEMBER_PICKER_HEIGHT = FILTER_DROPDOWN_MAX_HEIGHT;
 
 /** Filter 成员条件值演示列表（英文为主，少量中文）。 */
 export const FILTER_MEMBER_PRESETS: FilterMemberPreset[] = [

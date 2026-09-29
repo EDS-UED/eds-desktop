@@ -5,7 +5,7 @@ import {
   EgFlotationTrigger,
   type FlotationMenuItemPreset,
 } from '../../molecules/flotation';
-import { FILTER_LOGIC_MODE_OPTIONS, type EgFilterLogicMode } from './types';
+import { FILTER_DROPDOWN_MAX_HEIGHT, FILTER_LOGIC_MODE_OPTIONS, type EgFilterLogicMode } from './types';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterLogicRow.module.css';
@@ -61,6 +61,7 @@ function onItemClick(_item: FlotationMenuItemPreset, index: number) {
         :trigger-label="selectedLabel"
         :show-add="false"
         :show-menu-divider="false"
+        :max-height="FILTER_DROPDOWN_MAX_HEIGHT"
         :items="menuItems"
         :selected-index="selectedIndex"
         flip

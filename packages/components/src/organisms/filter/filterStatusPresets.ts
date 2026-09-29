@@ -1,4 +1,5 @@
 import type { TagStatus } from '../../molecules/tag';
+import { FILTER_DROPDOWN_MAX_HEIGHT } from './types';
 
 export type FilterStatusPreset = {
   id: string;
@@ -7,7 +8,7 @@ export type FilterStatusPreset = {
   status: TagStatus;
 };
 
-export const FILTER_STATUS_PICKER_HEIGHT = 360;
+export const FILTER_STATUS_PICKER_HEIGHT = FILTER_DROPDOWN_MAX_HEIGHT;
 
 /** Filter 状态类演示选项（EgStatusTag 五类语义）。 */
 export const FILTER_STATUS_PRESETS: FilterStatusPreset[] = [

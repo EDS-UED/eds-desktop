@@ -8,6 +8,7 @@ export type {
   EgFilterAmountMode,
   EgFilterCondition,
   EgFilterField,
+  EgFilterFieldDropdownOption,
   EgFilterCascadePlacement,
   EgFilterFieldKind,
   EgFilterFieldSelectionMode,
@@ -23,6 +24,7 @@ export {
   FILTER_NUMERIC_PLACEHOLDER,
   FILTER_NUMERIC_RANGE_MAX_PLACEHOLDER,
   FILTER_NUMERIC_RANGE_MIN_PLACEHOLDER,
+  FILTER_DROPDOWN_MAX_HEIGHT,
   FILTER_SELECT_PLACEHOLDER,
   cloneFilterConditions,
   createFilterCondition,
@@ -52,4 +54,15 @@ export {
   normalizeFilterLocale,
   resolveFilterUiText,
 } from './filterUiText';
+export {
+  FILTER_MEMBER_PRESETS,
+  FILTER_WAAS_PROJECT_PRESETS,
+  resolveFilterMemberPreset,
+} from './filterMemberPresets';
+export type { FilterMemberPreset, FilterWaasProjectPreset } from './filterMemberPresets';
+export {
+  FILTER_DROPDOWN_PRESETS,
+  resolveFilterSelectValueOption,
+} from './filterSelectValuePresets';
+export type { FilterSelectValueOption } from './filterSelectValuePresets';
 export type { FilterLocale, FilterTranslate } from './filterUiText';

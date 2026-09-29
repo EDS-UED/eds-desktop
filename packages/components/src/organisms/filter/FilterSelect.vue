@@ -7,9 +7,11 @@ import {
   type FlotationTriggerStyle,
 } from '../../molecules/flotation';
 import type { FlotationWidthMode } from '../../molecules/flotation/Flotation.vue';
+import type { TooltipAlign } from '../../molecules/tooltip';
 import { OVERFLOW_EPSILON } from '../../utils/overflowTextMeasure';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
+import { FILTER_DROPDOWN_MAX_HEIGHT } from './types';
 import styles from './FilterSelect.module.css';
 
 const t = useFilterTranslate();
@@ -28,9 +30,16 @@ const props = withDefaults(
     menuMaxHeight?: number;
     /** 仅列表区滚动（配合 menuMaxHeight）。 */
     menuListScroll?: boolean;
-    /** EgFilter 面板内互斥 id；未传时不参与互斥。 */
+    /** 打开时将当前选中项滚至列表中间（如日历年）。 */
+    scrollSelectedToCenter?: boolean;
+    /** EgFilter 面板内互斥 id；未传时不参与面板级互斥。 */
     openId?: string;
+    /** 同组互斥 key（如日历年/月）；与 openId 分离，避免误关外层 picker。 */
+    groupOpenId?: string;
+    /** 同组下拉互斥状态；配合 update:activeOpenId。 */
+    activeOpenId?: string | null;
     boundarySelector?: string;
+    align?: TooltipAlign;
     placeholder?: string;
   }>(),
   {
@@ -40,15 +49,20 @@ const props = withDefaults(
     triggerStyle: 'outline',
     triggerSize: 'sm',
     placeholder: undefined,
-    menuMaxHeight: undefined,
-    menuListScroll: false,
+    menuMaxHeight: FILTER_DROPDOWN_MAX_HEIGHT,
+    menuListScroll: true,
+    scrollSelectedToCenter: false,
     openId: undefined,
+    groupOpenId: undefined,
+    activeOpenId: undefined,
     boundarySelector: undefined,
+    align: 'start',
   },
 );
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];
+  'update:activeOpenId': [value: string | null];
 }>();
 
 const rootRef = ref<HTMLElement | null>(null);
@@ -58,6 +72,10 @@ const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
   flotationRef,
 );
 const menuWidthMode = ref<FlotationWidthMode>('trigger');
+
+const usesActiveOpenGroup = computed(() => props.activeOpenId !== undefined);
+
+const siblingMutexId = computed(() => props.groupOpenId ?? props.openId);
 
 const menuItems = computed((): FlotationMenuItemPreset[] =>
   props.options.map((option) => ({ label: t(option.label) })),
@@ -169,14 +187,46 @@ function onRootPointerDown() {
 }
 
 function onFlotationOpen() {
-  onDropdownOpen();
+  const mutexId = siblingMutexId.value;
+  if (usesActiveOpenGroup.value && mutexId !== undefined) {
+    emit('update:activeOpenId', mutexId);
+  }
+  if (props.openId !== undefined) {
+    onDropdownOpen();
+  }
   syncOperatorMenuWidthMode();
   void syncOperatorMenuWidthModeAfterLayout();
 }
 
 function onFlotationClose() {
-  onDropdownClose();
+  const mutexId = siblingMutexId.value;
+  if (
+    usesActiveOpenGroup.value
+    && mutexId !== undefined
+    && props.activeOpenId === mutexId
+  ) {
+    emit('update:activeOpenId', null);
+  }
+  if (props.openId !== undefined) {
+    onDropdownClose();
+  }
 }
+
+watch(
+  () => props.activeOpenId,
+  (activeId) => {
+    const id = siblingMutexId.value;
+    if (!usesActiveOpenGroup.value || id === undefined || activeId == null) return;
+    if (activeId === id) return;
+    flotationRef.value?.close?.();
+  },
+);
+
+function closeMenu() {
+  flotationRef.value?.close?.();
+}
+
+defineExpose({ close: closeMenu });
 </script>
 
 <template>
@@ -198,7 +248,7 @@ function onFlotationClose() {
       ref="flotationRef"
       :disabled="disabled"
       placement="bottom"
-      align="start"
+      :align="align"
       :width-mode="flotationWidthMode"
       :trigger-style="triggerStyle"
       :trigger-size="triggerSize"
@@ -206,6 +256,7 @@ function onFlotationClose() {
       :show-add="false"
       :show-menu-divider="false"
       :list-scroll="menuListScroll"
+      :scroll-selected-to-center="scrollSelectedToCenter"
       :max-height="menuMaxHeight"
       :items="menuItems"
       :selected-index="selectedIndex"

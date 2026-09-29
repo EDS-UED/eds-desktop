@@ -12,7 +12,9 @@ import {
   EgFlotationMenuItem,
   EgFlotationTrigger,
 } from '../../molecules/flotation';
-import FilterSelect from './FilterSelect.vue';
+import { EgSearchInput } from '../../molecules/search';
+import type { TooltipAlign } from '../../molecules/tooltip';
+import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
 import type { EgFilterFieldSelectionMode } from './types';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
 import {
@@ -21,6 +23,7 @@ import {
   type FilterSelectValueOption,
 } from './filterSelectValuePresets';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
+import { useFilterSearchPickerListAreaHeight } from './useFilterSearchPickerListAreaHeight';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionSelectValue.module.css';
 
@@ -34,11 +37,14 @@ const props = withDefaults(
     disabled?: boolean;
     selectionMode?: EgFilterFieldSelectionMode;
     dropdownOpenId?: string;
+    boundarySelector?: string;
+    pickerAlign?: TooltipAlign;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
     disabled: false,
     selectionMode: 'single',
+    pickerAlign: 'end',
   },
 );
 
@@ -48,6 +54,7 @@ const emit = defineEmits<{
 
 const t = useFilterTranslate();
 
+const searchQuery = ref('');
 const draftValues = ref<Set<string>>(new Set());
 const flotationRef = ref<{ close?: () => void } | null>(null);
 const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
@@ -89,14 +96,32 @@ const selectedCount = computed(() => selectedValueList.value.length);
 
 const hasDraftSelection = computed(() => draftValues.value.size > 0);
 
-const selectOptions = computed(() =>
-  props.options.map((option) => ({ id: option.id, label: option.label })),
+const filteredOptions = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase();
+  if (!query) return props.options;
+  return props.options.filter((option) => t(option.label).toLowerCase().includes(query));
+});
+
+const showSearchEmpty = computed(
+  () => Boolean(searchQuery.value.trim()) && filteredOptions.value.length === 0,
 );
 
+const {
+  listAreaStyle,
+  resetListAreaHeight,
+  scheduleCaptureListAreaHeight,
+  onScrollMetricsDepsChange,
+} = useFilterSearchPickerListAreaHeight({
+  scrollRef,
+  searchQuery,
+  showSearchEmpty,
+});
+
 watch(
-  () => [props.options.length, isMulti.value],
+  () => [filteredOptions.value.length, searchQuery.value, isMulti.value, showSearchEmpty.value],
   () => {
     updatePickerScroll();
+    onScrollMetricsDepsChange();
   },
 );
 
@@ -115,18 +140,26 @@ function parseValueSet(raw: string): Set<string> {
   );
 }
 
+function resetSearch() {
+  searchQuery.value = '';
+  resetListAreaHeight();
+}
+
 function onPickerOpen() {
   onDropdownOpen();
+  resetListAreaHeight();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
   void nextTick(() => {
     updatePickerScroll();
+    scheduleCaptureListAreaHeight();
   });
 }
 
 function onPickerClose() {
   onDropdownClose();
+  resetSearch();
 }
 
 function isOptionSelected(option: FilterSelectValueOption): boolean {
@@ -138,7 +171,7 @@ function getOptionSelectionState(option: FilterSelectValueOption): 'none' | 'ful
 }
 
 const selectAllMode = computed<FilterSelectAllMode>(() => {
-  const options = props.options;
+  const options = filteredOptions.value;
   if (!options.length) return 'none';
 
   const states = options.map((option) => getOptionSelectionState(option));
@@ -157,7 +190,7 @@ function onSelectAllToggle() {
   const next = cloneValueSet(draftValues.value);
   const shouldSelectAll = selectAllMode.value !== 'all';
 
-  props.options.forEach((option) => {
+  filteredOptions.value.forEach((option) => {
     if (shouldSelectAll) next.add(option.id);
     else next.delete(option.id);
   });
@@ -224,28 +257,15 @@ const triggerCountText = computed(() => String(selectedCount.value));
 
 <template>
   <div :class="styles.root">
-    <FilterSelect
-      v-if="!isMulti"
-      layout="stretch"
-      trigger-style="subtle"
-      trigger-size="sm"
-      :model-value="modelValue"
-      :options="selectOptions"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :open-id="dropdownOpenId"
-      @update:model-value="emit('update:modelValue', $event)"
-    />
-
     <EgFlotation
-      v-else
       ref="flotationRef"
       :disabled="disabled"
       placement="bottom"
-      align="start"
+      :align="pickerAlign"
       width-mode="trigger"
       :show-add="false"
       :show-menu-divider="false"
+      :boundary-selector="boundarySelector"
       flip
       @open="onPickerOpen"
       @close="onPickerClose"
@@ -277,14 +297,21 @@ const triggerCountText = computed(() => String(selectedCount.value));
           panel-radius="radius-md"
           :width-mode="menuWidthMode"
           :width="menuWidth"
-          height-mode="fixed"
-          :height="FILTER_SELECT_VALUE_PICKER_HEIGHT"
+          height-mode="adaptive"
           :max-height="FILTER_SELECT_VALUE_PICKER_HEIGHT"
           :show-add="false"
           :show-divider="false"
           :scrollable="false"
         >
           <div :class="styles.pickerRows">
+            <div :class="styles.searchHeader">
+              <EgSearchInput
+                v-model="searchQuery"
+                :placeholder="t('搜索')"
+                width-mode="full"
+              />
+            </div>
+
             <EgDivider
               v-if="pickerCanScroll"
               type="module"
@@ -302,11 +329,15 @@ const triggerCountText = computed(() => String(selectedCount.value));
               ref="scrollRef"
               :class="[
                 styles.optionListScroll,
-                pickerBottomScrim && styles.listScrollFadeBottom,
+                showSearchEmpty && styles.optionListScrollEmpty,
+                pickerBottomScrim && !isMulti && !showSearchEmpty && styles.listScrollFadeBottom,
               ]"
+              :style="listAreaStyle"
             >
-              <div ref="optionListRef" :class="styles.optionList">
+              <FilterSearchPickerEmpty v-if="showSearchEmpty" />
+              <div v-else ref="optionListRef" :class="styles.optionList">
                 <EgFlotationMenuItem
+                  v-if="isMulti"
                   box-type="text"
                   :label="t('全部')"
                   show-checkbox
@@ -326,11 +357,11 @@ const triggerCountText = computed(() => String(selectedCount.value));
                 </EgFlotationMenuItem>
 
                 <EgFlotationMenuItem
-                  v-for="option in options"
+                  v-for="option in filteredOptions"
                   :key="option.id"
                   box-type="text"
                   :label="t(option.label)"
-                  :show-checkbox="true"
+                  :show-checkbox="isMulti"
                   :checked="isOptionSelected(option)"
                   :show-tag="false"
                   @click="onOptionClick(option, close)"
@@ -340,6 +371,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
             </div>
 
             <EgComboFloatButton
+              v-if="isMulti"
               :class="styles.pickerAction"
               tone="decor"
               :count="2"

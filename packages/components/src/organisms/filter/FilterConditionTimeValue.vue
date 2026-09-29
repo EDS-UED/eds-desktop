@@ -14,7 +14,7 @@ import {
   toDateKey,
   type FilterDateParts,
 } from './filterDateUtils';
-import type { TooltipTrigger } from '../../molecules/tooltip';
+import type { TooltipAlign, TooltipTrigger } from '../../molecules/tooltip';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
@@ -31,12 +31,15 @@ const props = withDefaults(
     triggerWidth?: number;
     trigger?: TooltipTrigger;
     dropdownOpenId?: string;
+    boundarySelector?: string;
+    pickerAlign?: TooltipAlign;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
     disabled: false,
     triggerWidthMode: 'adaptive',
     trigger: 'click',
+    pickerAlign: 'center',
   },
 );
 
@@ -120,10 +123,11 @@ function onTodayClick() {
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"
-      align="center"
+      :align="pickerAlign"
       :width-mode="flotationWidthMode"
       :show-add="false"
       :show-menu-divider="false"
+      :boundary-selector="boundarySelector"
       flip
       @open="onPickerOpen"
       @close="onPickerClose"
@@ -134,10 +138,21 @@ function onTodayClick() {
           size="sm"
           :width-mode="triggerWidthMode"
           :width="triggerWidth"
-          :label="triggerLabel"
           :expanded="expanded"
           :disabled="disabled"
         >
+          <span
+            v-if="selectedDate"
+            :class="styles.triggerValueText"
+          >
+            {{ triggerLabel }}
+          </span>
+          <span
+            v-else
+            :class="[styles.triggerValueText, styles.triggerPlaceholder]"
+          >
+            {{ triggerLabel }}
+          </span>
           <template #symbol>
             <span :class="styles.triggerCalendarSymbol">
               <EgIcon name="eds-calendar" size="sm" />

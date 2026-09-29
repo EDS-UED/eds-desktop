@@ -1,3 +1,5 @@
+import { FILTER_DROPDOWN_MAX_HEIGHT } from './types';
+
 export type FilterDateParts = {
   year: number;
   month: number;
@@ -22,7 +24,7 @@ export const FILTER_TIME_QUICK_PRESETS: Array<{ id: FilterTimeQuickPresetId; lab
 export const FILTER_TIME_PICKER_WIDTH = 280;
 export const FILTER_TIME_RANGE_PICKER_WIDTH = 560;
 /** 日历年/月下拉：内容溢出时的最大高度（px）。 */
-export const FILTER_CALENDAR_SELECT_MENU_MAX_HEIGHT = 410;
+export const FILTER_CALENDAR_SELECT_MENU_MAX_HEIGHT = FILTER_DROPDOWN_MAX_HEIGHT;
 
 function pad2(value: number): string {
   return String(value).padStart(2, '0');

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FlotationTriggerWidthMode } from '../../molecules/flotation';
-import type { TooltipTrigger } from '../../molecules/tooltip';
+import type { TooltipAlign, TooltipTrigger } from '../../molecules/tooltip';
 import FilterConditionTimeRangeValue from './FilterConditionTimeRangeValue.vue';
 import FilterConditionTimeValue from './FilterConditionTimeValue.vue';
 
@@ -16,12 +16,15 @@ const props = withDefaults(
     triggerWidth?: number;
     trigger?: TooltipTrigger;
     dropdownOpenId?: string;
+    boundarySelector?: string;
+    pickerAlign?: TooltipAlign;
   }>(),
   {
     disabled: false,
     mode: 'date',
     triggerWidthMode: 'adaptive',
     trigger: 'click',
+    pickerAlign: 'end',
   },
 );
 
@@ -40,6 +43,8 @@ defineEmits<{
     :trigger-width="triggerWidth"
     :trigger="trigger"
     :dropdown-open-id="dropdownOpenId"
+    :boundary-selector="boundarySelector"
+    :picker-align="pickerAlign"
     @update:model-value="$emit('update:modelValue', $event)"
   />
   <FilterConditionTimeValue
@@ -51,6 +56,8 @@ defineEmits<{
     :trigger-width="triggerWidth"
     :trigger="trigger"
     :dropdown-open-id="dropdownOpenId"
+    :boundary-selector="boundarySelector"
+    :picker-align="pickerAlign"
     @update:model-value="$emit('update:modelValue', $event)"
   />
 </template>

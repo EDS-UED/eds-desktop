@@ -156,6 +156,7 @@
 }
 
 .optionListScroll {
+  position: relative;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
@@ -166,6 +167,14 @@
   overscroll-behavior: contain;
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+.optionListScrollEmpty {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
 }
 
 .optionListScroll::-webkit-scrollbar {
@@ -263,10 +272,6 @@
 .cascadeRow :global(.eds-flotation-menu-item:hover),
 .cascadeRow :global(.eds-flotation-menu-item:focus-visible) {
   background-color: transparent !important;
-}
-
-.cascadeRow :global(.eds-message) {
-  background: var(--material-card-moderate);
 }
 
 .networkSubmenu:global(.desktopTokens.effect-flotation-box) {

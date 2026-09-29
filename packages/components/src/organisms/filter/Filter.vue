@@ -42,6 +42,8 @@ const props = withDefaults(
     align?: TooltipAlign;
     boundarySelector?: string;
     teleportTo?: string | HTMLElement;
+    /** 条件值编辑器（成员 / 下拉 / 日期等）浮层 cross-axis 对齐；Filter 面板靠右时建议 end。 */
+    valueAlign?: TooltipAlign;
     widthMode?: TooltipWidthMode;
     width?: number;
     maxHeight?: number;
@@ -64,6 +66,7 @@ const props = withDefaults(
     align: 'start',
     boundarySelector: '.eds-data-list',
     teleportTo: '.app-preview',
+    valueAlign: 'end',
     widthMode: 'fixed',
     width: 480,
     maxHeight: 420,
@@ -222,6 +225,8 @@ function onDraftLogicModeUpdate(logicMode: EgFilterLogicMode) {
             :remove-label="removeLabel"
             :max-conditions="maxConditions"
             :logic-mode="draftLogicMode"
+            :boundary-selector="boundarySelector"
+            :value-align="valueAlign"
             @update:conditions="onDraftConditionsUpdate"
             @apply:conditions="onApplyConditions"
             @update:logic-mode="onDraftLogicModeUpdate"

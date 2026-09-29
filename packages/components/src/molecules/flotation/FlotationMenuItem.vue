@@ -39,6 +39,8 @@ const props = withDefaults(
     showMessage?: boolean;
     messageText?: string;
     messageType?: MessageType;
+    /** Message 不随行聚焦态变化（计数 etc. 聚焦/未聚焦视觉一致时）。 */
+    messageStatic?: boolean;
     symbolIcon?: string;
     /** 文案区允许多行换行（场景化地址等长文本）。 */
     labelWrap?: boolean;
@@ -63,6 +65,7 @@ const props = withDefaults(
     showMessage: false,
     messageText: '0',
     messageType: 'subtle',
+    messageStatic: false,
     symbolIcon: 'eds-add',
     labelWrap: false,
     hostTag: 'button',
@@ -109,8 +112,8 @@ const itemClass = computed(() => [
   props.disabled && styles.boxDisabled,
 ]);
 
-const isRowFocused = computed(() => props.focused);
-provide(MESSAGE_PARENT_FOCUSED_KEY, isRowFocused);
+const isMessageFocused = computed(() => !props.messageStatic && props.focused);
+provide(MESSAGE_PARENT_FOCUSED_KEY, isMessageFocused);
 
 function onClick(event: MouseEvent) {
   if (props.disabled) return;
@@ -208,6 +211,7 @@ function onKeydown(event: KeyboardEvent) {
             <EgMessage
               :type="messageType"
               :text="messageText"
+              :focused="messageStatic ? false : undefined"
               :focus-background="messageType === 'subtle' ? 'same-white' : 'inherit'"
             />
           </slot>

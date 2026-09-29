@@ -26,6 +26,7 @@ import {
 } from './filterStatusPresets';
 import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
+import { useFilterSearchPickerListAreaHeight } from './useFilterSearchPickerListAreaHeight';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionStatusValue.module.css';
 
@@ -111,10 +112,22 @@ const showSearchEmpty = computed(
   () => Boolean(searchQuery.value.trim()) && filteredOptions.value.length === 0,
 );
 
+const {
+  listAreaStyle,
+  resetListAreaHeight,
+  scheduleCaptureListAreaHeight,
+  onScrollMetricsDepsChange,
+} = useFilterSearchPickerListAreaHeight({
+  scrollRef,
+  searchQuery,
+  showSearchEmpty,
+});
+
 watch(
   () => [filteredOptions.value.length, searchQuery.value, isMulti.value, showSearchEmpty.value],
   () => {
     updatePickerScroll();
+    onScrollMetricsDepsChange();
   },
 );
 
@@ -135,15 +148,18 @@ function parseValueSet(raw: string): Set<string> {
 
 function resetSearch() {
   searchQuery.value = '';
+  resetListAreaHeight();
 }
 
 function onPickerOpen() {
   onDropdownOpen();
+  resetListAreaHeight();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
   void nextTick(() => {
     updatePickerScroll();
+    scheduleCaptureListAreaHeight();
   });
 }
 
@@ -325,8 +341,10 @@ const triggerCountText = computed(() => String(selectedCount.value));
               ref="scrollRef"
               :class="[
                 styles.optionListScroll,
+                showSearchEmpty && styles.optionListScrollEmpty,
                 pickerBottomScrim && !isMulti && !showSearchEmpty && styles.listScrollFadeBottom,
               ]"
+              :style="listAreaStyle"
             >
               <FilterSearchPickerEmpty v-if="showSearchEmpty" />
               <div v-else ref="optionListRef" :class="styles.optionList">

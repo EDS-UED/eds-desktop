@@ -16,7 +16,7 @@ import {
 } from '../../molecules/flotation';
 import { EgSearchInput } from '../../molecules/search';
 import { EgTabs } from '../../molecules/tab';
-import type { TooltipTrigger } from '../../molecules/tooltip';
+import type { TooltipAlign, TooltipTrigger } from '../../molecules/tooltip';
 import type { EgFilterFieldSelectionMode } from './types';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
 import {
@@ -30,6 +30,7 @@ import {
 } from './filterMemberPresets';
 import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
+import { useFilterSearchPickerListAreaHeight } from './useFilterSearchPickerListAreaHeight';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionMemberValue.module.css';
 
@@ -50,6 +51,8 @@ const props = withDefaults(
     /** 成员 / WaaS 项目 Tab；关闭时仅展示成员列表。 */
     showTypeTabs?: boolean;
     dropdownOpenId?: string;
+    boundarySelector?: string;
+    pickerAlign?: TooltipAlign;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -58,6 +61,7 @@ const props = withDefaults(
     triggerWidthMode: 'adaptive',
     trigger: 'click',
     showTypeTabs: true,
+    pickerAlign: 'end',
   },
 );
 
@@ -130,6 +134,17 @@ const showSearchEmpty = computed(
   () => Boolean(searchQuery.value.trim()) && filteredOptions.value.length === 0,
 );
 
+const {
+  listAreaStyle,
+  resetListAreaHeight,
+  scheduleCaptureListAreaHeight,
+  onScrollMetricsDepsChange,
+} = useFilterSearchPickerListAreaHeight({
+  scrollRef,
+  searchQuery,
+  showSearchEmpty,
+});
+
 watch(
   () => props.showTypeTabs,
   (enabled) => {
@@ -148,6 +163,7 @@ watch(
   ],
   () => {
     updatePickerScroll();
+    onScrollMetricsDepsChange();
   },
 );
 
@@ -168,15 +184,18 @@ function parseValueSet(raw: string): Set<string> {
 
 function resetSearch() {
   searchQuery.value = '';
+  resetListAreaHeight();
 }
 
 function onPickerOpen() {
   onDropdownOpen();
+  resetListAreaHeight();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
   void nextTick(() => {
     updatePickerScroll();
+    scheduleCaptureListAreaHeight();
   });
 }
 
@@ -293,10 +312,11 @@ const triggerCountText = computed(() => String(selectedCount.value));
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"
-      align="start"
+      :align="pickerAlign"
       width-mode="trigger"
       :show-add="false"
       :show-menu-divider="false"
+      :boundary-selector="boundarySelector"
       flip
       @open="onPickerOpen"
       @close="onPickerClose"
@@ -380,8 +400,10 @@ const triggerCountText = computed(() => String(selectedCount.value));
               ref="scrollRef"
               :class="[
                 styles.optionListScroll,
+                showSearchEmpty && styles.optionListScrollEmpty,
                 pickerBottomScrim && !isMulti && !showSearchEmpty && styles.listScrollFadeBottom,
               ]"
+              :style="listAreaStyle"
             >
               <FilterSearchPickerEmpty v-if="showSearchEmpty" />
               <div v-else ref="optionListRef" :class="styles.optionList">

@@ -23,7 +23,7 @@ export const FILTER_FIELD_KIND_OPTIONS: Array<{ value: EgFilterFieldKind; label:
   { value: 'currency', label: showcaseText('Currency', '币种') },
   { value: 'member', label: showcaseText('Member', '成员') },
   { value: 'amount', label: showcaseText('Amount', '金额') },
-  { value: 'gas-fee', label: showcaseText('Gas fee', 'Gas Fee') },
+  { value: 'gas-fee', label: showcaseText('Gas Fee', '矿工费') },
   { value: 'time', label: showcaseText('Time', '时间') },
   { value: 'time-range', label: showcaseText('Time range', '时间范围') },
   { value: 'status', label: showcaseText('Status type', '状态类') },

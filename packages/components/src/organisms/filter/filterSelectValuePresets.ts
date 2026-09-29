@@ -1,9 +1,11 @@
+import { FILTER_DROPDOWN_MAX_HEIGHT } from './types';
+
 export type FilterSelectValueOption = {
   id: string;
   label: string;
 };
 
-export const FILTER_SELECT_VALUE_PICKER_HEIGHT = 240;
+export const FILTER_SELECT_VALUE_PICKER_HEIGHT = FILTER_DROPDOWN_MAX_HEIGHT;
 
 /** Filter 下拉类演示选项。 */
 export const FILTER_DROPDOWN_PRESETS: FilterSelectValueOption[] = [

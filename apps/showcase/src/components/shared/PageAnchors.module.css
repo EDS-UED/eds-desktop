@@ -145,9 +145,39 @@
   color: var(--text-base-secondary);
 }
 
+.linkScene {
+  align-items: flex-start;
+  white-space: normal;
+}
+
+.linkStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  min-width: 0;
+}
+
+.linkLinePrimary {
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.linkLineSecondary {
+  color: var(--text-base-secondary);
+  font-size: var(--eds-footnote-size);
+  font-weight: var(--eds-footnote-weight);
+  line-height: var(--eds-footnote-line-height);
+}
+
 .linkActive {
   color: var(--text-base-primary);
   font-weight: var(--eds-footnote-strong-weight);
+}
+
+.linkActive .linkLineSecondary {
+  color: var(--text-base-secondary);
 }
 
 .linkActive:hover:not(:focus-visible) {

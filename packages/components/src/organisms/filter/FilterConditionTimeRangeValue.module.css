@@ -54,7 +54,22 @@
 }
 
 .triggerPlaceholder {
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  text-align: center;
   color: var(--text-subtle-primary);
+}
+
+.root :global(.eds-flotation-trigger:has(.triggerPlaceholder)) :global(.triggerTitle),
+.root :global(.eds-flotation-trigger:has(.triggerPlaceholder)) :global(.triggerRaw) {
+  justify-content: center;
+}
+
+.root :global(.eds-flotation-trigger:has(.triggerPlaceholder)) :global(.triggerLabel) {
+  flex: 1 1 auto;
+  text-align: center;
 }
 
 .triggerOverflowTooltip :global(.eds-tooltip-panel) {

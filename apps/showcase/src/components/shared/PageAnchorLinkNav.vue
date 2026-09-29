@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref, watch, type ComponentPublicInstance } from 'vue';
 import { RouterLink } from 'vue-router';
+import type { ShowcaseSceneSidebarLinkLabel } from '@/data/i18n/resolveShowcaseCatalogText';
 import type { AnchorItem } from '@/data/types';
 import styles from './PageAnchors.module.css';
 
@@ -12,6 +13,7 @@ const props = withDefaults(
     isLinkActive: (item: AnchorItem) => boolean;
     isNavLabel: (item: AnchorItem) => boolean;
     anchorNavLabel: (item: AnchorItem) => string;
+    anchorNavSceneLabel?: (item: AnchorItem) => ShowcaseSceneSidebarLinkLabel | undefined;
     isHiddenSidebarBody: (item: AnchorItem) => boolean;
   }>(),
   {
@@ -158,10 +160,17 @@ onBeforeUnmount(() => {
         :to="linkTo(item)"
         :class="[
           styles.link,
+          anchorNavSceneLabel?.(item) && styles.linkScene,
           isLinkActive(item) && styles.linkActive,
         ]"
       >
-        {{ anchorNavLabel(item) }}
+        <span v-if="anchorNavSceneLabel?.(item)" :class="styles.linkStack">
+          <span :class="styles.linkLinePrimary">{{ anchorNavLabel(item) }}</span>
+          <span :class="styles.linkLineSecondary">
+            {{ anchorNavSceneLabel(item)!.sceneLabel }}
+          </span>
+        </span>
+        <template v-else>{{ anchorNavLabel(item) }}</template>
       </RouterLink>
     </template>
   </nav>
