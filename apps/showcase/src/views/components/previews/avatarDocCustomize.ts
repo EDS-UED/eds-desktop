@@ -15,10 +15,11 @@ export const avatarCustomizeDefaults = {
 
 export const avatarSizeOptions = [
   { value: 'xs', label: 'xs · 16px' },
-  { value: 'sm', label: 'sm · 24px' },
-  { value: 'md', label: 'md · 32px' },
-  { value: 'lg', label: 'lg · 36px' },
-  { value: 'xl', label: 'xl · 40px' },
+  { value: 'sm', label: 'sm · 20px' },
+  { value: 'md', label: 'md · 24px' },
+  { value: 'lg', label: 'lg · 32px' },
+  { value: 'xl', label: 'xl · 36px' },
+  { value: '2xl', label: '2xl · 40px' },
 ] as const;
 
 const colorIndexOptions = [

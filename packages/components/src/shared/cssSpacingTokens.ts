@@ -4,9 +4,11 @@ type TooltipAlign = 'start' | 'center' | 'end';
 export const SPACING_MAIN_AXIS = '--spacing-025';
 export const SPACING_MAIN_AXIS_POPOVER = '--spacing-05';
 export const SPACING_EDGE_INSET = '--spacing-2';
+export const SPACING_1 = '--spacing-1';
 export const FALLBACK_MAIN_AXIS_PX = 1;
 export const FALLBACK_MAIN_AXIS_POPOVER_PX = 2;
 export const FALLBACK_EDGE_INSET_PX = 8;
+export const FALLBACK_SPACING_1_PX = 4;
 
 /**
  * 探针 append → getComputedStyle → remove 会强制同步样式重算；浮层挂载时每实例两次，

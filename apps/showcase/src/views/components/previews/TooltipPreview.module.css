@@ -36,6 +36,21 @@
   justify-content: flex-start;
 }
 
+.filterPickerScene {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.filterPickerSceneFullWidth > :global(*) {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
 .multiAddressHost {
   width: 100%;
   max-width: 100%;

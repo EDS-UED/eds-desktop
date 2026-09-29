@@ -43,8 +43,13 @@
  */
 .root:hover:not(:disabled) .iconSlot :global(.eds-icon-button),
 .root:active:not(:disabled) .iconSlot :global(.eds-icon-button),
-.root:focus-visible:not(:disabled) .iconSlot :global(.eds-icon-button) {
+.root:focus-visible:not(:disabled) .iconSlot :global(.eds-icon-button),
+.root.active:not(:disabled) .iconSlot :global(.eds-icon-button) {
   background-color: var(--event-hover);
+}
+
+.root.active:not(:disabled) .iconSlot :global(.eds-icon-button) {
+  background-color: var(--event-focus);
 }
 
 .root:hover:not(:disabled) .iconSlot :global(.eds-icon-button) :global(.eds-icon),

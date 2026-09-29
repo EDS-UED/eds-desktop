@@ -12,6 +12,8 @@ const props = withDefaults(
     showBadge?: boolean;
     showReddot?: boolean;
     disabled?: boolean;
+    /** 浮层展开等选中态；背景 `--event-focus`。 */
+    active?: boolean;
     type?: 'button' | 'submit' | 'reset';
     /** showBadge 时 EgMessage 的 type。 */
     messageType?: MessageType;
@@ -21,6 +23,7 @@ const props = withDefaults(
     showBadge: false,
     showReddot: false,
     disabled: false,
+    active: false,
     type: 'button',
     messageType: 'brand',
   },
@@ -34,12 +37,17 @@ const showReddotIndicator = computed(() => props.showReddot && !props.showBadge)
 
 <template>
   <button
-    :class="['eds-icon-button-pro', styles.root, disabled && styles.disabled]"
+    :class="[
+      'eds-icon-button-pro',
+      styles.root,
+      active && styles.active,
+      disabled && styles.disabled,
+    ]"
     :disabled="disabled"
     :type="type"
     :aria-label="label"
   >
-    <span :class="styles.iconSlot">
+    <span :class="styles.iconSlot" data-eds-trigger-metrics>
       <!-- Nested Simple container; as=span avoids invalid button-in-button. -->
       <EgIconButton
         as="span"

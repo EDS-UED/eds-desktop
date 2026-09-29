@@ -1,0 +1,23 @@
+.logicRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.text {
+  flex-shrink: 0;
+  color: var(--text-base-secondary);
+  font-size: var(--eds-body-small-size);
+  font-weight: var(--eds-body-small-weight);
+  line-height: var(--eds-body-small-line-height);
+}
+
+.logicSelect {
+  flex-shrink: 0;
+}
+
+.logicSelect :global(.eds-flotation) {
+  display: block;
+}

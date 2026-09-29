@@ -26,8 +26,16 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: var(--avatar-xs);
-  height: var(--avatar-xs);
+}
+
+.cryptoInlineIconXl {
+  width: var(--icon-xl);
+  height: var(--icon-xl);
+}
+
+.cryptoInlineIconLg {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
 }
 
 .amountPreview {

@@ -37,6 +37,7 @@ const inputCustomize = reactive({
   interaction: inputCustomizeDefaults.interaction as string,
   size: inputCustomizeDefaults.size as 'lg' | 'md' | 'sm',
   widthMode: inputCustomizeDefaults.widthMode as ShowcaseInputWidthMode,
+  overflowFeedback: inputCustomizeDefaults.overflowFeedback as boolean,
 });
 
 const inputPreviewStyle = computed(() =>
@@ -103,6 +104,10 @@ const sharedInputProps = computed(() => ({
   showMax: Boolean(inputCustomize.showMax),
   maxLabel: String(inputCustomize.maxLabel),
 }));
+
+function onInputOverflowChange(overflowing: boolean) {
+  inputCustomize.overflowFeedback = overflowing;
+}
 </script>
 
 <template>
@@ -136,11 +141,13 @@ const sharedInputProps = computed(() => ({
             v-model="heroValue"
             v-bind="sharedInputProps"
             @max="onInputMax"
+            @overflow-change="onInputOverflowChange"
           />
           <EgInput
             v-else
             :model-value="snapshotModelValue"
             v-bind="sharedInputProps"
+            @overflow-change="onInputOverflowChange"
           />
         </div>
       </template>

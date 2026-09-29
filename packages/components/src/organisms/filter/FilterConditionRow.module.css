@@ -1,0 +1,35 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  width: 100%;
+  min-width: 0;
+}
+
+.valueGroup {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--spacing-1);
+  min-width: 0;
+}
+
+.value {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.remove {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove :global(.eds-icon-button) {
+  width: 30px;
+  height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+  background-color: transparent;
+}

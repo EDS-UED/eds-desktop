@@ -177,6 +177,15 @@ export const inputPropRows: InputPropRow[] = [
     ),
   },
   {
+    name: 'overflowFeedback',
+    type: 'boolean',
+    defaultValue: 'true',
+    description: showcaseText(
+      'When true (default), hover shows a top EgPopover with the full value if the input text overflows.',
+      '默认开启；输入内容溢出时 hover 在输入框上方 Popover 展示完整文案。',
+    ),
+  },
+  {
     name: 'showMax',
     type: 'boolean',
     defaultValue: 'false',
@@ -229,6 +238,15 @@ export const inputEventRows: InputPropRow[] = [
     type: '(event: FocusEvent) => void',
     defaultValue: '-',
     description: showcaseText('Emitted on blur.', '失去焦点时触发。'),
+  },
+  {
+    name: 'overflow-change',
+    type: '(overflowing: boolean) => void',
+    defaultValue: '-',
+    description: showcaseText(
+      'Emitted when overflowFeedback is on and measured overflow state changes.',
+      'overflowFeedback 开启时，溢出测量状态变化时触发。',
+    ),
   },
 ];
 

@@ -138,7 +138,7 @@ const symbolTrailing = computed(
         </span>
         <span v-if="showTag || slots.tag" :class="styles.triggerTag">
           <slot name="tag">
-            <EgTag family="status" size="sm" :status="tagStatus">{{ tagText }}</EgTag>
+            <EgTag family="status" size="sm" :status="tagStatus" truncate>{{ tagText }}</EgTag>
           </slot>
         </span>
       </span>

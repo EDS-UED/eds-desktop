@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { EgTooltip, EgButton } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
@@ -30,12 +30,23 @@ import {
 import TooltipFlotationTextOverflowPreview from './TooltipFlotationTextOverflowPreview.vue';
 import TooltipFlotationParagraphOverflowPreview from './TooltipFlotationParagraphOverflowPreview.vue';
 import TooltipFlotationMultiAddressPreview from './TooltipFlotationMultiAddressPreview.vue';
+import TooltipFilterPickerScenePreview from './TooltipFilterPickerScenePreview.vue';
+import {
+  buildTooltipFilterPickerUsageSnippet,
+  findTooltipFilterPickerSceneSection,
+  isTooltipFilterPickerSceneSlug,
+  tooltipFilterPickerCustomizeDefaults,
+  tooltipFilterPickerPropRows,
+  tooltipFilterPickerSceneCustomizeControls,
+  type TooltipFilterPickerScenarioValue,
+} from './tooltipFilterPickerDocCustomize';
 
 const route = useRoute();
 
 const pageSlug = computed(() => getComponentRouteSlug(route.path, route.params.slug));
 
 const isOverflowScene = computed(() => isTooltipOverflowSceneSlug(pageSlug.value));
+const isFilterPickerScene = computed(() => isTooltipFilterPickerSceneSlug(pageSlug.value));
 
 const isStandardContainerPage = computed(
   () => pageSlug.value === 'flotation-container-tooltip',
@@ -47,14 +58,31 @@ const isTooltipBodyPage = computed(
 );
 
 const overflowScene = computed(() => findTooltipOverflowSceneSection(pageSlug.value));
+const filterPickerScene = computed(() => findTooltipFilterPickerSceneSection(pageSlug.value));
 
-const customize = reactive(buildTooltipSectionCustomizeDefaults('flotation'));
+const customize = reactive<Record<string, unknown>>({
+  ...buildTooltipSectionCustomizeDefaults('flotation'),
+  ...tooltipFilterPickerCustomizeDefaults,
+  scenario: 'crypto-picker' satisfies TooltipFilterPickerScenarioValue,
+});
+
+const filterPickerValue = ref('');
 
 watch(
   pageSlug,
   (slug) => {
     if (isTooltipOverflowSceneSlug(slug)) {
       Object.assign(customize, buildTooltipSectionCustomizeDefaults('flotation'));
+      filterPickerValue.value = '';
+      return;
+    }
+    if (isTooltipFilterPickerSceneSlug(slug)) {
+      const section = findTooltipFilterPickerSceneSection(slug);
+      Object.assign(customize, {
+        ...tooltipFilterPickerCustomizeDefaults,
+        scenario: section?.scenario ?? 'crypto-picker',
+      });
+      filterPickerValue.value = '';
       return;
     }
     if (slug === 'flotation-container-tooltip') {
@@ -83,6 +111,13 @@ const panelKind = computed(() => {
 });
 
 const section = computed(() => {
+  if (filterPickerScene.value) {
+    return {
+      id: filterPickerScene.value.id,
+      label: filterPickerScene.value.label,
+      panelKind: 'flotation' as const,
+    };
+  }
   if (overflowScene.value) {
     return {
       id: overflowScene.value.id,
@@ -97,6 +132,9 @@ const section = computed(() => {
 });
 
 const customizeControls = computed(() => {
+  if (isFilterPickerScene.value) {
+    return tooltipFilterPickerSceneCustomizeControls;
+  }
   if (isOverflowScene.value) {
     return tooltipOverflowSceneCustomizeControls;
   }
@@ -105,18 +143,32 @@ const customizeControls = computed(() => {
   });
 });
 
-const usageSnippet = computed(() =>
-  buildTooltipPanelKindPageUsageSnippet(panelKind.value, customize),
-);
+const usageSnippet = computed(() => {
+  if (filterPickerScene.value) {
+    return buildTooltipFilterPickerUsageSnippet(filterPickerScene.value.scenario, customize);
+  }
+  return buildTooltipPanelKindPageUsageSnippet(panelKind.value, customize);
+});
 
 const panelProps = computed(() =>
   tooltipPanelPropsForPreview({ ...customize, panelKind: panelKind.value }),
 );
 
-const customizeDefaults = computed(() =>
-  isOverflowScene.value
-    ? buildTooltipSectionCustomizeDefaults('flotation')
-    : buildTooltipSectionCustomizeDefaults(panelKind.value),
+const customizeDefaults = computed(() => {
+  if (isFilterPickerScene.value) {
+    return {
+      ...tooltipFilterPickerCustomizeDefaults,
+      scenario: filterPickerScene.value?.scenario ?? 'crypto-picker',
+    };
+  }
+  if (isOverflowScene.value) {
+    return buildTooltipSectionCustomizeDefaults('flotation');
+  }
+  return buildTooltipSectionCustomizeDefaults(panelKind.value);
+});
+
+const docPropRows = computed(() =>
+  isFilterPickerScene.value ? tooltipFilterPickerPropRows : tooltipPropRows,
 );
 
 const isTextOverflowScenario = computed(
@@ -131,13 +183,25 @@ const isMultiAddressScenario = computed(
   () => pageSlug.value === 'tooltip-scene-multi-address',
 );
 
+const activeFilterPickerScenario = computed(
+  () => filterPickerScene.value?.scenario ?? 'crypto-picker',
+);
+
+const filterPickerTriggerWidth = computed(() => {
+  if (String(customize.triggerWidthMode ?? 'trigger') !== 'fixed') {
+    return undefined;
+  }
+  const width = Number(customize.triggerWidth);
+  return Number.isFinite(width) && width > 0 ? width : undefined;
+});
+
 const propsSectionId = computed(() => `${pageSlug.value}-props`);
 
 const anchorId = computed(() => section.value?.id ?? pageSlug.value);
 
 const pageTitle = computed(() => {
-  if (overflowScene.value) {
-    return overflowScene.value.label;
+  if (filterPickerScene.value || overflowScene.value) {
+    return section.value?.label ?? 'Tooltip';
   }
   if (isTooltipBodyPage.value) {
     return 'Tooltip';
@@ -163,7 +227,7 @@ const docImportCode = computed(() => resolveTooltipPageImportCode(pageSlug.value
       :customize-defaults="customizeDefaults"
       :customize-sequential="isTooltipBodyPage"
       :usage-snippet-override="usageSnippet"
-      :prop-rows="tooltipPropRows"
+      :prop-rows="docPropRows"
       :slot-rows="tooltipSlotRows"
       :props-section-id="propsSectionId"
     >
@@ -177,13 +241,32 @@ const docImportCode = computed(() => resolveTooltipPageImportCode(pageSlug.value
             isTextOverflowScenario && tooltipStyles.textOverflowScene,
             isParagraphOverflowInfoScenario && tooltipStyles.paragraphOverflowScene,
             isMultiAddressScenario && tooltipStyles.multiAddressScene,
+            isFilterPickerScene && tooltipStyles.filterPickerScene,
+            isFilterPickerScene
+              && String(customize.triggerWidthMode ?? 'trigger') === 'adaptive'
+              && tooltipStyles.filterPickerSceneFullWidth,
           ]"
         >
+          <TooltipFilterPickerScenePreview
+            v-if="isFilterPickerScene"
+            v-model="filterPickerValue"
+            :scenario="activeFilterPickerScenario"
+            :placeholder="String(customize.placeholder ?? '')"
+            :disabled="Boolean(customize.disabled)"
+            :selection-mode="String(customize.selectionMode ?? 'single') as 'single' | 'multi'"
+            :date-picker-type="String(customize.datePickerType ?? 'date') as 'date' | 'range'"
+            :trigger-width-mode="String(customize.triggerWidthMode ?? 'trigger') as 'trigger' | 'adaptive' | 'fixed'"
+            :trigger-width="filterPickerTriggerWidth"
+            :trigger="String(customize.trigger ?? 'click') as 'click' | 'hover'"
+          />
           <TooltipFlotationTextOverflowPreview
-            v-if="isTextOverflowScenario"
+            v-else-if="isTextOverflowScenario"
             :tooltip-trigger="String(customize.tooltipTrigger ?? 'hover') as 'hover' | 'focus'"
           />
-          <TooltipFlotationParagraphOverflowPreview v-else-if="isParagraphOverflowInfoScenario" />
+          <TooltipFlotationParagraphOverflowPreview
+            v-else-if="isParagraphOverflowInfoScenario"
+            :tooltip-trigger="String(customize.tooltipTrigger ?? 'hover') as 'hover' | 'focus'"
+          />
           <TooltipFlotationMultiAddressPreview
             v-else-if="isMultiAddressScenario"
             :tooltip-trigger="String(customize.tooltipTrigger ?? 'hover') as 'hover' | 'focus'"
@@ -204,7 +287,7 @@ const docImportCode = computed(() => resolveTooltipPageImportCode(pageSlug.value
         </div>
       </template>
 
-      <section :class="shared.section">
+      <section v-if="!isFilterPickerScene" :class="shared.section">
         <h2 :class="shared.sectionTitle">EgTooltip</h2>
         <PropsDocTables bare :show-title="false" :prop-rows="anchoredTooltipPropRows" />
       </section>

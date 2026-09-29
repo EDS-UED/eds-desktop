@@ -47,6 +47,7 @@ import DialogSymbolPreview from './DialogSymbolPreview.vue';
 import DialogComposePreview from './DialogComposePreview.vue';
 import BatchBarPreview from './BatchBarPreview.vue';
 import DataListPreview from './DataListPreview.vue';
+import FilterPreview from './FilterPreview.vue';
 import DetailPreview from './DetailPreview.vue';
 import ContainerPreview from './ContainerPreview.vue';
 import LayoutPreview from './LayoutPreview.vue';
@@ -75,6 +76,10 @@ export const compactComponentPreviewSlugs = new Set<string>([
   'tooltip-scene-text-overflow',
   'tooltip-scene-paragraph-overflow',
   'tooltip-scene-multi-address',
+  'tooltip-scene-crypto-picker',
+  'tooltip-scene-member-picker',
+  'tooltip-scene-date-picker',
+  'tooltip-scene-status-picker',
   'flotation-trigger',
   'flotation-trigger-scene-module-menu',
   'flotation-container-tooltip',
@@ -110,6 +115,9 @@ export const compactComponentPreviewSlugs = new Set<string>([
   'tool-bar',
   'paginer',
   'batch-bar',
+  'filter',
+  'filter-scene-standard',
+  'filter-scene-advanced',
   'verify',
   'verify-scene-email',
   'verify-scene-google',
@@ -237,6 +245,7 @@ export const componentPreviews: ComponentPreviewEntry[] = [
   { slug: 'tool-bar', title: 'ToolBar', component: ToolBarPreview, usesComponentDocHeader: true },
   { slug: 'paginer', title: 'Paginer', component: PaginerPreview, usesComponentDocHeader: true },
   { slug: 'data-list', title: 'DataList', component: DataListPreview, usesComponentDocHeader: true },
+  { slug: 'filter', title: 'Filter', component: FilterPreview, usesComponentDocHeader: true },
   { slug: 'detail', title: 'Detail', component: DetailPreview, usesComponentDocHeader: true },
   { slug: 'batch-bar', title: 'BatchBar', component: BatchBarPreview, usesComponentDocHeader: true },
   { slug: 'container', title: 'Container', component: ContainerPreview, usesComponentDocHeader: true },
@@ -264,6 +273,10 @@ export const componentPreviews: ComponentPreviewEntry[] = [
     { slug: 'tooltip-scene-text-overflow', title: showcaseText('Field overflow', '字段溢出') },
     { slug: 'tooltip-scene-paragraph-overflow', title: showcaseText('Paragraph overflow', '段落溢出') },
     { slug: 'tooltip-scene-multi-address', title: showcaseText('AddressOverflow', '地址溢出') },
+    { slug: 'tooltip-scene-crypto-picker', title: showcaseText('Currency picker', '币种选择') },
+    { slug: 'tooltip-scene-member-picker', title: showcaseText('Member picker', '成员选择') },
+    { slug: 'tooltip-scene-date-picker', title: showcaseText('Date picker', '日期选择') },
+    { slug: 'tooltip-scene-status-picker', title: showcaseText('Status picker', '状态选择') },
   ] as const).map(({ slug, title }) => ({
     slug,
     title,

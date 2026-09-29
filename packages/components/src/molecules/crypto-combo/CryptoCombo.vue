@@ -100,6 +100,7 @@ const bodyStyle = computed(() => {
       :name="cryptoName"
       :label="symbol"
       :entry-badge="resolvedEntryBadge"
+      :icon-size="contentType === 'unaddress' ? 'xl' : 'md'"
     />
 
     <span :class="bodyClass" :style="bodyStyle">

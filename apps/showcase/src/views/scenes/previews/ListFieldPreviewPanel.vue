@@ -626,7 +626,10 @@ const actionMinWidthStyle = computed(() => {
       </div>
       <div v-else-if="amountType() === 'crypto'" :class="styles.amountPreview" :style="cellMinWidthStyle">
         <div :class="styles.amountPrimaryRow">
-          <span v-if="showAmountCryptoIcon" :class="styles.cryptoInlineIcon">
+          <span
+            v-if="showAmountCryptoIcon"
+            :class="[styles.cryptoInlineIcon, styles.cryptoInlineIconXl]"
+          >
             <EgCrypto :name="cryptoAmountCryptoName" fit :label="cryptoAmountSymbol" />
           </span>
           <EgListFieldOverflowText
@@ -650,7 +653,10 @@ const actionMinWidthStyle = computed(() => {
       </div>
       <div v-else-if="amountType() === 'amount-address'" :class="styles.amountPreview" :style="cellMinWidthStyle">
         <div :class="styles.amountPrimaryRow">
-          <span v-if="showAmountCryptoIcon" :class="styles.cryptoInlineIcon">
+          <span
+            v-if="showAmountCryptoIcon"
+            :class="[styles.cryptoInlineIcon, styles.cryptoInlineIconLg]"
+          >
             <EgCrypto :name="cryptoAmountCryptoName" fit :label="cryptoAmountSymbol" />
           </span>
           <EgListFieldOverflowText
@@ -694,7 +700,10 @@ const actionMinWidthStyle = computed(() => {
       </div>
       <div v-else :class="styles.amountPreview" :style="cellMinWidthStyle">
         <div :class="styles.amountPrimaryRow">
-          <span v-if="showAmountCryptoIcon" :class="styles.cryptoInlineIcon">
+          <span
+            v-if="showAmountCryptoIcon"
+            :class="[styles.cryptoInlineIcon, styles.cryptoInlineIconLg]"
+          >
             <EgCrypto :name="cryptoAmountCryptoName" fit :label="cryptoAmountSymbol" />
           </span>
           <EgListFieldOverflowText

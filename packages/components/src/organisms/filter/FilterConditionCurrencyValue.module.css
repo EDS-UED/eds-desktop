@@ -1,0 +1,355 @@
+.root {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.root :global(.eds-flotation) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.root :global(.eds-flotation > span) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.root :global(.eds-flotation-trigger) {
+  width: 100%;
+  max-width: 100%;
+}
+
+.menu:global(.desktopTokens.effect-flotation-box) {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.menu :global(.eds-tooltip-panel) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.menu :global(.eds-flotation-menu-body) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.menu :global(.eds-flotation-menu-body) > :global(div:last-child) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pickerRows {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.pickerAction,
+.cascadeAction {
+  flex-shrink: 0;
+  width: 100%;
+  min-width: 0;
+}
+
+.pickerAction :global(.eds-divider),
+.cascadeAction :global(.eds-divider) {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.searchHeader {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-1-5);
+}
+
+.selectAllIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-sm);
+  height: var(--avatar-sm);
+  border-radius: var(--radius-full);
+  background: var(--material-base-primary);
+  color: var(--stroke-face-primary);
+}
+
+.optionList :global(.eds-flotation-menu-item) > span:has(.selectAllIcon),
+.cascadeList :global(.eds-flotation-menu-item) > span:has(.selectAllIcon) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-sm);
+  height: var(--avatar-sm);
+}
+
+.selectAllIconGlyph {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  overflow: hidden;
+  line-height: 0;
+}
+
+.selectAllIconGlyph :global(.eds-icon) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.selectAllIconGlyph :global(.svgHost),
+.selectAllIconGlyph :global(svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.headerDivider {
+  flex-shrink: 0;
+  align-self: stretch;
+  width: 100%;
+}
+
+.listScrollFadeTop {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--spacing-2));
+  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--spacing-2));
+  transition: var(--motion-recipe-scroll-fade);
+}
+
+.listScrollFadeBottom {
+  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 var(--spacing-2));
+  mask-image: linear-gradient(to top, transparent 0, #000 var(--spacing-2));
+  transition: var(--motion-recipe-scroll-fade);
+}
+
+.optionListScroll {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.optionListScroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.optionList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  box-sizing: border-box;
+  margin: var(--spacing-1);
+}
+
+.optionRowWrap {
+  display: flex;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+.optionRowWrap > :global(*) {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.networkFlotation:global(.eds-flotation) {
+  display: flex !important;
+  flex-direction: column;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.networkFlotation > :global(span) {
+  display: flex;
+  flex: 1 1 auto;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.networkFlotation :global(.trigger) {
+  display: flex !important;
+  flex: 1 1 auto;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.cascadeRow {
+  display: flex;
+  flex: 1 1 auto;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border-radius: var(--radius-sm);
+}
+
+.cascadeRowSelected,
+.cascadeRow:has(:global(.eds-flotation-menu-item[aria-pressed='true'])) {
+  background-color: var(--event-focus-brand-weaken);
+}
+
+.cascadeRow:hover:not(.cascadeRowSelected):not(:has(:global(.eds-flotation-menu-item[aria-pressed='true']))) {
+  background-color: var(--event-hover);
+}
+
+.networkFlotation:has(> :global(span[data-eds-tooltip-open]))
+  .cascadeRow:not(.cascadeRowSelected):not(:has(:global(.eds-flotation-menu-item[aria-pressed='true']))) {
+  background-color: var(--event-hover);
+}
+
+.cascadeRow :global(.eds-flotation-menu-item) {
+  display: flex;
+  flex: 1 1 auto;
+  align-self: stretch;
+  gap: var(--spacing-1-5);
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  border-radius: 0;
+  background-color: transparent !important;
+}
+
+.cascadeRow :global(.eds-flotation-menu-item:hover),
+.cascadeRow :global(.eds-flotation-menu-item:focus-visible) {
+  background-color: transparent !important;
+}
+
+.cascadeRow :global(.eds-message) {
+  background: var(--material-card-moderate);
+}
+
+.networkSubmenu:global(.desktopTokens.effect-flotation-box) {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.networkSubmenu :global(.eds-tooltip-panel) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.networkSubmenu :global(.eds-flotation-menu-body) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.networkSubmenu :global(.eds-flotation-menu-body) > :global(div) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.networkSubmenu :global(.menuList) {
+  gap: 1px;
+}
+
+.networkSubmenu :global(.eds-flotation-menu-item) {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cascadePanel {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.cascadeListScroll {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cascadeListScroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.cascadeList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  box-sizing: border-box;
+  margin: var(--spacing-1);
+}
+

@@ -25,6 +25,7 @@ const props = withDefaults(
     focused?: boolean;
     showCheckbox?: boolean;
     checked?: boolean;
+    checkboxIndeterminate?: boolean;
     /** 文案使用 --text-danger-primary（Batch Bar 危险 Label 等）。 */
     danger?: boolean;
     showTag?: boolean;
@@ -51,6 +52,7 @@ const props = withDefaults(
     focused: false,
     showCheckbox: false,
     checked: false,
+    checkboxIndeterminate: false,
     danger: false,
     showTag: false,
     tagText: 'Tag',
@@ -145,6 +147,7 @@ function onKeydown(event: KeyboardEvent) {
       <slot name="checkbox">
         <EgCheckbox
           :model-value="checked"
+          :indeterminate="checkboxIndeterminate"
           :disabled="disabled"
           @update:model-value="emit('update:checked', $event)"
         />
@@ -202,7 +205,11 @@ function onKeydown(event: KeyboardEvent) {
       <slot name="trailing">
         <span v-if="showMessage || slots.message" :class="styles.boxMessage">
           <slot name="message">
-            <EgMessage :type="messageType" :text="messageText" />
+            <EgMessage
+              :type="messageType"
+              :text="messageText"
+              :focus-background="messageType === 'subtle' ? 'same-white' : 'inherit'"
+            />
           </slot>
         </span>
         <EgReddot v-if="showReddot" />

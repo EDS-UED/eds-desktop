@@ -40,6 +40,7 @@ export const inputCustomizeDefaults = {
   readonly: false,
   unit: '',
   clearable: true,
+  overflowFeedback: false,
   showMax: false,
   maxLabel: 'Max',
 } as const;
@@ -102,6 +103,11 @@ export const inputCustomizeControls: DocCustomizeControl[] = [
     visibleWhen: (s) => s.interaction === 'full',
   },
   { kind: 'boolean', key: 'clearable', label: showcaseInputCustomizeFieldLabels.clearable },
+  {
+    kind: 'boolean',
+    key: 'overflowFeedback',
+    label: showcaseInputCustomizeFieldLabels.overflowFeedback,
+  },
   {
     kind: 'boolean',
     key: 'showMax',

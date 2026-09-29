@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref, watch, type ComponentPublicInstance } from 'vue';
 import { RouterLink } from 'vue-router';
+import type { ShowcaseSceneSidebarLinkLabel } from '@/data/i18n/resolveShowcaseCatalogText';
 import type { AnchorItem } from '@/data/types';
 import styles from './PageAnchors.module.css';
 
@@ -12,12 +13,17 @@ const props = withDefaults(
     isLinkActive: (item: AnchorItem) => boolean;
     isNavLabel: (item: AnchorItem) => boolean;
     anchorNavLabel: (item: AnchorItem) => string;
+    anchorNavSceneLabel?: (item: AnchorItem) => ShowcaseSceneSidebarLinkLabel | undefined;
     isHiddenSidebarBody: (item: AnchorItem) => boolean;
   }>(),
   {
     routePrefix: 'components',
   },
 );
+
+function sceneLinkLabel(item: AnchorItem): ShowcaseSceneSidebarLinkLabel | undefined {
+  return props.anchorNavSceneLabel?.(item);
+}
 
 function linkTo(item: AnchorItem) {
   return `/${props.routePrefix}/${item.pageSlug}`;
@@ -158,10 +164,17 @@ onBeforeUnmount(() => {
         :to="linkTo(item)"
         :class="[
           styles.link,
+          sceneLinkLabel(item) && styles.linkSceneStack,
           isLinkActive(item) && styles.linkActive,
         ]"
       >
-        {{ anchorNavLabel(item) }}
+        <template v-if="sceneLinkLabel(item)">
+          <span :class="styles.linkSceneTag">{{ sceneLinkLabel(item)!.componentTag }}</span>
+          <span :class="styles.linkSceneSubtitle">{{ sceneLinkLabel(item)!.sceneLabel }}</span>
+        </template>
+        <template v-else>
+          {{ anchorNavLabel(item) }}
+        </template>
       </RouterLink>
     </template>
   </nav>

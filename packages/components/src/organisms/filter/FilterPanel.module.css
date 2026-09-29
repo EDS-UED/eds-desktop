@@ -1,0 +1,119 @@
+:global(.effect-flotation-box:has([data-eds-filter-panel])) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+:global(.eds-tooltip-panel:has([data-eds-filter-panel])) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  padding: var(--spacing-3);
+  padding-right: var(--spacing-2);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+:global(.eds-tooltip-panel:has([data-eds-filter-panel][data-has-conditions])) {
+  padding-bottom: var(--spacing-2);
+}
+
+.panel {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.headerGroup {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: var(--spacing-1-5);
+  width: 100%;
+  min-width: 0;
+}
+
+.bodyGroup {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--spacing-2-5);
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.bodyGroupCompactGap {
+  gap: var(--spacing-2);
+}
+
+.conditionsBody {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.title {
+  margin: 0;
+  min-width: 0;
+  color: var(--text-base-primary);
+  font-size: var(--eds-body-medium-strong-size);
+  font-weight: var(--eds-body-medium-strong-weight);
+  line-height: var(--eds-body-medium-strong-line-height);
+}
+
+.conditions {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.conditions::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.addButtonBlock {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-2);
+  width: calc(100% + var(--spacing-3) + var(--spacing-2));
+  margin-right: calc(-1 * var(--spacing-2));
+  margin-bottom: calc(-1 * var(--spacing-2));
+  margin-left: calc(-1 * var(--spacing-3));
+  box-sizing: border-box;
+  padding-inline: var(--spacing-3);
+  padding-bottom: var(--spacing-2);
+}
+
+.addButton:global(.eds-button) {
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding-inline: var(--spacing-3);
+  font-weight: var(--eds-body-small-weight);
+}
+
+.addButton:global(.eds-button) :global(.eds-icon) {
+  color: var(--text-base-secondary);
+}

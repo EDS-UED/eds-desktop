@@ -91,10 +91,11 @@
       "comment": "头像尺寸（Avatar Size）",
       "tokens": [
         { "name": "avatar-xs", "value": "var(--scale-4)", "comment": "16px" },
-        { "name": "avatar-sm", "value": "var(--scale-6)", "comment": "24px" },
-        { "name": "avatar-md", "value": "var(--scale-8)", "comment": "32px" },
-        { "name": "avatar-lg", "value": "var(--scale-9)", "comment": "36px" },
-        { "name": "avatar-xl", "value": "var(--scale-10)", "comment": "40px" }
+        { "name": "avatar-sm", "value": "var(--scale-5)", "comment": "20px" },
+        { "name": "avatar-md", "value": "var(--scale-6)", "comment": "24px" },
+        { "name": "avatar-lg", "value": "var(--scale-8)", "comment": "32px" },
+        { "name": "avatar-xl", "value": "var(--scale-9)", "comment": "36px" },
+        { "name": "avatar-2xl", "value": "var(--scale-10)", "comment": "40px" }
       ]
     },
     {

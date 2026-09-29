@@ -12,14 +12,18 @@ const props = withDefaults(
     label?: string;
     /** Figma subscript=Yes → 36×32 + entry badge */
     entryBadge?: CryptoSymbolEntryBadge;
+    /** contentType=unaddress（仅币种）→ --icon-xl；其余保持 --avatar-md */
+    iconSize?: 'md' | 'xl';
   }>(),
   {
     entryBadge: 'none',
+    iconSize: 'md',
   },
 );
 
 const rootClass = computed(() => [
   styles.cryptoSymbol,
+  props.iconSize === 'xl' && styles.cryptoSymbolXl,
   props.entryBadge !== 'none'
     ? styles.cryptoSymbolWithBadge
     : styles.cryptoSymbolPlain,

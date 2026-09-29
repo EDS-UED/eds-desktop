@@ -1,0 +1,43 @@
+.host {
+  width: 100%;
+  max-width: calc(var(--scale-20) + var(--scale-4));
+  min-width: 0;
+}
+
+.triggerWrap {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.trigger {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  color: inherit;
+  font-size: var(--eds-body-small-size);
+  font-weight: var(--eds-body-small-weight);
+  line-height: var(--eds-body-small-line-height);
+  white-space: normal;
+  word-break: break-word;
+}
+
+.panel :global(.eds-tooltip-panel) {
+  padding: var(--spacing-1) var(--spacing-2);
+  font-family: var(--eds-family-sans);
+  font-size: var(--eds-body-small-size);
+  font-weight: var(--eds-body-small-weight);
+  line-height: var(--eds-body-small-line-height);
+  color: var(--text-base-primary);
+  white-space: normal;
+  word-break: break-word;
+}

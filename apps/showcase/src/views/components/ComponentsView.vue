@@ -11,6 +11,7 @@ import {
   resolveComponentFamilyDescription,
   resolveComponentFamilyName,
   resolveComponentPageName,
+  resolveShowcasePageHeaderTitle,
 } from '@/data/i18n/resolveShowcaseCatalogText';
 import { findCatalogChildPage, findCatalogItem, getComponentRouteSlug } from '@/data/components/navigation';
 import { componentAnchorItems } from '@/data/components';
@@ -49,8 +50,13 @@ const headerTitle = computed(() => {
   void locale.value;
   if (childPage.value) {
     const { child } = childPage.value;
+    const pageHeaderTag = resolveShowcasePageHeaderTitle(activeSlug.value);
+    if (pageHeaderTag) return pageHeaderTag;
     return resolveComponentPageName(i18n, child.id, child.label);
   }
+  const pageHeaderTag = resolveShowcasePageHeaderTitle(activeSlug.value);
+  if (pageHeaderTag) return pageHeaderTag;
+
   const entry = findCatalogItem(activeSlug.value);
   if (entry) return resolveComponentFamilyName(entry.item.name);
   if (previewEntry.value?.title) return previewEntry.value.title;

@@ -1,0 +1,236 @@
+<script setup lang="ts">
+import { computed, watch } from 'vue';
+import { EgIcon } from '../../atoms/icons';
+import { EgIconButton } from '../../molecules/icon-button';
+import { EgInput } from '../../molecules/input';
+import EgCryptoTooltip from './FilterConditionCurrencyValue.vue';
+import EgMemberTooltip from './FilterConditionMemberValue.vue';
+import FilterConditionNumericValue from './FilterConditionNumericValue.vue';
+import FilterConditionSelectValue from './FilterConditionSelectValue.vue';
+import EgDatePickerTooltip from './DatePickerTooltip.vue';
+import EgStatusTooltip from './FilterConditionStatusValue.vue';
+import FilterSelect from './FilterSelect.vue';
+import { FILTER_DROPDOWN_PRESETS } from './filterSelectValuePresets';
+import type { EgFilterField, EgFilterFieldKind, EgFilterOperator } from './types';
+import {
+  FILTER_NUMERIC_OPERATORS,
+  defaultPlaceholderForFilterFieldKind,
+  isNumericFilterFieldKind,
+  isNumericFilterOperator,
+  isValuelessOperator,
+  resolveFilterFieldKind,
+} from './types';
+import { useFilterTranslate } from './filterTranslate';
+import styles from './FilterConditionRow.module.css';
+
+const t = useFilterTranslate();
+
+const props = withDefaults(
+  defineProps<{
+    fieldId: string;
+    operatorId: string;
+    value: string;
+    fields: EgFilterField[];
+    operators: EgFilterOperator[];
+    placeholder?: string;
+    removeLabel?: string;
+  }>(),
+  {
+    placeholder: '请输入',
+    removeLabel: 'Remove condition',
+  },
+);
+
+type EgFilterConditionRowPatch = {
+  fieldId: string;
+  operatorId: string;
+  value: string;
+};
+
+const emit = defineEmits<{
+  'update:operatorId': [value: string];
+  'update:value': [value: string];
+  /** 字段切换等需原子写入，避免 FilterPanel 多次 patch 读到 stale conditions。 */
+  patch: [patch: Partial<EgFilterConditionRowPatch>];
+  remove: [];
+}>();
+
+const valueDisabled = computed(() => isValuelessOperator(props.operatorId));
+
+const activeField = computed(() => props.fields.find((field) => field.id === props.fieldId));
+
+/** 值编辑器 kind：以 condition.fieldId 为准（预置字段 id 即 kind slug）。 */
+const activeFieldKind = computed((): EgFilterFieldKind | undefined =>
+  resolveFilterFieldKind(activeField.value, props.fieldId),
+);
+
+const isCurrencyField = computed(() => activeFieldKind.value === 'currency');
+const isMemberField = computed(() => activeFieldKind.value === 'member');
+const isNumericField = computed(() =>
+  activeFieldKind.value ? isNumericFilterFieldKind(activeFieldKind.value) : false,
+);
+const isTimeField = computed(() => activeFieldKind.value === 'time');
+const isTimeRangeField = computed(() => activeFieldKind.value === 'time-range');
+const isStatusField = computed(() => activeFieldKind.value === 'status');
+const isDropdownField = computed(() => activeFieldKind.value === 'dropdown');
+const isInputField = computed(() => activeFieldKind.value === 'input');
+
+const operatorOptions = computed(() =>
+  isNumericField.value ? FILTER_NUMERIC_OPERATORS : props.operators,
+);
+
+const valuePlaceholder = computed(() => {
+  if (activeField.value?.placeholder) return t(activeField.value.placeholder);
+  if (activeFieldKind.value) {
+    return t(defaultPlaceholderForFilterFieldKind(activeFieldKind.value));
+  }
+  return t(props.placeholder);
+});
+
+const valueEditorKey = computed(
+  () =>
+    `${props.fieldId}:${activeFieldKind.value ?? 'unknown'}:${activeField.value?.amountMode ?? ''}:${activeField.value?.selectionMode ?? ''}`,
+);
+
+watch(
+  () => [props.fieldId, props.operatorId] as const,
+  ([fieldId, operatorId]) => {
+    const kind = resolveFilterFieldKind(
+      props.fields.find((item) => item.id === fieldId),
+      fieldId,
+    );
+    if (!kind || !isNumericFilterFieldKind(kind)) return;
+    if (isNumericFilterOperator(operatorId)) return;
+    emit('patch', { operatorId: 'equals' });
+  },
+);
+
+function onFieldChange(nextFieldId: string) {
+  const nextField = props.fields.find((field) => field.id === nextFieldId);
+  const nextKind = resolveFilterFieldKind(nextField, nextFieldId);
+  const patch: Partial<EgFilterConditionRowPatch> = {
+    fieldId: nextFieldId,
+    value: '',
+  };
+
+  if (nextKind && isNumericFilterFieldKind(nextKind) && !isNumericFilterOperator(props.operatorId)) {
+    patch.operatorId = 'equals';
+  } else if (
+    nextKind
+    && !isNumericFilterFieldKind(nextKind)
+    && isNumericFilterOperator(props.operatorId)
+  ) {
+    patch.operatorId = 'equals';
+  }
+
+  emit('patch', patch);
+}
+</script>
+
+<template>
+  <div :class="styles.row">
+    <FilterSelect
+      variant="field"
+      :model-value="fieldId"
+      :options="fields"
+      @update:model-value="onFieldChange"
+    />
+    <div :class="styles.valueGroup">
+      <FilterSelect
+        variant="operator"
+        :model-value="operatorId"
+        :options="operatorOptions"
+        @update:model-value="emit('update:operatorId', $event)"
+      />
+      <div :class="styles.value">
+        <EgCryptoTooltip
+          v-if="isCurrencyField"
+          :key="valueEditorKey"
+          :model-value="value"
+          :placeholder="valuePlaceholder"
+          :disabled="valueDisabled"
+          :selection-mode="activeField?.selectionMode"
+          @update:model-value="emit('update:value', $event)"
+        />
+        <EgMemberTooltip
+          v-else-if="isMemberField"
+          :key="valueEditorKey"
+          :model-value="value"
+          :placeholder="valuePlaceholder"
+          :disabled="valueDisabled"
+          :selection-mode="activeField?.selectionMode"
+          @update:model-value="emit('update:value', $event)"
+        />
+        <FilterConditionNumericValue
+          v-else-if="isNumericField"
+          :key="valueEditorKey"
+          :model-value="value"
+          :field-kind="activeFieldKind ?? (fieldId as EgFilterFieldKind)"
+          :placeholder="valuePlaceholder"
+          :disabled="valueDisabled"
+          :amount-mode="activeField?.amountMode"
+          :unit="activeField?.unit"
+          @update:model-value="emit('update:value', $event)"
+        />
+        <EgDatePickerTooltip
+          v-else-if="isTimeField"
+          :key="valueEditorKey"
+          mode="date"
+          :model-value="value"
+          :placeholder="valuePlaceholder"
+          :disabled="valueDisabled"
+          @update:model-value="emit('update:value', $event)"
+        />
+        <EgDatePickerTooltip
+          v-else-if="isTimeRangeField"
+          :key="valueEditorKey"
+          mode="range"
+          :model-value="value"
+          :placeholder="valuePlaceholder"
+          :disabled="valueDisabled"
+          @update:model-value="emit('update:value', $event)"
+        />
+        <EgStatusTooltip
+          v-else-if="isStatusField"
+          :key="valueEditorKey"
+          :model-value="value"
+          :placeholder="valuePlaceholder"
+          :disabled="valueDisabled"
+          :selection-mode="activeField?.selectionMode"
+          @update:model-value="emit('update:value', $event)"
+        />
+        <FilterConditionSelectValue
+          v-else-if="isDropdownField"
+          :key="valueEditorKey"
+          :model-value="value"
+          :options="FILTER_DROPDOWN_PRESETS"
+          :placeholder="valuePlaceholder"
+          :disabled="valueDisabled"
+          :selection-mode="activeField?.selectionMode"
+          @update:model-value="emit('update:value', $event)"
+        />
+        <EgInput
+          v-else-if="isInputField"
+          :key="valueEditorKey"
+          :model-value="value"
+          size="sm"
+          width-mode="full"
+          :placeholder="valuePlaceholder"
+          :disabled="valueDisabled"
+          :clearable="!valueDisabled"
+          @update:model-value="emit('update:value', $event)"
+        />
+      </div>
+      <div :class="styles.remove">
+        <EgIconButton
+          shape="square"
+          size="lg"
+          :label="removeLabel"
+          @click="emit('remove')"
+        >
+          <EgIcon name="eds-close" size="sm" />
+        </EgIconButton>
+      </div>
+    </div>
+  </div>
+</template>

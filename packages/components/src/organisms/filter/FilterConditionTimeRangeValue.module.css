@@ -1,0 +1,151 @@
+.root {
+  width: 100%;
+  min-width: 0;
+}
+
+.root :global(.eds-flotation) {
+  display: block;
+  width: 100%;
+}
+
+.root :global(.eds-flotation > span) {
+  display: block;
+  width: 100%;
+}
+
+.root :global(.eds-flotation-trigger) {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* 覆盖 FlotationTrigger sm 默认 icon-lg（20px）symbol 槽 */
+.root :global(.eds-flotation-trigger) > :global(span:has(.triggerCalendarSymbol)) {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.triggerCalendarSymbol {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  color: var(--text-base-secondary);
+}
+
+.triggerOverflowHost {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.triggerOverflowText {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  font-size: var(--eds-body-medium-size);
+  font-weight: var(--eds-body-medium-weight);
+  line-height: var(--eds-body-medium-line-height);
+}
+
+.triggerPlaceholder {
+  color: var(--text-subtle-primary);
+}
+
+.triggerOverflowTooltip :global(.eds-tooltip-panel) {
+  padding: var(--spacing-1) var(--spacing-2);
+  white-space: normal;
+  word-break: break-word;
+  font-size: var(--eds-body-medium-size);
+  font-weight: var(--eds-body-medium-weight);
+  line-height: var(--eds-body-medium-line-height);
+  color: var(--text-base-primary);
+}
+
+.menu:global(.desktopTokens.effect-flotation-box) {
+  width: auto;
+  min-width: 0;
+}
+
+.menu :global(.eds-tooltip-panel) {
+  width: auto;
+  min-width: 0;
+}
+
+.menu :global(.eds-flotation-menu-body) {
+  width: 100%;
+  min-width: 0;
+}
+
+.panelBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: fit-content;
+  min-width: 0;
+  padding: 0;
+}
+
+.presetChrome {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+}
+
+.presetRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding-block: var(--spacing-2);
+  padding-inline: var(--spacing-1-5);
+}
+
+.presetGroup {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+}
+
+.presetDivider {
+  flex-shrink: 0;
+  align-self: stretch;
+  width: 100%;
+}
+
+.calendars {
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-2);
+  width: fit-content;
+  min-width: 0;
+  padding-inline: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
+  box-sizing: border-box;
+}
+
+.calendarPane {
+  flex: 0 0 auto;
+  width: fit-content;
+  min-width: 0;
+}
+
+.calendarDivider {
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: 0;
+  border-left: var(--stroke-xs) solid var(--stroke-divider-page);
+  background: transparent;
+}

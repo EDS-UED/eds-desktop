@@ -1,0 +1,31 @@
+.root {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: var(--spacing-4);
+  pointer-events: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+.icon {
+  width: var(--avatar-xl);
+  height: var(--avatar-xl);
+  color: var(--text-base-quaternary);
+}
+
+.text {
+  font-size: var(--eds-body-small-size);
+  font-weight: var(--eds-body-small-weight);
+  line-height: var(--eds-body-small-line-height);
+  color: var(--text-base-tertiary);
+}

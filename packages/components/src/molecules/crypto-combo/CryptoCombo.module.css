@@ -3,7 +3,7 @@
  *
  * EgCryptoCombo
  *   ├ CryptoSymbol
- *   │    ├ EgCrypto（--avatar-md / 32px）
+ *   │    ├ EgCrypto（--avatar-md / 24px）
  *   │    └ CryptoItem（entry badge，Style=Suffix）
  *   └ Body
  *        ├ Title（symbol + chain Tag / suffix）
@@ -48,6 +48,27 @@
   z-index: 1;
   left: calc(var(--scale-6) - var(--stroke-xl));
   top: calc(var(--scale-5) - var(--stroke-xl));
+}
+
+/* contentType=unaddress（仅币种） */
+.cryptoSymbolXl.cryptoSymbolPlain {
+  width: var(--icon-xl);
+  height: var(--icon-xl);
+}
+
+.cryptoSymbolXl.cryptoSymbolWithBadge {
+  width: calc(var(--icon-xl) + var(--scale-1) + var(--stroke-xl));
+  height: calc(var(--icon-xl) + var(--stroke-xl));
+}
+
+.cryptoSymbolXl .cryptoSymbolIcon {
+  width: var(--icon-xl);
+  height: var(--icon-xl);
+}
+
+.cryptoSymbolXl .cryptoSymbolBadge {
+  left: calc(var(--icon-xl) - var(--stroke-xl));
+  top: calc(var(--scale-4) - var(--stroke-xl));
 }
 
 /*

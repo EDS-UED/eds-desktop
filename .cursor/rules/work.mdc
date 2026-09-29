@@ -81,7 +81,7 @@ alwaysApply: true
 
 ## 6. 嵌套滚动边界
 
-NavBar、ModuleMenu、FlotationMenu、DataList、Dialog、Detail、Skid 等：顶/底 **不**链式滚外层；`overflow-y: auto` + `overscroll-behavior: none`；JS `wheel`（passive:false）+ scroll 钳制 + **`SCROLL_EDGE_EPSILON = 2`**（各组件本地一致）。参考 `NavBar.vue`；顶底毛玻璃见 **§13**。
+NavBar、ModuleMenu、FlotationMenu、DataList、Dialog、Detail、Skid 等：顶/底 **不**链式滚外层；`overflow-y: auto` + `overscroll-behavior: none`；JS `wheel`（passive:false）+ scroll 钳制 + **`SCROLL_EDGE_EPSILON = 2`**（各组件本地一致）。参考 `NavBar.vue`；顶底毛玻璃与叠层溢出缘虚化见 **§13**。
 
 ## 7. Organism · Showcase 场景化
 
@@ -108,6 +108,7 @@ NavBar、ModuleMenu、FlotationMenu、DataList、Dialog、Detail、Skid 等：�
 - **Flotation**：`EgFlotation` + `flotationDocCustomize.ts`；Box 场景键独立；`EgModuleMenuItem` `.motion-ease.is-enter-only`。
 - **EgDetail Apply_Item**（`detail-apply-item.md`）：必 `createDetailApplyItemRow`；多地址 `addressLayout: 'multi-collapsed'`；`toolbarDividerPinned` 控分割线。
 - **EgDataList 批选动效**（internal）：公共 API 仅 `EgDataList`；禁 export 动效组件/recipe 进 semantic。真源 `data-list/`；`visibleSlotIndices = idleSlotIndices`；`<col class="layoutColumn">` + snapshot；300/320ms 三处同步。禁 rAF 写列宽、动画中 `v-if` 切列、`:key` remount。consumer §7.6。
+- **EgFilter 多选值选择器**：`selectionMode: 'multi'` 时 checkbox / 全选写 **draft**，主列表与级联子菜单底部 `EgComboFloatButton`（`tone="decor"` `:count="2"` `:clear="draft 有勾选"` `direction="right"`；清除链文案继承组件 `clearLabel` 默认「清空」）点确定才写回 `modelValue`；**禁**多选列表底缘 mask fade（action bar 已占位）。「全部」行 leading：`--avatar-sm` + `--material-base-primary` 底，`eds-list-lattice-mobile-fill` `--icon-sm` + `--stroke-face-primary` 居中。单选仍点击即选中并关闭。参考 `FilterConditionCurrencyValue.vue`。
 - **其它**：NavBar preset `presets/<domain>/`；选中 `.motion-none`；Module Menu Cregis/UDun 独立 preset。
 
 ## 8. 本地同步
@@ -148,7 +149,17 @@ squircle **60%**（`--corner-smoothing: 0.6`）；`var(--radius-*)` 禁硬编码
 
 ## 13. Top & Bottom Mask
 
-固定高面板内滚动：顶/底 sticky + `var(--effect-mask)` + `var(--eds-blur-bg)`；单滚动容器；禁 fixed 顶底栏/不透明 scrim。`SCROLL_EDGE_EPSILON = 2`（与 §6 一致）。参考 `Skid.vue`、`frostedPageChrome.css`。
+**页面级固定高面板**（Skid、Dialog、Detail 等）：顶/底 sticky + `var(--effect-mask)` + `var(--eds-blur-bg)`；单滚动容器；禁 fixed 顶底栏/不透明 scrim。参考 `Skid.vue`、`frostedPageChrome.css`。
+
+**Tooltip / Popover / Popup / Flotation 等内容溢出**（`EgTooltip`/`EgTooltipPanel`、`Eg*Popover`、`EgPopup` 内滚动区、`EgFlotationMenu` 等）：**必须**顶/底缘虚化，与 consumer `useScrollChromeScrim` 对齐。
+
+| 缘 | 实现 |
+|----|------|
+| 顶 | 固定头与列表之间 `EgDivider type="module"`（`canScroll && topScrim` 显示；`ComboAction` 的 `dividerAnimated`） |
+| 底 | 滚动容器 `mask-image` 底缘 fade：`linear-gradient(to top, transparent 0, #000 var(--spacing-2))`；`transition: var(--motion-recipe-scroll-fade)` |
+| 状态 | `useScrollChromeScrim`（`packages/components/src/composables/useScrollChromeScrim.ts`）；`SCROLL_EDGE_EPSILON = 2`（与 §6 一致） |
+
+禁溢出可滚列表无缘虚化；禁叠 blur/scrim 冒充 mask。已有内建 fade 的 primitive（如 `EgFlotationMenu` `menuListScrollFade*`）优先复用，勿重复造轮子。参考 `WaasSubAddressCurrencyPicker`、`FilterConditionCurrencyValue`、`FlotationMenu.vue`。
 
 ## 14. EverGreen IA
 
@@ -201,6 +212,7 @@ Popup 外壳不承载 Dialog/Detail/Verify（§7）。
 
 ## 20. 变更记录
 
+- 2026-09-28：§7 EgFilter 多选值选择器禁底部 `EgComboFloatButton`、checkbox 即时写入；§13 补 Tooltip/Popover/Popup/Flotation 溢出缘虚化（`useScrollChromeScrim` + 顶 divider / 底 mask fade）。
 - 2026-09-18：§19 推送；§1 Motion 补 `.motion-layout-content` / Motion Page content 方向分支；规则全文压缩合并。
 - 2026-09-09：§0.1 协作方式；§2 API 废弃；§9 验证；§17 场景 slug/`Eg*` 对齐；§18 定制状态；清空 `@deprecated`；consumer DS→EDS 迁移。
 - 2026-09-01：§7 EgDataList 批选动效 glue 边界。

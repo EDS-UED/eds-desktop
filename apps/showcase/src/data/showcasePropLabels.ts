@@ -508,6 +508,7 @@ export const showcaseInputCustomizeFieldLabels = {
   readonly: showcaseText('Readonly', '只读'),
   unit: showcaseText('Unit', '单位'),
   clearable: showcaseText('Clear', '清空'),
+  overflowFeedback: showcaseText('Overflow feedback (auto)', '溢出反馈（自动）'),
   showMax: showcaseText('Show Max', '显示 Max'),
   maxLabel: showcaseText('Max label', 'Max 文案'),
   pasteLabel: showcaseText('Paste label', 'Paste 文案'),
@@ -635,7 +636,7 @@ export const placementRows = propLabelRows(
 
 export const triggerRows = propLabelRows(['click', 'hover'] as const, showcaseTriggerLabels);
 
-export const alignStartEndRows = propLabelRows(['start', 'end'] as const, showcaseAlignLabels);
+export const alignStartEndRows = propLabelRows(['start', 'end', 'center'] as const, showcaseAlignLabels);
 
 export const widthModeAdaptiveFixedRows = propLabelRows(
   ['adaptive', 'fixed'] as const,

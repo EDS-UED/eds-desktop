@@ -32,6 +32,11 @@
   height: var(--avatar-xl);
 }
 
+.size2xl {
+  width: var(--avatar-2xl);
+  height: var(--avatar-2xl);
+}
+
 .initialsHost {
   position: relative;
   display: inline-flex;
@@ -66,16 +71,20 @@
 
 /*
  * 首字字号硬编码（2× + scale(0.5)）；不继承 --eds-bar-* 文本 token。
- * xs/sm → 16px（视觉 8px）；md/lg/xl → 24px（视觉 12px）。
+ * xs → 16px（视觉 8px）；sm → 20px（视觉 10px）；md/lg/xl/2xl → 24px（视觉 12px）。
  */
-.xs .initialsLabel,
-.sm .initialsLabel {
+.xs .initialsLabel {
   font-size: 16px;
+}
+
+.sm .initialsLabel {
+  font-size: 20px;
 }
 
 .md .initialsLabel,
 .lg .initialsLabel,
-.xl .initialsLabel {
+.xl .initialsLabel,
+.size2xl .initialsLabel {
   font-size: 24px;
 }
 

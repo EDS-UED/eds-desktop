@@ -1,8 +1,24 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, useSlots, watch } from 'vue';
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useSlots,
+  watch,
+} from 'vue';
 import { EgIcon } from '../../atoms/icons';
 import { EgButton, type ButtonSize } from '../button';
 import { EgIconButton } from '../icon-button';
+import { EgPopover } from '../popovers';
+import { EgTooltip } from '../tooltip';
+import {
+  FLOTATION_OVERFLOW_CLOSE_DELAY,
+  TEXT_OVERFLOW_TOOLTIP_MAX_WIDTH,
+} from '../tooltip/textOverflowTooltipConstants';
+import { FALLBACK_SPACING_1_PX } from '../../shared/cssSpacingTokens';
+import { OVERFLOW_EPSILON } from '../../utils/overflowTextMeasure';
 import styles from './Input.module.css';
 
 export type InputType = 'standard' | 'amount';
@@ -25,6 +41,8 @@ const props = withDefaults(
     showMax?: boolean;
     maxLabel?: string;
     inputmode?: 'text' | 'decimal' | 'numeric';
+    /** 内容溢出时在输入框上方 Popover 展示完整值。 */
+    overflowFeedback?: boolean;
   }>(),
   {
     modelValue: '',
@@ -40,6 +58,7 @@ const props = withDefaults(
     showMax: false,
     maxLabel: 'Max',
     inputmode: undefined,
+    overflowFeedback: true,
   },
 );
 
@@ -49,6 +68,7 @@ const emit = defineEmits<{
   max: [];
   focus: [event: FocusEvent];
   blur: [event: FocusEvent];
+  'overflow-change': [overflowing: boolean];
 }>();
 
 const slots = useSlots();
@@ -60,6 +80,17 @@ const passwordVisible = ref(false);
 const unitLeftPx = ref(0);
 const valueWidthPx = ref(0);
 const unitWidthPx = ref(0);
+const valueOverflowing = ref(false);
+const overflowScrollFadeLeft = ref(false);
+const overflowScrollFadeRight = ref(false);
+const fieldHovered = ref(false);
+const SCROLL_EDGE_EPSILON = 2;
+const overflowAnchorRef = ref<{
+  openPanel?: () => void;
+  close?: () => void;
+  updatePosition?: () => void;
+} | null>(null);
+let overflowResizeObserver: ResizeObserver | undefined;
 
 /** Inline — WebKit often omits stylesheet text-rendering on native inputs in Computed. */
 const inputRenderStyle = {
@@ -206,6 +237,92 @@ const amountControlEmptyFull = computed(
     props.modelValue.length === 0,
 );
 
+const outerRootClasses = computed(() => {
+  if (props.overflowFeedback) {
+    return [
+      styles.overflowFeedbackRoot,
+      props.widthMode === 'full' && styles.widthFull,
+    ];
+  }
+
+  return [
+    styles.root,
+    props.widthMode === 'full' ? styles.widthFull : styles.widthFixed,
+  ];
+});
+
+const innerRootClasses = computed(() =>
+  props.overflowFeedback
+    ? [
+        styles.root,
+        props.widthMode === 'full' ? styles.widthFull : styles.widthFixed,
+      ]
+    : undefined,
+);
+
+const overflowPopoverDisabled = computed(
+  () =>
+    !props.modelValue.trim()
+    || !valueOverflowing.value
+    || props.disabled,
+);
+
+const overflowPopoverAnchorBind = computed(() => ({
+  disabled: overflowPopoverDisabled.value,
+  trigger: 'hover' as const,
+  placement: 'top' as const,
+  align: 'center' as const,
+  wrapTooltip: false,
+  /** 溢出反馈主轴间距 --spacing-1（4px）。 */
+  offset: FALLBACK_SPACING_1_PX,
+  openDelay: 0,
+  closeDelay: FLOTATION_OVERFLOW_CLOSE_DELAY,
+  teleportTo: 'body',
+}));
+
+async function syncOverflowPopoverOpen() {
+  if (!props.overflowFeedback) return;
+
+  await nextTick();
+  const anchor = overflowAnchorRef.value;
+  if (!anchor) return;
+
+  const shouldOpen =
+    valueOverflowing.value
+    && !props.disabled
+    && props.modelValue.trim().length > 0
+    && (fieldFocused.value || fieldHovered.value);
+
+  if (shouldOpen) {
+    anchor.openPanel?.();
+    await nextTick();
+    anchor.updatePosition?.();
+    requestAnimationFrame(() => {
+      anchor.updatePosition?.();
+    });
+    return;
+  }
+
+  if (
+    !valueOverflowing.value
+    || (!fieldFocused.value && !fieldHovered.value)
+  ) {
+    anchor.close?.();
+  }
+}
+
+function onOverflowFieldPointerEnter() {
+  fieldHovered.value = true;
+  void syncOverflowPopoverOpen();
+}
+
+function onOverflowFieldPointerLeave() {
+  fieldHovered.value = false;
+  if (!fieldFocused.value) {
+    void syncOverflowPopoverOpen();
+  }
+}
+
 function measureTextWidth(text: string, source: HTMLElement) {
   const style = getComputedStyle(source);
   const canvas = document.createElement('canvas');
@@ -216,6 +333,92 @@ function measureTextWidth(text: string, source: HTMLElement) {
 
   context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
   return context.measureText(text).width;
+}
+
+function clearOverflowScrollFade() {
+  overflowScrollFadeLeft.value = false;
+  overflowScrollFadeRight.value = false;
+}
+
+function updateOverflowScrollFade() {
+  if (!props.overflowFeedback) {
+    clearOverflowScrollFade();
+    return;
+  }
+
+  const input = inputRef.value;
+  if (!input || !props.modelValue.trim()) {
+    clearOverflowScrollFade();
+    return;
+  }
+
+  const overflowing = input.scrollWidth > input.clientWidth + OVERFLOW_EPSILON;
+  if (!overflowing) {
+    clearOverflowScrollFade();
+    return;
+  }
+
+  const { scrollLeft, scrollWidth, clientWidth } = input;
+  overflowScrollFadeLeft.value = scrollLeft > SCROLL_EDGE_EPSILON;
+  overflowScrollFadeRight.value =
+    scrollLeft + clientWidth < scrollWidth - SCROLL_EDGE_EPSILON;
+}
+
+function measureValueOverflow() {
+  if (!props.overflowFeedback) {
+    valueOverflowing.value = false;
+    clearOverflowScrollFade();
+    return;
+  }
+
+  const input = inputRef.value;
+  if (!input || !props.modelValue.trim()) {
+    valueOverflowing.value = false;
+    clearOverflowScrollFade();
+    return;
+  }
+
+  valueOverflowing.value =
+    input.scrollWidth > input.clientWidth + OVERFLOW_EPSILON;
+  updateOverflowScrollFade();
+}
+
+const overflowScrollFadeClasses = computed(() => [
+  overflowScrollFadeLeft.value && styles.prefixScrollFadeLeft,
+  overflowScrollFadeRight.value && styles.prefixScrollFadeRight,
+]);
+
+function bindOverflowResizeObserver() {
+  overflowResizeObserver?.disconnect();
+  overflowResizeObserver = undefined;
+
+  if (!props.overflowFeedback || typeof ResizeObserver === 'undefined') {
+    return;
+  }
+
+  overflowResizeObserver = new ResizeObserver(() => {
+    measureValueOverflow();
+  });
+
+  if (inputRef.value) {
+    overflowResizeObserver.observe(inputRef.value);
+  }
+  if (fieldRef.value) {
+    overflowResizeObserver.observe(fieldRef.value);
+  }
+}
+
+function scheduleOverflowMeasure() {
+  if (!props.overflowFeedback) {
+    valueOverflowing.value = false;
+    return;
+  }
+
+  void nextTick(() => {
+    measureValueOverflow();
+    bindOverflowResizeObserver();
+    void syncOverflowPopoverOpen();
+  });
 }
 
 function updateGhostUnitMetrics() {
@@ -242,10 +445,16 @@ function updateGhostUnitMetrics() {
 
 function onInput(event: Event) {
   emit('update:modelValue', (event.target as HTMLInputElement).value);
+  requestAnimationFrame(() => updateOverflowScrollFade());
+}
+
+function onInputScroll() {
+  updateOverflowScrollFade();
 }
 
 function onFieldFocusIn() {
   fieldFocused.value = true;
+  void syncOverflowPopoverOpen();
 }
 
 function onFieldFocusOut(event: FocusEvent) {
@@ -255,6 +464,7 @@ function onFieldFocusOut(event: FocusEvent) {
   }
 
   fieldFocused.value = false;
+  void syncOverflowPopoverOpen();
 }
 
 function onFocus(event: FocusEvent) {
@@ -321,24 +531,69 @@ watch(
   async () => {
     await nextTick();
     updateGhostUnitMetrics();
+    scheduleOverflowMeasure();
+  },
+  { immediate: true },
+);
+
+watch(
+  () =>
+    [
+      props.overflowFeedback,
+      props.clearable,
+      props.showMax,
+      props.disabled,
+      props.widthMode,
+    ] as const,
+  () => {
+    scheduleOverflowMeasure();
+  },
+);
+
+watch(
+  valueOverflowing,
+  (overflowing) => {
+    if (!props.overflowFeedback) return;
+    emit('overflow-change', overflowing);
+    void syncOverflowPopoverOpen();
   },
   { immediate: true },
 );
 
 onMounted(() => {
   updateGhostUnitMetrics();
+  scheduleOverflowMeasure();
+});
+
+onBeforeUnmount(() => {
+  overflowResizeObserver?.disconnect();
 });
 </script>
 
 <template>
-  <div
-    :class="[
-      styles.root,
-      widthMode === 'full' ? styles.widthFull : styles.widthFixed,
-    ]"
+  <component
+    :is="overflowFeedback ? EgTooltip : 'div'"
+    ref="overflowAnchorRef"
+    v-bind="overflowFeedback ? overflowPopoverAnchorBind : undefined"
+    :class="outerRootClasses"
   >
-    <div
+    <template v-if="overflowFeedback" #content>
+      <EgPopover
+        class="eds-input-overflow-popover"
+        placement="top"
+        align="center"
+        size="compact"
+        width-mode="adaptive"
+        height-mode="adaptive"
+        :max-width="TEXT_OVERFLOW_TOOLTIP_MAX_WIDTH"
+      >
+        <span :class="styles.overflowPopoverText">{{ modelValue }}</span>
+      </EgPopover>
+    </template>
+    <div :class="innerRootClasses">
+      <div
       ref="fieldRef"
+      data-eds-trigger-metrics
       :class="[
         'eds-input-field',
         styles.field,
@@ -348,6 +603,8 @@ onMounted(() => {
         disabled && styles.fieldDisabled,
       ]"
       @click="onFieldClick"
+      @mouseenter="onOverflowFieldPointerEnter"
+      @mouseleave="onOverflowFieldPointerLeave"
       @focusin="onFieldFocusIn"
       @focusout="onFieldFocusOut"
     >
@@ -355,7 +612,7 @@ onMounted(() => {
         :class="[showAttachedMax ? styles.fieldMain : styles.fieldBody]"
       >
         <!-- Left: input content. Default = native input -->
-        <div :class="styles.prefix">
+        <div :class="[styles.prefix, overflowScrollFadeClasses]">
           <slot name="prefix">
             <div
               :class="[
@@ -382,6 +639,7 @@ onMounted(() => {
                 :readonly="readonly"
                 spellcheck="false"
                 @input="onInput"
+                @scroll="onInputScroll"
                 @focus="onFocus"
                 @blur="onBlur"
               />
@@ -469,5 +727,6 @@ onMounted(() => {
         </EgButton>
       </span>
     </div>
-  </div>
+    </div>
+  </component>
 </template>

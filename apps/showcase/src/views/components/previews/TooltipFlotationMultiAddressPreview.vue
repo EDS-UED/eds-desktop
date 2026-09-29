@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EgCryptoAddress } from '@eds/desktop-components';
+import { EgAddressOvfTooltip } from '@eds/desktop-components';
 import {
   tooltipFlotationMultiAddressFromTags,
   tooltipFlotationMultiAddressPrimary,
@@ -20,8 +20,7 @@ withDefaults(
 
 <template>
   <div :class="styles.multiAddressHost">
-    <EgCryptoAddress
-      address-mode="double"
+    <EgAddressOvfTooltip
       :from-text="tooltipFlotationMultiAddressPrimary"
       :to-text="tooltipFlotationMultiAddressSecondary"
       :from-tags="tooltipFlotationMultiAddressFromTags"

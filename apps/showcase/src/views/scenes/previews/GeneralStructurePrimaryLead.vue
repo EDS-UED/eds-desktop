@@ -9,6 +9,9 @@ const props = defineProps<{
 }>();
 
 const showCryptoIcon = computed(() => props.customize.showCryptoIcon !== false);
+const isSingleLine = computed(
+  () => String(props.customize.lineLayout ?? 'single') === 'single',
+);
 const cryptoSymbol = computed(() => String(props.customize.cryptoSymbol ?? 'BTC'));
 const cryptoName = computed(
   () => resolveCryptoNameFromSymbol(cryptoSymbol.value) ?? 'eds-btc-bitcoin',
@@ -16,7 +19,13 @@ const cryptoName = computed(
 </script>
 
 <template>
-  <span v-if="showCryptoIcon" :class="styles.cryptoInlineIcon">
+  <span
+    v-if="showCryptoIcon"
+    :class="[
+      styles.cryptoInlineIcon,
+      isSingleLine ? styles.cryptoInlineIconXl : styles.cryptoInlineIconLg,
+    ]"
+  >
     <EgCrypto :name="cryptoName" fit :label="cryptoSymbol" />
   </span>
 </template>

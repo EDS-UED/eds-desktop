@@ -7,7 +7,10 @@ import {
   resolveCatalogSubgroupLabel,
   resolveComponentFamilyName,
   resolveComponentPageName,
+  resolveShowcaseBodyPageSidebarName,
+  resolveShowcaseSceneSidebarLinkLabel,
 } from '@/data/i18n/resolveShowcaseCatalogText';
+import { isShowcaseScenesSectionChild } from '@/data/resolveShowcaseScenePageMeta';
 import { componentAnchorItems } from '@/data/components';
 import { anchorItemsForFamily } from '@/data/components/anchorItemsForFamily';
 import { findComponentsSidebarFamilyId } from '@/layout/buildComponentsSidebarSections';
@@ -218,9 +221,41 @@ function anchorNavLabel(item: (typeof scopedAnchorItems.value)[number]) {
     return resolveCatalogSubgroupLabel(i18n, item.id, item.label);
   }
   if (item.standalonePage && item.pageSlug) {
+    const childPage = findCatalogChildPage(item.pageSlug);
+    if (childPage) {
+      if (isShowcaseScenesSectionChild(childPage.child)) {
+        const sceneLinkLabel = resolveShowcaseSceneSidebarLinkLabel(
+          i18n,
+          item.pageSlug,
+          item.label,
+          childPage.child,
+          item.id,
+        );
+        if (sceneLinkLabel) return sceneLinkLabel.componentTag;
+      } else {
+        const bodySidebarLabel = resolveShowcaseBodyPageSidebarName(item.pageSlug);
+        if (bodySidebarLabel) return bodySidebarLabel;
+      }
+    }
     return resolveComponentPageName(i18n, item.pageSlug, item.label, item.id);
   }
   return resolveComponentFamilyName(item.label);
+}
+
+function anchorNavSceneLabel(item: (typeof scopedAnchorItems.value)[number]) {
+  void locale.value;
+  if (!item.standalonePage || !item.pageSlug) return undefined;
+
+  const childPage = findCatalogChildPage(item.pageSlug);
+  if (!childPage || !isShowcaseScenesSectionChild(childPage.child)) return undefined;
+
+  return resolveShowcaseSceneSidebarLinkLabel(
+    i18n,
+    item.pageSlug,
+    item.label,
+    childPage.child,
+    item.id,
+  );
 }
 
 function anchorSectionHeading(section: AnchorNavSection) {
@@ -274,6 +309,7 @@ onMounted(() => {
           :is-link-active="isLinkActive"
           :is-nav-label="isNavLabel"
           :anchor-nav-label="anchorNavLabel"
+          :anchor-nav-scene-label="anchorNavSceneLabel"
           :is-hidden-sidebar-body="isHiddenSidebarBody"
         />
       </div>

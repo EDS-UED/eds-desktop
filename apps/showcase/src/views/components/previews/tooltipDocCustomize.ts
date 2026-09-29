@@ -1,6 +1,7 @@
 import type { DocCustomizeControl, DocPropRow } from '@/views/shared/componentDoc/types';
 import { showcaseText } from '@/data/showcasePropLabels';
 import { buildVueOpeningTag } from '@/views/shared/componentDoc/buildUsageSnippet';
+import { resolveShowcasePageComponentTag } from '@/data/resolveShowcaseScenePageMeta';
 import {
   placementRows,
   showcaseTooltipCustomizeFieldLabels,
@@ -145,7 +146,7 @@ export const tooltipOverflowSceneCustomizeControls: DocCustomizeControl[] = [
   {
     kind: 'select',
     key: 'tooltipTrigger',
-    label: showcaseText('Tooltip Interaction', 'Tooltip 交互'),
+    label: showcaseText('Interaction', '交互方式'),
     options: [
       { value: 'hover', label: showcaseText('When floating', '悬浮时') },
       { value: 'focus', label: showcaseText('Focuswhen', '聚焦时') },
@@ -449,10 +450,7 @@ export function tooltipPanelPropsForPreview(state: Record<string, unknown>) {
 }
 
 export function resolveTooltipPageComponentTag(pageSlug: string): string {
-  if (pageSlug === 'tooltip-scene-text-overflow') {
-    return 'EgTooltipOverflow';
-  }
-  return 'EgTooltip';
+  return resolveShowcasePageComponentTag(pageSlug) ?? 'EgTooltip';
 }
 
 export function resolveTooltipPageImportCode(pageSlug: string): string {

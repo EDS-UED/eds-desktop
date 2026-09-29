@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EgTooltipOverflow } from '@eds/desktop-components';
+import { EgFieldOvfTooltip } from '@eds/desktop-components';
 import { tooltipFlotationTextOverflowSampleText } from './tooltipFlotationTextOverflowPreviewData';
 import styles from './TooltipPreview.module.css';
 
@@ -17,7 +17,7 @@ const sampleText = tooltipFlotationTextOverflowSampleText;
 
 <template>
   <div :class="styles.textOverflowHost">
-    <EgTooltipOverflow
+    <EgFieldOvfTooltip
       :tooltip-text="sampleText"
       :trigger="tooltipTrigger"
       target-tone="primary"
@@ -26,6 +26,6 @@ const sampleText = tooltipFlotationTextOverflowSampleText;
       :host-class="styles.textOverflowTriggerWrap"
     >
       {{ sampleText }}
-    </EgTooltipOverflow>
+    </EgFieldOvfTooltip>
   </div>
 </template>

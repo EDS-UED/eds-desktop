@@ -1,0 +1,57 @@
+.select {
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.selectField {
+  flex: 0 0 104px;
+  width: 104px;
+}
+
+.selectOperator {
+  flex: 0 0 80px;
+  width: 80px;
+}
+
+.selectStretch {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+}
+
+.selectAdaptive {
+  flex: 0 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.selectAdaptive :global(.eds-flotation) {
+  display: inline-block;
+  width: auto;
+}
+
+.selectAdaptive :global(.eds-flotation > span) {
+  display: inline-block;
+  width: auto;
+}
+
+.selectAdaptive :global(.eds-flotation-trigger) {
+  width: auto;
+  max-width: none;
+}
+
+.select :global(.eds-flotation) {
+  display: block;
+  width: 100%;
+}
+
+.select :global(.eds-flotation-trigger) {
+  width: 100%;
+  max-width: 100%;
+}
+
+.select :global(.eds-flotation > span) {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}

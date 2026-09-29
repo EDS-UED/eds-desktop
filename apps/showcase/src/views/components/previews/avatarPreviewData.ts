@@ -18,10 +18,10 @@ export const avatarPropRows: DocPropRow[] = [
   },
   {
     name: 'size',
-    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'",
     defaultValue: "'lg'",
     description:
-      showcaseText('[doc] Size， token --avatar-xs/sm/md/lg/xl（16 / 24 / 32 / 36 / 40px）。initials ：xs/sm 8px，md/lg/xl 12px， 700（）。', '尺寸，对应 token --avatar-xs/sm/md/lg/xl（16 / 24 / 32 / 36 / 40px）。initials 首字：xs/sm 视觉 8px，md/lg/xl 视觉 12px，字重 700（硬编码）。'),
+      showcaseText('[doc] Size， token --avatar-xs/sm/md/lg/xl/2xl（16 / 20 / 24 / 32 / 36 / 40px）。initials ：xs 8px，sm 10px，md/lg/xl/2xl 12px， 700（）。', '尺寸，对应 token --avatar-xs/sm/md/lg/xl/2xl（16 / 20 / 24 / 32 / 36 / 40px）。initials 首字：xs 视觉 8px，sm 视觉 10px，md/lg/xl/2xl 视觉 12px，字重 700（硬编码）。'),
   },
   {
     name: 'variant',

@@ -1,0 +1,42 @@
+.root {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+}
+
+.input {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+}
+
+.input :global(.eds-input) {
+  width: 100%;
+}
+
+.rangeRow {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--spacing-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.rangeInput {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.rangeInput :global(.eds-input) {
+  width: 100%;
+}
+
+.rangeSep {
+  flex: 0 0 auto;
+  color: var(--text-base-primary);
+  font-size: var(--eds-body-small-size);
+  font-weight: var(--eds-body-small-weight);
+  line-height: var(--eds-body-small-line-height);
+  user-select: none;
+}

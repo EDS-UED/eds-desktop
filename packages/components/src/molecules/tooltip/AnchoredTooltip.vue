@@ -180,10 +180,23 @@ let floatingResizeObserver: ResizeObserver | undefined;
 function resolveTriggerMetricsEl(): HTMLElement | null {
   const root = triggerRef.value;
   if (!root) return null;
-  const nested = root.querySelector(
-    '.eds-flotation-trigger, .eds-button, button, [data-eds-trigger-metrics]',
-  );
+  const metrics = root.querySelector('[data-eds-trigger-metrics]');
+  if (metrics instanceof HTMLElement) {
+    return metrics;
+  }
+  const nested = root.querySelector('.eds-flotation-trigger, .eds-button, button');
   return nested instanceof HTMLElement ? nested : root;
+}
+
+/** wrap-tooltip=false 时用 EgPopover shell 量高，避免 .eds-popover 根行盒 strut 抬高间距。 */
+function resolveFloatingMetricsEl(): HTMLElement | null {
+  const floating = floatingRef.value;
+  if (!floating) return null;
+  if (props.wrapTooltip) {
+    return floating;
+  }
+  const shell = floating.querySelector('.eds-popover [class*="shell"]');
+  return shell instanceof HTMLElement ? shell : floating;
 }
 
 function clearTimers() {
@@ -320,11 +333,14 @@ function onTriggerContextMenu(event: MouseEvent) {
   event.preventDefault();
 }
 
-/** 嵌套 Teleport 的地址/复制 Menu（如 Detail / 多签邀请内 EgTooltipOverflow），点击其内部不应关闭外层 click Popover。 */
-function isPointerDownInsideNestedOverflowMenu(target: Node): boolean {
-  return (
-    target instanceof Element
-    && Boolean(target.closest('.eds-crypto-address-tooltip-menu'))
+/** 嵌套 Teleport 浮层（地址 Menu、Flotation 下拉等）；交互时不应关闭外层 click Popover。 */
+function isInsideNestedTeleportedLayer(target: Node): boolean {
+  if (!(target instanceof Element)) {
+    return false;
+  }
+  return Boolean(
+    target.closest('.eds-crypto-address-tooltip-menu')
+    || target.closest('.eds-flotation-menu'),
   );
 }
 
@@ -336,7 +352,7 @@ function onDocumentPointerDown(event: PointerEvent) {
   if (triggerRef.value?.contains(target) || floatingRef.value?.contains(target)) {
     return;
   }
-  if (isPointerDownInsideNestedOverflowMenu(target)) {
+  if (isInsideNestedTeleportedLayer(target)) {
     return;
   }
   closeNow();
@@ -558,14 +574,15 @@ function resolveFixedPositionOffset(floating: HTMLElement): { top: number; left:
 function updatePosition() {
   const trigger = resolveTriggerMetricsEl() ?? triggerRef.value;
   const floating = floatingRef.value;
-  if (!trigger || !floating) {
+  const metricsEl = resolveFloatingMetricsEl() ?? floating;
+  if (!trigger || !floating || !metricsEl) {
     return;
   }
 
   resolveSpacingTokens();
 
   const triggerRect = trigger.getBoundingClientRect();
-  const floatingRect = floating.getBoundingClientRect();
+  const floatingRect = metricsEl.getBoundingClientRect();
   const gap = resolveMainAxisGap();
   const align = props.align;
   const cross = resolveCrossAxisGap();
@@ -604,11 +621,15 @@ function updatePosition() {
 function bindFloatingResizeObserver() {
   unbindFloatingResizeObserver();
   const floating = floatingRef.value;
+  const metricsEl = resolveFloatingMetricsEl();
   if (!floating || typeof ResizeObserver === 'undefined') return;
   floatingResizeObserver = new ResizeObserver(() => {
     updatePosition();
   });
   floatingResizeObserver.observe(floating);
+  if (metricsEl && metricsEl !== floating) {
+    floatingResizeObserver.observe(metricsEl);
+  }
 }
 
 function unbindFloatingResizeObserver() {
@@ -616,12 +637,15 @@ function unbindFloatingResizeObserver() {
   floatingResizeObserver = undefined;
 }
 
-function isScrollInsideFloating(event: Event): boolean {
+function isScrollInsideFloatingOrNested(event: Event): boolean {
   const target = event.target;
   if (!(target instanceof Node)) {
     return false;
   }
-  return floatingRef.value?.contains(target) ?? false;
+  if (floatingRef.value?.contains(target)) {
+    return true;
+  }
+  return isInsideNestedTeleportedLayer(target);
 }
 
 function onScroll(event: Event) {
@@ -629,8 +653,8 @@ function onScroll(event: Event) {
     return;
   }
   if (props.closeOnScroll) {
-    // 浮层内列表自滚（如 CryptoAddress 地址 Menu）不应触发关闭。
-    if (isScrollInsideFloating(event)) {
+    // 浮层内列表自滚（如 CryptoAddress / Flotation Menu）不应触发关闭。
+    if (isScrollInsideFloatingOrNested(event)) {
       return;
     }
     closeNow();

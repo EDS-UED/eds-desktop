@@ -84,6 +84,8 @@ const props = withDefaults(
     showAdd?: boolean;
     addLabel?: string;
     showMenuDivider?: boolean;
+    /** 无 Add 底栏时仅列表区滚动（长列表 + maxHeight）。 */
+    listScroll?: boolean;
     items?: FlotationMenuItemPreset[];
     /** 滚动容器滚动时关闭浮层（如 DataList 内嵌场景）。 */
     closeOnScroll?: boolean;
@@ -122,6 +124,7 @@ const props = withDefaults(
     showAdd: true,
     addLabel: 'Add',
     showMenuDivider: true,
+    listScroll: false,
     items: () => createDefaultFlotationPresetItems(),
     closeOnScroll: false,
     flip: false,
@@ -388,6 +391,10 @@ function onItemClick(item: FlotationMenuItemPreset, index: number, event: MouseE
 onBeforeUnmount(() => {
   unbindTriggerResizeObserver();
 });
+
+defineExpose({
+  close: () => anchoredRef.value?.close(),
+});
 </script>
 
 <template>
@@ -447,6 +454,8 @@ onBeforeUnmount(() => {
         name="content"
         :selected-index="selectedIndex"
         :close="() => anchoredRef?.close()"
+        :menu-width="menuWidth"
+        :menu-width-mode="menuWidthMode"
       >
         <FlotationMenu
           v-if="usePresetContent"
@@ -456,6 +465,7 @@ onBeforeUnmount(() => {
           :height-mode="heightMode"
           :height="height"
           :max-height="maxHeight"
+          :list-scroll="listScroll"
           :show-divider="showMenuDivider"
           :show-add="showAdd"
           :add-label="addLabel"

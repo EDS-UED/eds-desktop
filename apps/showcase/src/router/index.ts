@@ -134,6 +134,10 @@ export const router = createRouter({
                   'tooltip-scene-text-overflow': 'tooltip-scene-text-overflow',
                   'tooltip-scene-paragraph-overflow': 'tooltip-scene-paragraph-overflow',
                   'tooltip-scene-multi-address': 'tooltip-scene-multi-address',
+                  'tooltip-scene-crypto-picker': 'tooltip-scene-crypto-picker',
+                  'tooltip-scene-member-picker': 'tooltip-scene-member-picker',
+                  'tooltip-scene-date-picker': 'tooltip-scene-date-picker',
+                  'tooltip-scene-status-picker': 'tooltip-scene-status-picker',
                   'tooltip-subtle': 'tooltip-subtle',
                   'tooltip-container': 'tooltip-flotation',
                   'tooltip-popup': 'tooltip-flotation',
@@ -248,6 +252,10 @@ export const router = createRouter({
 
                 if (slug in popoverSceneLegacySlugs) {
                   return { path: `/components/${popoverSceneLegacySlugs[slug]}` };
+                }
+
+                if (slug === 'tooltip-scene-date-range-picker') {
+                  return { path: '/components/tooltip-scene-date-picker' };
                 }
 
                 if (slug === 'popovers-scene') {

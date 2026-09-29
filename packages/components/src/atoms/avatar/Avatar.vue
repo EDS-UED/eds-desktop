@@ -7,7 +7,7 @@ import { pickAvatarColorIndex } from './pickAvatarColorIndex';
 import { resolveAvatarAssetName } from './resolveAvatarAssetName';
 import { resolveAvatarInitials } from './resolveAvatarInitials';
 
-export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type AvatarVariant = 'initials' | 'robot';
 
 const props = withDefaults(
@@ -55,7 +55,10 @@ const assetName = computed(() =>
 
 const initialsStyle = computed(() => avatarPaletteBackgroundVars(paletteColor.value));
 
-const hostClass = computed(() => [styles.root, styles[props.size]]);
+const hostClass = computed(() => [
+  styles.root,
+  props.size === '2xl' ? styles.size2xl : styles[props.size],
+]);
 
 const ariaLabel = computed(() => {
   if (props.label) {

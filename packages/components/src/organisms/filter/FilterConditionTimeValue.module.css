@@ -1,0 +1,63 @@
+.root {
+  width: 100%;
+  min-width: 0;
+}
+
+.root :global(.eds-flotation) {
+  display: block;
+  width: 100%;
+}
+
+.root :global(.eds-flotation > span) {
+  display: block;
+  width: 100%;
+}
+
+.root :global(.eds-flotation-trigger) {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* 覆盖 FlotationTrigger sm 默认 icon-lg（20px）symbol 槽 */
+.root :global(.eds-flotation-trigger) > :global(span:has(.triggerCalendarSymbol)) {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.menu:global(.desktopTokens.effect-flotation-box) {
+  width: auto;
+  min-width: 0;
+}
+
+.menu :global(.eds-tooltip-panel) {
+  width: auto;
+  min-width: 0;
+}
+
+.menu :global(.eds-flotation-menu-body) {
+  width: 100%;
+  min-width: 0;
+}
+
+.menu :global(.eds-flotation-menu-body) > :global(div) {
+  width: 100%;
+  min-width: 0;
+}
+
+.panelBody {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+}
+
+.triggerCalendarSymbol {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  color: var(--text-base-secondary);
+}
