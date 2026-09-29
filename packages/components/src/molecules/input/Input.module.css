@@ -101,15 +101,24 @@
 
 .fieldWithMax.lg {
   gap: var(--spacing-1);
-  padding: var(--spacing-3) var(--spacing-2) var(--spacing-3) var(--spacing-3);
+  height: calc(var(--spacing-3) * 2 + var(--eds-body-medium-line-height));
+  max-height: calc(var(--spacing-3) * 2 + var(--eds-body-medium-line-height));
+  padding-block: var(--spacing-3);
+  padding-inline: var(--spacing-3) var(--spacing-2);
 }
 
 .fieldWithMax.md {
-  padding: var(--spacing-2) var(--spacing-2) var(--spacing-2) var(--spacing-3);
+  height: calc(var(--spacing-2) * 2 + var(--eds-body-medium-line-height));
+  max-height: calc(var(--spacing-2) * 2 + var(--eds-body-medium-line-height));
+  padding-block: var(--spacing-2);
+  padding-inline: var(--spacing-3) var(--spacing-2);
 }
 
 .fieldWithMax.sm {
-  padding: var(--spacing-1) var(--spacing-2) var(--spacing-1) var(--spacing-3);
+  height: calc(var(--spacing-1) * 2 + var(--eds-body-medium-line-height));
+  max-height: calc(var(--spacing-1) * 2 + var(--eds-body-medium-line-height));
+  padding-block: var(--spacing-1);
+  padding-inline: var(--spacing-3) var(--spacing-2);
 }
 
 .fieldWithMax.lg.amount:focus-within:not(.fieldDisabled),
@@ -135,10 +144,13 @@
   cursor: not-allowed;
 }
 
-/* Lg — Figma 2056:1209: p spacing-3, gap spacing-1-5 */
+/* Lg — max height 46px；padding 上/下/左 spacing-3、右 spacing-2 */
 .lg {
   gap: var(--spacing-1-5);
-  padding: var(--spacing-3);
+  height: calc(var(--spacing-3) * 2 + var(--eds-body-medium-line-height));
+  max-height: calc(var(--spacing-3) * 2 + var(--eds-body-medium-line-height));
+  padding-block: var(--spacing-3);
+  padding-inline: var(--spacing-3) var(--spacing-2);
   box-sizing: border-box;
 }
 
@@ -151,10 +163,13 @@
   padding-inline: var(--spacing-3) var(--spacing-2);
 }
 
-/* Md — Figma 2056:1207: px spacing-3 py spacing-2 */
+/* Md — max height 38px；左右同 Lg，上下 spacing-2 */
 .md {
   gap: var(--spacing-1-5);
-  padding: var(--spacing-2) var(--spacing-3);
+  height: calc(var(--spacing-2) * 2 + var(--eds-body-medium-line-height));
+  max-height: calc(var(--spacing-2) * 2 + var(--eds-body-medium-line-height));
+  padding-block: var(--spacing-2);
+  padding-inline: var(--spacing-3) var(--spacing-2);
   box-sizing: border-box;
 }
 
@@ -166,10 +181,13 @@
   padding-inline: var(--spacing-3) var(--spacing-2);
 }
 
-/* Sm — Figma 2056:1203: px spacing-3 py spacing-1 */
+/* Sm — max height 30px；左右同 Lg，上下 spacing-1 */
 .sm {
   gap: var(--spacing-1-5);
-  padding: var(--spacing-1) var(--spacing-3);
+  height: calc(var(--spacing-1) * 2 + var(--eds-body-medium-line-height));
+  max-height: calc(var(--spacing-1) * 2 + var(--eds-body-medium-line-height));
+  padding-block: var(--spacing-1);
+  padding-inline: var(--spacing-3) var(--spacing-2);
   box-sizing: border-box;
 }
 
@@ -178,7 +196,7 @@
 }
 
 .sm.amount:focus-within:not(.fieldDisabled) {
-  padding-inline: var(--spacing-3) var(--spacing-1-5);
+  padding-inline: var(--spacing-3) var(--spacing-2);
 }
 
 /* Left slot: input content */
@@ -329,43 +347,8 @@
   transition: var(--motion-recipe-shift);
 }
 
-.clearButton {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--text-base-secondary);
-  cursor: default;
-  box-sizing: border-box;
-  width: calc(var(--icon-sm) + 2 * var(--spacing-1));
-  height: calc(var(--icon-sm) + 2 * var(--spacing-1));
-  padding: 0;
-  border-radius: var(--radius-sm);
-  opacity: 1;
-  composes: motion-ease is-paint from global;
-}
-
 .clearButtonHidden {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
-}
-
-.clearButton:hover {
-  color: var(--text-base-primary);
-}
-
-.clearButton:focus-visible {
-  outline: var(--stroke-sm) solid var(--stroke-color-brand);
-  outline-offset: 1px;
-}
-
-.clearIcon {
-  display: block;
-  width: var(--icon-sm);
-  height: var(--icon-sm);
 }

@@ -83,6 +83,8 @@ const unitWidthPx = ref(0);
 const valueOverflowing = ref(false);
 const overflowScrollFadeLeft = ref(false);
 const overflowScrollFadeRight = ref(false);
+const overflowTeleportTo = ref<string | HTMLElement>('body');
+const overflowBoundarySelector = ref<string | undefined>(undefined);
 const fieldHovered = ref(false);
 const SCROLL_EDGE_EPSILON = 2;
 const overflowAnchorRef = ref<{
@@ -267,6 +269,36 @@ const overflowPopoverDisabled = computed(
     || props.disabled,
 );
 
+function resolveOverflowMountContext() {
+  const el = fieldRef.value;
+  if (!el) {
+    overflowTeleportTo.value = 'body';
+    overflowBoundarySelector.value = undefined;
+    return;
+  }
+
+  if (el.closest('.app-preview') instanceof HTMLElement) {
+    overflowBoundarySelector.value = '.app-preview';
+    overflowTeleportTo.value = '.app-preview';
+    return;
+  }
+
+  if (el.closest('.eds-popup') instanceof HTMLElement) {
+    overflowBoundarySelector.value = '.eds-popup';
+    overflowTeleportTo.value = '.eds-popup';
+    return;
+  }
+
+  if (el.closest('.eds-data-list') instanceof HTMLElement) {
+    overflowBoundarySelector.value = '.eds-data-list';
+    overflowTeleportTo.value = '.eds-data-list';
+    return;
+  }
+
+  overflowTeleportTo.value = 'body';
+  overflowBoundarySelector.value = undefined;
+}
+
 const overflowPopoverAnchorBind = computed(() => ({
   disabled: overflowPopoverDisabled.value,
   trigger: 'hover' as const,
@@ -277,7 +309,9 @@ const overflowPopoverAnchorBind = computed(() => ({
   offset: FALLBACK_SPACING_1_PX,
   openDelay: 0,
   closeDelay: FLOTATION_OVERFLOW_CLOSE_DELAY,
-  teleportTo: 'body',
+  teleportTo: overflowTeleportTo.value,
+  boundarySelector: overflowBoundarySelector.value,
+  flip: true,
 }));
 
 async function syncOverflowPopoverOpen() {
@@ -415,6 +449,7 @@ function scheduleOverflowMeasure() {
   }
 
   void nextTick(() => {
+    resolveOverflowMountContext();
     measureValueOverflow();
     bindOverflowResizeObserver();
     void syncOverflowPopoverOpen();
@@ -561,6 +596,7 @@ watch(
 );
 
 onMounted(() => {
+  resolveOverflowMountContext();
   updateGhostUnitMetrics();
   scheduleOverflowMeasure();
 });
@@ -659,33 +695,20 @@ onBeforeUnmount(() => {
         <!-- Right: clear / inline unit（Max 在 field 内、不参与 padding 高度） -->
         <div v-if="showSuffix" :class="styles.suffix">
           <slot name="suffix">
-            <button
+            <EgIconButton
               v-if="clearable && (showClear || reserveClearSpace)"
-              type="button"
-              :class="[styles.clearButton, !showClear && styles.clearButtonHidden]"
-              aria-label="Clear"
-              :aria-hidden="!showClear"
+              shape="square"
+              size="sm"
+              label="Clear"
+              :class="!showClear && styles.clearButtonHidden"
+              :aria-hidden="!showClear ? true : undefined"
               tabindex="-1"
               @mousedown.prevent
               @pointerdown.prevent
               @click="onClear"
             >
-              <svg
-                :class="styles.clearIcon"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <circle cx="8" cy="8" r="7" fill="currentColor" />
-                <path
-                  d="M6 6l4 4m0-4-4 4"
-                  stroke="var(--material-same-white-primary)"
-                  stroke-width="1.2"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </button>
+              <EgIcon name="eds-close-circle-fill" fit />
+            </EgIconButton>
 
             <span
               v-if="showInlineUnit"
