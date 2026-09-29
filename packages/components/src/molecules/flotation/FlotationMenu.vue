@@ -188,6 +188,7 @@ defineExpose({
     v-bind="attrs"
     :class="[
       'eds-flotation-menu',
+      widthMode === 'adaptive' && 'eds-flotation-menu--width-adaptive',
       useScrollableList && scrollable && 'eds-flotation-menu--scrollable-list',
       useStickyFooter && 'eds-flotation-menu--sticky-footer',
       showListHeader && 'eds-flotation-menu--list-header',

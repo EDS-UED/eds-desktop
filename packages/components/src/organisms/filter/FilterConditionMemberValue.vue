@@ -17,7 +17,7 @@ import {
 import { EgSearchInput } from '../../molecules/search';
 import { EgTabs } from '../../molecules/tab';
 import type { TooltipAlign, TooltipTrigger } from '../../molecules/tooltip';
-import type { EgFilterFieldSelectionMode } from './types';
+import type { EgFilterFieldMemberOption, EgFilterFieldSelectionMode } from './types';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
 import {
   FILTER_MEMBER_PICKER_HEIGHT,
@@ -30,7 +30,12 @@ import {
 } from './filterMemberPresets';
 import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
+import { useFilterPickerMenuWidthMode } from './useFilterPickerMenuWidthMode';
 import { useFilterSearchPickerListAreaHeight } from './useFilterSearchPickerListAreaHeight';
+import {
+  resolveFilterPickerListSelectedDomIndex,
+  useFilterSearchPickerScrollToSelected,
+} from './useFilterSearchPickerScrollToSelected';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionMemberValue.module.css';
 
@@ -50,6 +55,10 @@ const props = withDefaults(
     trigger?: TooltipTrigger;
     /** 成员 / WaaS 项目 Tab；关闭时仅展示成员列表。 */
     showTypeTabs?: boolean;
+    /** 业务自定义成员（有头像）；传 [] 时不回退演示 catalog。 */
+    memberOptions?: readonly EgFilterFieldMemberOption[];
+    /** 业务自定义 WaaS 项目（无头像）。 */
+    waasProjectOptions?: readonly EgFilterFieldMemberOption[];
     dropdownOpenId?: string;
     boundarySelector?: string;
     pickerAlign?: TooltipAlign;
@@ -69,6 +78,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 
+const rootRef = ref<HTMLElement | null>(null);
 const searchQuery = ref('');
 const flotationRef = ref<{ close?: () => void } | null>(null);
 const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
@@ -114,13 +124,51 @@ const hasDraftSelection = computed(() => draftValues.value.size > 0);
 
 const memberPickerTabLabels = computed(() => [t('成员'), t('WaaS项目')]);
 
-const isWaasProjectTabActive = computed(
-  () => props.showTypeTabs && activeTabIndex.value === 1,
+const memberPresets = computed<FilterMemberPickerOption[]>(() => {
+  if (props.memberOptions !== undefined) {
+    return props.memberOptions as FilterMemberPickerOption[];
+  }
+  return FILTER_MEMBER_PRESETS;
+});
+
+const waasProjectPresets = computed<FilterMemberPickerOption[]>(() => {
+  if (props.waasProjectOptions !== undefined) {
+    return props.waasProjectOptions as FilterMemberPickerOption[];
+  }
+  return FILTER_WAAS_PROJECT_PRESETS;
+});
+
+const allPickerPresets = computed(() => [
+  ...memberPresets.value,
+  ...waasProjectPresets.value,
+]);
+
+const effectiveShowTypeTabs = computed(
+  () =>
+    props.showTypeTabs
+    && memberPresets.value.length > 0
+    && waasProjectPresets.value.length > 0,
 );
 
+const isWaasProjectTabActive = computed(() => {
+  if (effectiveShowTypeTabs.value) return activeTabIndex.value === 1;
+  return memberPresets.value.length === 0 && waasProjectPresets.value.length > 0;
+});
+
+const showSelectAllLeading = computed(() => !isWaasProjectTabActive.value);
+
 const activePresetList = computed<FilterMemberPickerOption[]>(() =>
-  isWaasProjectTabActive.value ? FILTER_WAAS_PROJECT_PRESETS : FILTER_MEMBER_PRESETS,
+  isWaasProjectTabActive.value ? waasProjectPresets.value : memberPresets.value,
 );
+
+function resolveMemberPickerPresetById(id: string): FilterMemberPickerOption | undefined {
+  const trimmed = id.trim();
+  if (!trimmed) return undefined;
+  return (
+    allPickerPresets.value.find((option) => option.id === trimmed)
+    ?? resolveFilterMemberPreset(trimmed)
+  );
+}
 
 const filteredOptions = computed(() => {
   const query = searchQuery.value.trim().toLowerCase();
@@ -134,6 +182,23 @@ const showSearchEmpty = computed(
   () => Boolean(searchQuery.value.trim()) && filteredOptions.value.length === 0,
 );
 
+const pickerWidthLabels = computed(() => {
+  const labels = allPickerPresets.value.map((option) => t(option.label));
+  if (isMulti.value) labels.unshift(t('全部'));
+  labels.push(t('搜索'));
+  if (effectiveShowTypeTabs.value) {
+    labels.push(...memberPickerTabLabels.value);
+  }
+  return labels;
+});
+
+const { flotationWidthMode, syncMenuWidthMode, syncMenuWidthModeAfterLayout } =
+  useFilterPickerMenuWidthMode({
+    rootRef,
+    optionLabels: pickerWidthLabels,
+    includeCheckbox: isMulti,
+  });
+
 const {
   listAreaStyle,
   resetListAreaHeight,
@@ -146,9 +211,9 @@ const {
 });
 
 watch(
-  () => props.showTypeTabs,
-  (enabled) => {
-    if (!enabled) activeTabIndex.value = 0;
+  () => [props.showTypeTabs, memberPresets.value.length, waasProjectPresets.value.length],
+  () => {
+    if (!effectiveShowTypeTabs.value) activeTabIndex.value = 0;
   },
 );
 
@@ -187,15 +252,44 @@ function resetSearch() {
   resetListAreaHeight();
 }
 
+function isOptionSelected(option: FilterMemberPickerOption): boolean {
+  return activeSelectedValues.value.has(option.id);
+}
+
+const { scheduleScrollSelectedToCenter } = useFilterSearchPickerScrollToSelected({
+  scrollRef,
+  showSearchEmpty,
+  resolveSelectedDomIndex: () => {
+    const options = filteredOptions.value;
+    const selectedListIndex = isMulti.value
+      ? options.findIndex((option) => isOptionSelected(option))
+      : options.findIndex((option) => option.id === props.modelValue.trim());
+    return resolveFilterPickerListSelectedDomIndex({
+      isMulti: isMulti.value,
+      optionsLength: options.length,
+      selectedListIndex,
+    });
+  },
+  onScrolled: updatePickerScroll,
+});
+
+function onRootPointerDown() {
+  if (props.disabled) return;
+  syncMenuWidthMode();
+}
+
 function onPickerOpen() {
   onDropdownOpen();
   resetListAreaHeight();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
+  syncMenuWidthMode();
   void nextTick(() => {
     updatePickerScroll();
     scheduleCaptureListAreaHeight();
+    void scheduleScrollSelectedToCenter();
+    void syncMenuWidthModeAfterLayout();
   });
 }
 
@@ -203,10 +297,6 @@ function onPickerClose() {
   onDropdownClose();
   resetSearch();
   activeTabIndex.value = 0;
-}
-
-function isOptionSelected(option: FilterMemberPickerOption): boolean {
-  return activeSelectedValues.value.has(option.id);
 }
 
 function getOptionSelectionState(option: FilterMemberPickerOption): 'none' | 'full' {
@@ -271,11 +361,14 @@ function onPickerClear() {
   draftValues.value = new Set();
 }
 
-function onPickerConfirm(close: () => void) {
+async function onPickerConfirm(close: () => void) {
   if (props.disabled) return;
-  emit('update:modelValue', [...draftValues.value].join(','));
+  const nextValue = [...draftValues.value].join(',');
+  emit('update:modelValue', nextValue);
   resetSearch();
+  await nextTick();
   close();
+  flotationRef.value?.close?.();
 }
 
 function onPickerCancel(close: () => void) {
@@ -286,9 +379,9 @@ function onPickerCancel(close: () => void) {
 const activeTriggerPreset = computed(() => {
   if (isMulti.value) {
     if (selectedCount.value === 0) return null;
-    return resolveFilterMemberPreset(firstSelectedValueKey.value) ?? null;
+    return resolveMemberPickerPresetById(firstSelectedValueKey.value) ?? null;
   }
-  return resolveFilterMemberPreset(props.modelValue) ?? null;
+  return resolveMemberPickerPresetById(props.modelValue) ?? null;
 });
 
 const triggerLabel = computed(() =>
@@ -306,14 +399,14 @@ const triggerCountText = computed(() => String(selectedCount.value));
 </script>
 
 <template>
-  <div :class="styles.root">
+  <div ref="rootRef" :class="styles.root" @pointerdown="onRootPointerDown">
     <EgFlotation
       ref="flotationRef"
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"
       :align="pickerAlign"
-      width-mode="trigger"
+      :width-mode="flotationWidthMode"
       :show-add="false"
       :show-menu-divider="false"
       :boundary-selector="boundarySelector"
@@ -351,7 +444,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
 
       <template #content="{ close, menuWidth, menuWidthMode }">
         <EgFlotationMenu
-          :class="styles.menu"
+          :class="[styles.menu, flotationWidthMode === 'adaptive' && styles.menuAdaptive]"
           data-no-corner-smoothing
           panel-flush
           panel-radius="radius-md"
@@ -373,7 +466,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
               />
             </div>
 
-            <div v-if="showTypeTabs" :class="styles.tabBar">
+            <div v-if="effectiveShowTypeTabs" :class="styles.tabBar">
               <EgTabs
                 v-model="activeTabIndex"
                 :labels="memberPickerTabLabels"
@@ -408,7 +501,8 @@ const triggerCountText = computed(() => String(selectedCount.value));
               <FilterSearchPickerEmpty v-if="showSearchEmpty" />
               <div v-else ref="optionListRef" :class="styles.optionList">
                 <EgFlotationMenuItem
-                  v-if="isMulti"
+                  v-if="isMulti && showSelectAllLeading"
+                  key="select-all-with-leading"
                   box-type="image-text"
                   :label="t('全部')"
                   show-checkbox
@@ -426,6 +520,18 @@ const triggerCountText = computed(() => String(selectedCount.value));
                     </span>
                   </template>
                 </EgFlotationMenuItem>
+                <EgFlotationMenuItem
+                  v-else-if="isMulti"
+                  key="select-all-text-only"
+                  box-type="text"
+                  :label="t('全部')"
+                  show-checkbox
+                  :checked="selectAllChecked"
+                  :checkbox-indeterminate="selectAllIndeterminate"
+                  :show-tag="false"
+                  @click="onSelectAllToggle"
+                  @update:checked="onSelectAllToggle"
+                />
 
                 <EgFlotationMenuItem
                   v-for="option in filteredOptions"

@@ -104,11 +104,16 @@ const emit = defineEmits<{
           tone="subtle"
           variant="text"
           :size="buttonSize"
-          @click="emit('cancel')"
+          @click.stop="emit('cancel')"
         >
           {{ cancelLabel }}
         </EgButton>
-        <EgButton :tone="tone" :variant="variant" :size="buttonSize" @click="emit('confirm')">
+        <EgButton
+          :tone="tone"
+          :variant="variant"
+          :size="buttonSize"
+          @click.stop="emit('confirm')"
+        >
           {{ confirmLabel }}
         </EgButton>
       </div>

@@ -53,21 +53,32 @@
   line-height: var(--eds-body-medium-line-height);
 }
 
-.triggerPlaceholder {
+.triggerValueText {
   display: block;
   flex: 1 1 auto;
   width: 100%;
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: center;
+  color: inherit;
+  font-size: var(--eds-body-medium-size);
+  font-weight: var(--eds-body-medium-weight);
+  line-height: var(--eds-body-medium-line-height);
+}
+
+.triggerPlaceholder {
   color: var(--text-subtle-primary);
 }
 
-.root :global(.eds-flotation-trigger:has(.triggerPlaceholder)) :global(.triggerTitle),
-.root :global(.eds-flotation-trigger:has(.triggerPlaceholder)) :global(.triggerRaw) {
+.root :global(.eds-flotation-trigger) :global(.triggerTitle),
+.root :global(.eds-flotation-trigger) :global(.triggerRaw) {
   justify-content: center;
 }
 
-.root :global(.eds-flotation-trigger:has(.triggerPlaceholder)) :global(.triggerLabel) {
+.root :global(.eds-flotation-trigger) :global(.triggerLabel) {
   flex: 1 1 auto;
   text-align: center;
 }

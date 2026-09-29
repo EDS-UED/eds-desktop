@@ -30,7 +30,7 @@ import {
   type FilterTimeQuickPresetId,
 } from './filterDateUtils';
 import type { TooltipAlign, TooltipTrigger } from '../../molecules/tooltip';
-import { FILTER_SELECT_PLACEHOLDER } from './types';
+import { FILTER_TIME_RANGE_PLACEHOLDER } from './types';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionTimeRangeValue.module.css';
@@ -50,7 +50,7 @@ const props = withDefaults(
     pickerAlign?: TooltipAlign;
   }>(),
   {
-    placeholder: FILTER_SELECT_PLACEHOLDER,
+    placeholder: FILTER_TIME_RANGE_PLACEHOLDER,
     disabled: false,
     triggerWidthMode: 'adaptive',
     trigger: 'click',
@@ -233,7 +233,7 @@ onMounted(() => {
           </EgTooltipOverflow>
           <span
             v-else
-            :class="[styles.triggerOverflowText, styles.triggerPlaceholder]"
+            :class="[styles.triggerValueText, styles.triggerPlaceholder]"
           >
             {{ triggerLabel }}
           </span>

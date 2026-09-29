@@ -33,6 +33,11 @@
   overflow: hidden;
 }
 
+.menuAdaptive:global(.desktopTokens.effect-flotation-box) {
+  width: max-content;
+  min-width: 100%;
+}
+
 .menu :global(.eds-tooltip-panel) {
   display: flex;
   flex: 1 1 auto;
@@ -49,23 +54,29 @@
   gap: 0;
   width: 100%;
   min-width: 0;
+  height: 100%;
+  min-height: 0;
 }
 
 .menu :global(.eds-flotation-menu-body) > :global(div:last-child) {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   width: 100%;
   min-width: 0;
+  min-height: 0;
 }
 
 .pickerRows {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   align-items: stretch;
   align-self: stretch;
   width: 100%;
   min-width: 0;
-  max-height: 100%;
+  min-height: 0;
+  height: 100%;
   box-sizing: border-box;
   overflow: hidden;
 }

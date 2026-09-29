@@ -5,6 +5,8 @@ import {
   EgDatePickerTooltip,
   EgMemberTooltip,
   EgStatusTooltip,
+  FILTER_SELECT_PLACEHOLDER,
+  FILTER_TIME_RANGE_PLACEHOLDER,
   type EgFilterCascadePlacement,
   type EgFilterFieldSelectionMode,
   type FlotationTriggerWidthMode,
@@ -32,9 +34,20 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 
+const effectivePlaceholder = computed(() => {
+  if (
+    props.scenario === 'date-picker'
+    && props.datePickerType === 'range'
+    && (!props.placeholder || props.placeholder === FILTER_SELECT_PLACEHOLDER)
+  ) {
+    return FILTER_TIME_RANGE_PLACEHOLDER;
+  }
+  return props.placeholder;
+});
+
 const pickerProps = computed(() => ({
   modelValue: props.modelValue,
-  placeholder: props.placeholder,
+  placeholder: effectivePlaceholder.value,
   disabled: props.disabled,
   trigger: props.trigger,
   triggerWidthMode: props.triggerWidthMode,

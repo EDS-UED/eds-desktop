@@ -33,6 +33,11 @@
   overflow: hidden;
 }
 
+.menuAdaptive:global(.desktopTokens.effect-flotation-box) {
+  width: max-content;
+  min-width: 100%;
+}
+
 .menu :global(.eds-tooltip-panel) {
   display: flex;
   flex: 1 1 auto;

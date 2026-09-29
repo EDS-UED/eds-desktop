@@ -17,6 +17,8 @@ export type FilterCurrencyPreset = {
   /** 与 consumer chainCount 一致。 */
   messageText?: string;
   modeTag?: string;
+  /** 单网络行：列表 chain tag（如 Base / BNB Smart Chain）。 */
+  chainTagLabel?: string;
   networks?: readonly FilterCurrencyNetwork[];
 };
 

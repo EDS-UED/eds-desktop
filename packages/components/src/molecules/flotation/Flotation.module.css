@@ -506,6 +506,22 @@
   white-space: nowrap;
 }
 
+/* adaptive 宽度菜单：选项随文案撑开，禁 flex 收缩省略。 */
+:global(.eds-flotation-menu--width-adaptive) .boxRoot {
+  width: max-content;
+  min-width: 100%;
+}
+
+:global(.eds-flotation-menu--width-adaptive) .boxMain {
+  overflow: visible;
+}
+
+:global(.eds-flotation-menu--width-adaptive) .boxLabel {
+  flex-shrink: 0;
+  overflow: visible;
+  text-overflow: unset;
+}
+
 .boxLabelWrap {
   flex: 1 1 auto;
   overflow: visible;

@@ -341,7 +341,7 @@ function isInsideNestedTeleportedLayer(target: Node): boolean {
   return Boolean(
     target.closest('.eds-crypto-address-tooltip-menu')
     || target.closest('.eds-flotation-menu')
-    || target.closest('[data-eds-filter-panel]'),
+    || target.closest('.eds-flotation'),
   );
 }
 

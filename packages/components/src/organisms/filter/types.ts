@@ -18,9 +18,45 @@ export type EgFilterFieldKind =
   | 'input'
   | 'dropdown';
 
+import type { CryptoName } from '../../atoms/crypto';
+import type { TagStatus } from '../../molecules/tag';
+
 export type EgFilterFieldDropdownOption = {
   id: string;
   label: string;
+};
+
+/** 业务传入的状态筛选项（与列表 Status 列 Tag 对齐）。 */
+export type EgFilterFieldStatusOption = {
+  id: string;
+  label: string;
+  status: TagStatus;
+};
+
+/** 业务传入的成员 / WaaS 项目选项（与 EgMemberTooltip 对齐）。 */
+export type EgFilterFieldMemberOption = {
+  id: string;
+  label: string;
+  name: string;
+};
+
+export type EgFilterFieldCurrencyNetworkOption = {
+  key: string;
+  label: string;
+  cryptoName: CryptoName;
+};
+
+/** 业务传入的币种筛选项（与列表列数据对齐，优先于内置 FILTER_CURRENCY_PRESETS）。 */
+export type EgFilterFieldCurrencyOption = {
+  id: string;
+  label: string;
+  cryptoName: CryptoName;
+  multiChain?: boolean;
+  modeTag?: string;
+  messageText?: string;
+  /** 单网络行：列表 chain tag（如 Base / BNB Smart Chain）。 */
+  chainTagLabel?: string;
+  networks?: readonly EgFilterFieldCurrencyNetworkOption[];
 };
 
 export type EgFilterField = {
@@ -31,10 +67,18 @@ export type EgFilterField = {
   selectionMode?: EgFilterFieldSelectionMode;
   /** kind=dropdown 时业务自定义选项；未传时用 Filter 内置演示项。 */
   dropdownOptions?: readonly EgFilterFieldDropdownOption[];
+  /** kind=status 时业务自定义状态项；未传时用 Filter 内置演示类。 */
+  statusOptions?: readonly EgFilterFieldStatusOption[];
   /** kind=currency 时限定可选 preset id（与 FILTER_CURRENCY_PRESETS.id 对齐）。 */
   currencyPresetIds?: readonly string[];
   /** kind=currency 时按 symbol 限定可选项（优先于 currencyPresetIds，与列表数据对齐）。 */
   currencySymbols?: readonly string[];
+  /** kind=currency 时业务自定义币种/网络（最高优先级；列表里没有的不展示）。 */
+  currencyOptions?: readonly EgFilterFieldCurrencyOption[];
+  /** kind=member 时业务自定义成员列表（有头像）；未传时用内置演示项。 */
+  memberOptions?: readonly EgFilterFieldMemberOption[];
+  /** kind=member 时业务自定义 WaaS 项目列表（无头像）。 */
+  waasProjectOptions?: readonly EgFilterFieldMemberOption[];
   /** amount / gas-fee：单值或区间。 */
   amountMode?: EgFilterAmountMode;
   /** amount / gas-fee：EgInput unit（如 BTC）。 */
@@ -44,6 +88,7 @@ export type EgFilterField = {
 };
 
 export const FILTER_SELECT_PLACEHOLDER = '请选择';
+export const FILTER_TIME_RANGE_PLACEHOLDER = '开始日期 - 结束日期';
 export const FILTER_INPUT_PLACEHOLDER = '请输入';
 export const FILTER_NUMERIC_PLACEHOLDER = '0';
 export const FILTER_NUMERIC_RANGE_MIN_PLACEHOLDER = '最小';
@@ -99,6 +144,9 @@ export function defaultPlaceholderForFilterFieldKind(kind: EgFilterFieldKind): s
   if (kind === 'input') {
     return FILTER_INPUT_PLACEHOLDER;
   }
+  if (kind === 'time-range') {
+    return FILTER_TIME_RANGE_PLACEHOLDER;
+  }
   return FILTER_SELECT_PLACEHOLDER;
 }
 
@@ -112,7 +160,7 @@ export const FILTER_FIELD_KIND_PRESETS: EgFilterField[] = [
   { id: 'gas-fee', label: '矿工费', kind: 'gas-fee', amountMode: 'single', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
   { id: 'gas-fee-range', label: '矿工费', kind: 'gas-fee', amountMode: 'range', unit: 'ETH', placeholder: FILTER_NUMERIC_PLACEHOLDER },
   { id: 'time', label: '时间', kind: 'time', placeholder: FILTER_SELECT_PLACEHOLDER },
-  { id: 'time-range', label: '时间范围', kind: 'time-range', placeholder: FILTER_SELECT_PLACEHOLDER },
+  { id: 'time-range', label: '时间范围', kind: 'time-range', placeholder: FILTER_TIME_RANGE_PLACEHOLDER },
   { id: 'status', label: '状态类', kind: 'status', selectionMode: 'single', placeholder: FILTER_SELECT_PLACEHOLDER },
   { id: 'status-multi', label: '状态类', kind: 'status', selectionMode: 'multi', placeholder: FILTER_SELECT_PLACEHOLDER },
   { id: 'input', label: '输入类', kind: 'input', placeholder: FILTER_INPUT_PLACEHOLDER },

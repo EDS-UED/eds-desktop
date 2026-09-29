@@ -19,8 +19,16 @@ export const FILTER_STATUS_PRESETS: FilterStatusPreset[] = [
   { id: 'status-canceled-invalid', label: '取消失效类', status: 'invalid' },
 ];
 
-export function resolveFilterStatusPreset(value: string): FilterStatusPreset | undefined {
+export function resolveFilterStatusOption(
+  value: string,
+  options?: readonly FilterStatusPreset[],
+): FilterStatusPreset | undefined {
   const trimmed = value.trim();
   if (!trimmed) return undefined;
-  return FILTER_STATUS_PRESETS.find((option) => option.id === trimmed);
+  const pool = options?.length ? options : FILTER_STATUS_PRESETS;
+  return pool.find((option) => option.id === trimmed);
+}
+
+export function resolveFilterStatusPreset(value: string): FilterStatusPreset | undefined {
+  return resolveFilterStatusOption(value);
 }

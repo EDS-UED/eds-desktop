@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue';
 import { EgDivider } from '../../atoms/divider';
-import { EgIcon } from '../../atoms/icons';
 import { useScrollChromeScrim } from '../../composables/useScrollChromeScrim';
 import { EgMessage } from '../../molecules/feedback';
 import comboActionStyles from '../../molecules/combo/ComboAction.module.css';
@@ -23,11 +22,14 @@ import {
   type FilterSelectValueOption,
 } from './filterSelectValuePresets';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
+import { useFilterPickerMenuWidthMode } from './useFilterPickerMenuWidthMode';
 import { useFilterSearchPickerListAreaHeight } from './useFilterSearchPickerListAreaHeight';
+import {
+  resolveFilterPickerListSelectedDomIndex,
+  useFilterSearchPickerScrollToSelected,
+} from './useFilterSearchPickerScrollToSelected';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionSelectValue.module.css';
-
-const FILTER_SELECT_ALL_ICON = 'eds-list-lattice-mobile-fill';
 
 const props = withDefaults(
   defineProps<{
@@ -54,6 +56,7 @@ const emit = defineEmits<{
 
 const t = useFilterTranslate();
 
+const rootRef = ref<HTMLElement | null>(null);
 const searchQuery = ref('');
 const draftValues = ref<Set<string>>(new Set());
 const flotationRef = ref<{ close?: () => void } | null>(null);
@@ -106,6 +109,20 @@ const showSearchEmpty = computed(
   () => Boolean(searchQuery.value.trim()) && filteredOptions.value.length === 0,
 );
 
+const pickerWidthLabels = computed(() => {
+  const labels = props.options.map((option) => t(option.label));
+  if (isMulti.value) labels.unshift(t('全部'));
+  labels.push(t('搜索'));
+  return labels;
+});
+
+const { flotationWidthMode, syncMenuWidthMode, syncMenuWidthModeAfterLayout } =
+  useFilterPickerMenuWidthMode({
+    rootRef,
+    optionLabels: pickerWidthLabels,
+    includeCheckbox: isMulti,
+  });
+
 const {
   listAreaStyle,
   resetListAreaHeight,
@@ -117,6 +134,23 @@ const {
   showSearchEmpty,
 });
 
+const { scheduleScrollSelectedToCenter } = useFilterSearchPickerScrollToSelected({
+  scrollRef,
+  showSearchEmpty,
+  resolveSelectedDomIndex: () => {
+    const options = filteredOptions.value;
+    const selectedListIndex = isMulti.value
+      ? options.findIndex((option) => isOptionSelected(option))
+      : options.findIndex((option) => option.id === props.modelValue.trim());
+    return resolveFilterPickerListSelectedDomIndex({
+      isMulti: isMulti.value,
+      optionsLength: options.length,
+      selectedListIndex,
+    });
+  },
+  onScrolled: updatePickerScroll,
+});
+
 watch(
   () => [filteredOptions.value.length, searchQuery.value, isMulti.value, showSearchEmpty.value],
   () => {
@@ -124,6 +158,19 @@ watch(
     onScrollMetricsDepsChange();
   },
 );
+
+watch(
+  () => [props.modelValue, props.placeholder, props.selectionMode, props.options.length] as const,
+  () => {
+    void syncMenuWidthModeAfterLayout();
+  },
+  { flush: 'post' },
+);
+
+function onRootPointerDown() {
+  if (props.disabled) return;
+  syncMenuWidthMode();
+}
 
 function cloneValueSet(values: Iterable<string>): Set<string> {
   return new Set(values);
@@ -151,9 +198,12 @@ function onPickerOpen() {
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
+  syncMenuWidthMode();
   void nextTick(() => {
     updatePickerScroll();
     scheduleCaptureListAreaHeight();
+    void scheduleScrollSelectedToCenter();
+    void syncMenuWidthModeAfterLayout();
   });
 }
 
@@ -227,10 +277,14 @@ function onPickerClear() {
   draftValues.value = new Set();
 }
 
-function onPickerConfirm(close: () => void) {
+async function onPickerConfirm(close: () => void) {
   if (props.disabled) return;
-  emit('update:modelValue', [...draftValues.value].join(','));
+  const nextValue = [...draftValues.value].join(',');
+  emit('update:modelValue', nextValue);
+  resetSearch();
+  await nextTick();
   close();
+  flotationRef.value?.close?.();
 }
 
 function onPickerCancel(close: () => void) {
@@ -256,13 +310,13 @@ const triggerCountText = computed(() => String(selectedCount.value));
 </script>
 
 <template>
-  <div :class="styles.root">
+  <div ref="rootRef" :class="styles.root" @pointerdown="onRootPointerDown">
     <EgFlotation
       ref="flotationRef"
       :disabled="disabled"
       placement="bottom"
       :align="pickerAlign"
-      width-mode="trigger"
+      :width-mode="flotationWidthMode"
       :show-add="false"
       :show-menu-divider="false"
       :boundary-selector="boundarySelector"
@@ -291,7 +345,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
 
       <template #content="{ close, menuWidth, menuWidthMode }">
         <EgFlotationMenu
-          :class="styles.menu"
+          :class="[styles.menu, flotationWidthMode === 'adaptive' && styles.menuAdaptive]"
           data-no-corner-smoothing
           panel-flush
           panel-radius="radius-md"
@@ -346,21 +400,14 @@ const triggerCountText = computed(() => String(selectedCount.value));
                   :show-tag="false"
                   @click="onSelectAllToggle"
                   @update:checked="onSelectAllToggle"
-                >
-                  <template #leading>
-                    <span :class="styles.selectAllIcon">
-                      <span :class="styles.selectAllIconGlyph">
-                        <EgIcon :name="FILTER_SELECT_ALL_ICON" fit />
-                      </span>
-                    </span>
-                  </template>
-                </EgFlotationMenuItem>
+                />
 
                 <EgFlotationMenuItem
                   v-for="option in filteredOptions"
                   :key="option.id"
                   box-type="text"
                   :label="t(option.label)"
+                  :focused="!isMulti && isOptionSelected(option)"
                   :show-checkbox="isMulti"
                   :checked="isOptionSelected(option)"
                   :show-tag="false"

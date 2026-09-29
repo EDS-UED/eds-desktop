@@ -133,7 +133,7 @@ const props = withDefaults(
     trigger: 'click',
     openDelay: 0,
     closeDelay: 0,
-    scrollSelectedToCenter: false,
+    scrollSelectedToCenter: true,
   },
 );
 

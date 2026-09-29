@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue';
 import { EgDivider } from '../../atoms/divider';
-import { EgIcon } from '../../atoms/icons';
 import { useScrollChromeScrim } from '../../composables/useScrollChromeScrim';
 import { EgMessage } from '../../molecules/feedback';
 import comboActionStyles from '../../molecules/combo/ComboAction.module.css';
@@ -18,21 +17,25 @@ import { EgStatusTag } from '../../molecules/tag';
 import type { TooltipTrigger } from '../../molecules/tooltip';
 import type { EgFilterFieldSelectionMode } from './types';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
+import type { EgFilterFieldStatusOption } from './types';
 import {
   FILTER_STATUS_PICKER_HEIGHT,
   FILTER_STATUS_PRESETS,
-  resolveFilterStatusPreset,
+  resolveFilterStatusOption,
   type FilterStatusPreset,
 } from './filterStatusPresets';
 import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
+import { useFilterPickerMenuWidthMode } from './useFilterPickerMenuWidthMode';
 import { useFilterSearchPickerListAreaHeight } from './useFilterSearchPickerListAreaHeight';
+import {
+  resolveFilterPickerListSelectedDomIndex,
+  useFilterSearchPickerScrollToSelected,
+} from './useFilterSearchPickerScrollToSelected';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionStatusValue.module.css';
 
 const t = useFilterTranslate();
-
-const FILTER_STATUS_SELECT_ALL_ICON = 'eds-list-lattice-mobile-fill';
 
 const props = withDefaults(
   defineProps<{
@@ -44,6 +47,8 @@ const props = withDefaults(
     triggerWidth?: number;
     trigger?: TooltipTrigger;
     dropdownOpenId?: string;
+    /** 业务自定义状态项；未传时用内置演示类。 */
+    statusOptions?: readonly EgFilterFieldStatusOption[];
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -58,6 +63,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 
+const rootRef = ref<HTMLElement | null>(null);
 const searchQuery = ref('');
 const flotationRef = ref<{ close?: () => void } | null>(null);
 const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
@@ -100,10 +106,14 @@ const selectedCount = computed(() => selectedValueList.value.length);
 
 const hasDraftSelection = computed(() => draftValues.value.size > 0);
 
+const resolvedStatusOptions = computed((): readonly FilterStatusPreset[] =>
+  props.statusOptions?.length ? props.statusOptions : FILTER_STATUS_PRESETS,
+);
+
 const filteredOptions = computed(() => {
   const query = searchQuery.value.trim().toLowerCase();
-  if (!query) return FILTER_STATUS_PRESETS;
-  return FILTER_STATUS_PRESETS.filter((option) =>
+  if (!query) return resolvedStatusOptions.value;
+  return resolvedStatusOptions.value.filter((option) =>
     t(option.label).toLowerCase().includes(query),
   );
 });
@@ -111,6 +121,20 @@ const filteredOptions = computed(() => {
 const showSearchEmpty = computed(
   () => Boolean(searchQuery.value.trim()) && filteredOptions.value.length === 0,
 );
+
+const pickerWidthLabels = computed(() => {
+  const labels = resolvedStatusOptions.value.map((option) => t(option.label));
+  if (isMulti.value) labels.unshift(t('全部'));
+  labels.push(t('搜索'));
+  return labels;
+});
+
+const { flotationWidthMode, syncMenuWidthMode, syncMenuWidthModeAfterLayout } =
+  useFilterPickerMenuWidthMode({
+    rootRef,
+    optionLabels: pickerWidthLabels,
+    includeCheckbox: isMulti,
+  });
 
 const {
   listAreaStyle,
@@ -151,25 +175,50 @@ function resetSearch() {
   resetListAreaHeight();
 }
 
+function isOptionSelected(option: FilterStatusPreset): boolean {
+  return activeSelectedValues.value.has(option.id);
+}
+
+const { scheduleScrollSelectedToCenter } = useFilterSearchPickerScrollToSelected({
+  scrollRef,
+  showSearchEmpty,
+  resolveSelectedDomIndex: () => {
+    const options = filteredOptions.value;
+    const selectedListIndex = isMulti.value
+      ? options.findIndex((option) => isOptionSelected(option))
+      : options.findIndex((option) => option.id === props.modelValue.trim());
+    return resolveFilterPickerListSelectedDomIndex({
+      isMulti: isMulti.value,
+      optionsLength: options.length,
+      selectedListIndex,
+    });
+  },
+  onScrolled: updatePickerScroll,
+});
+
+function onRootPointerDown() {
+  if (props.disabled) return;
+  syncMenuWidthMode();
+}
+
 function onPickerOpen() {
   onDropdownOpen();
   resetListAreaHeight();
   if (isMulti.value) {
     draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
   }
+  syncMenuWidthMode();
   void nextTick(() => {
     updatePickerScroll();
     scheduleCaptureListAreaHeight();
+    void scheduleScrollSelectedToCenter();
+    void syncMenuWidthModeAfterLayout();
   });
 }
 
 function onPickerClose() {
   onDropdownClose();
   resetSearch();
-}
-
-function isOptionSelected(option: FilterStatusPreset): boolean {
-  return activeSelectedValues.value.has(option.id);
 }
 
 function getOptionSelectionState(option: FilterStatusPreset): 'none' | 'full' {
@@ -234,11 +283,14 @@ function onPickerClear() {
   draftValues.value = new Set();
 }
 
-function onPickerConfirm(close: () => void) {
+async function onPickerConfirm(close: () => void) {
   if (props.disabled) return;
-  emit('update:modelValue', [...draftValues.value].join(','));
+  const nextValue = [...draftValues.value].join(',');
+  emit('update:modelValue', nextValue);
   resetSearch();
+  await nextTick();
   close();
+  flotationRef.value?.close?.();
 }
 
 function onPickerCancel(close: () => void) {
@@ -249,9 +301,11 @@ function onPickerCancel(close: () => void) {
 const activeTriggerPreset = computed(() => {
   if (isMulti.value) {
     if (selectedCount.value === 0) return null;
-    return resolveFilterStatusPreset(firstSelectedValueKey.value) ?? null;
+    return (
+      resolveFilterStatusOption(firstSelectedValueKey.value, resolvedStatusOptions.value) ?? null
+    );
   }
-  return resolveFilterStatusPreset(props.modelValue) ?? null;
+  return resolveFilterStatusOption(props.modelValue, resolvedStatusOptions.value) ?? null;
 });
 
 const showTriggerCountMessage = computed(() => isMulti.value && selectedCount.value > 0);
@@ -260,14 +314,14 @@ const triggerCountText = computed(() => String(selectedCount.value));
 </script>
 
 <template>
-  <div :class="styles.root">
+  <div ref="rootRef" :class="styles.root" @pointerdown="onRootPointerDown">
     <EgFlotation
       ref="flotationRef"
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"
       align="start"
-      width-mode="trigger"
+      :width-mode="flotationWidthMode"
       :show-add="false"
       :show-menu-divider="false"
       flip
@@ -358,15 +412,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
                   :show-tag="false"
                   @click="onSelectAllToggle"
                   @update:checked="onSelectAllToggle"
-                >
-                  <template #leading>
-                    <span :class="styles.selectAllIcon">
-                      <span :class="styles.selectAllIconGlyph">
-                        <EgIcon :name="FILTER_STATUS_SELECT_ALL_ICON" fit />
-                      </span>
-                    </span>
-                  </template>
-                </EgFlotationMenuItem>
+                />
 
                 <EgFlotationMenuItem
                   v-for="option in filteredOptions"
@@ -380,7 +426,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
                   @update:checked="onCheckboxUpdate(option, $event)"
                 >
                   <span :class="styles.optionTag">
-                    <EgStatusTag size="md" :status="option.status">
+                    <EgStatusTag size="lg" :status="option.status">
                       {{ t(option.label) }}
                     </EgStatusTag>
                   </span>

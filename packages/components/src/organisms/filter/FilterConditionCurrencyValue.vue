@@ -27,9 +27,15 @@ import {
   parseFilterCurrencyValue,
   type FilterCurrencyPreset,
 } from './filterCurrencyPresets';
+import type { EgFilterFieldCurrencyOption } from './types';
 import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
+import { useFilterPickerMenuWidthMode } from './useFilterPickerMenuWidthMode';
 import { useFilterSearchPickerListAreaHeight } from './useFilterSearchPickerListAreaHeight';
+import {
+  resolveFilterPickerListSelectedDomIndex,
+  useFilterSearchPickerScrollToSelected,
+} from './useFilterSearchPickerScrollToSelected';
 import { useFilterTranslate } from './filterTranslate';
 import styles from './FilterConditionCurrencyValue.module.css';
 
@@ -58,6 +64,8 @@ const props = withDefaults(
     currencyPresetIds?: readonly string[];
     /** 业务传入时按 symbol 展示列表中出现的币种（优先于 currencyPresetIds）。 */
     currencySymbols?: readonly string[];
+    /** 业务传入时完整币种/网络（最高优先级）。 */
+    currencyOptions?: readonly EgFilterFieldCurrencyOption[];
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -80,6 +88,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 
+const rootRef = ref<HTMLElement | null>(null);
 const searchQuery = ref('');
 const activeCascadeKey = ref<string | null>(null);
 const draftValues = ref<Set<string>>(new Set());
@@ -134,7 +143,11 @@ const selectedCount = computed(() => selectedValueList.value.length);
 
 const hasDraftSelection = computed(() => draftValues.value.size > 0);
 
-const visibleCurrencyPresets = computed(() => {
+const visibleCurrencyPresets = computed((): FilterCurrencyPreset[] => {
+  if (props.currencyOptions?.length) {
+    return props.currencyOptions as FilterCurrencyPreset[];
+  }
+
   const symbolAllowlist = props.currencySymbols;
   if (symbolAllowlist?.length) {
     const allowed = new Set(
@@ -165,6 +178,24 @@ const filteredOptions = computed(() => {
 const showSearchEmpty = computed(
   () => Boolean(searchQuery.value.trim()) && filteredOptions.value.length === 0,
 );
+
+const pickerWidthLabels = computed(() => {
+  const labels = visibleCurrencyPresets.value.flatMap((option) => {
+    const rowLabels = [option.label];
+    option.networks?.forEach((network) => rowLabels.push(network.label));
+    return rowLabels;
+  });
+  if (isMulti.value) labels.unshift(t('全部'));
+  labels.push(t('搜索'));
+  return labels;
+});
+
+const { flotationWidthMode, syncMenuWidthMode, syncMenuWidthModeAfterLayout } =
+  useFilterPickerMenuWidthMode({
+    rootRef,
+    optionLabels: pickerWidthLabels,
+    includeCheckbox: isMulti,
+  });
 
 const {
   listAreaStyle,
@@ -204,9 +235,15 @@ function resolveTriggerValueParts(valueKey: string): {
     : undefined;
   return {
     symbol: option.label,
-    networkLabel: network?.label ?? '',
+    networkLabel: network?.label ?? option.chainTagLabel ?? '',
     cryptoName: option.cryptoName,
   };
+}
+
+function resolveOptionModeTag(option: FilterCurrencyPreset): string | undefined {
+  if (option.chainTagLabel?.trim()) return option.chainTagLabel;
+  if (option.multiChain && option.modeTag) return t(option.modeTag);
+  return undefined;
 }
 
 const activeTriggerValueKey = computed(() => {
@@ -262,18 +299,6 @@ function resetSearch() {
 function clearActiveCascade() {
   activeCascadeKey.value = null;
   cascadeDraftSnapshot.value = null;
-}
-
-function onPickerOpen() {
-  onDropdownOpen();
-  resetListAreaHeight();
-  if (isMulti.value) {
-    draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
-  }
-  void nextTick(() => {
-    updatePickerScroll();
-    scheduleCaptureListAreaHeight();
-  });
 }
 
 function getOptionSelectionState(option: FilterCurrencyPreset): FilterOptionSelectionState {
@@ -385,6 +410,7 @@ function setCascadeListRef(optionId: string, element: HTMLElement | null) {
 }
 
 function onCascadeOpen(option: FilterCurrencyPreset) {
+  activeCascadeKey.value = option.id;
   if (isMulti.value) {
     cascadeDraftSnapshot.value = cloneValueSet(
       [...draftValues.value].filter(
@@ -394,6 +420,7 @@ function onCascadeOpen(option: FilterCurrencyPreset) {
   }
   void nextTick(() => {
     updateCascadeScroll();
+    void scheduleCascadeScrollSelectedToCenter();
   });
 }
 
@@ -486,6 +513,71 @@ function isNetworkSelected(option: FilterCurrencyPreset, networkKey: string): bo
   return parsedValue.value.currencyId === option.id && parsedValue.value.networkKey === networkKey;
 }
 
+const cascadeScrollEmpty = computed(() => false);
+
+const { scheduleScrollSelectedToCenter } = useFilterSearchPickerScrollToSelected({
+  scrollRef,
+  showSearchEmpty,
+  resolveSelectedDomIndex: () => {
+    const options = filteredOptions.value;
+    const selectedListIndex = isMulti.value
+      ? options.findIndex((option) => getOptionSelectionState(option) !== 'none')
+      : options.findIndex((option) => option.id === parsedValue.value.currencyId);
+    return resolveFilterPickerListSelectedDomIndex({
+      isMulti: isMulti.value,
+      optionsLength: options.length,
+      selectedListIndex,
+    });
+  },
+  onScrolled: updatePickerScroll,
+});
+
+const { scheduleScrollSelectedToCenter: scheduleCascadeScrollSelectedToCenter } =
+  useFilterSearchPickerScrollToSelected({
+    scrollRef: cascadeScrollRef,
+    showSearchEmpty: cascadeScrollEmpty,
+    resolveSelectedDomIndex: () => {
+      const optionId = activeCascadeKey.value;
+      if (!optionId) return -1;
+
+      const option = filteredOptions.value.find((item) => item.id === optionId);
+      if (!option) return -1;
+
+      const networks = option.networks ?? [];
+      if (!networks.length) return -1;
+
+      const selectedListIndex = networks.findIndex((network) =>
+        isNetworkSelected(option, network.key),
+      );
+      return resolveFilterPickerListSelectedDomIndex({
+        isMulti: isMulti.value,
+        optionsLength: networks.length,
+        selectedListIndex,
+      });
+    },
+    onScrolled: updateCascadeScroll,
+  });
+
+function onRootPointerDown() {
+  if (props.disabled) return;
+  syncMenuWidthMode();
+}
+
+function onPickerOpen() {
+  onDropdownOpen();
+  resetListAreaHeight();
+  if (isMulti.value) {
+    draftValues.value = cloneValueSet(parseValueSet(props.modelValue));
+  }
+  syncMenuWidthMode();
+  void nextTick(() => {
+    updatePickerScroll();
+    scheduleCaptureListAreaHeight();
+    void scheduleScrollSelectedToCenter();
+    void syncMenuWidthModeAfterLayout();
+  });
+}
+
 function setMultiValue(valueKey: string, selected: boolean) {
   const next = cloneValueSet(draftValues.value);
   if (selected) next.add(valueKey);
@@ -549,14 +641,14 @@ function onPickerClose() {
 </script>
 
 <template>
-  <div :class="styles.root">
+  <div ref="rootRef" :class="styles.root" @pointerdown="onRootPointerDown">
     <EgFlotation
       ref="flotationRef"
       :disabled="disabled"
       :trigger="trigger"
       placement="bottom"
       :align="pickerAlign"
-      width-mode="trigger"
+      :width-mode="flotationWidthMode"
       :show-add="false"
       :show-menu-divider="false"
       :boundary-selector="boundarySelector"
@@ -596,7 +688,7 @@ function onPickerClose() {
 
       <template #content="{ close, menuWidth, menuWidthMode }">
         <EgFlotationMenu
-          :class="styles.menu"
+          :class="[styles.menu, flotationWidthMode === 'adaptive' && styles.menuAdaptive]"
           data-no-corner-smoothing
           panel-flush
           panel-radius="radius-md"
@@ -644,7 +736,7 @@ function onPickerClose() {
               <div v-else ref="optionListRef" :class="styles.optionList">
                 <EgFlotationMenuItem
                   v-if="isMulti"
-                  box-type="text"
+                  box-type="image-text"
                   :label="t('全部')"
                   show-checkbox
                   :checked="selectAllChecked"
@@ -698,7 +790,7 @@ function onPickerClose() {
                             box-type="image-text"
                             :label="option.label"
                             :symbol-icon="option.cryptoName"
-                            :mode-tag="option.multiChain && option.modeTag ? t(option.modeTag) : undefined"
+                            :mode-tag="resolveOptionModeTag(option)"
                             :show-message="Boolean(option.multiChain && option.messageText)"
                             :message-text="option.messageText ?? ''"
                             message-type="subtle"
@@ -764,7 +856,7 @@ function onPickerClose() {
                                 :class="styles.cascadeList"
                               >
                                 <EgFlotationMenuItem
-                                  box-type="text"
+                                  box-type="image-text"
                                   :label="t('全部')"
                                   show-checkbox
                                   :checked="getNetworkSelectAllMode(option) === 'all'"
@@ -820,7 +912,7 @@ function onPickerClose() {
                     box-type="image-text"
                     :label="option.label"
                     :symbol-icon="option.cryptoName"
-                    :mode-tag="option.multiChain && option.modeTag ? t(option.modeTag) : undefined"
+                    :mode-tag="resolveOptionModeTag(option)"
                     :show-message="Boolean(option.multiChain && option.messageText)"
                     :message-text="option.messageText ?? ''"
                     message-static

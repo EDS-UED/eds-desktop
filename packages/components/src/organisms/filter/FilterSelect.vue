@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import {
   EgFlotation,
   type FlotationMenuItemPreset,
   type FlotationTriggerSize,
   type FlotationTriggerStyle,
 } from '../../molecules/flotation';
-import type { FlotationWidthMode } from '../../molecules/flotation/Flotation.vue';
 import type { TooltipAlign } from '../../molecules/tooltip';
-import { OVERFLOW_EPSILON } from '../../utils/overflowTextMeasure';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
+import { useFilterPickerMenuWidthMode } from './useFilterPickerMenuWidthMode';
 import { useFilterTranslate } from './filterTranslate';
 import { FILTER_DROPDOWN_MAX_HEIGHT } from './types';
 import styles from './FilterSelect.module.css';
@@ -51,7 +50,7 @@ const props = withDefaults(
     placeholder: undefined,
     menuMaxHeight: FILTER_DROPDOWN_MAX_HEIGHT,
     menuListScroll: true,
-    scrollSelectedToCenter: false,
+    scrollSelectedToCenter: true,
     openId: undefined,
     groupOpenId: undefined,
     activeOpenId: undefined,
@@ -71,8 +70,6 @@ const { onDropdownOpen, onDropdownClose } = useFilterPanelDropdownMutex(
   () => props.openId,
   flotationRef,
 );
-const menuWidthMode = ref<FlotationWidthMode>('trigger');
-
 const usesActiveOpenGroup = computed(() => props.activeOpenId !== undefined);
 
 const siblingMutexId = computed(() => props.groupOpenId ?? props.openId);
@@ -94,70 +91,13 @@ const selectedLabel = computed(() => {
   return t(label);
 });
 
-const flotationWidthMode = computed(() =>
-  props.variant === 'operator' ? menuWidthMode.value : 'trigger',
-);
+const pickerOptionLabels = computed(() => props.options.map((option) => t(option.label)));
 
-function readSpacingToken(name: string, fallback: number): number {
-  const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  const parsed = Number.parseFloat(raw);
-  return Number.isFinite(parsed) ? parsed : fallback;
-}
-
-function readTypographyToken(name: string, fallback: string): string {
-  const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  return raw || fallback;
-}
-
-/** 菜单项 EgFlotationMenuItem（body-medium + spacing-2 左右内边距）文案占位。 */
-function measureOperatorMenuOptionWidth(label: string, root: HTMLElement): number {
-  const rootStyle = getComputedStyle(root);
-  const fontSize = readTypographyToken('--eds-body-medium-size', '13px');
-  const fontWeight = readTypographyToken('--eds-body-medium-weight', '400');
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return 0;
-
-  ctx.font = `${fontWeight} ${fontSize} ${rootStyle.fontFamily}`;
-  const itemPaddingX = readSpacingToken('--spacing-2', 8) * 2;
-  return ctx.measureText(label).width + itemPaddingX;
-}
-
-function resolveOperatorMenuWidthMode(): FlotationWidthMode {
-  const root = rootRef.value;
-  if (!root) return 'trigger';
-
-  const trigger = root.querySelector('.eds-flotation-trigger') as HTMLElement | null;
-  if (!trigger) return 'trigger';
-
-  const triggerWidth = trigger.getBoundingClientRect().width;
-  if (triggerWidth <= 0) return 'trigger';
-
-  const edgeInset = readSpacingToken('--spacing-2', 8);
-  const shellPadding = readSpacingToken('--spacing-1', 4);
-  /** trigger 模式下浮层宽 = 触发器 + 左右 cross-axis inset；内容区再扣 effect padding。 */
-  const menuContentWidth = triggerWidth + edgeInset * 2 - shellPadding * 2;
-
-  const maxOptionWidth = Math.max(
-    0,
-    ...props.options.map((option) => measureOperatorMenuOptionWidth(t(option.label), root)),
-  );
-
-  return maxOptionWidth > menuContentWidth + OVERFLOW_EPSILON ? 'adaptive' : 'trigger';
-}
-
-function syncOperatorMenuWidthMode() {
-  if (props.variant !== 'operator') {
-    menuWidthMode.value = 'trigger';
-    return;
-  }
-  menuWidthMode.value = resolveOperatorMenuWidthMode();
-}
-
-async function syncOperatorMenuWidthModeAfterLayout() {
-  await nextTick();
-  syncOperatorMenuWidthMode();
-}
+const { flotationWidthMode, syncMenuWidthMode, syncMenuWidthModeAfterLayout } =
+  useFilterPickerMenuWidthMode({
+    rootRef,
+    optionLabels: pickerOptionLabels,
+  });
 
 function onItemClick(_item: FlotationMenuItemPreset, index: number) {
   const option = props.options[index];
@@ -166,24 +106,16 @@ function onItemClick(_item: FlotationMenuItemPreset, index: number) {
 }
 
 watch(
-  () => props.options,
+  () => [props.modelValue, selectedLabel.value, props.triggerSize, props.layout, props.variant] as const,
   () => {
-    void syncOperatorMenuWidthModeAfterLayout();
-  },
-  { deep: true },
-);
-
-watch(
-  () => [props.modelValue, selectedLabel.value, props.triggerSize, props.layout] as const,
-  () => {
-    void syncOperatorMenuWidthModeAfterLayout();
+    void syncMenuWidthModeAfterLayout();
   },
   { flush: 'post' },
 );
 
 function onRootPointerDown() {
-  if (props.disabled || props.variant !== 'operator') return;
-  syncOperatorMenuWidthMode();
+  if (props.disabled) return;
+  syncMenuWidthMode();
 }
 
 function onFlotationOpen() {
@@ -194,8 +126,8 @@ function onFlotationOpen() {
   if (props.openId !== undefined) {
     onDropdownOpen();
   }
-  syncOperatorMenuWidthMode();
-  void syncOperatorMenuWidthModeAfterLayout();
+  syncMenuWidthMode();
+  void syncMenuWidthModeAfterLayout();
 }
 
 function onFlotationClose() {

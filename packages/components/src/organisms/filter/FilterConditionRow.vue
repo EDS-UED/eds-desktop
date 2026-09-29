@@ -15,6 +15,7 @@ import { FILTER_DROPDOWN_PRESETS } from './filterSelectValuePresets';
 import type { EgFilterField, EgFilterFieldKind } from './types';
 import {
   defaultPlaceholderForFilterFieldKind,
+  FILTER_SELECT_PLACEHOLDER,
   isNumericFilterFieldKind,
   isNumericFilterOperator,
   isValuelessOperator,
@@ -95,10 +96,21 @@ const operatorOptions = computed(() =>
 );
 
 const valuePlaceholder = computed(() => {
-  if (activeField.value?.placeholder) return t(activeField.value.placeholder);
   if (activeFieldKind.value) {
-    return t(defaultPlaceholderForFilterFieldKind(activeFieldKind.value));
+    const kindDefault = defaultPlaceholderForFilterFieldKind(activeFieldKind.value);
+    const fieldPlaceholder = activeField.value?.placeholder?.trim();
+    if (fieldPlaceholder) {
+      if (
+        activeFieldKind.value === 'time-range'
+        && fieldPlaceholder === FILTER_SELECT_PLACEHOLDER
+      ) {
+        return t(kindDefault);
+      }
+      return t(fieldPlaceholder);
+    }
+    return t(kindDefault);
   }
+  if (activeField.value?.placeholder) return t(activeField.value.placeholder);
   return t(props.placeholder);
 });
 
@@ -110,6 +122,8 @@ const valueEditorKey = computed(
 const dropdownOptions = computed(
   () => activeField.value?.dropdownOptions ?? FILTER_DROPDOWN_PRESETS,
 );
+
+const statusOptions = computed(() => activeField.value?.statusOptions);
 
 watch(
   () => [props.fieldId, props.operatorId] as const,
@@ -180,6 +194,7 @@ function onFieldChange(nextFieldId: string) {
           :picker-align="valueAlign"
           :currency-preset-ids="activeField?.currencyPresetIds"
           :currency-symbols="activeField?.currencySymbols"
+          :currency-options="activeField?.currencyOptions"
           @update:model-value="onValueCommit($event)"
         />
         <EgMemberTooltip
@@ -189,6 +204,8 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
+          :member-options="activeField?.memberOptions"
+          :waas-project-options="activeField?.waasProjectOptions"
           :dropdown-open-id="valueSelectOpenId"
           :boundary-selector="boundarySelector"
           :picker-align="valueAlign"
@@ -215,7 +232,7 @@ function onFieldChange(nextFieldId: string) {
           :disabled="valueDisabled"
           :dropdown-open-id="valueSelectOpenId"
           :boundary-selector="boundarySelector"
-          picker-align="center"
+          :picker-align="valueAlign"
           @update:model-value="onValueCommit($event)"
         />
         <EgDatePickerTooltip
@@ -237,6 +254,7 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
+          :status-options="statusOptions"
           :dropdown-open-id="valueSelectOpenId"
           @update:model-value="onValueCommit($event)"
         />
