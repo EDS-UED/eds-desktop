@@ -34,9 +34,17 @@ const datePickerTypeOptions = [
   { value: 'range', label: showcaseText('Date range', '时间段') },
 ];
 
+const cascadePlacementOptions = [
+  { value: 'auto', label: showcaseText('Auto', '自动') },
+  { value: 'right', label: showcaseText('Right', '右') },
+  { value: 'left', label: showcaseText('Left', '左') },
+];
+
 export const tooltipFilterPickerCustomizeDefaults = {
   selectionMode: 'single',
+  showTypeTabs: true,
   datePickerType: 'date',
+  cascadePlacement: 'auto',
   trigger: 'click',
   triggerWidthMode: 'trigger',
   triggerWidth: '240',
@@ -79,10 +87,23 @@ export const tooltipFilterPickerSceneCustomizeControls: DocCustomizeControl[] = 
     visibleWhen: (state) => String(state.scenario ?? '') === 'date-picker',
   },
   {
+    kind: 'boolean',
+    key: 'showTypeTabs',
+    label: showcaseText('Type switch', '类型切换'),
+    visibleWhen: (state) => String(state.scenario ?? '') === 'member-picker',
+  },
+  {
     kind: 'select',
     key: 'trigger',
     label: showcaseText('Interaction', '交互方式'),
     options: triggerRows.map((row) => ({ value: row.key, label: row.label })),
+  },
+  {
+    kind: 'select',
+    key: 'cascadePlacement',
+    label: showcaseText('Cascade direction', '级联菜单方向'),
+    options: cascadePlacementOptions,
+    visibleWhen: (state) => String(state.scenario ?? '') === 'crypto-picker',
   },
   {
     kind: 'select',
@@ -151,6 +172,16 @@ export function buildTooltipFilterPickerUsageSnippet(
     props.mode = String(state.datePickerType ?? 'date');
   }
 
+  if (scenario === 'member-picker') {
+    props.showTypeTabs = Boolean(state.showTypeTabs ?? tooltipFilterPickerCustomizeDefaults.showTypeTabs);
+  }
+
+  if (scenario === 'crypto-picker') {
+    props.cascadePlacement = String(
+      state.cascadePlacement ?? tooltipFilterPickerCustomizeDefaults.cascadePlacement,
+    );
+  }
+
   return buildVueSelfClosingSnippet(tag, props, {
     defaults: tooltipFilterPickerCustomizeDefaults,
     omitKeys: ['scenario', 'datePickerType'],
@@ -189,10 +220,25 @@ export const tooltipFilterPickerPropRows: DocPropRow[] = [
     description: showcaseText('EgDatePickerTooltip only: single date or date range.', 'EgDatePickerTooltip 专用：单日或时间段。'),
   },
   {
+    name: 'showTypeTabs',
+    type: 'boolean',
+    defaultValue: 'true',
+    description: showcaseText('EgMemberTooltip only: member / WaaS project tabs.', 'EgMemberTooltip 专用：成员 / WaaS 项目 Tab。'),
+  },
+  {
     name: 'trigger',
     type: "'click' | 'hover'",
     defaultValue: "'click'",
     description: showcaseText('How the picker opens.', '选择器打开方式。'),
+  },
+  {
+    name: 'cascadePlacement',
+    type: "'auto' | 'right' | 'left'",
+    defaultValue: "'auto'",
+    description: showcaseText(
+      'EgCryptoTooltip only: cascade submenu direction; auto prefers right and flips to left when boundary space is insufficient.',
+      'EgCryptoTooltip 专用：级联子菜单方向；auto 默认右侧，边界不足时自动翻转到左侧。',
+    ),
   },
   {
     name: 'triggerWidthMode',

@@ -68,6 +68,7 @@ const FILTER_UI_TEXT: Record<string, Partial<Record<FilterLocale, string>>> = {
   矿工费: { en: 'Miner Fee', 'zh-TW': '礦工費' },
   币种: { en: 'Currency', 'zh-TW': '幣種' },
   成员: { en: 'Member', 'zh-TW': '成員' },
+  WaaS项目: { en: 'WaaS Project', 'zh-TW': 'WaaS項目' },
   时间: { en: 'Time', 'zh-TW': '時間' },
   时间范围: { en: 'Time Range', 'zh-TW': '時間範圍' },
   状态类: { en: 'Status Type', 'zh-TW': '狀態類' },

@@ -8,7 +8,10 @@ export const filterPropRows: DocPropRow[] = [
     name: 'modelValue',
     type: 'EgFilterCondition[]',
     defaultValue: '[]',
-    description: showcaseText('Applied filter conditions (v-model).', '已应用的筛选条件（v-model）。'),
+    description: showcaseText(
+      'Applied filter conditions (v-model). Updates only when a value is committed (picker confirm / input blur) or a row is removed; field and operator edits stay draft until then. Panel stays open on apply.',
+      '已应用的筛选条件（v-model）。仅在值提交（选择器确认 / 输入失焦）或删除行时更新；字段与运算符编辑保持 draft 直至提交。提交筛选后面板保持打开。',
+    ),
   },
   {
     name: 'fields',
@@ -29,7 +32,10 @@ export const filterPropRows: DocPropRow[] = [
     name: 'logicMode',
     type: "'all' | 'any'",
     defaultValue: "'all'",
-    description: showcaseText('Logic between conditions when 2 or more rows (v-model:logicMode).', '条件行数大于等于 2 时的组合逻辑（v-model:logicMode）。'),
+    description: showcaseText(
+      'Logic between conditions when 2 or more rows (v-model:logicMode). Committed together with the next value apply.',
+      '条件行数大于等于 2 时的组合逻辑（v-model:logicMode）；随下一次值提交一并写回。',
+    ),
   },
   {
     name: 'title',

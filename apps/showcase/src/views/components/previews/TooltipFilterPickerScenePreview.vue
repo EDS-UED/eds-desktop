@@ -5,6 +5,7 @@ import {
   EgDatePickerTooltip,
   EgMemberTooltip,
   EgStatusTooltip,
+  type EgFilterCascadePlacement,
   type EgFilterFieldSelectionMode,
   type FlotationTriggerWidthMode,
 } from '@eds/desktop-components';
@@ -23,6 +24,8 @@ const props = defineProps<{
   triggerWidthMode: FlotationTriggerWidthMode;
   triggerWidth?: number;
   trigger: 'click' | 'hover';
+  showTypeTabs: boolean;
+  cascadePlacement: EgFilterCascadePlacement;
 }>();
 
 const emit = defineEmits<{
@@ -49,12 +52,14 @@ const isDate = computed(() => props.scenario === 'date-picker');
     v-if="isCrypto"
     v-bind="pickerProps"
     :selection-mode="selectionMode"
+    :cascade-placement="cascadePlacement"
     @update:model-value="emit('update:modelValue', $event)"
   />
   <EgMemberTooltip
     v-else-if="isMember"
     v-bind="pickerProps"
     :selection-mode="selectionMode"
+    :show-type-tabs="showTypeTabs"
     @update:model-value="emit('update:modelValue', $event)"
   />
   <EgDatePickerTooltip

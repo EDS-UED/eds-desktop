@@ -33,6 +33,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];
+  commit: [];
 }>();
 
 const isRange = computed(() => props.amountMode === 'range');
@@ -75,6 +76,7 @@ const rangeMaxValue = computed({
       :disabled="disabled"
       :clearable="!disabled"
       inputmode="decimal"
+      @blur="emit('commit')"
     />
 
     <div v-else :class="styles.rangeRow">
@@ -89,6 +91,7 @@ const rangeMaxValue = computed({
         :disabled="disabled"
         :clearable="false"
         inputmode="decimal"
+        @blur="emit('commit')"
       />
       <span :class="styles.rangeSep" aria-hidden="true">-</span>
       <EgInput
@@ -102,6 +105,7 @@ const rangeMaxValue = computed({
         :disabled="disabled"
         :clearable="false"
         inputmode="decimal"
+        @blur="emit('commit')"
       />
     </div>
   </div>

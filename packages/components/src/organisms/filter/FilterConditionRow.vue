@@ -49,11 +49,18 @@ type EgFilterConditionRowPatch = {
 
 const emit = defineEmits<{
   'update:operatorId': [value: string];
+  /** 值编辑态（输入中 / draft），不触发筛选。 */
   'update:value': [value: string];
+  /** 值提交（选择完成 / 输入失焦），触发筛选。 */
+  'commit:value': [value: string];
   /** 字段切换等需原子写入，避免 FilterPanel 多次 patch 读到 stale conditions。 */
   patch: [patch: Partial<EgFilterConditionRowPatch>];
   remove: [];
 }>();
+
+function onValueCommit(nextValue = props.value) {
+  emit('commit:value', nextValue);
+}
 
 const valueDisabled = computed(() => isValuelessOperator(props.operatorId));
 
@@ -150,7 +157,7 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
-          @update:model-value="emit('update:value', $event)"
+          @update:model-value="onValueCommit($event)"
         />
         <EgMemberTooltip
           v-else-if="isMemberField"
@@ -159,7 +166,7 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
-          @update:model-value="emit('update:value', $event)"
+          @update:model-value="onValueCommit($event)"
         />
         <FilterConditionNumericValue
           v-else-if="isNumericField"
@@ -171,6 +178,7 @@ function onFieldChange(nextFieldId: string) {
           :amount-mode="activeField?.amountMode"
           :unit="activeField?.unit"
           @update:model-value="emit('update:value', $event)"
+          @commit="onValueCommit()"
         />
         <EgDatePickerTooltip
           v-else-if="isTimeField"
@@ -179,7 +187,7 @@ function onFieldChange(nextFieldId: string) {
           :model-value="value"
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
-          @update:model-value="emit('update:value', $event)"
+          @update:model-value="onValueCommit($event)"
         />
         <EgDatePickerTooltip
           v-else-if="isTimeRangeField"
@@ -188,7 +196,7 @@ function onFieldChange(nextFieldId: string) {
           :model-value="value"
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
-          @update:model-value="emit('update:value', $event)"
+          @update:model-value="onValueCommit($event)"
         />
         <EgStatusTooltip
           v-else-if="isStatusField"
@@ -197,7 +205,7 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
-          @update:model-value="emit('update:value', $event)"
+          @update:model-value="onValueCommit($event)"
         />
         <FilterConditionSelectValue
           v-else-if="isDropdownField"
@@ -207,7 +215,7 @@ function onFieldChange(nextFieldId: string) {
           :placeholder="valuePlaceholder"
           :disabled="valueDisabled"
           :selection-mode="activeField?.selectionMode"
-          @update:model-value="emit('update:value', $event)"
+          @update:model-value="onValueCommit($event)"
         />
         <EgInput
           v-else-if="isInputField"
@@ -219,6 +227,7 @@ function onFieldChange(nextFieldId: string) {
           :disabled="valueDisabled"
           :clearable="!valueDisabled"
           @update:model-value="emit('update:value', $event)"
+          @blur="onValueCommit()"
         />
       </div>
       <div :class="styles.remove">

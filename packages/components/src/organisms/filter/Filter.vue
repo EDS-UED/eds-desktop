@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { EgIcon } from '../../atoms/icons';
 import { EgIconProButton } from '../../molecules/icon-button-pro';
 import {
@@ -89,6 +89,9 @@ const t = useFilterTranslate();
 const anchorRef = ref<InstanceType<typeof EgTooltip> | null>(null);
 const expanded = ref(false);
 const draftConditions = ref<EgFilterCondition[]>([]);
+const draftLogicMode = ref<EgFilterLogicMode>(props.logicMode);
+/** 面板内 apply 写回 v-model 时跳过外部 sync，避免覆盖进行中的 draft。 */
+let applyingFromPanel = false;
 
 const activeCount = computed(() =>
   props.modelValue.filter((condition) => {
@@ -100,15 +103,24 @@ const activeCount = computed(() =>
 
 function syncDraftFromModel() {
   draftConditions.value = cloneFilterConditions(props.modelValue);
+  draftLogicMode.value = props.logicMode;
 }
 
 watch(
   () => props.modelValue,
   () => {
-    if (!expanded.value) return;
+    if (!expanded.value || applyingFromPanel) return;
     syncDraftFromModel();
   },
   { deep: true },
+);
+
+watch(
+  () => props.logicMode,
+  (logicMode) => {
+    if (!expanded.value || applyingFromPanel) return;
+    draftLogicMode.value = logicMode;
+  },
 );
 
 function onOpen() {
@@ -139,9 +151,22 @@ async function onTriggerClick() {
   anchorRef.value?.openPanel();
 }
 
-function onConditionsUpdate(conditions: EgFilterCondition[]) {
+function onDraftConditionsUpdate(conditions: EgFilterCondition[]) {
   draftConditions.value = conditions;
+}
+
+function onApplyConditions(conditions: EgFilterCondition[]) {
+  applyingFromPanel = true;
+  draftConditions.value = cloneFilterConditions(conditions);
   emit('update:modelValue', cloneFilterConditions(conditions));
+  emit('update:logicMode', draftLogicMode.value);
+  void nextTick(() => {
+    applyingFromPanel = false;
+  });
+}
+
+function onDraftLogicModeUpdate(logicMode: EgFilterLogicMode) {
+  draftLogicMode.value = logicMode;
 }
 </script>
 
@@ -149,6 +174,8 @@ function onConditionsUpdate(conditions: EgFilterCondition[]) {
   <span class="eds-filter" :class="styles.root">
     <EgTooltip
       ref="anchorRef"
+      class="eds-filter-tooltip"
+      data-eds-filter-tooltip
       trigger="click"
       :click-toggle="false"
       :placement="placement"
@@ -199,9 +226,10 @@ function onConditionsUpdate(conditions: EgFilterCondition[]) {
             :placeholder="placeholder"
             :remove-label="removeLabel"
             :max-conditions="maxConditions"
-            :logic-mode="logicMode"
-            @update:conditions="onConditionsUpdate"
-            @update:logic-mode="emit('update:logicMode', $event)"
+            :logic-mode="draftLogicMode"
+            @update:conditions="onDraftConditionsUpdate"
+            @apply:conditions="onApplyConditions"
+            @update:logic-mode="onDraftLogicModeUpdate"
           />
         </EgTooltipPanel>
       </template>

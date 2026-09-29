@@ -15,14 +15,18 @@ import {
   type FlotationTriggerWidthMode,
 } from '../../molecules/flotation';
 import { EgSearchInput } from '../../molecules/search';
+import { EgTabs } from '../../molecules/tab';
 import type { TooltipTrigger } from '../../molecules/tooltip';
 import type { EgFilterFieldSelectionMode } from './types';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
 import {
   FILTER_MEMBER_PICKER_HEIGHT,
   FILTER_MEMBER_PRESETS,
+  FILTER_WAAS_PROJECT_PRESETS,
+  isFilterWaasProjectPresetId,
   resolveFilterMemberPreset,
   type FilterMemberPreset,
+  type FilterWaasProjectPreset,
 } from './filterMemberPresets';
 import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
 import { useFilterTranslate } from './filterTranslate';
@@ -31,6 +35,7 @@ import styles from './FilterConditionMemberValue.module.css';
 const t = useFilterTranslate();
 
 const FILTER_MEMBER_SELECT_ALL_ICON = 'eds-list-lattice-mobile-fill';
+type FilterMemberPickerOption = FilterMemberPreset | FilterWaasProjectPreset;
 
 const props = withDefaults(
   defineProps<{
@@ -41,6 +46,8 @@ const props = withDefaults(
     triggerWidthMode?: FlotationTriggerWidthMode;
     triggerWidth?: number;
     trigger?: TooltipTrigger;
+    /** 成员 / WaaS 项目 Tab；关闭时仅展示成员列表。 */
+    showTypeTabs?: boolean;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -48,6 +55,7 @@ const props = withDefaults(
     selectionMode: 'single',
     triggerWidthMode: 'adaptive',
     trigger: 'click',
+    showTypeTabs: true,
   },
 );
 
@@ -56,6 +64,7 @@ const emit = defineEmits<{
 }>();
 
 const searchQuery = ref('');
+const activeTabIndex = ref(0);
 const draftValues = ref<Set<string>>(new Set());
 const scrollRef = ref<HTMLElement | null>(null);
 const optionListRef = ref<HTMLElement | null>(null);
@@ -92,10 +101,20 @@ const selectedCount = computed(() => selectedValueList.value.length);
 
 const hasDraftSelection = computed(() => draftValues.value.size > 0);
 
+const memberPickerTabLabels = computed(() => [t('成员'), t('WaaS项目')]);
+
+const isWaasProjectTabActive = computed(
+  () => props.showTypeTabs && activeTabIndex.value === 1,
+);
+
+const activePresetList = computed<FilterMemberPickerOption[]>(() =>
+  isWaasProjectTabActive.value ? FILTER_WAAS_PROJECT_PRESETS : FILTER_MEMBER_PRESETS,
+);
+
 const filteredOptions = computed(() => {
   const query = searchQuery.value.trim().toLowerCase();
-  if (!query) return FILTER_MEMBER_PRESETS;
-  return FILTER_MEMBER_PRESETS.filter((option) =>
+  if (!query) return activePresetList.value;
+  return activePresetList.value.filter((option) =>
     t(option.label).toLowerCase().includes(query),
   );
 });
@@ -105,7 +124,21 @@ const showSearchEmpty = computed(
 );
 
 watch(
-  () => [filteredOptions.value.length, searchQuery.value, isMulti.value, showSearchEmpty.value],
+  () => props.showTypeTabs,
+  (enabled) => {
+    if (!enabled) activeTabIndex.value = 0;
+  },
+);
+
+watch(
+  () => [
+    filteredOptions.value.length,
+    searchQuery.value,
+    activeTabIndex.value,
+    props.showTypeTabs,
+    isMulti.value,
+    showSearchEmpty.value,
+  ],
   () => {
     updatePickerScroll();
   },
@@ -141,13 +174,14 @@ function onPickerOpen() {
 
 function onPickerClose() {
   resetSearch();
+  activeTabIndex.value = 0;
 }
 
-function isOptionSelected(option: FilterMemberPreset): boolean {
+function isOptionSelected(option: FilterMemberPickerOption): boolean {
   return activeSelectedValues.value.has(option.id);
 }
 
-function getOptionSelectionState(option: FilterMemberPreset): 'none' | 'full' {
+function getOptionSelectionState(option: FilterMemberPickerOption): 'none' | 'full' {
   return isOptionSelected(option) ? 'full' : 'none';
 }
 
@@ -186,12 +220,12 @@ function setMultiValue(valueKey: string, selected: boolean) {
   draftValues.value = next;
 }
 
-function onCheckboxUpdate(option: FilterMemberPreset, checked: boolean) {
+function onCheckboxUpdate(option: FilterMemberPickerOption, checked: boolean) {
   if (props.disabled || !isMulti.value) return;
   setMultiValue(option.id, checked);
 }
 
-function onOptionClick(option: FilterMemberPreset, close: () => void) {
+function onOptionClick(option: FilterMemberPickerOption, close: () => void) {
   if (props.disabled) return;
 
   if (isMulti.value) {
@@ -233,7 +267,10 @@ const triggerLabel = computed(() =>
   activeTriggerPreset.value?.label ?? t(props.placeholder),
 );
 
-const showTriggerAvatar = computed(() => Boolean(activeTriggerPreset.value));
+const showTriggerAvatar = computed(() => {
+  if (!activeTriggerPreset.value) return false;
+  return !isFilterWaasProjectPresetId(activeTriggerPreset.value.id);
+});
 
 const showTriggerCountMessage = computed(() => isMulti.value && selectedCount.value > 0);
 
@@ -306,6 +343,16 @@ const triggerCountText = computed(() => String(selectedCount.value));
               />
             </div>
 
+            <div v-if="showTypeTabs" :class="styles.tabBar">
+              <EgTabs
+                v-model="activeTabIndex"
+                :labels="memberPickerTabLabels"
+                horizontal-gap="sm"
+                vertical-gap="xs"
+                width-mode="fixed"
+              />
+            </div>
+
             <EgDivider
               v-if="pickerCanScroll"
               type="module"
@@ -351,7 +398,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
                 <EgFlotationMenuItem
                   v-for="option in filteredOptions"
                   :key="option.id"
-                  box-type="image-text"
+                  :box-type="isWaasProjectTabActive ? 'text' : 'image-text'"
                   :label="t(option.label)"
                   :focused="!isMulti && isOptionSelected(option)"
                   :show-checkbox="isMulti"
@@ -360,7 +407,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
                   @click="onOptionClick(option, close)"
                   @update:checked="onCheckboxUpdate(option, $event)"
                 >
-                  <template #leading>
+                  <template v-if="!isWaasProjectTabActive" #leading>
                     <EgAvatar
                       :name="option.name"
                       :color-seed="option.id"

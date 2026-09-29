@@ -16,8 +16,8 @@ import {
 } from '../../molecules/flotation';
 import { EgComboFloatButton } from '../../molecules/combo';
 import { EgSearchInput } from '../../molecules/search';
-import type { TooltipTrigger } from '../../molecules/tooltip';
-import type { EgFilterFieldSelectionMode } from './types';
+import type { TooltipPlacement, TooltipTrigger } from '../../molecules/tooltip';
+import type { EgFilterCascadePlacement, EgFilterFieldSelectionMode } from './types';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
 import {
   FILTER_CURRENCY_CASCADE_PICKER_HEIGHT,
@@ -45,6 +45,8 @@ const props = withDefaults(
     triggerWidthMode?: FlotationTriggerWidthMode;
     triggerWidth?: number;
     trigger?: TooltipTrigger;
+    /** 多链级联子菜单方向；auto 默认右侧，空间不足自动翻转到左侧。 */
+    cascadePlacement?: EgFilterCascadePlacement;
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -52,8 +54,15 @@ const props = withDefaults(
     selectionMode: 'single',
     triggerWidthMode: 'adaptive',
     trigger: 'click',
+    cascadePlacement: 'auto',
   },
 );
+
+const resolvedCascadePlacement = computed((): TooltipPlacement =>
+  props.cascadePlacement === 'left' ? 'left' : 'right',
+);
+
+const cascadeMenuFlip = computed(() => props.cascadePlacement === 'auto');
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];
@@ -597,8 +606,9 @@ function onPickerClose() {
                   >
                     <EgFlotation
                       :class="styles.networkFlotation"
-                      placement="right"
+                      :placement="resolvedCascadePlacement"
                       align="start"
+                      :flip="cascadeMenuFlip"
                       trigger="hover"
                       width-mode="fixed"
                       :width="FILTER_CURRENCY_PICKER_WIDTH"

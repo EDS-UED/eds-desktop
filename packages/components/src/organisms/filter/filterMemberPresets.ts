@@ -4,6 +4,12 @@ export type FilterMemberPreset = {
   name: string;
 };
 
+export type FilterWaasProjectPreset = {
+  id: string;
+  label: string;
+  name: string;
+};
+
 export const FILTER_MEMBER_PICKER_HEIGHT = 360;
 
 /** Filter 成员条件值演示列表（英文为主，少量中文）。 */
@@ -38,12 +44,43 @@ export const FILTER_MEMBER_PRESETS: FilterMemberPreset[] = [
   { id: 'member-li-na', label: '李娜', name: '李娜' },
 ];
 
+/** Filter 成员选择器 WaaS 项目 Tab 演示列表。 */
+export const FILTER_WAAS_PROJECT_PRESETS: FilterWaasProjectPreset[] = [
+  { id: 'waas-project-doris-studio', label: 'Doris Studio', name: 'Doris Studio' },
+  { id: 'waas-project-alpha-pay', label: 'Alpha Pay', name: 'Alpha Pay' },
+  { id: 'waas-project-beta-wallet', label: 'Beta Wallet', name: 'Beta Wallet' },
+  { id: 'waas-project-gamma-chain', label: 'Gamma Chain', name: 'Gamma Chain' },
+  { id: 'waas-project-orion-hub', label: 'Orion Hub', name: 'Orion Hub' },
+  { id: 'waas-project-nova-settle', label: 'Nova Settle', name: 'Nova Settle' },
+  { id: 'waas-project-polaris-waas', label: 'Polaris WaaS', name: 'Polaris WaaS' },
+  { id: 'waas-project-quantum-vault', label: 'Quantum Vault', name: 'Quantum Vault' },
+  { id: 'waas-project-river-node', label: 'River Node', name: 'River Node' },
+  { id: 'waas-project-summit-pay', label: 'Summit Pay', name: 'Summit Pay' },
+  { id: 'waas-project-titan-ledger', label: 'Titan Ledger', name: 'Titan Ledger' },
+  { id: 'waas-project-unity-custody', label: 'Unity Custody', name: 'Unity Custody' },
+];
+
 export const FILTER_MEMBER_OPTION_COUNT = FILTER_MEMBER_PRESETS.length;
 
-export function resolveFilterMemberPreset(value: string): FilterMemberPreset | undefined {
+type FilterMemberPickerPreset = FilterMemberPreset | FilterWaasProjectPreset;
+
+function resolveFilterMemberPickerPresetById(
+  id: string,
+): FilterMemberPickerPreset | undefined {
+  return (
+    FILTER_MEMBER_PRESETS.find((option) => option.id === id)
+    ?? FILTER_WAAS_PROJECT_PRESETS.find((option) => option.id === id)
+  );
+}
+
+export function resolveFilterMemberPreset(value: string): FilterMemberPickerPreset | undefined {
   const trimmed = value.trim();
   if (!trimmed) return undefined;
   const memberId = trimmed.split(',')[0]?.trim() ?? '';
   if (!memberId) return undefined;
-  return FILTER_MEMBER_PRESETS.find((option) => option.id === memberId);
+  return resolveFilterMemberPickerPresetById(memberId);
+}
+
+export function isFilterWaasProjectPresetId(id: string): boolean {
+  return id.startsWith('waas-project-');
 }

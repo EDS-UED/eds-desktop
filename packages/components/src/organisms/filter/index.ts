@@ -8,6 +8,7 @@ export type {
   EgFilterAmountMode,
   EgFilterCondition,
   EgFilterField,
+  EgFilterCascadePlacement,
   EgFilterFieldKind,
   EgFilterFieldSelectionMode,
   EgFilterLogicMode,

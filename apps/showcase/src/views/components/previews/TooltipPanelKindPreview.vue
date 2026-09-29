@@ -258,6 +258,8 @@ const docImportCode = computed(() => resolveTooltipPageImportCode(pageSlug.value
             :trigger-width-mode="String(customize.triggerWidthMode ?? 'trigger') as 'trigger' | 'adaptive' | 'fixed'"
             :trigger-width="filterPickerTriggerWidth"
             :trigger="String(customize.trigger ?? 'click') as 'click' | 'hover'"
+            :show-type-tabs="Boolean(customize.showTypeTabs ?? true)"
+            :cascade-placement="String(customize.cascadePlacement ?? 'auto') as 'auto' | 'right' | 'left'"
           />
           <TooltipFlotationTextOverflowPreview
             v-else-if="isTextOverflowScenario"

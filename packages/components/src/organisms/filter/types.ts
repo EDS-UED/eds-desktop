@@ -1,5 +1,8 @@
 export type EgFilterFieldSelectionMode = 'single' | 'multi';
 
+/** 币种级联子菜单展开方向；auto 优先右侧，边界不足时翻转到左侧。 */
+export type EgFilterCascadePlacement = 'auto' | 'right' | 'left';
+
 /** 金额 / 矿工费：单值或区间。 */
 export type EgFilterAmountMode = 'single' | 'range';
 

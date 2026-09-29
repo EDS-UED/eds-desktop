@@ -46,7 +46,10 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
+  /** 面板内编辑态（字段 / 运算符 / 输入中值等），不触发筛选。 */
   'update:conditions': [conditions: EgFilterCondition[]];
+  /** 条件值提交或删除行等，写回 v-model 并触发筛选；不关闭面板。 */
+  'apply:conditions': [conditions: EgFilterCondition[]];
   'update:logicMode': [logicMode: EgFilterLogicMode];
 }>();
 
@@ -56,6 +59,11 @@ function updateConditions(next: EgFilterCondition[]) {
   emit('update:conditions', next);
 }
 
+function applyConditions(next: EgFilterCondition[]) {
+  emit('update:conditions', next);
+  emit('apply:conditions', next);
+}
+
 function updateCondition(index: number, patch: Partial<EgFilterCondition>) {
   const next = props.conditions.map((condition, conditionIndex) =>
     conditionIndex === index ? { ...condition, ...patch } : condition,
@@ -63,16 +71,33 @@ function updateCondition(index: number, patch: Partial<EgFilterCondition>) {
   updateConditions(next);
 }
 
+function applyCondition(index: number, patch: Partial<EgFilterCondition>) {
+  const next = props.conditions.map((condition, conditionIndex) =>
+    conditionIndex === index ? { ...condition, ...patch } : condition,
+  );
+  applyConditions(next);
+}
+
 function onOperatorChange(index: number, operatorId: string) {
   const patch: Partial<EgFilterCondition> = { operatorId };
   if (isValuelessOperator(operatorId)) {
     patch.value = '';
+    applyCondition(index, patch);
+    return;
   }
   updateCondition(index, patch);
 }
 
+function onValueDraft(index: number, value: string) {
+  updateCondition(index, { value });
+}
+
+function onValueCommit(index: number, value: string) {
+  applyCondition(index, { value });
+}
+
 function onRemove(index: number) {
-  updateConditions(props.conditions.filter((_, conditionIndex) => conditionIndex !== index));
+  applyConditions(props.conditions.filter((_, conditionIndex) => conditionIndex !== index));
 }
 
 function onAdd() {
@@ -153,7 +178,8 @@ watch(
             :remove-label="removeLabel"
             @patch="updateCondition(index, $event)"
             @update:operator-id="onOperatorChange(index, $event)"
-            @update:value="updateCondition(index, { value: $event })"
+            @update:value="onValueDraft(index, $event)"
+            @commit:value="onValueCommit(index, $event)"
             @remove="onRemove(index)"
           />
         </div>
