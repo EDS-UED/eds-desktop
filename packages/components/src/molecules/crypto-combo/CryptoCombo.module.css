@@ -2,17 +2,14 @@
  * Crypto Combo（Figma 61:6071 — List Field · Currency）
  *
  * EgCryptoCombo
- *   ├ CryptoSymbol
- *   │    ├ EgCrypto（--avatar-md / 24px）
- *   │    └ CryptoItem（entry badge，Style=Suffix）
  *   └ Body
- *        ├ Title（symbol + chain Tag / suffix）
+ *        ├ Title（CryptoSymbol --avatar-sm / 20px + symbol + chain Tag / suffix）
+ *        │    └ CryptoItem（entry badge，Style=Suffix）
  *        └ CryptoAddress（双地址 + System / Custom / 99+ Tag）
  */
 .root {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-2);
   min-width: 0;
   max-width: 100%;
 }
@@ -25,29 +22,29 @@
 
 .cryptoSymbolPlain {
   overflow: clip;
-  width: var(--avatar-md);
-  height: var(--avatar-md);
+  width: var(--avatar-sm);
+  height: var(--avatar-sm);
 }
 
 .cryptoSymbolWithBadge {
   overflow: visible;
-  width: calc(var(--avatar-md) + var(--scale-1) + var(--stroke-xl));
-  height: calc(var(--avatar-md) + var(--stroke-xl));
+  width: calc(var(--avatar-sm) + var(--scale-1) + var(--stroke-xl));
+  height: calc(var(--avatar-sm) + var(--stroke-xl));
 }
 
 .cryptoSymbolIcon {
   position: absolute;
   left: 0;
   top: 0;
-  width: var(--avatar-md);
-  height: var(--avatar-md);
+  width: var(--avatar-sm);
+  height: var(--avatar-sm);
 }
 
 .cryptoSymbolBadge {
   position: absolute;
   z-index: 1;
-  left: calc(var(--scale-6) - var(--stroke-xl));
-  top: calc(var(--scale-5) - var(--stroke-xl));
+  left: calc(var(--avatar-sm) - var(--stroke-xl));
+  top: calc(var(--scale-4) - var(--stroke-xl));
 }
 
 /* contentType=unaddress（仅币种） */

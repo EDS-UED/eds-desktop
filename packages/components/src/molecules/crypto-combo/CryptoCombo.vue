@@ -96,15 +96,14 @@ const bodyStyle = computed(() => {
 
 <template>
   <span :class="styles.root">
-    <CryptoSymbol
-      :name="cryptoName"
-      :label="symbol"
-      :entry-badge="resolvedEntryBadge"
-      :icon-size="contentType === 'unaddress' ? 'xl' : 'md'"
-    />
-
     <span :class="bodyClass" :style="bodyStyle">
       <span :class="styles.titleRow">
+        <CryptoSymbol
+          :name="cryptoName"
+          :label="symbol"
+          :entry-badge="resolvedEntryBadge"
+          icon-size="md"
+        />
         <span :class="styles.symbolTextWrap">
           <EgListFieldOverflowText
             :text="symbol"
