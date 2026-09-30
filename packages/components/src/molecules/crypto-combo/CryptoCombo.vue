@@ -98,18 +98,20 @@ const bodyStyle = computed(() => {
   <span :class="styles.root">
     <span :class="bodyClass" :style="bodyStyle">
       <span :class="styles.titleRow">
-        <CryptoSymbol
-          :name="cryptoName"
-          :label="symbol"
-          :entry-badge="resolvedEntryBadge"
-          icon-size="md"
-        />
-        <span :class="styles.symbolTextWrap">
-          <EgListFieldOverflowText
-            :text="symbol"
-            variant="primary"
-            :tooltip-trigger="addressTooltipTrigger"
+        <span :class="styles.titleSymbolGroup">
+          <CryptoSymbol
+            :name="cryptoName"
+            :label="symbol"
+            :entry-badge="resolvedEntryBadge"
+            icon-size="md"
           />
+          <span :class="styles.symbolTextWrap">
+            <EgListFieldOverflowText
+              :text="symbol"
+              variant="primary"
+              :tooltip-trigger="addressTooltipTrigger"
+            />
+          </span>
         </span>
         <span v-if="showNetworkTag" :class="styles.networkTag">
           <EgTag

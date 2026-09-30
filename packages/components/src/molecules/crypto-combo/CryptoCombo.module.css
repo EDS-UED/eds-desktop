@@ -3,7 +3,7 @@
  *
  * EgCryptoCombo
  *   └ Body
- *        ├ Title（CryptoSymbol --avatar-sm / 20px + symbol + chain Tag / suffix）
+ *        ├ Title（symbol group gap-1-5 + chain Tag / suffix gap-1）
  *        │    └ CryptoItem（entry badge，Style=Suffix）
  *        └ CryptoAddress（双地址 + System / Custom / 99+ Tag）
  */
@@ -142,6 +142,14 @@
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-1);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.titleSymbolGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1-5);
   min-width: 0;
   max-width: 100%;
 }

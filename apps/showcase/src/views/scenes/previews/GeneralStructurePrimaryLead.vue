@@ -23,7 +23,7 @@ const cryptoName = computed(
     v-if="showCryptoIcon"
     :class="[
       styles.cryptoInlineIcon,
-      isSingleLine ? styles.cryptoInlineIconXl : styles.cryptoInlineIconLg,
+      isSingleLine ? styles.cryptoInlineIconSm : styles.cryptoInlineIconLg,
     ]"
   >
     <EgCrypto :name="cryptoName" fit :label="cryptoSymbol" />
