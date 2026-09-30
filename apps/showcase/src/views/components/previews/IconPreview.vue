@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { EgIcon, getProcessedIcon, iconNames } from '@eds/desktop-components';
 import shared from '@/views/shared/showcase.module.css';
 import styles from '../ComponentsView.module.css';
+import { matchIconGallerySearch } from '@/data/iconSearchIndex';
 import { useAtomsGallerySearch } from './atomsGallerySearch';
 
 const registeredIconNames = computed(() =>
@@ -12,9 +13,9 @@ const registeredIconNames = computed(() =>
 const query = useAtomsGallerySearch();
 
 const filteredIconNames = computed(() => {
-  const q = query.value.trim().toLowerCase();
-  if (!q) return registeredIconNames.value;
-  return registeredIconNames.value.filter((name) => name.toLowerCase().includes(q));
+  const q = query.value;
+  if (!q.trim()) return registeredIconNames.value;
+  return registeredIconNames.value.filter((name) => matchIconGallerySearch(name, q));
 });
 </script>
 

@@ -30,6 +30,12 @@ export type DetailAddressLayout =
   | 'multi-expanded'
   | 'multi-orders';
 
+export type DetailPersonDeviceInfo = {
+  deviceType: string;
+  deviceId: string;
+  ip: string;
+};
+
 export type DetailItemValueEntry = {
   value: string;
   tag?: string;
@@ -49,6 +55,10 @@ export type DetailItemValueEntry = {
   valueAddressSideFeedback?: DetailItemValueAddressSideFeedback;
   /** 次要 value 文案（60% 字色，如钱包编号）。 */
   valueMuted?: boolean;
+  /** 币种阈值行 leading 符号文案（如 BTC）。 */
+  valueLeading?: string;
+  /** 币种阈值行图标（eds-* crypto name）。 */
+  valueIcon?: string;
 };
 
 export type DetailItemData = {
@@ -95,6 +105,10 @@ export type DetailItemData = {
   inlineValueEntries?: boolean;
   /** 复制按钮写入剪贴板的文案；省略时用 entry.value。 */
   valueCopyText?: string;
+  /** 人员类 value 次要文案（如脱敏邮箱）；有值时渲染为「名称｜次要文案」。 */
+  valueSecondary?: string;
+  /** 人员类 value 设备信息；有值时在名称/邮箱后渲染 info 触发器。 */
+  valueDeviceInfo?: DetailPersonDeviceInfo;
 };
 
 export type DetailSectionData = {

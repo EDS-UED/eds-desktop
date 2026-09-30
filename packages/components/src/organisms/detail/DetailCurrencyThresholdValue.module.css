@@ -1,0 +1,34 @@
+.row {
+  composes: typography-body-small from global;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-1-5);
+  min-width: 0;
+}
+
+.crypto {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
+.symbol {
+  color: var(--text-base-primary);
+  font-weight: var(--eds-body-small-weight);
+}
+
+.divider {
+  flex-shrink: 0;
+  align-self: center;
+  height: var(--scale-2-5);
+  min-height: var(--scale-2-5);
+  max-height: var(--scale-2-5);
+}
+
+.threshold {
+  color: var(--text-base-secondary);
+}

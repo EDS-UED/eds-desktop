@@ -13,6 +13,7 @@ import {
   EgFlotationMenuItem,
   EgFlotationTrigger,
   type FlotationTriggerWidthMode,
+  type FlotationWidthMode,
 } from '../../molecules/flotation';
 import { EgSearchInput } from '../../molecules/search';
 import { EgTabs } from '../../molecules/tab';
@@ -59,6 +60,8 @@ const props = withDefaults(
     memberOptions?: readonly EgFilterFieldMemberOption[];
     /** 业务自定义 WaaS 项目（无头像）。 */
     waasProjectOptions?: readonly EgFilterFieldMemberOption[];
+    /** 覆盖 useFilterPickerMenuWidthMode 推断（如 Filter 条件行固定对齐触发器宽）。 */
+    menuWidthMode?: FlotationWidthMode;
     dropdownOpenId?: string;
     boundarySelector?: string;
     pickerAlign?: TooltipAlign;
@@ -135,6 +138,9 @@ const waasProjectPresets = computed<FilterMemberPickerOption[]>(() => {
   if (props.waasProjectOptions !== undefined) {
     return props.waasProjectOptions as FilterMemberPickerOption[];
   }
+  if (props.memberOptions !== undefined) {
+    return [];
+  }
   return FILTER_WAAS_PROJECT_PRESETS;
 });
 
@@ -183,7 +189,10 @@ const showSearchEmpty = computed(
 );
 
 const pickerWidthLabels = computed(() => {
-  const labels = allPickerPresets.value.map((option) => t(option.label));
+  const source = effectiveShowTypeTabs.value
+    ? allPickerPresets.value
+    : activePresetList.value;
+  const labels = source.map((option) => t(option.label));
   if (isMulti.value) labels.unshift(t('全部'));
   labels.push(t('搜索'));
   if (effectiveShowTypeTabs.value) {
@@ -192,12 +201,28 @@ const pickerWidthLabels = computed(() => {
   return labels;
 });
 
-const { flotationWidthMode, syncMenuWidthMode, syncMenuWidthModeAfterLayout } =
+const memberPickerLeadingWidthExtra = computed(() => {
+  if (isWaasProjectTabActive.value) return 0;
+  const rootStyle = getComputedStyle(document.documentElement);
+  const readToken = (name: string, fallback: number) => {
+    const parsed = Number.parseFloat(rootStyle.getPropertyValue(name).trim());
+    return Number.isFinite(parsed) ? parsed : fallback;
+  };
+  return readToken('--icon-lg', 20) + readToken('--spacing-2', 8);
+});
+
+const { menuWidthMode: inferredMenuWidthMode, syncMenuWidthMode, syncMenuWidthModeAfterLayout } =
   useFilterPickerMenuWidthMode({
     rootRef,
     optionLabels: pickerWidthLabels,
     includeCheckbox: isMulti,
+    leadingWidthExtra: memberPickerLeadingWidthExtra,
   });
+
+const resolvedFlotationWidthMode = computed((): FlotationWidthMode => {
+  if (props.menuWidthMode) return props.menuWidthMode;
+  return inferredMenuWidthMode.value;
+});
 
 const {
   listAreaStyle,
@@ -406,7 +431,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
       :trigger="trigger"
       placement="bottom"
       :align="pickerAlign"
-      :width-mode="flotationWidthMode"
+      :width-mode="resolvedFlotationWidthMode"
       :show-add="false"
       :show-menu-divider="false"
       :boundary-selector="boundarySelector"
@@ -444,7 +469,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
 
       <template #content="{ close, menuWidth, menuWidthMode }">
         <EgFlotationMenu
-          :class="[styles.menu, flotationWidthMode === 'adaptive' && styles.menuAdaptive]"
+          :class="[styles.menu, resolvedFlotationWidthMode === 'adaptive' && styles.menuAdaptive]"
           data-no-corner-smoothing
           panel-flush
           panel-radius="radius-md"

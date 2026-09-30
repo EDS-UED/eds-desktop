@@ -6,6 +6,8 @@ import { EgDivider } from '../../atoms/divider';
 import { EgIcon } from '../../atoms/icons';
 import { EgIconButton } from '../../molecules/icon-button';
 import { EgLinkButton } from '../../molecules/link';
+import DetailCurrencyThresholdValue from './DetailCurrencyThresholdValue.vue';
+import DetailPersonValue from './DetailPersonValue.vue';
 import DetailValueActionIcon from './DetailValueActionIcon.vue';
 import { EgTag, type TagSize, type TagStatus } from '../../molecules/tag';
 import { EgButton, type ButtonTone } from '../../molecules/button';
@@ -70,7 +72,32 @@ function itemValueAvatarName(item: DetailItemData): string {
   if (item.showValueSymbol && item.valueSymbolKind === 'avatar') {
     return item.valueSymbolAvatarName ?? item.value;
   }
+  if (item.valueSymbolAvatarName?.trim()) {
+    return item.valueSymbolAvatarName;
+  }
   return item.value;
+}
+
+function itemShowsPersonValue(item: DetailItemData): boolean {
+  if (Boolean(String(item.valueSecondary ?? '').trim())) {
+    return true;
+  }
+  if (item.valueDeviceInfo != null && Boolean(item.valueSymbolAvatarName?.trim())) {
+    return true;
+  }
+  if (item.valueType === 'user') {
+    return true;
+  }
+  return item.showValueSymbol === true && item.valueSymbolKind === 'avatar';
+}
+
+function entryShowsCurrencyThreshold(entry: DetailItemValueEntry): boolean {
+  return Boolean(String(entry.valueIcon ?? '').trim() && String(entry.valueLeading ?? '').trim());
+}
+
+function entryCurrencyThresholdNetwork(entry: DetailItemValueEntry): string | undefined {
+  const label = entry.tag?.trim();
+  return label || undefined;
 }
 
 function itemHasValueTrailingActions(item: DetailItemData): boolean {
@@ -146,10 +173,17 @@ function itemAddressCount(item: DetailItemData): number {
 
 function itemShowsAddressCollapsedFooter(item: DetailItemData): boolean {
   const layout = itemAddressLayout(item);
+  const totalCount = itemAddressCount(item);
+  const visibleCount = itemResolvedValueEntries(item).length;
+
+  if (layout === 'multi-expanded') {
+    return totalCount > visibleCount && Boolean(item.addressViewMoreLabel);
+  }
+
   if (layout !== 'multi-collapsed' && layout !== 'multi-orders') {
     return false;
   }
-  if (itemAddressCount(item) <= 1) {
+  if (totalCount <= 1) {
     return false;
   }
   if (layout === 'multi-orders') {
@@ -311,6 +345,10 @@ const props = withDefaults(
     valueAddressBookLabel?: string;
     valueAmlSearchLabel?: string;
     valueBrowserLabel?: string;
+    valueDeviceInfoLabel?: string;
+    valueDeviceTypeLabel?: string;
+    valueDeviceIdLabel?: string;
+    valueDeviceIpLabel?: string;
     amlSearchActiveItemKey?: string | null;
   }>(),
   {
@@ -343,6 +381,10 @@ const props = withDefaults(
     valueAddressBookLabel: 'Add to address book',
     valueAmlSearchLabel: 'AML Search',
     valueBrowserLabel: 'Block explorer',
+    valueDeviceInfoLabel: 'Device information',
+    valueDeviceTypeLabel: 'Device Type',
+    valueDeviceIdLabel: 'Device ID',
+    valueDeviceIpLabel: 'IP',
     amlSearchActiveItemKey: null,
   },
 );
@@ -739,7 +781,7 @@ onBeforeUnmount(() => {
       <div :class="styles.scrollBody">
         <slot v-if="$slots.body" name="body" />
         <template v-else>
-          <header :class="styles.headline">
+          <header :class="[styles.headline, showTabs && styles.headlineSticky]">
             <div :class="styles.headlineMain">
               <span v-if="showEyebrow" :class="styles.eyebrow">{{ eyebrow }}</span>
               <div :class="styles.headlineRow">
@@ -790,7 +832,7 @@ onBeforeUnmount(() => {
             :scroll-page-host-class="styles.scrollPageHost"
             :transition-handlers="motionPageTransitionHandlers"
           >
-          <div :class="styles.sections">
+          <div v-if="sectionsForRender.length > 0" :class="styles.sections">
             <template
               v-for="(section, sectionIndex) in sectionsForRender"
               :key="section.key ?? sectionIndex"
@@ -889,10 +931,29 @@ onBeforeUnmount(() => {
                                 fit
                               />
                             </span>
+                            <DetailPersonValue
+                              v-else-if="itemShowsPersonValue(item)"
+                              :display-name="item.value"
+                              :avatar-name="itemValueAvatarName(item)"
+                              :secondary-text="item.valueSecondary"
+                              :device-info="item.valueDeviceInfo"
+                              :device-info-label="valueDeviceInfoLabel"
+                              :device-type-label="valueDeviceTypeLabel"
+                              :device-id-label="valueDeviceIdLabel"
+                              :device-ip-label="valueDeviceIpLabel"
+                              :copy-label="valueCopyLabel"
+                            />
                             <EgAvatar
                               v-else-if="itemShowsValueAvatar(item)"
-                              size="xs"
+                              size="sm"
                               :name="itemValueAvatarName(item)"
+                            />
+                            <DetailCurrencyThresholdValue
+                              v-else-if="entryShowsCurrencyThreshold(entry)"
+                              :crypto-name="entry.valueIcon!"
+                              :symbol="entry.valueLeading!"
+                              :network-label="entryCurrencyThresholdNetwork(entry)"
+                              :threshold-label="entry.value"
                             />
                             <template v-if="item.inlineValueEntries && item.valueEntries?.length">
                               <span
@@ -904,7 +965,7 @@ onBeforeUnmount(() => {
                               </span>
                             </template>
                             <div
-                              v-else-if="!item.valueTagOnly && entry.value"
+                              v-else-if="!item.valueTagOnly && entry.value && !itemShowsPersonValue(item) && !entryShowsCurrencyThreshold(entry)"
                               :class="styles.itemValueAddressInlineCluster"
                             >
                             <span
@@ -972,7 +1033,7 @@ onBeforeUnmount(() => {
                             </div>
                             </div>
                             <EgTag
-                              v-if="itemValueTagText(item, entry) && !itemValueTagBeforeValue(item, entry)"
+                              v-if="itemValueTagText(item, entry) && !itemValueTagBeforeValue(item, entry) && !entryShowsCurrencyThreshold(entry)"
                               :family="itemValueTagFamily(item, entry)"
                               :status="entry.tagStatus ?? item.tagStatus"
                               :system-type="itemValueTagSystemType(item, entry)"
@@ -1027,10 +1088,29 @@ onBeforeUnmount(() => {
                                 fit
                               />
                             </span>
+                            <DetailPersonValue
+                              v-else-if="itemShowsPersonValue(item)"
+                              :display-name="item.value"
+                              :avatar-name="itemValueAvatarName(item)"
+                              :secondary-text="item.valueSecondary"
+                              :device-info="item.valueDeviceInfo"
+                              :device-info-label="valueDeviceInfoLabel"
+                              :device-type-label="valueDeviceTypeLabel"
+                              :device-id-label="valueDeviceIdLabel"
+                              :device-ip-label="valueDeviceIpLabel"
+                              :copy-label="valueCopyLabel"
+                            />
                             <EgAvatar
                               v-else-if="itemShowsValueAvatar(item)"
-                              size="xs"
+                              size="sm"
                               :name="itemValueAvatarName(item)"
+                            />
+                            <DetailCurrencyThresholdValue
+                              v-else-if="entryShowsCurrencyThreshold(entry)"
+                              :crypto-name="entry.valueIcon!"
+                              :symbol="entry.valueLeading!"
+                              :network-label="entryCurrencyThresholdNetwork(entry)"
+                              :threshold-label="entry.value"
                             />
                             <template v-if="item.inlineValueEntries && item.valueEntries?.length">
                               <span
@@ -1042,7 +1122,7 @@ onBeforeUnmount(() => {
                               </span>
                             </template>
                             <span
-                              v-else-if="!item.valueTagOnly && entry.value"
+                              v-else-if="!item.valueTagOnly && entry.value && !itemShowsPersonValue(item) && !entryShowsCurrencyThreshold(entry)"
                               :class="[
                                 styles.itemValueText,
                                 !itemShowsValueAvatar(item) && styles.itemValueTextNowrap,
@@ -1051,7 +1131,7 @@ onBeforeUnmount(() => {
                               {{ entry.value }}
                             </span>
                             <EgTag
-                              v-if="itemValueTagText(item, entry) && !itemValueTagBeforeValue(item, entry)"
+                              v-if="itemValueTagText(item, entry) && !itemValueTagBeforeValue(item, entry) && !entryShowsCurrencyThreshold(entry)"
                               :family="itemValueTagFamily(item, entry)"
                               :status="entry.tagStatus ?? item.tagStatus"
                               :system-type="itemValueTagSystemType(item, entry)"
@@ -1120,29 +1200,6 @@ onBeforeUnmount(() => {
                           </template>
                         </template>
                         </template>
-                      </div>
-                    </div>
-
-                    <div
-                      v-if="itemShowsAddressCollapsedFooter(item)"
-                      :class="styles.itemAddressCollapsedFooter"
-                    >
-                      <div
-                        :class="styles.itemAddressDashRule"
-                        aria-hidden="true"
-                      />
-                      <div :class="styles.itemRow">
-                        <div
-                          :class="styles.itemTitleSpacer"
-                          aria-hidden="true"
-                        />
-                        <EgLinkButton
-                          size="sm"
-                          tone="brand"
-                          @click="onItemValueLinkClick(item, sectionIndex, itemIndex, $event)"
-                        >
-                          {{ itemAddressViewMoreText(item) }}
-                        </EgLinkButton>
                       </div>
                     </div>
 
@@ -1298,6 +1355,14 @@ onBeforeUnmount(() => {
                               :show-link="entry.valueAddressSideFeedback.showLink ?? false"
                             />
                             <template v-if="!entryAddressTagsBelow(entry)">
+                              <DetailCurrencyThresholdValue
+                                v-if="entryShowsCurrencyThreshold(entry)"
+                                :crypto-name="entry.valueIcon!"
+                                :symbol="entry.valueLeading!"
+                                :network-label="entryCurrencyThresholdNetwork(entry)"
+                                :threshold-label="entry.value"
+                              />
+                              <template v-else>
                               <EgTag
                                 v-if="entry.tag && entry.tagBeforeValue"
                                 :family="entry.tagFamily"
@@ -1319,6 +1384,7 @@ onBeforeUnmount(() => {
                               >
                                 {{ entry.value }}
                               </span>
+                              </template>
                               <div
                                 v-if="itemHasValueTrailingActions(item)"
                                 :class="styles.itemValueTrailing"
@@ -1377,6 +1443,29 @@ onBeforeUnmount(() => {
                           </div>
                         </div>
                       </template>
+                    </div>
+
+                    <div
+                      v-if="itemShowsAddressCollapsedFooter(item)"
+                      :class="styles.itemAddressCollapsedFooter"
+                    >
+                      <div
+                        :class="styles.itemAddressDashRule"
+                        aria-hidden="true"
+                      />
+                      <div :class="styles.itemRow">
+                        <div
+                          :class="styles.itemTitleSpacer"
+                          aria-hidden="true"
+                        />
+                        <EgLinkButton
+                          size="sm"
+                          tone="brand"
+                          @click="onItemValueLinkClick(item, sectionIndex, itemIndex, $event)"
+                        >
+                          {{ itemAddressViewMoreText(item) }}
+                        </EgLinkButton>
+                      </div>
                     </div>
                   </div>
                 </div>

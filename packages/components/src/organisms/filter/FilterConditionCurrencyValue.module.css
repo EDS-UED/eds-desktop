@@ -38,6 +38,48 @@
   min-width: 100%;
 }
 
+.menuToolbar:global(.desktopTokens.effect-flotation-box) {
+  width: 100%;
+  min-width: 0;
+}
+
+.menuToolbar :global(.eds-tooltip-panel) {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+}
+
+.menuToolbar :global(.eds-flotation-menu-body) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+  height: auto;
+}
+
+.menuToolbar :global(.eds-flotation-menu-body) > :global(div:last-child) {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.menuToolbar .pickerRows {
+  flex: 0 1 auto;
+  height: auto;
+}
+
+.menuToolbar .optionListScroll {
+  flex: 0 1 auto;
+  /* FILTER_CURRENCY_PICKER_HEIGHT − 搜索头（spacing-1.5×2 + 输入框 scale-8） */
+  max-height: calc(380px - var(--scale-11));
+}
+
 .menu :global(.eds-tooltip-panel) {
   display: flex;
   flex: 1 1 auto;
@@ -280,6 +322,7 @@
 }
 
 .networkSubmenu:global(.desktopTokens.effect-flotation-box) {
+  --filter-cascade-max-height: 496px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -287,30 +330,49 @@
   width: 100%;
   min-width: 0;
   min-height: 0;
+  padding: 0;
   overflow: hidden;
+}
+
+.networkSubmenu:global(.eds-flotation-menu--scrollable-list.desktopTokens.effect-flotation-box) {
+  overflow: hidden;
+}
+
+/* 单选级联 list-scroll：随内容增高，超出 --filter-cascade-max-height 再滚。 */
+.networkSubmenu:global(.eds-flotation-menu--scrollable-list) :global(.eds-flotation-menu-body) {
+  flex: 0 1 auto;
+}
+
+.networkSubmenu:global(.eds-flotation-menu--scrollable-list) :global(.menuListOuter) {
+  flex: 0 1 auto;
+}
+
+.networkSubmenu:global(.eds-flotation-menu--scrollable-list) :global(.menuListScrollable) {
+  flex: 0 1 auto;
+  max-height: var(--filter-cascade-max-height);
 }
 
 .networkSubmenu :global(.eds-tooltip-panel) {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   flex-direction: column;
   align-items: stretch;
   width: 100%;
   min-width: 0;
   min-height: 0;
+  height: auto;
 }
 
 .networkSubmenu :global(.eds-flotation-menu-body) {
   display: flex;
   flex-direction: column;
   gap: 0;
-  height: 100%;
   min-height: 0;
+  height: auto;
 }
 
 .networkSubmenu :global(.eds-flotation-menu-body) > :global(div) {
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
   min-height: 0;
 }
@@ -324,24 +386,29 @@
   box-sizing: border-box;
 }
 
+/* 级联子菜单行：盖过 Flotation boxRoot 默认 gap/padding（spacing-2）。 */
+.networkSubmenu :global([data-eds-filter-cascade-item].eds-flotation-menu-item) {
+  gap: var(--spacing-1-5);
+  padding: var(--spacing-1) var(--spacing-1-5);
+}
+
 .cascadePanel {
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
   align-items: stretch;
   width: 100%;
   min-width: 0;
   min-height: 0;
-  height: 100%;
-  overflow: hidden;
 }
 
 .cascadeListScroll {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   flex-direction: column;
   width: 100%;
   min-height: 0;
+  /* FILTER_CURRENCY_CASCADE_PICKER_HEIGHT − ComboFloatButton 底栏（--scale-13） */
+  max-height: calc(var(--filter-cascade-max-height) - var(--scale-13));
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;

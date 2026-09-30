@@ -12,7 +12,9 @@ import {
   EgFlotationMenu,
   EgFlotationMenuItem,
   EgFlotationTrigger,
+  type FlotationTriggerStyle,
   type FlotationTriggerWidthMode,
+  type FlotationWidthMode,
 } from '../../molecules/flotation';
 import { EgComboFloatButton } from '../../molecules/combo';
 import { EgSearchInput } from '../../molecules/search';
@@ -21,6 +23,7 @@ import type { EgFilterCascadePlacement, EgFilterFieldSelectionMode } from './typ
 import { FILTER_SELECT_PLACEHOLDER } from './types';
 import {
   FILTER_CURRENCY_CASCADE_PICKER_HEIGHT,
+  FILTER_CURRENCY_CASCADE_PICKER_WIDTH,
   FILTER_CURRENCY_PICKER_HEIGHT,
   FILTER_CURRENCY_PICKER_WIDTH,
   FILTER_CURRENCY_PRESETS,
@@ -66,6 +69,14 @@ const props = withDefaults(
     currencySymbols?: readonly string[];
     /** 业务传入时完整币种/网络（最高优先级）。 */
     currencyOptions?: readonly EgFilterFieldCurrencyOption[];
+    /** Module Menu 标题区 text 触发器（如 Waas Sub-Address 工具栏）。 */
+    moduleMenuTitle?: boolean;
+    triggerStyle?: FlotationTriggerStyle;
+    closeOnScroll?: boolean;
+    /** 覆盖 useFilterPickerMenuWidthMode 推断（如工具栏固定 280px）。 */
+    menuWidthMode?: FlotationWidthMode;
+    menuWidth?: number;
+    menuHeightMode?: 'fixed' | 'adaptive';
   }>(),
   {
     placeholder: FILTER_SELECT_PLACEHOLDER,
@@ -75,6 +86,10 @@ const props = withDefaults(
     trigger: 'click',
     cascadePlacement: 'auto',
     pickerAlign: 'end',
+    boundarySelector: CASCADE_BOUNDARY_SELECTOR,
+    moduleMenuTitle: false,
+    triggerStyle: 'subtle',
+    closeOnScroll: false,
   },
 );
 
@@ -196,6 +211,27 @@ const { flotationWidthMode, syncMenuWidthMode, syncMenuWidthModeAfterLayout } =
     optionLabels: pickerWidthLabels,
     includeCheckbox: isMulti,
   });
+
+const resolvedFlotationWidthMode = computed((): FlotationWidthMode => {
+  if (props.menuWidthMode) return props.menuWidthMode;
+  if (props.moduleMenuTitle) return 'fixed';
+  return flotationWidthMode.value;
+});
+
+const resolvedFlotationWidth = computed(() => {
+  if (resolvedFlotationWidthMode.value !== 'fixed') return undefined;
+  return props.menuWidth ?? FILTER_CURRENCY_PICKER_WIDTH;
+});
+
+const resolvedMenuHeightMode = computed((): 'fixed' | 'adaptive' => {
+  if (props.menuHeightMode) return props.menuHeightMode;
+  if (props.moduleMenuTitle) return 'adaptive';
+  return 'fixed';
+});
+
+const cascadeSubmenuStyle = computed(() => ({
+  '--filter-cascade-max-height': `${FILTER_CURRENCY_CASCADE_PICKER_HEIGHT}px`,
+}));
 
 const {
   listAreaStyle,
@@ -648,18 +684,21 @@ function onPickerClose() {
       :trigger="trigger"
       placement="bottom"
       :align="pickerAlign"
-      :width-mode="flotationWidthMode"
+      :width-mode="resolvedFlotationWidthMode"
+      :width="resolvedFlotationWidth"
       :show-add="false"
       :show-menu-divider="false"
       :boundary-selector="boundarySelector"
+      :close-on-scroll="closeOnScroll"
       flip
       @open="onPickerOpen"
       @close="onPickerClose"
     >
       <template #trigger="{ expanded }">
         <EgFlotationTrigger
-          trigger-style="subtle"
+          :trigger-style="triggerStyle"
           size="sm"
+          :module-menu-title="moduleMenuTitle"
           :width-mode="triggerWidthMode"
           :width="triggerWidth"
           :label="triggerLabel"
@@ -688,14 +727,18 @@ function onPickerClose() {
 
       <template #content="{ close, menuWidth, menuWidthMode }">
         <EgFlotationMenu
-          :class="[styles.menu, flotationWidthMode === 'adaptive' && styles.menuAdaptive]"
+          :class="[
+            styles.menu,
+            resolvedFlotationWidthMode === 'adaptive' && styles.menuAdaptive,
+            moduleMenuTitle && styles.menuToolbar,
+          ]"
           data-no-corner-smoothing
           panel-flush
           panel-radius="radius-md"
           :width-mode="menuWidthMode"
           :width="menuWidth"
-          height-mode="fixed"
-          :height="FILTER_CURRENCY_PICKER_HEIGHT"
+          :height-mode="resolvedMenuHeightMode"
+          :height="resolvedMenuHeightMode === 'fixed' ? FILTER_CURRENCY_PICKER_HEIGHT : undefined"
           :max-height="FILTER_CURRENCY_PICKER_HEIGHT"
           :show-add="false"
           :show-divider="false"
@@ -768,7 +811,7 @@ function onPickerClose() {
                       :flip="cascadeMenuFlip"
                       trigger="hover"
                       width-mode="fixed"
-                      :width="FILTER_CURRENCY_PICKER_WIDTH"
+                      :width="FILTER_CURRENCY_CASCADE_PICKER_WIDTH"
                       :show-add="false"
                       :show-menu-divider="false"
                       :disabled="isCascadeFlotationDisabled(option.id)"
@@ -809,35 +852,43 @@ function onPickerClose() {
                         <EgFlotationMenu
                           v-if="!isMulti"
                           :class="styles.networkSubmenu"
+                          :style="cascadeSubmenuStyle"
                           data-no-corner-smoothing
+                          panel-flush
                           panel-radius="radius-md"
                           width-mode="fixed"
-                          :width="FILTER_CURRENCY_PICKER_WIDTH"
+                          :width="FILTER_CURRENCY_CASCADE_PICKER_WIDTH"
                           height-mode="adaptive"
-                          :scrollable="false"
+                          :max-height="FILTER_CURRENCY_CASCADE_PICKER_HEIGHT"
+                          list-scroll
+                          :scrollable="true"
                           :show-add="false"
                           :show-divider="false"
                         >
-                          <EgFlotationMenuItem
-                            v-for="network in option.networks"
-                            :key="`${option.id}-${network.key}`"
-                            box-type="image-text"
-                            :label="network.label"
-                            :symbol-icon="network.cryptoName"
-                            :show-tag="false"
-                            :focused="isNetworkSelected(option, network.key)"
-                            @click="onNetworkClick(option, network.key, close, closeNetwork)"
-                          />
+                          <div :class="styles.cascadeList">
+                            <EgFlotationMenuItem
+                              v-for="network in option.networks"
+                              :key="`${option.id}-${network.key}`"
+                              data-eds-filter-cascade-item
+                              box-type="image-text"
+                              :label="network.label"
+                              :symbol-icon="network.cryptoName"
+                              :show-tag="false"
+                              :focused="isNetworkSelected(option, network.key)"
+                              @click="onNetworkClick(option, network.key, close, closeNetwork)"
+                            />
+                          </div>
                         </EgFlotationMenu>
                         <EgFlotationMenu
                           v-else
                           :class="styles.networkSubmenu"
+                          :style="cascadeSubmenuStyle"
                           data-no-corner-smoothing
+                          panel-flush
                           panel-radius="radius-md"
                           width-mode="fixed"
-                          :width="FILTER_CURRENCY_PICKER_WIDTH"
-                          height-mode="fixed"
-                          :height="FILTER_CURRENCY_CASCADE_PICKER_HEIGHT"
+                          :width="FILTER_CURRENCY_CASCADE_PICKER_WIDTH"
+                          height-mode="adaptive"
                           :max-height="FILTER_CURRENCY_CASCADE_PICKER_HEIGHT"
                           :scrollable="false"
                           :show-add="false"
@@ -856,6 +907,7 @@ function onPickerClose() {
                                 :class="styles.cascadeList"
                               >
                                 <EgFlotationMenuItem
+                                  data-eds-filter-cascade-item
                                   box-type="image-text"
                                   :label="t('全部')"
                                   show-checkbox
@@ -876,6 +928,7 @@ function onPickerClose() {
                                 <EgFlotationMenuItem
                                   v-for="network in option.networks"
                                   :key="`${option.id}-${network.key}`"
+                                  data-eds-filter-cascade-item
                                   box-type="image-text"
                                   :label="network.label"
                                   :symbol-icon="network.cryptoName"

@@ -13,7 +13,7 @@ import {
   type FlotationTriggerWidthMode,
 } from '../../molecules/flotation';
 import { EgSearchInput } from '../../molecules/search';
-import { EgStatusTag } from '../../molecules/tag';
+import { EgColorfulTag, EgStatusTag } from '../../molecules/tag';
 import type { TooltipTrigger } from '../../molecules/tooltip';
 import type { EgFilterFieldSelectionMode } from './types';
 import { FILTER_SELECT_PLACEHOLDER } from './types';
@@ -337,8 +337,15 @@ const triggerCountText = computed(() => String(selectedCount.value));
           :expanded="expanded"
           :disabled="disabled"
         >
+          <EgColorfulTag
+            v-if="activeTriggerPreset?.colorfulStyle"
+            size="md"
+            :colorful-style="activeTriggerPreset.colorfulStyle"
+          >
+            {{ t(activeTriggerPreset.label) }}
+          </EgColorfulTag>
           <EgStatusTag
-            v-if="activeTriggerPreset"
+            v-else-if="activeTriggerPreset?.status"
             size="md"
             :status="activeTriggerPreset.status"
           >
@@ -426,7 +433,14 @@ const triggerCountText = computed(() => String(selectedCount.value));
                   @update:checked="onCheckboxUpdate(option, $event)"
                 >
                   <span :class="styles.optionTag">
-                    <EgStatusTag size="lg" :status="option.status">
+                    <EgColorfulTag
+                      v-if="option.colorfulStyle"
+                      size="lg"
+                      :colorful-style="option.colorfulStyle"
+                    >
+                      {{ t(option.label) }}
+                    </EgColorfulTag>
+                    <EgStatusTag v-else-if="option.status" size="lg" :status="option.status">
                       {{ t(option.label) }}
                     </EgStatusTag>
                   </span>

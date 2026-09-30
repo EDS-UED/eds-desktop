@@ -101,12 +101,17 @@
 }
 
 .addressLine {
-  display: inline;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-05);
   min-width: 0;
   max-width: 100%;
 }
 
 .address {
+  flex: 1 1 auto;
+  min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-all;
 }

@@ -24,15 +24,18 @@ export type FilterCurrencyPreset = {
 
 /** 与 consumer WaasSubAddressCurrencyPicker 一致。 */
 export const FILTER_CURRENCY_PICKER_WIDTH = 280;
+/** 多链级联网络子菜单固定宽。 */
+export const FILTER_CURRENCY_CASCADE_PICKER_WIDTH = 248;
 export const FILTER_CURRENCY_PICKER_HEIGHT = FILTER_DROPDOWN_MAX_HEIGHT;
-export const FILTER_CURRENCY_CASCADE_PICKER_HEIGHT = FILTER_DROPDOWN_MAX_HEIGHT;
+/** 多链级联网络子菜单：随内容增高，上限 496px。 */
+export const FILTER_CURRENCY_CASCADE_PICKER_HEIGHT = 496;
 export const FILTER_CURRENCY_OPTION_COUNT = 28;
 
 /** 多链级联子菜单网络项（顺序与 design / consumer 一致）。 */
 export const FILTER_CURRENCY_NETWORK_OPTIONS: readonly FilterCurrencyNetwork[] = [
-  { key: 'btc-omni', label: 'Bitcoin (OMNI)', cryptoName: 'eds-btc-bitcoin' },
-  { key: 'eth-erc20', label: 'Ethereum Mainnet (ERC20)', cryptoName: 'Ethereum Mainnet' },
-  { key: 'tron-trc20', label: 'Tron (TRC20)', cryptoName: 'eds-trx-tron' },
+  { key: 'btc-omni', label: 'Bitcoin', cryptoName: 'eds-btc-bitcoin' },
+  { key: 'eth-erc20', label: 'Ethereum Mainnet', cryptoName: 'Ethereum Mainnet' },
+  { key: 'tron-trc20', label: 'Tron', cryptoName: 'eds-trx-tron' },
   { key: 'sol', label: 'Solana', cryptoName: 'eds-sol-solana' },
   { key: 'avax-c', label: 'Avalanche C', cryptoName: 'eds-avax-avalanche' },
   { key: 'near', label: 'Near', cryptoName: 'eds-near-near protocol' },

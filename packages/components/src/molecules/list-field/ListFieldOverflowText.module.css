@@ -52,7 +52,6 @@
 }
 
 .tooltipPanel :global(.eds-tooltip-panel) {
-  padding: var(--spacing-1) var(--spacing-2);
   white-space: normal;
   word-break: break-word;
   font-size: var(--eds-body-medium-size);

@@ -1,6 +1,8 @@
 export { default as EgDetail } from './Detail.vue';
+export { default as EgDetailPersonValue } from './DetailPersonValue.vue';
 export type {
   DetailItemData,
+  DetailPersonDeviceInfo,
   DetailSectionData,
   DetailValueType,
   DetailValueSymbolKind,

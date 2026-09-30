@@ -1,11 +1,11 @@
-import type { TagStatus } from '../../molecules/tag';
+import type { TagColorfulStyle, TagStatus } from '../../molecules/tag';
 import { FILTER_DROPDOWN_MAX_HEIGHT } from './types';
 
 export type FilterStatusPreset = {
   id: string;
   label: string;
-  /** EgStatusTag status：等待 ready / 进行中 warning / 错误警告 danger / 成功 success / 取消失效 invalid。 */
-  status: TagStatus;
+  status?: TagStatus;
+  colorfulStyle?: TagColorfulStyle;
 };
 
 export const FILTER_STATUS_PICKER_HEIGHT = FILTER_DROPDOWN_MAX_HEIGHT;

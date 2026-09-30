@@ -20,7 +20,8 @@ export type DetailApplyItemVariantId =
   | 'amount'
   | 'type'
   | 'reason'
-  | 'ip';
+  | 'ip'
+  | 'ip-whitelist';
 
 export type DetailApplyItemVariant = {
   id: DetailApplyItemVariantId;
@@ -42,6 +43,8 @@ export type DetailApplyItemRowOverrides = Partial<
     | 'valueSymbolCrypto'
     | 'valueIcon'
     | 'valueSymbolAvatarName'
+    | 'valueSecondary'
+    | 'valueDeviceInfo'
     | 'addressLayout'
     | 'valueEntries'
     | 'addressCount'
@@ -57,6 +60,8 @@ const APPLY_ITEM_ROW_OVERRIDE_KEYS: (keyof DetailApplyItemRowOverrides)[] = [
   'valueSymbolCrypto',
   'valueIcon',
   'valueSymbolAvatarName',
+  'valueSecondary',
+  'valueDeviceInfo',
   'addressLayout',
   'valueEntries',
   'addressCount',
@@ -153,6 +158,13 @@ export const detailApplyItemVariants: DetailApplyItemVariant[] = [
       title: 'Initiated by',
       valueType: 'user',
       value: 'Ethan Davis',
+      valueSymbolAvatarName: 'Ethan Davis',
+      valueSecondary: 'ethandavis@gmail.com',
+      valueDeviceInfo: {
+        deviceType: 'MacBook Pro',
+        deviceId: 'M79D144YL4',
+        ip: '192.168.1.230',
+      },
     },
   },
   {
@@ -208,7 +220,7 @@ export const detailApplyItemVariants: DetailApplyItemVariant[] = [
       titleIcon: 'eds-calendar',
       title: 'Time',
       valueType: 'text',
-      value: '2031-12-23 10:23:00',
+      value: '2032-10-23 12:22:54',
     },
   },
   {
@@ -331,6 +343,16 @@ export const detailApplyItemVariants: DetailApplyItemVariant[] = [
       valueType: 'text',
       value: 'Washington, D.C. 192.168.1.230',
       showValueCopy: true,
+    },
+  },
+  {
+    id: 'ip-whitelist',
+    label: 'IP Whitelist',
+    item: {
+      titleIcon: 'eds-task-list',
+      title: 'IP Whitelist',
+      valueType: 'text',
+      value: '192.168.1.230、192.168.1.2304',
     },
   },
 ];

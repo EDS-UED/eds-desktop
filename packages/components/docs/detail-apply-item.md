@@ -40,6 +40,19 @@ const rows = [
     value: toAddress,
     tag: toAlias,
   }),
+  createDetailApplyItemRow('initiated-by', {
+    key: 'initiated-by',
+    title: '发起人',
+    value: 'Ethan Davis',
+    valueSymbolAvatarName: 'Ethan Davis',
+    valueSecondary: 'ethandavis@gmail.com',
+    valueDeviceInfo: {
+      deviceType: 'MacBook Pro',
+      deviceId: 'M79D144YL4',
+      ip: '192.168.1.230',
+    },
+  }),
+
   createDetailApplyItemRow('status', {
     tag: statusLabel, // tagFamily / tagStatus 仍由变体锁死
   }),
@@ -48,7 +61,7 @@ const rows = [
 
 ### 可覆盖字段（仅此列表）
 
-`key`、`title`、`value`、`tag`、`valueSymbolCrypto`、`valueIcon`、`valueSymbolAvatarName`
+`key`、`title`、`value`、`tag`、`valueSymbolCrypto`、`valueIcon`、`valueSymbolAvatarName`、`valueSecondary`、`valueDeviceInfo`
 
 Sender / Receiver 多地址（Figma [2267:11822](https://www.figma.com/design/OkYrDmatUWtgw9n1uVHt6v/EverGreen-Design-System--Desktop-?node-id=2267-11822) / [2267:11830](https://www.figma.com/design/OkYrDmatUWtgw9n1uVHt6v/EverGreen-Design-System--Desktop-?node-id=2267-11830)）另可传：
 
@@ -58,12 +71,14 @@ Sender / Receiver 多地址（Figma [2267:11822](https://www.figma.com/design/Ok
 - **multi-orders**：视觉同 multi-collapsed；链文案为 `{count} Orders`（如 `16 Orders`）；点击触发 `itemValueLinkClick`（业务可唤起自定义 Popup）。
 - **multi-expanded**：主行下方展开其余地址；行间横虚线与 Tag 左缘对齐（2px 线段 / 2px 间距，`--stroke-base-quaternary`，0.5px）。
 - `addressViewMoreLabel` 支持 `{count}` 占位；未写占位时自动拼接为 ``${label} ${addressCount}``。
+- `valueSecondary`：人员类行（如 `initiated-by`）的次要文案（脱敏邮箱等）；有值时 Value 区渲染为「头像 + 名称｜次要文案」（`EgDetailPersonValue`）。
+- `valueDeviceInfo`：人员类行设备信息；有值时在名称/邮箱后渲染 info 触发器（`EgDetailPersonValue` + tooltip）。
 
 其余字段（含 `showValueCopy`、`showValueLink`、`tagFamily`、`valueType`、`showValueSymbol` 等）**由变体决定**，传入会被 `createDetailApplyItemRow` 忽略（请只传上表字段）。
 
 ### 变体 id 一览
 
-`crypto` · `initiated-by` · `status` · `sender` · `receiver` · `time` · `brand-number` · `tripartite-number` · `remark` · `memo` · `txid` · `text` · `fee` · `amount` · `type` · `reason` · `ip`
+`crypto` · `initiated-by` · `status` · `sender` · `receiver` · `time` · `brand-number` · `tripartite-number` · `remark` · `memo` · `txid` · `text` · `fee` · `amount` · `type` · `reason` · `ip` · `ip-whitelist`
 
 Catalog 真源：`packages/components/src/organisms/detail/applyItemPresets.ts`
 

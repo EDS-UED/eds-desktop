@@ -19,18 +19,22 @@ export type EgFilterFieldKind =
   | 'dropdown';
 
 import type { CryptoName } from '../../atoms/crypto';
-import type { TagStatus } from '../../molecules/tag';
+import type { FlotationWidthMode } from '../../molecules/flotation';
+import type { TagColorfulStyle, TagStatus } from '../../molecules/tag';
 
 export type EgFilterFieldDropdownOption = {
   id: string;
   label: string;
 };
 
-/** 业务传入的状态筛选项（与列表 Status 列 Tag 对齐）。 */
+/** 业务传入的状态筛选项（与列表 Status / Colorful Tag 对齐）。 */
 export type EgFilterFieldStatusOption = {
   id: string;
   label: string;
-  status: TagStatus;
+  /** EgStatusTag；与 colorfulStyle 二选一，colorfulStyle 优先。 */
+  status?: TagStatus;
+  /** EgColorfulTag；与 status 二选一，用于列表 ColorfulTag 列对齐。 */
+  colorfulStyle?: TagColorfulStyle;
 };
 
 /** 业务传入的成员 / WaaS 项目选项（与 EgMemberTooltip 对齐）。 */
@@ -79,6 +83,10 @@ export type EgFilterField = {
   memberOptions?: readonly EgFilterFieldMemberOption[];
   /** kind=member 时业务自定义 WaaS 项目列表（无头像）。 */
   waasProjectOptions?: readonly EgFilterFieldMemberOption[];
+  /** kind=member 时是否展示成员 / WaaS 项目 Tab；默认仅双列表均有项时展示。 */
+  showTypeTabs?: boolean;
+  /** kind=member 时覆盖菜单宽度推断（如 Filter 条件行固定对齐触发器宽）。 */
+  menuWidthMode?: FlotationWidthMode;
   /** amount / gas-fee：单值或区间。 */
   amountMode?: EgFilterAmountMode;
   /** amount / gas-fee：EgInput unit（如 BTC）。 */

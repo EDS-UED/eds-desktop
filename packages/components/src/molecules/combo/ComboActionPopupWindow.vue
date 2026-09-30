@@ -36,7 +36,7 @@ const resolvedCount = computed(() => (Number(props.count) === 1 ? 1 : 2));
 <template>
   <div :class="styles.popupRoot">
     <EgButton
-      :class="styles.fullWidth"
+      :class="styles.popupAction"
       :tone="tone"
       :variant="variant"
       size="md"
@@ -47,7 +47,7 @@ const resolvedCount = computed(() => (Number(props.count) === 1 ? 1 : 2));
     </EgButton>
     <EgButton
       v-if="resolvedCount === 2"
-      :class="styles.fullWidth"
+      :class="styles.popupAction"
       tone="subtle"
       variant="text"
       size="md"

@@ -21,5 +21,5 @@ export function isAtomsGallerySearchSlug(slug: string): slug is AtomsGallerySear
 }
 
 export function atomsGallerySearchPlaceholder(slug: AtomsGallerySearchSlug): string {
-  return slug === 'crypto' ? '例如 eds-eth-ethereum' : '例如 eds-add';
+  return slug === 'crypto' ? '例如 eds-eth-ethereum' : '例如 eds-add 或 锁';
 }

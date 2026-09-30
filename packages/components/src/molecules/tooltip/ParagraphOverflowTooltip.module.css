@@ -32,7 +32,6 @@
 }
 
 .panel :global(.eds-tooltip-panel) {
-  padding: var(--spacing-1) var(--spacing-2);
   font-family: var(--eds-family-sans);
   font-size: var(--eds-body-small-size);
   font-weight: var(--eds-body-small-weight);

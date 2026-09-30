@@ -203,6 +203,24 @@ const CREGIS_MODULE_MENU_SHOWCASE_LABELS: Record<string, LocaleLabelMap> = {
     'zh-TW': 'AML',
     'zh-HK': 'AML',
   },
+  'AML Query': {
+    'en-US': 'AML Query',
+    'zh-CN': 'AML查询',
+    'zh-TW': 'AML查詢',
+    'zh-HK': 'AML查詢',
+  },
+  'Query Records': {
+    'en-US': 'Query Records',
+    'zh-CN': '查询记录',
+    'zh-TW': '查詢記錄',
+    'zh-HK': '查詢記錄',
+  },
+  'Auto Rules': {
+    'en-US': 'Auto Rules',
+    'zh-CN': '自动规则',
+    'zh-TW': '自動規則',
+    'zh-HK': '自動規則',
+  },
   Logs: {
     'en-US': 'Logs',
     'zh-CN': '日志',

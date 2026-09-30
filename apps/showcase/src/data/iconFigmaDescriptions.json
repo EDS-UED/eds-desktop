@@ -1,0 +1,3337 @@
+{
+  "cds-floder-add": {
+    "description": "文件、添加项目、添加文件夹",
+    "keywords": [
+      "文件",
+      "添加项目",
+      "添加文件夹"
+    ]
+  },
+  "cds-user-me-set": {
+    "description": "用户、用户、个人、个人设置",
+    "keywords": [
+      "用户",
+      "用户",
+      "个人",
+      "个人设置"
+    ]
+  },
+  "eds-abnormal-orders": {
+    "description": "文本、订单、列表、异常支付单、危险、警告",
+    "keywords": [
+      "文本",
+      "订单",
+      "列表",
+      "异常支付单",
+      "危险",
+      "警告"
+    ]
+  },
+  "eds-add": {
+    "description": "添加、增加、上传",
+    "keywords": [
+      "添加",
+      "增加",
+      "上传"
+    ]
+  },
+  "eds-add-address-books": {
+    "description": "文本、添加文本、记事本、添加到地址簿",
+    "keywords": [
+      "文本",
+      "添加文本",
+      "记事本",
+      "添加到地址簿"
+    ]
+  },
+  "eds-add-circle": {
+    "description": "添加、新增、上传边框",
+    "keywords": [
+      "添加",
+      "新增",
+      "上传边框"
+    ]
+  },
+  "eds-add-circle-fill": {
+    "description": "添加、新增、上传填充",
+    "keywords": [
+      "添加",
+      "新增",
+      "上传填充"
+    ]
+  },
+  "eds-add-employer": {
+    "description": "用户、邀请成员、雇员、人",
+    "keywords": [
+      "用户",
+      "邀请成员",
+      "雇员",
+      "人"
+    ]
+  },
+  "eds-add-employer-fill": {
+    "description": "用户、邀请成员、雇员填充",
+    "keywords": [
+      "用户",
+      "邀请成员",
+      "雇员填充"
+    ]
+  },
+  "eds-add-mini": {
+    "description": "添加、增加、上传mini",
+    "keywords": [
+      "添加",
+      "增加",
+      "上传mini"
+    ]
+  },
+  "eds-add-role": {
+    "description": "用户、新建角色、添加角色",
+    "keywords": [
+      "用户",
+      "新建角色",
+      "添加角色"
+    ]
+  },
+  "eds-address-books": {
+    "description": "文本、记事本、地址簿",
+    "keywords": [
+      "文本",
+      "记事本",
+      "地址簿"
+    ]
+  },
+  "eds-alarm": {
+    "description": "警报、危险",
+    "keywords": [
+      "警报",
+      "危险"
+    ]
+  },
+  "eds-alarm-fill": {
+    "description": "警报、危险填充",
+    "keywords": [
+      "警报",
+      "危险填充"
+    ]
+  },
+  "eds-aml-safety": {
+    "description": "AML安全填充、AML警告填充",
+    "keywords": [
+      "AML安全填充",
+      "AML警告填充"
+    ]
+  },
+  "eds-aml-search": {
+    "description": "安全、aml、安全查询、文本、搜索、查询",
+    "keywords": [
+      "安全",
+      "aml",
+      "安全查询",
+      "文本",
+      "搜索",
+      "查询"
+    ]
+  },
+  "eds-aml-search-fill": {
+    "description": "安全、aml、安全查询、文本、搜索、查询填充",
+    "keywords": [
+      "安全",
+      "aml",
+      "安全查询",
+      "文本",
+      "搜索",
+      "查询填充"
+    ]
+  },
+  "eds-aml-warning": {
+    "description": "危险、警告、关于、异常",
+    "keywords": [
+      "危险",
+      "警告",
+      "关于",
+      "异常"
+    ]
+  },
+  "eds-aml-warning-fill": {
+    "description": "AML危险填充、AML警告填充、异常",
+    "keywords": [
+      "AML危险填充",
+      "AML警告填充",
+      "异常"
+    ]
+  },
+  "eds-api-box": {
+    "description": "api、api接口",
+    "keywords": [
+      "api",
+      "api接口"
+    ]
+  },
+  "eds-api-box-fill": {
+    "description": "api、api接口填充",
+    "keywords": [
+      "api",
+      "api接口填充"
+    ]
+  },
+  "eds-api-box-mobile-fill": {
+    "description": "api、api接口填充Mobile",
+    "keywords": [
+      "api",
+      "api接口填充Mobile"
+    ]
+  },
+  "eds-api-color-dark": {
+    "description": "空页面、新增、文件夹、项目、创建api、彩色",
+    "keywords": [
+      "空页面",
+      "新增",
+      "文件夹",
+      "项目",
+      "创建api",
+      "彩色"
+    ]
+  },
+  "eds-api-color-light": {
+    "description": "空页面、新增、文件夹、项目、创建api、彩色",
+    "keywords": [
+      "空页面",
+      "新增",
+      "文件夹",
+      "项目",
+      "创建api",
+      "彩色"
+    ]
+  },
+  "eds-app-ecology": {
+    "description": "导航、应用管理、生态、app、dapp",
+    "keywords": [
+      "导航",
+      "应用管理",
+      "生态",
+      "app",
+      "dapp"
+    ]
+  },
+  "eds-app-ecology-fill": {
+    "description": "导航、应用管理、生态、app、dapp填充",
+    "keywords": [
+      "导航",
+      "应用管理",
+      "生态",
+      "app",
+      "dapp填充"
+    ]
+  },
+  "eds-arrow-callback": {
+    "description": "箭头、回调、撤回",
+    "keywords": [
+      "箭头",
+      "回调",
+      "撤回"
+    ]
+  },
+  "eds-arrow-deposit": {
+    "description": "箭头、接收、接收方、收款方、收款金额、存款、收款",
+    "keywords": [
+      "箭头",
+      "接收",
+      "接收方",
+      "收款方",
+      "收款金额",
+      "存款",
+      "收款"
+    ]
+  },
+  "eds-arrow-down": {
+    "description": "箭头、接收、右下角",
+    "keywords": [
+      "箭头",
+      "接收",
+      "右下角"
+    ]
+  },
+  "eds-arrow-down-fill": {
+    "description": "箭头、ios向下填充、下拉填充",
+    "keywords": [
+      "箭头",
+      "ios向下填充",
+      "下拉填充"
+    ]
+  },
+  "eds-arrow-down-ios": {
+    "description": "箭头、ios、向下、下拉",
+    "keywords": [
+      "箭头",
+      "ios",
+      "向下",
+      "下拉"
+    ]
+  },
+  "eds-arrow-down-mini-ios": {
+    "description": "箭头、ios向下mini、下拉mini",
+    "keywords": [
+      "箭头",
+      "ios向下mini",
+      "下拉mini"
+    ]
+  },
+  "eds-arrow-download": {
+    "description": "箭头、充值、接收、下载",
+    "keywords": [
+      "箭头",
+      "充值",
+      "接收",
+      "下载"
+    ]
+  },
+  "eds-arrow-entry": {
+    "description": "箭头、斜箭头、入",
+    "keywords": [
+      "箭头",
+      "斜箭头",
+      "入"
+    ]
+  },
+  "eds-arrow-exit-left": {
+    "description": "唤头、退出、退款、门",
+    "keywords": [
+      "唤头",
+      "退出",
+      "退款",
+      "门"
+    ]
+  },
+  "eds-arrow-export": {
+    "description": "箭头、导出",
+    "keywords": [
+      "箭头",
+      "导出"
+    ]
+  },
+  "eds-arrow-go-first": {
+    "description": "箭头、ios双后退",
+    "keywords": [
+      "箭头",
+      "ios双后退"
+    ]
+  },
+  "eds-arrow-go-last": {
+    "description": "箭头、双向右、更多",
+    "keywords": [
+      "箭头",
+      "双向右",
+      "更多"
+    ]
+  },
+  "eds-arrow-integrated-sort": {
+    "description": "箭头、下拉",
+    "keywords": [
+      "箭头",
+      "下拉"
+    ]
+  },
+  "eds-arrow-integrated-sort-mini": {
+    "description": "箭头、下拉mini",
+    "keywords": [
+      "箭头",
+      "下拉mini"
+    ]
+  },
+  "eds-arrow-launch-circle": {
+    "description": "箭头、发起、上传",
+    "keywords": [
+      "箭头",
+      "发起",
+      "上传"
+    ]
+  },
+  "eds-arrow-launch-dotted": {
+    "description": "箭头、导出、账单导出、发送、上传、升级、发起",
+    "keywords": [
+      "箭头",
+      "导出",
+      "账单导出",
+      "发送",
+      "上传",
+      "升级",
+      "发起"
+    ]
+  },
+  "eds-arrow-launch-square": {
+    "description": "箭头、提币、出款、导出、账单导出、发送、上传、升级",
+    "keywords": [
+      "箭头",
+      "提币",
+      "出款",
+      "导出",
+      "账单导出",
+      "发送",
+      "上传",
+      "升级"
+    ]
+  },
+  "eds-arrow-left": {
+    "description": "箭头、android后退、返回",
+    "keywords": [
+      "箭头",
+      "android后退",
+      "返回"
+    ]
+  },
+  "eds-arrow-left-ios": {
+    "description": "箭头、ios、后退、返回、向左",
+    "keywords": [
+      "箭头",
+      "ios",
+      "后退",
+      "返回",
+      "向左"
+    ]
+  },
+  "eds-arrow-left-mini-ios": {
+    "description": "箭头、ios后退mini、返回mini",
+    "keywords": [
+      "箭头",
+      "ios后退mini",
+      "返回mini"
+    ]
+  },
+  "eds-arrow-left-right": {
+    "description": "箭头、双向、转账",
+    "keywords": [
+      "箭头",
+      "双向",
+      "转账"
+    ]
+  },
+  "eds-arrow-market-down": {
+    "description": "箭头、行情下跌、统计",
+    "keywords": [
+      "箭头",
+      "行情下跌",
+      "统计"
+    ]
+  },
+  "eds-arrow-market-up": {
+    "description": "箭头、行情上涨、统计",
+    "keywords": [
+      "箭头",
+      "行情上涨",
+      "统计"
+    ]
+  },
+  "eds-arrow-oblique": {
+    "description": "斜箭头、切换",
+    "keywords": [
+      "斜箭头",
+      "切换"
+    ]
+  },
+  "eds-arrow-outflow": {
+    "description": "箭头、斜箭头、出",
+    "keywords": [
+      "箭头",
+      "斜箭头",
+      "出"
+    ]
+  },
+  "eds-arrow-pay": {
+    "description": "箭头、支付、美元",
+    "keywords": [
+      "箭头",
+      "支付",
+      "美元"
+    ]
+  },
+  "eds-arrow-refresh": {
+    "description": "箭头、刷新",
+    "keywords": [
+      "箭头",
+      "刷新"
+    ]
+  },
+  "eds-arrow-refuses": {
+    "description": "箭头、拒绝、驳回、回撤、移除",
+    "keywords": [
+      "箭头",
+      "拒绝",
+      "驳回",
+      "回撤",
+      "移除"
+    ]
+  },
+  "eds-arrow-refuses-mini": {
+    "description": "箭头、拒绝、驳回、回撤、移除mini",
+    "keywords": [
+      "箭头",
+      "拒绝",
+      "驳回",
+      "回撤",
+      "移除mini"
+    ]
+  },
+  "eds-arrow-reply-all-email": {
+    "description": "箭头、回复、回撤、邮件、撤销、向左",
+    "keywords": [
+      "箭头",
+      "回复",
+      "回撤",
+      "邮件",
+      "撤销",
+      "向左"
+    ]
+  },
+  "eds-arrow-right": {
+    "description": "箭头、android前进、确认",
+    "keywords": [
+      "箭头",
+      "android前进",
+      "确认"
+    ]
+  },
+  "eds-arrow-right-ios": {
+    "description": "箭头、ios、向右、前进、更多",
+    "keywords": [
+      "箭头",
+      "ios",
+      "向右",
+      "前进",
+      "更多"
+    ]
+  },
+  "eds-arrow-right-mini-ios": {
+    "description": "箭头、向右 mini、更多mini",
+    "keywords": [
+      "箭头",
+      "向右 mini",
+      "更多mini"
+    ]
+  },
+  "eds-arrow-send-all-email": {
+    "description": "箭头、发送、邮件、执行动作、向右",
+    "keywords": [
+      "箭头",
+      "发送",
+      "邮件",
+      "执行动作",
+      "向右"
+    ]
+  },
+  "eds-arrow-toggle-horizontal": {
+    "description": "箭头、兑换、水平",
+    "keywords": [
+      "箭头",
+      "兑换",
+      "水平"
+    ]
+  },
+  "eds-arrow-toggle-length": {
+    "description": "箭头、兑换垂直、切换、切换",
+    "keywords": [
+      "箭头",
+      "兑换垂直",
+      "切换",
+      "切换"
+    ]
+  },
+  "eds-arrow-toggle-vertical": {
+    "description": "箭头、兑换、垂直、切换",
+    "keywords": [
+      "箭头",
+      "兑换",
+      "垂直",
+      "切换"
+    ]
+  },
+  "eds-arrow-up": {
+    "description": "箭头、发送、向上",
+    "keywords": [
+      "箭头",
+      "发送",
+      "向上"
+    ]
+  },
+  "eds-arrow-up-ios": {
+    "description": "箭头、ios、向上",
+    "keywords": [
+      "箭头",
+      "ios",
+      "向上"
+    ]
+  },
+  "eds-arrow-up-mini-ios": {
+    "description": "箭头、ios向上、收-小",
+    "keywords": [
+      "箭头",
+      "ios向上",
+      "收-小"
+    ]
+  },
+  "eds-arrow-update": {
+    "description": "箭头、升级、更新",
+    "keywords": [
+      "箭头",
+      "升级",
+      "更新"
+    ]
+  },
+  "eds-arrow-upload": {
+    "description": "箭头、上传、置顶",
+    "keywords": [
+      "箭头",
+      "上传",
+      "置顶"
+    ]
+  },
+  "eds-arrow-withdrawal": {
+    "description": "箭头、发送、付款金额、付款方、取现、付款、取款、付款申请",
+    "keywords": [
+      "箭头",
+      "发送",
+      "付款金额",
+      "付款方",
+      "取现",
+      "付款",
+      "取款",
+      "付款申请"
+    ]
+  },
+  "eds-arrow-workflow": {
+    "description": "箭头、流程、方向",
+    "keywords": [
+      "箭头",
+      "流程",
+      "方向"
+    ]
+  },
+  "eds-asafety": {
+    "description": "安全、盾牌",
+    "keywords": [
+      "安全",
+      "盾牌"
+    ]
+  },
+  "eds-asafety-fill": {
+    "description": "安全、盾牌填充",
+    "keywords": [
+      "安全",
+      "盾牌填充"
+    ]
+  },
+  "eds-associates": {
+    "description": "用户、文本、记事本、地址簿、联系人",
+    "keywords": [
+      "用户",
+      "文本",
+      "记事本",
+      "地址簿",
+      "联系人"
+    ]
+  },
+  "eds-associates-fill": {
+    "description": "用户、文本、记事本、地址簿、联系人填充",
+    "keywords": [
+      "用户",
+      "文本",
+      "记事本",
+      "地址簿",
+      "联系人填充"
+    ]
+  },
+  "eds-automatic": {
+    "description": "时间、自动化、自动、设置",
+    "keywords": [
+      "时间",
+      "自动化",
+      "自动",
+      "设置"
+    ]
+  },
+  "eds-automatic-gear": {
+    "description": "系统、齿轮、设置、自动化齿轮",
+    "keywords": [
+      "系统",
+      "齿轮",
+      "设置",
+      "自动化齿轮"
+    ]
+  },
+  "eds-automatic-set": {
+    "description": "系统、设置、自动化、自动运行、自动设置",
+    "keywords": [
+      "系统",
+      "设置",
+      "自动化",
+      "自动运行",
+      "自动设置"
+    ]
+  },
+  "eds-automatic-set-fill": {
+    "description": "系统、设置、自动化、自动运行、自动设置填充",
+    "keywords": [
+      "系统",
+      "设置",
+      "自动化",
+      "自动运行",
+      "自动设置填充"
+    ]
+  },
+  "eds-batch": {
+    "description": "文本、编辑、批量处理、清单、对、完成、勾选",
+    "keywords": [
+      "文本",
+      "编辑",
+      "批量处理",
+      "清单",
+      "对",
+      "完成",
+      "勾选"
+    ]
+  },
+  "eds-bill": {
+    "description": "导航、账单",
+    "keywords": [
+      "导航",
+      "账单"
+    ]
+  },
+  "eds-bill-fill": {
+    "description": "导航、账单填充",
+    "keywords": [
+      "导航",
+      "账单填充"
+    ]
+  },
+  "eds-bitcoin": {
+    "description": "比特币、BTC",
+    "keywords": [
+      "比特币",
+      "BTC"
+    ]
+  },
+  "eds-black-list": {
+    "description": "黑名单、列表、禁用、错",
+    "keywords": [
+      "黑名单",
+      "列表",
+      "禁用",
+      "错"
+    ]
+  },
+  "eds-blockchain": {
+    "description": "区块链、方形",
+    "keywords": [
+      "区块链",
+      "方形"
+    ]
+  },
+  "eds-blockchain-address": {
+    "description": "文本、编辑、01、二进制代码、地址格式、ABC、文本、区块链地址",
+    "keywords": [
+      "文本",
+      "编辑",
+      "01",
+      "二进制代码",
+      "地址格式",
+      "ABC",
+      "文本",
+      "区块链地址"
+    ]
+  },
+  "eds-brand-numbers": {
+    "description": "文本、编号、商户编号、Cregis、UDun编号、品牌编号",
+    "keywords": [
+      "文本",
+      "编号",
+      "商户编号",
+      "Cregis",
+      "UDun编号",
+      "品牌编号"
+    ]
+  },
+  "eds-briefcase": {
+    "description": "导航、公文包、文件",
+    "keywords": [
+      "导航",
+      "公文包",
+      "文件"
+    ]
+  },
+  "eds-building": {
+    "description": "城市、建筑、房屋",
+    "keywords": [
+      "银行",
+      "建筑",
+      "金融",
+      "城市",
+      "房屋"
+    ]
+  },
+  "eds-business-type": {
+    "description": "文本、业务类型",
+    "keywords": [
+      "文本",
+      "业务类型"
+    ]
+  },
+  "eds-calendar": {
+    "description": "日历、时间",
+    "keywords": [
+      "日历",
+      "时间"
+    ]
+  },
+  "eds-calendar-creation": {
+    "description": "时间、日历、操作、创建、编辑时间",
+    "keywords": [
+      "日历",
+      "时间",
+      "操作",
+      "签名",
+      "协作",
+      "审批时间",
+      "创建",
+      "编辑时间"
+    ]
+  },
+  "eds-calendar-end": {
+    "description": "日历、时间、结束时间",
+    "keywords": [
+      "日历",
+      "时间",
+      "结束时间"
+    ]
+  },
+  "eds-calendar-fill": {
+    "description": "日历、时间填充",
+    "keywords": [
+      "日历",
+      "时间填充"
+    ]
+  },
+  "eds-calendar-pointer": {
+    "description": "日历、时间、点击、鼠标、操作时间",
+    "keywords": [
+      "日历",
+      "时间",
+      "点击",
+      "鼠标",
+      "操作时间"
+    ]
+  },
+  "eds-calendar-start": {
+    "description": "日历、时间、开始时间",
+    "keywords": [
+      "日历",
+      "时间",
+      "开始时间"
+    ]
+  },
+  "eds-card-iban": {
+    "description": "号码、银行卡、IBAN、银行卡号、数字",
+    "keywords": [
+      "号码",
+      "银行卡",
+      "IBAN",
+      "银行卡号",
+      "数字"
+    ]
+  },
+  "eds-card-numbers": {
+    "description": "号码、卡、银行路由号、银行卡号、数字",
+    "keywords": [
+      "号码",
+      "卡",
+      "银行路由号",
+      "银行卡号",
+      "数字"
+    ]
+  },
+  "eds-cashflow": {
+    "description": "金融、金额、刷新金额、现金流、美元、费用",
+    "keywords": [
+      "金融",
+      "金额",
+      "刷新金额",
+      "现金流",
+      "美元",
+      "费用"
+    ]
+  },
+  "eds-categorization": {
+    "description": "导航、管理、分类管理、设置",
+    "keywords": [
+      "导航",
+      "管理",
+      "分类管理",
+      "设置"
+    ]
+  },
+  "eds-categorization-fill": {
+    "description": "导航、管理、分类管理、设置填充",
+    "keywords": [
+      "导航",
+      "管理",
+      "分类管理",
+      "设置填充"
+    ]
+  },
+  "eds-circle": {
+    "description": "圆形",
+    "keywords": [
+      "圆形"
+    ]
+  },
+  "eds-circle-dashed": {
+    "description": "圆形",
+    "keywords": [
+      "圆形"
+    ]
+  },
+  "eds-circle-pentagram": {
+    "description": "五角星、精选、收藏、评级填充",
+    "keywords": [
+      "五角星",
+      "精选",
+      "收藏",
+      "评级",
+      "评级填充"
+    ]
+  },
+  "eds-circulate-dollar": {
+    "description": "金融、费用、美元、金额、金链路、连接",
+    "keywords": [
+      "金融",
+      "费用",
+      "美元",
+      "金额",
+      "金链路",
+      "连接"
+    ]
+  },
+  "eds-circulation": {
+    "description": "导航、协作、流程",
+    "keywords": [
+      "导航",
+      "协作",
+      "流程"
+    ]
+  },
+  "eds-circulation-fill": {
+    "description": "导航、协作、流程填充",
+    "keywords": [
+      "导航",
+      "协作",
+      "流程填充"
+    ]
+  },
+  "eds-clear": {
+    "description": "扫帚、清除、清扫、打扫、删除",
+    "keywords": [
+      "扫帚",
+      "清除",
+      "清扫",
+      "打扫",
+      "删除"
+    ]
+  },
+  "eds-clocks": {
+    "description": "时间、时钟",
+    "keywords": [
+      "时间",
+      "时钟"
+    ]
+  },
+  "eds-clocks-fill": {
+    "description": "时间、时钟填充",
+    "keywords": [
+      "时间",
+      "时钟填充"
+    ]
+  },
+  "eds-close": {
+    "description": "系统、关闭、错、叉",
+    "keywords": [
+      "系统",
+      "关闭",
+      "错",
+      "叉"
+    ]
+  },
+  "eds-close-circle": {
+    "description": "系统、关闭、错、叉边框",
+    "keywords": [
+      "系统",
+      "关闭",
+      "错",
+      "叉边框"
+    ]
+  },
+  "eds-close-circle-fill": {
+    "description": "系统、关闭、错、叉填充",
+    "keywords": [
+      "系统",
+      "关闭",
+      "错",
+      "叉填充"
+    ]
+  },
+  "eds-close-mini": {
+    "description": "系统、关闭、错、叉mini",
+    "keywords": [
+      "系统",
+      "关闭",
+      "错",
+      "叉mini"
+    ]
+  },
+  "eds-coffee": {
+    "description": "时间、咖啡",
+    "keywords": [
+      "时间",
+      "咖啡"
+    ]
+  },
+  "eds-coin-btc": {
+    "description": "金融、币种、代币、token、coin、硬币、钱、费用、铜板、资产",
+    "keywords": [
+      "金融",
+      "币种",
+      "代币",
+      "token",
+      "coin",
+      "硬币",
+      "钱",
+      "费用",
+      "铜板",
+      "资产"
+    ]
+  },
+  "eds-coin-btc-fill": {
+    "description": "金融、币种、代币、token、coin、硬币、钱、费用、铜板、资产填充",
+    "keywords": [
+      "金融",
+      "币种",
+      "代币",
+      "token",
+      "coin",
+      "硬币",
+      "钱",
+      "费用",
+      "铜板",
+      "资产填充"
+    ]
+  },
+  "eds-coin-plate": {
+    "description": "金融、币种、代币、coin、硬币、钱、铜板",
+    "keywords": [
+      "金融",
+      "币种",
+      "代币",
+      "coin",
+      "硬币",
+      "钱",
+      "铜板"
+    ]
+  },
+  "eds-coin-trading": {
+    "description": "金融、兑换、续费、交易、币、法币、硬币、币种、加密数字货币",
+    "keywords": [
+      "金融",
+      "兑换",
+      "续费",
+      "交易",
+      "币",
+      "法币",
+      "硬币",
+      "币种",
+      "加密数字货币"
+    ]
+  },
+  "eds-coin-trading-fill": {
+    "description": "金融、兑换、续费、交易、币、法币、硬币、币种、加密数字货币填充",
+    "keywords": [
+      "金融",
+      "兑换",
+      "续费",
+      "交易",
+      "币",
+      "法币",
+      "硬币",
+      "币种",
+      "加密数字货币填充"
+    ]
+  },
+  "eds-collapse-circle-fill": {
+    "description": "系统、关闭、错、叉填充、折叠、收起",
+    "keywords": [
+      "系统",
+      "关闭",
+      "错",
+      "叉填充",
+      "折叠",
+      "收起"
+    ]
+  },
+  "eds-completed": {
+    "description": "批量、完成、成功、已完成、批量",
+    "keywords": [
+      "批量",
+      "完成",
+      "成功",
+      "已完成",
+      "批量"
+    ]
+  },
+  "eds-convert": {
+    "description": "金融、交易、转换、闪兑、兑换、汇率",
+    "keywords": [
+      "金融",
+      "交易",
+      "转换",
+      "闪兑",
+      "兑换",
+      "汇率"
+    ]
+  },
+  "eds-convert-fill": {
+    "description": "金融、交易、转换、闪兑、兑换、汇率填充",
+    "keywords": [
+      "金融",
+      "交易",
+      "转换",
+      "闪兑",
+      "兑换",
+      "汇率填充"
+    ]
+  },
+  "eds-copy": {
+    "description": "复制",
+    "keywords": [
+      "复制"
+    ]
+  },
+  "eds-copy-fill": {
+    "description": "复制填充",
+    "keywords": [
+      "复制填充"
+    ]
+  },
+  "eds-copy-number": {
+    "description": "文本、编号、复制编号",
+    "keywords": [
+      "文本",
+      "编号",
+      "复制编号"
+    ]
+  },
+  "eds-cregis": {
+    "description": "系统、、关于、cregis、logo、品牌",
+    "keywords": [
+      "系统",
+      "关于",
+      "cregis",
+      "logo",
+      "品牌"
+    ]
+  },
+  "eds-crypto-amount": {
+    "description": "金融、币、数字货币、金额、加密货币余额",
+    "keywords": [
+      "金融",
+      "币",
+      "数字货币",
+      "金额",
+      "加密货币余额"
+    ]
+  },
+  "eds-dark": {
+    "description": "系统、月亮、深色模式、夜间模式",
+    "keywords": [
+      "系统",
+      "月亮",
+      "深色模式",
+      "夜间模式"
+    ]
+  },
+  "eds-dashboard": {
+    "description": "文本、编号、列表、序号、应用、全部、宫格",
+    "keywords": [
+      "文本",
+      "编号",
+      "列表",
+      "序号",
+      "应用",
+      "全部",
+      "宫格"
+    ]
+  },
+  "eds-dashboard-fill": {
+    "description": "文本、编号、列表、序号、应用、全部、宫格填充",
+    "keywords": [
+      "文本",
+      "编号",
+      "列表",
+      "序号",
+      "应用",
+      "全部",
+      "宫格填充"
+    ]
+  },
+  "eds-data-push": {
+    "description": "推送、数据、行情",
+    "keywords": [
+      "推送",
+      "数据",
+      "行情"
+    ]
+  },
+  "eds-data-unpush": {
+    "description": "忽略、禁用",
+    "keywords": [
+      "忽略",
+      "禁用"
+    ]
+  },
+  "eds-database-dollar": {
+    "description": "金融、费用、美元、金额、资金、数据费用",
+    "keywords": [
+      "金融",
+      "费用",
+      "美元",
+      "金额",
+      "资金",
+      "数据费用"
+    ]
+  },
+  "eds-database-safety": {
+    "description": "导航、策略、策略中心、数据安全、数据库、设置、风控",
+    "keywords": [
+      "导航",
+      "策略",
+      "策略中心",
+      "数据安全",
+      "数据库",
+      "设置",
+      "风控"
+    ]
+  },
+  "eds-database-safety-fill": {
+    "description": "导航、策略、策略中心、数据安全、数据库、设置、风控填充",
+    "keywords": [
+      "导航",
+      "策略",
+      "策略中心",
+      "数据安全",
+      "数据库",
+      "设置",
+      "风控填充"
+    ]
+  },
+  "eds-database-set": {
+    "description": "系统、设置、系统、策略、策略中心、数据、数据设置、设置、数据库",
+    "keywords": [
+      "系统",
+      "设置",
+      "系统",
+      "策略",
+      "策略中心",
+      "数据",
+      "数据设置",
+      "设置",
+      "数据库"
+    ]
+  },
+  "eds-database-set-fill": {
+    "description": "系统、设置、系统、策略、策略中心、数据、数据设置、设置、数据库填充",
+    "keywords": [
+      "系统",
+      "设置",
+      "系统",
+      "策略",
+      "策略中心",
+      "数据",
+      "数据设置",
+      "设置",
+      "数据库填充"
+    ]
+  },
+  "eds-detail": {
+    "description": "文本、编辑、列表序号、目录、列表、列备、详情",
+    "keywords": [
+      "文本",
+      "编辑",
+      "列表序号",
+      "目录",
+      "列表",
+      "列备",
+      "详情"
+    ]
+  },
+  "eds-developers-code": {
+    "description": "导航、开发者、代码、api、技术",
+    "keywords": [
+      "导航",
+      "开发者",
+      "代码",
+      "api",
+      "技术"
+    ]
+  },
+  "eds-developers-code-fill": {
+    "description": "导航、开发者、代码、api、技术填充",
+    "keywords": [
+      "导航",
+      "开发者",
+      "代码",
+      "api",
+      "技术填充"
+    ]
+  },
+  "eds-diamond": {
+    "description": "金融、会员、vip、套餐、试用版、权益、钻石",
+    "keywords": [
+      "金融",
+      "会员",
+      "vip",
+      "套餐",
+      "试用版",
+      "权益",
+      "钻石"
+    ]
+  },
+  "eds-diamond-basic": {
+    "description": "金融、会员、vip、套餐、标准版、权益、钻石",
+    "keywords": [
+      "金融",
+      "会员",
+      "vip",
+      "套餐",
+      "标准版",
+      "权益",
+      "钻石"
+    ]
+  },
+  "eds-diamond-business": {
+    "description": "金融、会员、vip、套餐、企业版、权益、钻石",
+    "keywords": [
+      "金融",
+      "会员",
+      "vip",
+      "套餐",
+      "企业版",
+      "权益",
+      "钻石"
+    ]
+  },
+  "eds-diamond-custom": {
+    "description": "金融、会员、vip、套餐、私有化、权益、钻石",
+    "keywords": [
+      "金融",
+      "会员",
+      "vip",
+      "套餐",
+      "私有化",
+      "权益",
+      "钻石"
+    ]
+  },
+  "eds-diamond-fill": {
+    "description": "金融、会员、vip、套餐、试用版、权益、钻石填充",
+    "keywords": [
+      "金融",
+      "会员",
+      "vip",
+      "套餐",
+      "试用版",
+      "权益",
+      "钻石填充"
+    ]
+  },
+  "eds-disable": {
+    "description": "禁用、减少、清除、删除",
+    "keywords": [
+      "禁用",
+      "减少",
+      "清除",
+      "删除"
+    ]
+  },
+  "eds-disable-fill": {
+    "description": "禁用、减少、清除、删除填充",
+    "keywords": [
+      "禁用",
+      "减少",
+      "清除",
+      "删除填充"
+    ]
+  },
+  "eds-document-excel": {
+    "description": "文件、文档、EXCEL",
+    "keywords": [
+      "文件",
+      "文档",
+      "表单",
+      "表格",
+      "创建表单",
+      "EXCEL"
+    ]
+  },
+  "eds-document-image": {
+    "description": "文件、文档、JPG、PNG",
+    "keywords": [
+      "文件",
+      "文档",
+      "JPG",
+      "PNG"
+    ]
+  },
+  "eds-document-pdf": {
+    "description": "文件、文档、PDF",
+    "keywords": [
+      "文件",
+      "文档",
+      "PDF"
+    ]
+  },
+  "eds-document-word": {
+    "description": "文件、文档、WORD",
+    "keywords": [
+      "文件",
+      "文档",
+      "WORD"
+    ]
+  },
+  "eds-earphone": {
+    "description": "导航、耳机、客户支持、服务、耳麦",
+    "keywords": [
+      "导航",
+      "耳机",
+      "客户支持",
+      "服务",
+      "耳麦"
+    ]
+  },
+  "eds-earphone-fill": {
+    "description": "导航、耳机、客户支持、服务、耳麦填充",
+    "keywords": [
+      "导航",
+      "耳机",
+      "客户支持",
+      "服务",
+      "耳麦填充"
+    ]
+  },
+  "eds-earth": {
+    "description": "地球、语言",
+    "keywords": [
+      "地球",
+      "语言"
+    ]
+  },
+  "eds-editor": {
+    "description": "编辑",
+    "keywords": [
+      "编辑"
+    ]
+  },
+  "eds-email": {
+    "description": "系统、邮件、邮箱、电邮",
+    "keywords": [
+      "系统",
+      "邮件",
+      "邮箱",
+      "电邮"
+    ]
+  },
+  "eds-email-fill": {
+    "description": "系统、邮件、邮箱、电邮填充",
+    "keywords": [
+      "系统",
+      "邮件",
+      "邮箱",
+      "电邮填充"
+    ]
+  },
+  "eds-enable": {
+    "description": "对、成功、勾边框",
+    "keywords": [
+      "对",
+      "成功",
+      "勾边框"
+    ]
+  },
+  "eds-enable-fill": {
+    "description": "对、成功、勾填充",
+    "keywords": [
+      "对",
+      "成功",
+      "勾填充"
+    ]
+  },
+  "eds-energy": {
+    "description": "能量、电池、矿工费",
+    "keywords": [
+      "能量",
+      "电池",
+      "矿工费"
+    ]
+  },
+  "eds-energy-fill": {
+    "description": "能量、电池、矿工费填充",
+    "keywords": [
+      "能量",
+      "电池",
+      "矿工费填充"
+    ]
+  },
+  "eds-engine": {
+    "description": "发动机、引擎、策略",
+    "keywords": [
+      "发动机",
+      "引擎",
+      "策略"
+    ]
+  },
+  "eds-engine-fill": {
+    "description": "发动机、引擎、策略填充",
+    "keywords": [
+      "发动机",
+      "引擎",
+      "策略填充"
+    ]
+  },
+  "eds-enterprise-name": {
+    "description": "名称、名字、企业名称",
+    "keywords": [
+      "名称",
+      "名字",
+      "企业名称"
+    ]
+  },
+  "eds-exchange-rates": {
+    "description": "金融、交易、转换、闪兑、兑换、汇率、交换",
+    "keywords": [
+      "金融",
+      "交易",
+      "转换",
+      "闪兑",
+      "兑换",
+      "汇率",
+      "交换"
+    ]
+  },
+  "eds-eye": {
+    "description": "安全、显示、查看、眼睛、睁眼",
+    "keywords": [
+      "安全",
+      "显示",
+      "查看",
+      "眼睛",
+      "睁眼"
+    ]
+  },
+  "eds-face-id": {
+    "description": "系统、面容识别、人脸、faceID",
+    "keywords": [
+      "系统",
+      "面容识别",
+      "人脸",
+      "faceID"
+    ]
+  },
+  "eds-file": {
+    "description": "文本、空文本、类型、文件、材料",
+    "keywords": [
+      "文本",
+      "空文本",
+      "类型",
+      "文件",
+      "材料"
+    ]
+  },
+  "eds-filter": {
+    "description": "筛选、过滤",
+    "keywords": [
+      "筛选",
+      "过滤"
+    ]
+  },
+  "eds-flag-dollar": {
+    "description": "金融、费用、美元、金额、安全资金、盾牌",
+    "keywords": [
+      "金融",
+      "费用",
+      "美元",
+      "金额",
+      "安全资金",
+      "盾牌"
+    ]
+  },
+  "eds-floder-disable": {
+    "description": "文件、启用、启用项目、文件夹",
+    "keywords": [
+      "文件",
+      "启用",
+      "启用项目",
+      "文件夹"
+    ]
+  },
+  "eds-floder-enable": {
+    "description": "文件、禁用、禁用项目、文件夹",
+    "keywords": [
+      "文件",
+      "禁用",
+      "禁用项目",
+      "文件夹"
+    ]
+  },
+  "eds-floder-favorite": {
+    "description": "导航、项目、文件夹",
+    "keywords": [
+      "导航",
+      "项目",
+      "文件夹"
+    ]
+  },
+  "eds-floder-favorite-fill": {
+    "description": "导航、项目、文件夹填充",
+    "keywords": [
+      "导航",
+      "项目",
+      "文件夹填充"
+    ]
+  },
+  "eds-floder-ip": {
+    "description": "文件、文件夹、ip、文件夹",
+    "keywords": [
+      "文件",
+      "文件夹",
+      "ip",
+      "文件夹"
+    ]
+  },
+  "eds-folder": {
+    "description": "文件、文件夹",
+    "keywords": [
+      "文件",
+      "文件夹"
+    ]
+  },
+  "eds-folder-color-light": {
+    "description": "空页面、新增、文件夹、项目、创建项目、彩色",
+    "keywords": [
+      "空页面",
+      "新增",
+      "文件夹",
+      "项目",
+      "创建项目",
+      "彩色"
+    ]
+  },
+  "eds-folder-fill": {
+    "description": "文件、文件夹填充",
+    "keywords": [
+      "文件",
+      "文件夹填充"
+    ]
+  },
+  "eds-gas-fee": {
+    "description": "矿工费、能量、加油站、能源",
+    "keywords": [
+      "矿工费",
+      "能量",
+      "加油站",
+      "能源"
+    ]
+  },
+  "eds-gather": {
+    "description": "归集、归纳、项目",
+    "keywords": [
+      "归集",
+      "归纳",
+      "项目"
+    ]
+  },
+  "eds-gather-color-dark": {
+    "description": "空页面、新增、归集、归集规则、集合、彩色",
+    "keywords": [
+      "空页面",
+      "新增",
+      "归集",
+      "归集规则",
+      "集合",
+      "彩色"
+    ]
+  },
+  "eds-gather-color-light": {
+    "description": "空页面、新增、归集、归集规则、集合、彩色",
+    "keywords": [
+      "空页面",
+      "新增",
+      "归集",
+      "归集规则",
+      "集合",
+      "彩色"
+    ]
+  },
+  "eds-gather-fill": {
+    "description": "归集、归纳、项目填充",
+    "keywords": [
+      "归集",
+      "归纳",
+      "项目填充"
+    ]
+  },
+  "eds-gather-start": {
+    "description": "开始归集、归纳、项目",
+    "keywords": [
+      "开始归集",
+      "归纳",
+      "项目"
+    ]
+  },
+  "eds-gear": {
+    "description": "系统、设置、齿轮",
+    "keywords": [
+      "系统",
+      "设置",
+      "齿轮"
+    ]
+  },
+  "eds-gear-fill": {
+    "description": "系统、设置、齿轮填充",
+    "keywords": [
+      "系统",
+      "设置",
+      "齿轮填充"
+    ]
+  },
+  "eds-global-payments": {
+    "description": "导航、费用、美元、金额、地球、支付引擎",
+    "keywords": [
+      "导航",
+      "费用",
+      "美元",
+      "金额",
+      "地球",
+      "支付引擎"
+    ]
+  },
+  "eds-global-payments-fill": {
+    "description": "导航、费用、美元、金额、地球、支付引擎填充",
+    "keywords": [
+      "导航",
+      "费用",
+      "美元",
+      "金额",
+      "地球",
+      "支付引擎填充"
+    ]
+  },
+  "eds-global-positioning": {
+    "description": "全球、地球、国家、定位、位置",
+    "keywords": [
+      "全球",
+      "地球",
+      "国家",
+      "定位",
+      "位置"
+    ]
+  },
+  "eds-global-seismic-wave": {
+    "description": "全球服务、地球、服务商、主体",
+    "keywords": [
+      "全球服务",
+      "地球",
+      "服务商",
+      "主体"
+    ]
+  },
+  "eds-google-authenticator": {
+    "description": "安全、google验证",
+    "keywords": [
+      "安全",
+      "google验证"
+    ]
+  },
+  "eds-google-authenticator-colorful": {
+    "description": "安全、google验证彩色",
+    "keywords": [
+      "安全",
+      "google验证彩色"
+    ]
+  },
+  "eds-google-authenticator-fill": {
+    "description": "安全、google验证填充",
+    "keywords": [
+      "安全",
+      "google验证填充"
+    ]
+  },
+  "eds-grid-layout": {
+    "description": "系统、设置、管理、宫格-udun",
+    "keywords": [
+      "系统",
+      "设置",
+      "管理",
+      "宫格-udun"
+    ]
+  },
+  "eds-grid-settin": {
+    "description": "系统、设置、网格、网格设置",
+    "keywords": [
+      "系统",
+      "设置",
+      "网格",
+      "网格设置"
+    ]
+  },
+  "eds-hand-payment": {
+    "description": "金融、付款申请、钱袋",
+    "keywords": [
+      "金融",
+      "付款申请",
+      "钱袋"
+    ]
+  },
+  "eds-hand-payment-fill": {
+    "description": "金融、付款申请、钱袋填充",
+    "keywords": [
+      "金融",
+      "付款申请",
+      "钱袋填充"
+    ]
+  },
+  "eds-history": {
+    "description": "时间、历史记录",
+    "keywords": [
+      "时间",
+      "历史记录"
+    ]
+  },
+  "eds-identity": {
+    "description": "身份、信息、ID、数字",
+    "keywords": [
+      "身份",
+      "信息",
+      "ID",
+      "数字"
+    ]
+  },
+  "eds-increase-decima": {
+    "description": "文本、编号、小数点、精度、数字",
+    "keywords": [
+      "文本",
+      "编号",
+      "小数点",
+      "精度",
+      "数字"
+    ]
+  },
+  "eds-industry-innovation": {
+    "description": "积木、行业、实体、形状、体积、类别、基础设施",
+    "keywords": [
+      "积木",
+      "行业",
+      "实体",
+      "形状",
+      "体积",
+      "类别",
+      "基础设施"
+    ]
+  },
+  "eds-information": {
+    "description": "信息、关于",
+    "keywords": [
+      "信息",
+      "关于"
+    ]
+  },
+  "eds-information-fill": {
+    "description": "信息填充、关于填充",
+    "keywords": [
+      "信息填充",
+      "关于填充"
+    ]
+  },
+  "eds-information-lonely": {
+    "description": "系统、信息单、关于单",
+    "keywords": [
+      "系统",
+      "信息单",
+      "关于单"
+    ]
+  },
+  "eds-interface-lock": {
+    "description": "导航、私密的、锁、开锁、锁定",
+    "keywords": [
+      "导航",
+      "私密的",
+      "锁",
+      "开锁",
+      "锁定"
+    ]
+  },
+  "eds-interface-lock-fill": {
+    "description": "导航、私密的、锁、开锁、锁定填充",
+    "keywords": [
+      "导航",
+      "私密的",
+      "锁",
+      "开锁",
+      "锁定填充"
+    ]
+  },
+  "eds-interface-unlock": {
+    "description": "导航、公开的、锁、关锁、未锁定",
+    "keywords": [
+      "导航",
+      "公开的",
+      "锁",
+      "关锁",
+      "未锁定"
+    ]
+  },
+  "eds-justice-scale": {
+    "description": "权益、天平、收益、公平",
+    "keywords": [
+      "权益",
+      "天平",
+      "收益",
+      "公平"
+    ]
+  },
+  "eds-key": {
+    "description": "安全、钥匙、key",
+    "keywords": [
+      "安全",
+      "钥匙",
+      "key"
+    ]
+  },
+  "eds-key-fill": {
+    "description": "安全、钥匙、key填充",
+    "keywords": [
+      "安全",
+      "钥匙",
+      "key填充"
+    ]
+  },
+  "eds-landline-phonease": {
+    "description": "电话、手机、通话",
+    "keywords": [
+      "电话",
+      "手机",
+      "通话"
+    ]
+  },
+  "eds-launch": {
+    "description": "状态、园圈",
+    "keywords": [
+      "状态",
+      "园圈"
+    ]
+  },
+  "eds-light": {
+    "description": "系统、太阳、浅色模式、日间模式",
+    "keywords": [
+      "系统",
+      "太阳",
+      "浅色模式",
+      "日间模式"
+    ]
+  },
+  "eds-link": {
+    "description": "链接、连接",
+    "keywords": [
+      "链接",
+      "连接"
+    ]
+  },
+  "eds-list-bullet": {
+    "description": "文本、编号、列表序号、列、序、类型、三方业务编号、订单号",
+    "keywords": [
+      "文本",
+      "编号",
+      "列表序号",
+      "列",
+      "序",
+      "类型",
+      "三方业务编号",
+      "订单号"
+    ]
+  },
+  "eds-list-circle": {
+    "description": "文本、列表序号、列、编号、删除",
+    "keywords": [
+      "文本",
+      "列表序号",
+      "列",
+      "编号",
+      "删除"
+    ]
+  },
+  "eds-list-configure": {
+    "description": "系统、设置、配置、调节",
+    "keywords": [
+      "系统",
+      "设置",
+      "配置",
+      "调节"
+    ]
+  },
+  "eds-list-curriculum": {
+    "description": "用户、隐私、文档、协议",
+    "keywords": [
+      "用户",
+      "隐私",
+      "文档",
+      "协议"
+    ]
+  },
+  "eds-list-editor": {
+    "description": "列表编辑",
+    "keywords": [
+      "列表编辑"
+    ]
+  },
+  "eds-list-lattice-desktop": {
+    "description": "文本、编辑、列表序号、全部、应用、分类、管理-宫格-desktop",
+    "keywords": [
+      "文本",
+      "编辑",
+      "列表序号",
+      "全部",
+      "应用",
+      "分类",
+      "管理-宫格-desktop"
+    ]
+  },
+  "eds-list-lattice-desktop-fill": {
+    "description": "文本、编辑、列表序号、全部币种、应用、分类、管理-宫格-desktop",
+    "keywords": [
+      "文本",
+      "编辑",
+      "列表序号",
+      "全部",
+      "应用",
+      "分类",
+      "管理-宫格-desktop填充",
+      "全部币种",
+      "管理-宫格-desktop"
+    ]
+  },
+  "eds-list-lattice-mobile": {
+    "description": "文本、编号、列表、序号、应用、全部、宫格-mobile",
+    "keywords": [
+      "文本",
+      "编号",
+      "列表",
+      "序号",
+      "应用",
+      "全部",
+      "宫格-mobile"
+    ]
+  },
+  "eds-list-lattice-mobile-fill": {
+    "description": "文本、编号、列表、序号、应用、全部、宫格-mobile填充",
+    "keywords": [
+      "文本",
+      "编号",
+      "列表",
+      "序号",
+      "应用",
+      "全部",
+      "宫格-mobile填充"
+    ]
+  },
+  "eds-list-square": {
+    "description": "文本、编号、列表序号、列、序、选择",
+    "keywords": [
+      "文本",
+      "编号",
+      "列表序号",
+      "列",
+      "序",
+      "选择"
+    ]
+  },
+  "eds-list-square-fill": {
+    "description": "文本、编号、列表序号、列、序、选择填充",
+    "keywords": [
+      "文本",
+      "编号",
+      "列表序号",
+      "列",
+      "序",
+      "选择填充"
+    ]
+  },
+  "eds-load": {
+    "description": "系统、加载、转动",
+    "keywords": [
+      "系统",
+      "加载",
+      "转动"
+    ]
+  },
+  "eds-location-compass": {
+    "description": "行业、实体类型、公文包、职业",
+    "keywords": [
+      "坐标",
+      "位置",
+      "IP",
+      "地址",
+      "行业",
+      "实体类型",
+      "公文包",
+      "职业"
+    ]
+  },
+  "eds-location-dollar": {
+    "description": "金融、费用、手续费、金额、位置、资金来源、美元",
+    "keywords": [
+      "金融",
+      "费用",
+      "手续费",
+      "金额",
+      "位置",
+      "资金来源",
+      "美元"
+    ]
+  },
+  "eds-location-pin": {
+    "description": "坐标、位置、IP、地址、导航",
+    "keywords": [
+      "坐标",
+      "位置",
+      "IP",
+      "地址",
+      "导航"
+    ]
+  },
+  "eds-lock-dollar": {
+    "description": "金融、费用、美元、金额、锁定资金、冻结",
+    "keywords": [
+      "金融",
+      "费用",
+      "美元",
+      "金额",
+      "锁定资金",
+      "冻结"
+    ]
+  },
+  "eds-magic-tag": {
+    "description": "魔法标签、优惠、星星",
+    "keywords": [
+      "魔法标签",
+      "优惠",
+      "星星"
+    ]
+  },
+  "eds-master-key-fill": {
+    "description": "安全、钥匙、key、开锁",
+    "keywords": [
+      "安全",
+      "钥匙",
+      "key",
+      "开锁"
+    ]
+  },
+  "eds-more-android": {
+    "description": "更多Android",
+    "keywords": [
+      "更多Android"
+    ]
+  },
+  "eds-more-ios": {
+    "description": "更多iOS",
+    "keywords": [
+      "更多iOS"
+    ]
+  },
+  "eds-network-server": {
+    "description": "系统、服务器、网络",
+    "keywords": [
+      "系统",
+      "服务器",
+      "网络"
+    ]
+  },
+  "eds-network-server-fill": {
+    "description": "系统、服务器、网络填充",
+    "keywords": [
+      "系统",
+      "服务器",
+      "网络填充"
+    ]
+  },
+  "eds-nick-name": {
+    "description": "用户、名称、名字、昵称、个人、我",
+    "keywords": [
+      "用户",
+      "名称",
+      "名字",
+      "昵称",
+      "个人",
+      "我"
+    ]
+  },
+  "eds-notice": {
+    "description": "导航、通知、消息",
+    "keywords": [
+      "导航",
+      "通知",
+      "消息"
+    ]
+  },
+  "eds-notice-fill": {
+    "description": "导航、通知、消息填充",
+    "keywords": [
+      "导航",
+      "通知",
+      "消息填充"
+    ]
+  },
+  "eds-numbers123": {
+    "description": "文本、编号、卡号、号码、数字",
+    "keywords": [
+      "文本",
+      "编号",
+      "卡号",
+      "号码",
+      "数字"
+    ]
+  },
+  "eds-padlock": {
+    "description": "安全、锁屏、pin",
+    "keywords": [
+      "安全",
+      "锁屏",
+      "pin"
+    ]
+  },
+  "eds-padlock-fill": {
+    "description": "安全、安全、锁屏、pin填充",
+    "keywords": [
+      "安全",
+      "安全",
+      "锁屏",
+      "pin填充"
+    ]
+  },
+  "eds-paperclip": {
+    "description": "文件、附件",
+    "keywords": [
+      "文件",
+      "附件"
+    ]
+  },
+  "eds-passkey-fill": {
+    "description": "用户、安全、密码、签名、passkey",
+    "keywords": [
+      "用户",
+      "安全",
+      "密码",
+      "签名",
+      "passkey"
+    ]
+  },
+  "eds-payee": {
+    "description": "金融、收款方、接收方、美元、费用",
+    "keywords": [
+      "金融",
+      "收款方",
+      "接收方",
+      "美元",
+      "费用"
+    ]
+  },
+  "eds-payee-book": {
+    "description": "文本、付款方、发送方、地址簿",
+    "keywords": [
+      "文本",
+      "付款方",
+      "发送方",
+      "地址簿"
+    ]
+  },
+  "eds-payor": {
+    "description": "金融、付款方、发送方、美元、费用",
+    "keywords": [
+      "金融",
+      "付款方",
+      "发送方",
+      "美元",
+      "费用"
+    ]
+  },
+  "eds-payor-book": {
+    "description": "文本、付款方、发送方、地址簿",
+    "keywords": [
+      "文本",
+      "付款方",
+      "发送方",
+      "地址簿"
+    ]
+  },
+  "eds-pentagram": {
+    "description": "五角星、精选、收藏",
+    "keywords": [
+      "五角星",
+      "精选",
+      "收藏"
+    ]
+  },
+  "eds-pentagram-fill": {
+    "description": "五角星、精选、收藏填充",
+    "keywords": [
+      "五角星",
+      "精选",
+      "收藏填充"
+    ]
+  },
+  "eds-permissions-color-dark": {
+    "description": "空页面、权限、彩色",
+    "keywords": [
+      "空页面",
+      "权限",
+      "彩色"
+    ]
+  },
+  "eds-permissions-color-light": {
+    "description": "空页面、权限、彩色",
+    "keywords": [
+      "空页面",
+      "权限",
+      "彩色"
+    ]
+  },
+  "eds-personal": {
+    "description": "用户、id、个人信息、身份信息",
+    "keywords": [
+      "用户",
+      "id",
+      "个人信息",
+      "身份信息"
+    ]
+  },
+  "eds-personal-fill": {
+    "description": "用户、id、个人信息、身份信息填充",
+    "keywords": [
+      "用户",
+      "id",
+      "个人信息",
+      "身份信息填充"
+    ]
+  },
+  "eds-preference-set": {
+    "description": "系统、设置、通用、偏好设置、调节",
+    "keywords": [
+      "系统",
+      "设置",
+      "通用",
+      "偏好设置",
+      "调节"
+    ]
+  },
+  "eds-progress-fill": {
+    "description": "时间、时钟填充",
+    "keywords": [
+      "时间",
+      "时钟填充"
+    ]
+  },
+  "eds-push": {
+    "description": "喇叭、推送、小蜜蜂、通知、消息",
+    "keywords": [
+      "喇叭",
+      "推送",
+      "小蜜蜂",
+      "通知",
+      "消息"
+    ]
+  },
+  "eds-push-fill": {
+    "description": "喇叭、推送、小蜜蜂、通知、消息填充",
+    "keywords": [
+      "喇叭",
+      "推送",
+      "小蜜蜂",
+      "通知",
+      "消息填充"
+    ]
+  },
+  "eds-query-object": {
+    "description": "文本、编辑、列表序号、目录、列表、列备、详情、查询对象、搜索",
+    "keywords": [
+      "文本",
+      "编辑",
+      "列表序号",
+      "目录",
+      "列表",
+      "列备",
+      "详情",
+      "查询对象",
+      "搜索"
+    ]
+  },
+  "eds-recharge-money": {
+    "description": "金融、充值、存款",
+    "keywords": [
+      "金融",
+      "充值",
+      "存款"
+    ]
+  },
+  "eds-recycle": {
+    "description": "删除、垃圾桶、清除",
+    "keywords": [
+      "删除",
+      "垃圾桶",
+      "清除"
+    ]
+  },
+  "eds-reduction": {
+    "description": "减少",
+    "keywords": [
+      "减少"
+    ]
+  },
+  "eds-reduction-mini": {
+    "description": "减少mini",
+    "keywords": [
+      "减少mini"
+    ]
+  },
+  "eds-routing-numbers": {
+    "description": "号码、银行卡、银行路由号、银行卡号、数字",
+    "keywords": [
+      "号码",
+      "银行卡",
+      "银行路由号",
+      "银行卡号",
+      "数字"
+    ]
+  },
+  "eds-safely-dollar": {
+    "description": "金融、费用、美元、金额、安全资金、盾牌",
+    "keywords": [
+      "金融",
+      "费用",
+      "美元",
+      "金额",
+      "安全资金",
+      "盾牌"
+    ]
+  },
+  "eds-safes": {
+    "description": "安全、保险箱、安全查询、AML、反洗钱",
+    "keywords": [
+      "安全",
+      "保险箱",
+      "安全查询",
+      "AML",
+      "反洗钱"
+    ]
+  },
+  "eds-safes-fill": {
+    "description": "安全、保险箱、安全查询、AML、反洗钱填充",
+    "keywords": [
+      "安全",
+      "保险箱",
+      "安全查询",
+      "AML",
+      "反洗钱填充"
+    ]
+  },
+  "eds-scan-code": {
+    "description": "扫码、扫一扫",
+    "keywords": [
+      "扫码",
+      "扫一扫"
+    ]
+  },
+  "eds-search": {
+    "description": "系统、搜索、放大镜",
+    "keywords": [
+      "系统",
+      "搜索",
+      "放大镜"
+    ]
+  },
+  "eds-secure-signature": {
+    "description": "安全、密码、签名",
+    "keywords": [
+      "安全",
+      "密码",
+      "签名"
+    ]
+  },
+  "eds-sign-hashtag": {
+    "description": "开发、#、哈希、hash",
+    "keywords": [
+      "开发",
+      "#",
+      "哈希",
+      "hash"
+    ]
+  },
+  "eds-signature-pen": {
+    "description": "签名、画笔、写",
+    "keywords": [
+      "签名",
+      "画笔",
+      "写"
+    ]
+  },
+  "eds-signature-pen-fill": {
+    "description": "签名、画笔、写填充",
+    "keywords": [
+      "签名",
+      "画笔",
+      "写填充"
+    ]
+  },
+  "eds-signature-pen-mini-fill": {
+    "description": "签名、画笔、写填充",
+    "keywords": [
+      "签名",
+      "画笔",
+      "写填充"
+    ]
+  },
+  "eds-social-media": {
+    "description": "用户、社群、社交媒体、人、人群",
+    "keywords": [
+      "用户",
+      "社群",
+      "社交媒体",
+      "人",
+      "人群"
+    ]
+  },
+  "eds-square": {
+    "description": "正方形",
+    "keywords": [
+      "正方形"
+    ]
+  },
+  "eds-square-dashed": {
+    "description": "正方形",
+    "keywords": [
+      "正方形"
+    ]
+  },
+  "eds-square-fill": {
+    "description": "正方形填充",
+    "keywords": [
+      "正方形填充"
+    ]
+  },
+  "eds-stamp": {
+    "description": "导航、印章、审批",
+    "keywords": [
+      "导航",
+      "印章",
+      "审批"
+    ]
+  },
+  "eds-stamp-fill": {
+    "description": "导航、印章、审批填充",
+    "keywords": [
+      "导航",
+      "印章",
+      "审批填充"
+    ]
+  },
+  "eds-star": {
+    "description": "五角星、精选、收藏、灵感",
+    "keywords": [
+      "五角星",
+      "精选",
+      "收藏",
+      "灵感"
+    ]
+  },
+  "eds-star-fill": {
+    "description": "五角星、精选、收藏、灵感填充",
+    "keywords": [
+      "五角星",
+      "精选",
+      "收藏",
+      "灵感填充"
+    ]
+  },
+  "eds-star-ribbon-fill": {
+    "description": "五角星、精选、收藏、灵感、人气",
+    "keywords": [
+      "五角星",
+      "精选",
+      "收藏",
+      "灵感",
+      "人气"
+    ]
+  },
+  "eds-steps-number": {
+    "description": "文本、编号、序号、排序、归集编号",
+    "keywords": [
+      "文本",
+      "编号",
+      "序号",
+      "排序",
+      "归集编号"
+    ]
+  },
+  "eds-suspicious-dollar": {
+    "description": "金融、费用、美元、金额、标记资金、可疑",
+    "keywords": [
+      "金融",
+      "费用",
+      "美元",
+      "金额",
+      "标记资金",
+      "可疑"
+    ]
+  },
+  "eds-tablist": {
+    "description": "文本、编辑、列表序号、目录、列表、列",
+    "keywords": [
+      "文本",
+      "编辑",
+      "列表序号",
+      "目录",
+      "列表",
+      "列"
+    ]
+  },
+  "eds-tag-favorite": {
+    "description": "标签、tag、优惠",
+    "keywords": [
+      "标签",
+      "tag",
+      "优惠"
+    ]
+  },
+  "eds-task-list": {
+    "description": "文本、清单、待办、结算、选中",
+    "keywords": [
+      "文本",
+      "清单",
+      "待办",
+      "结算",
+      "选中"
+    ]
+  },
+  "eds-task-list-fill": {
+    "description": "文本、清单、待办、结算、选中填充",
+    "keywords": [
+      "文本",
+      "清单",
+      "待办",
+      "结算",
+      "选中填充"
+    ]
+  },
+  "eds-team": {
+    "description": "用户、团队、成员、雇员、员工",
+    "keywords": [
+      "用户",
+      "团队",
+      "成员",
+      "雇员",
+      "员工"
+    ]
+  },
+  "eds-team-fill": {
+    "description": "用户、团队、成员、雇员、员工填充",
+    "keywords": [
+      "用户",
+      "团队",
+      "成员",
+      "雇员",
+      "员工填充"
+    ]
+  },
+  "eds-text-abnormal": {
+    "description": "文本、异常支付单、异常、订单、危险、警告",
+    "keywords": [
+      "文本",
+      "异常支付单",
+      "异常",
+      "订单",
+      "危险",
+      "警告"
+    ]
+  },
+  "eds-text-add-information": {
+    "description": "文本、添加资料、备注、新增、新建",
+    "keywords": [
+      "文本",
+      "添加资料",
+      "备注",
+      "新增",
+      "新建"
+    ]
+  },
+  "eds-text-address": {
+    "description": "文本、地址、新增地址、添加",
+    "keywords": [
+      "文本",
+      "地址",
+      "新增地址",
+      "添加"
+    ]
+  },
+  "eds-text-approved": {
+    "description": "文本、审批、完成、已审批",
+    "keywords": [
+      "文本",
+      "审批",
+      "完成",
+      "已审批"
+    ]
+  },
+  "eds-text-corporate": {
+    "description": "文本、合约、企业认证",
+    "keywords": [
+      "文本",
+      "合约",
+      "企业认证"
+    ]
+  },
+  "eds-text-disrupt": {
+    "description": "文件、网页、连接中断、断网",
+    "keywords": [
+      "文件",
+      "网页",
+      "连接中断",
+      "断网"
+    ]
+  },
+  "eds-text-format": {
+    "description": "文本、编辑、地址、文本格式、ABC、二进制代码",
+    "keywords": [
+      "文本",
+      "编辑",
+      "地址",
+      "文本格式",
+      "ABC",
+      "二进制代码"
+    ]
+  },
+  "eds-text-journal": {
+    "description": "文本、订单、记录、交易记录、日志",
+    "keywords": [
+      "文本",
+      "订单",
+      "记录",
+      "交易记录",
+      "日志"
+    ]
+  },
+  "eds-text-logs": {
+    "description": "文本、日志",
+    "keywords": [
+      "文本",
+      "日志"
+    ]
+  },
+  "eds-text-logs-api": {
+    "description": "文本、api日志",
+    "keywords": [
+      "文本",
+      "api日志"
+    ]
+  },
+  "eds-text-logs-automation": {
+    "description": "文本、自动化日志、自动",
+    "keywords": [
+      "文本",
+      "自动化日志",
+      "自动"
+    ]
+  },
+  "eds-text-logs-policy": {
+    "description": "文本、策略日志、闪电",
+    "keywords": [
+      "文本",
+      "策略日志",
+      "闪电"
+    ]
+  },
+  "eds-text-logs-safety": {
+    "description": "文本、alm日志、安全",
+    "keywords": [
+      "文本",
+      "alm日志",
+      "安全"
+    ]
+  },
+  "eds-text-note": {
+    "description": "文本格式、文本、备注、文字、文案",
+    "keywords": [
+      "文本格式",
+      "文本",
+      "备注",
+      "文字",
+      "文案"
+    ]
+  },
+  "eds-text-numerical": {
+    "description": "文本、编号、数字、数量、N、无限",
+    "keywords": [
+      "文本",
+      "编号",
+      "数字",
+      "数量",
+      "N",
+      "无限"
+    ]
+  },
+  "eds-text-order": {
+    "description": "文本、订单、记录",
+    "keywords": [
+      "文本",
+      "订单",
+      "记录"
+    ]
+  },
+  "eds-text-order-fill": {
+    "description": "文本、订单、记录填充",
+    "keywords": [
+      "文本",
+      "订单",
+      "记录填充"
+    ]
+  },
+  "eds-text-set": {
+    "description": "文本、记录设置、文本设置、设置",
+    "keywords": [
+      "文本",
+      "记录设置",
+      "文本设置",
+      "设置"
+    ]
+  },
+  "eds-text-signed": {
+    "description": "文本、签名、本地签名、完成、已签名、编辑",
+    "keywords": [
+      "文本",
+      "签名",
+      "本地签名",
+      "完成",
+      "已签名",
+      "编辑"
+    ]
+  },
+  "eds-text-signed-fill": {
+    "description": "文本、签名、本地签名、完成、已签名、编辑填充",
+    "keywords": [
+      "文本",
+      "签名",
+      "本地签名",
+      "完成",
+      "已签名",
+      "编辑填充"
+    ]
+  },
+  "eds-text-whitelist": {
+    "description": "文本、白名单、完成",
+    "keywords": [
+      "文本",
+      "白名单",
+      "完成"
+    ]
+  },
+  "eds-text-whitelist-fill": {
+    "description": "文本、白名单、完成填充",
+    "keywords": [
+      "文本",
+      "白名单",
+      "完成填充"
+    ]
+  },
+  "eds-tick": {
+    "description": "对、成功、勾",
+    "keywords": [
+      "对",
+      "成功",
+      "勾"
+    ]
+  },
+  "eds-tick-fill": {
+    "description": "对、成功、勾中等填充",
+    "keywords": [
+      "对",
+      "成功",
+      "勾中等填充"
+    ]
+  },
+  "eds-tick-strong-fill": {
+    "description": "对、成功、勾、粗壮填充",
+    "keywords": [
+      "对",
+      "成功",
+      "勾",
+      "粗壮填充"
+    ]
+  },
+  "eds-time-wait": {
+    "description": "时间、等待中",
+    "keywords": [
+      "时间",
+      "等待中"
+    ]
+  },
+  "eds-time-wait-fill": {
+    "description": "时间、等待中",
+    "keywords": [
+      "时间",
+      "等待中"
+    ]
+  },
+  "eds-title": {
+    "description": "文本、名称、标题、文字",
+    "keywords": [
+      "文本",
+      "名称",
+      "标题",
+      "文字"
+    ]
+  },
+  "eds-triangle-flag": {
+    "description": "旗子、旗帜、投票",
+    "keywords": [
+      "旗子",
+      "旗帜",
+      "投票"
+    ]
+  },
+  "eds-triangle-flag-fill": {
+    "description": "旗子、旗帜、投票填充",
+    "keywords": [
+      "旗子",
+      "旗帜",
+      "投票填充"
+    ]
+  },
+  "eds-uneye": {
+    "description": "安全、隐藏、眼睛、闭眼",
+    "keywords": [
+      "安全",
+      "隐藏",
+      "眼睛",
+      "闭眼"
+    ]
+  },
+  "eds-unpush": {
+    "description": "喇叭、不推送、小蜜蜂、忽略、不通知、消息",
+    "keywords": [
+      "喇叭",
+      "不推送",
+      "小蜜蜂",
+      "忽略",
+      "不通知",
+      "消息"
+    ]
+  },
+  "eds-unpush-fill": {
+    "description": "喇叭、不推送、小蜜蜂、忽略、不通知、消息填充",
+    "keywords": [
+      "喇叭",
+      "不推送",
+      "小蜜蜂",
+      "忽略",
+      "不通知",
+      "消息填充"
+    ]
+  },
+  "eds-usd-accounting": {
+    "description": "金融、可用余额、资金、金额、美元、费用、手续费、资产、美金、美元、保证金",
+    "keywords": [
+      "金融",
+      "可用余额",
+      "资金",
+      "金额",
+      "美元",
+      "费用",
+      "手续费",
+      "资产",
+      "美金",
+      "美元",
+      "保证金"
+    ]
+  },
+  "eds-usd-accounting-fill": {
+    "description": "金融、可用余额、资金、金额、美元、费用、手续费、资产、美金、美元、保证金填充",
+    "keywords": [
+      "金融",
+      "可用余额",
+      "资金",
+      "金额",
+      "美元",
+      "费用",
+      "手续费",
+      "资产",
+      "美金",
+      "美元",
+      "保证金填充"
+    ]
+  },
+  "eds-usd-payment": {
+    "description": "金融、美元、支付、支付引擎",
+    "keywords": [
+      "金融",
+      "美元",
+      "支付",
+      "支付引擎"
+    ]
+  },
+  "eds-usd-payment-fill": {
+    "description": "金融、美元、支付、支付引擎填充",
+    "keywords": [
+      "金融",
+      "美元",
+      "支付",
+      "支付引擎填充"
+    ]
+  },
+  "eds-usd-receipt": {
+    "description": "金融、费用、美元、金额、账单、收据",
+    "keywords": [
+      "金融",
+      "费用",
+      "美元",
+      "金额",
+      "账单",
+      "收据"
+    ]
+  },
+  "eds-usd-settlement": {
+    "description": "金融、费用、美元、金额、美金、结算、交换",
+    "keywords": [
+      "金融",
+      "费用",
+      "美元",
+      "金额",
+      "美金",
+      "结算",
+      "交换"
+    ]
+  },
+  "eds-usd-symbolic": {
+    "description": "金融、美元符号、USD",
+    "keywords": [
+      "金融",
+      "美元符号",
+      "USD"
+    ]
+  },
+  "eds-user-check-validate": {
+    "description": "用户、处理人、完成、成功、用户、人",
+    "keywords": [
+      "用户",
+      "处理人",
+      "完成",
+      "成功",
+      "用户",
+      "人"
+    ]
+  },
+  "eds-user-information": {
+    "description": "用户、团队、成员、雇员、员工、角色、用户信息",
+    "keywords": [
+      "用户",
+      "团队",
+      "成员",
+      "雇员",
+      "员工",
+      "角色",
+      "用户信息"
+    ]
+  },
+  "eds-user-mobiletabbar": {
+    "description": "导航、我、我的、头像",
+    "keywords": [
+      "导航",
+      "我",
+      "我的",
+      "头像"
+    ]
+  },
+  "eds-user-mobiletabbar-fill": {
+    "description": "导航、我、我的、头像填充",
+    "keywords": [
+      "导航",
+      "我",
+      "我的",
+      "头像填充"
+    ]
+  },
+  "eds-user-multiple-group": {
+    "description": "用户、群组、群众、用户、人",
+    "keywords": [
+      "用户",
+      "群组",
+      "群众",
+      "用户",
+      "人"
+    ]
+  },
+  "eds-user-notification": {
+    "description": "用户、通知、消息、通知人、用户、人",
+    "keywords": [
+      "用户",
+      "通知",
+      "消息",
+      "通知人",
+      "用户",
+      "人"
+    ]
+  },
+  "eds-user-pointer": {
+    "description": "用户、操作人、执行人、点击、用户、人",
+    "keywords": [
+      "用户",
+      "操作人",
+      "执行人",
+      "点击",
+      "用户",
+      "人"
+    ]
+  },
+  "eds-user-preference": {
+    "description": "偏好、个人偏好、星星、设置",
+    "keywords": [
+      "偏好",
+      "个人偏好",
+      "星星",
+      "设置"
+    ]
+  },
+  "eds-user-preference-fill": {
+    "description": "偏好、个人偏好、星星、设置填充",
+    "keywords": [
+      "偏好",
+      "个人偏好",
+      "星星",
+      "设置填充"
+    ]
+  },
+  "eds-user-searches": {
+    "description": "用户、查询人、查询用户、搜索、检索、查看、用户、人",
+    "keywords": [
+      "用户",
+      "查询人",
+      "查询用户",
+      "搜索",
+      "检索",
+      "查看",
+      "用户",
+      "人"
+    ]
+  },
+  "eds-user-security": {
+    "description": "用户、安全、个人、账户安全",
+    "keywords": [
+      "用户",
+      "安全",
+      "个人",
+      "账户安全"
+    ]
+  },
+  "eds-vip": {
+    "description": "导航、vip、商户、套餐、团队",
+    "keywords": [
+      "导航",
+      "vip",
+      "商户",
+      "套餐",
+      "团队"
+    ]
+  },
+  "eds-wallet": {
+    "description": "导航、钱包",
+    "keywords": [
+      "导航",
+      "钱包"
+    ]
+  },
+  "eds-wallet-fill": {
+    "description": "导航、钱包填充",
+    "keywords": [
+      "导航",
+      "钱包填充"
+    ]
+  },
+  "eds-wallet-notice": {
+    "description": "通知、钱包通知",
+    "keywords": [
+      "通知",
+      "钱包通知"
+    ]
+  },
+  "eds-wallet-notice-news": {
+    "description": "通知、钱包通知",
+    "keywords": [
+      "通知",
+      "钱包通知"
+    ]
+  },
+  "eds-wallet-set": {
+    "description": "系统、设置、钱包设置",
+    "keywords": [
+      "系统",
+      "设置",
+      "钱包设置"
+    ]
+  },
+  "eds-warning": {
+    "description": "警告、关于",
+    "keywords": [
+      "警告",
+      "关于"
+    ]
+  },
+  "eds-warning-fill": {
+    "description": "警告填充、关于填充",
+    "keywords": [
+      "警告填充",
+      "关于填充"
+    ]
+  },
+  "eds-warning-lonely": {
+    "description": "系统、警告单、关于单",
+    "keywords": [
+      "系统",
+      "警告单",
+      "关于单"
+    ]
+  },
+  "eds-website": {
+    "description": "系统、网络、网站、web、网页",
+    "keywords": [
+      "系统",
+      "网络",
+      "网站",
+      "web",
+      "网页"
+    ]
+  },
+  "eds-white-list": {
+    "description": "白名单、列表、启用、对",
+    "keywords": [
+      "白名单",
+      "列表",
+      "启用",
+      "对"
+    ]
+  },
+  "eds-wifi": {
+    "description": "系统、网络、wifi",
+    "keywords": [
+      "系统",
+      "网络",
+      "wifi"
+    ]
+  },
+  "eds-wifi-fill": {
+    "description": "系统、网络、wifi填充",
+    "keywords": [
+      "系统",
+      "网络",
+      "wifi填充"
+    ]
+  },
+  "eds-win-close": {
+    "description": "win关闭",
+    "keywords": [
+      "win关闭"
+    ]
+  },
+  "eds-win-maximize": {
+    "description": "win最大化",
+    "keywords": [
+      "win最大化"
+    ]
+  },
+  "eds-win-minimize": {
+    "description": "win最小化",
+    "keywords": [
+      "win最小化"
+    ]
+  },
+  "eds-win-recoverymize": {
+    "description": "win恢复",
+    "keywords": [
+      "win恢复"
+    ]
+  },
+  "eds-window-flex": {
+    "description": "布局、窗口、适配",
+    "keywords": [
+      "布局",
+      "窗口",
+      "适配"
+    ]
+  },
+  "eds-withdraw-money": {
+    "description": "金融、提现、取款",
+    "keywords": [
+      "金融",
+      "提现",
+      "取款"
+    ]
+  },
+  "eds-work-done": {
+    "description": "时间、待办、协作、已办、已完成、勾选",
+    "keywords": [
+      "时间",
+      "待办",
+      "协作",
+      "已办",
+      "已完成",
+      "勾选"
+    ]
+  },
+  "eds-world-dollar": {
+    "description": "金融、费用、美元、金额、全球资金、世界、地球",
+    "keywords": [
+      "金融",
+      "费用",
+      "美元",
+      "金额",
+      "全球资金",
+      "世界",
+      "地球"
+    ]
+  },
+  "eds-zoom-in": {
+    "description": "搜索、放大镜、放大",
+    "keywords": [
+      "搜索",
+      "放大镜",
+      "放大"
+    ]
+  },
+  "eds-zoom-out": {
+    "description": "搜索、放大镜、缩小",
+    "keywords": [
+      "搜索",
+      "放大镜",
+      "缩小"
+    ]
+  },
+  "oval-tick-mini": {
+    "description": "对、成功、勾mini",
+    "keywords": [
+      "对",
+      "成功",
+      "勾mini"
+    ]
+  }
+}

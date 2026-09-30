@@ -512,6 +512,33 @@
   min-width: 100%;
 }
 
+/* CryptoAddress 悬浮 Menu：shell max-width 约束下禁 max-content 撑破裁切，改由地址行换行。 */
+:global(.eds-crypto-address-tooltip-menu.eds-flotation-menu--width-adaptive) .boxRoot {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.eds-crypto-address-tooltip-menu.eds-flotation-menu--width-adaptive) .boxRootLabelWrap {
+  align-items: flex-start;
+}
+
+:global(.eds-crypto-address-tooltip-menu.eds-flotation-menu--width-adaptive) .boxMainLabelWrap {
+  flex: 1 1 auto;
+  align-items: flex-start;
+  min-width: 0;
+  max-width: 100%;
+}
+
+:global(.eds-crypto-address-tooltip-menu.eds-flotation-menu--width-adaptive) .boxLabel.boxLabelWrap {
+  flex: 1 1 auto;
+  flex-shrink: 1;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+}
+
 :global(.eds-flotation-menu--width-adaptive) .boxMain {
   overflow: visible;
 }

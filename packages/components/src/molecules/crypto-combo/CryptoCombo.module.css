@@ -405,14 +405,17 @@
 }
 
 .menuAddressLine {
-  display: inline;
+  display: block;
   min-width: 0;
   max-width: 100%;
+  font-size: var(--eds-body-medium-size);
+  line-height: var(--eds-body-medium-line-height);
 }
 
 .menuAddress {
-  font-size: var(--eds-body-medium-size);
-  line-height: var(--eds-body-medium-line-height);
+  display: inline;
+  font-size: inherit;
+  line-height: inherit;
   font-weight: var(--eds-body-medium-weight);
   color: var(--text-base-primary);
   overflow-wrap: anywhere;
@@ -424,6 +427,7 @@
   flex-shrink: 0;
   align-items: center;
   vertical-align: middle;
+  margin-inline-start: var(--spacing-05);
 }
 
 .menuCopyButtonCopied :global(.eds-icon-button .symbol) {

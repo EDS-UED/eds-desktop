@@ -107,7 +107,13 @@
   opacity: 0;
 }
 
+/*
+ * Overflow / hover Tooltip：内容区 inset 由 effect-flotation-box 外壳 padding 承担；
+ * eds-tooltip-panel 不再叠 padding，业务侧改外壳 padding 即生效。
+ */
 :global(.eds-overflow-text-tooltip) :global(.eds-tooltip-panel) {
+  box-sizing: border-box;
+  padding: 0;
   cursor: default;
   user-select: none;
   -webkit-user-select: none;

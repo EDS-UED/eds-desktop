@@ -40,6 +40,8 @@ export function useFilterPickerMenuWidthMode(options: {
   optionLabels: ComputedRef<string[]>;
   /** 多选 Checkbox 行占位（默认 false）。 */
   includeCheckbox?: ComputedRef<boolean>;
+  /** 菜单项 leading 占位（如成员 Avatar + gap）。 */
+  leadingWidthExtra?: ComputedRef<number>;
 }) {
   const menuWidthMode = ref<FlotationWidthMode>('trigger');
 
@@ -63,10 +65,11 @@ export function useFilterPickerMenuWidthMode(options: {
       triggerWidth + edgeInset * 2 - shellPadding * 2 - listInset;
 
     const includeCheckbox = options.includeCheckbox?.value ?? false;
+    const leadingWidthExtra = options.leadingWidthExtra?.value ?? 0;
     const maxOptionWidth = Math.max(
       0,
       ...options.optionLabels.value.map((label) =>
-        measureMenuOptionWidth(label, root, includeCheckbox),
+        measureMenuOptionWidth(label, root, includeCheckbox) + leadingWidthExtra,
       ),
     );
 
@@ -83,7 +86,7 @@ export function useFilterPickerMenuWidthMode(options: {
   }
 
   watch(
-    [options.optionLabels, () => options.includeCheckbox?.value],
+    [options.optionLabels, () => options.includeCheckbox?.value, () => options.leadingWidthExtra?.value],
     () => {
       void syncMenuWidthModeAfterLayout();
     },

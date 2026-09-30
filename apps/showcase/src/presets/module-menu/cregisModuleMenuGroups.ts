@@ -73,7 +73,16 @@ const cregisRiskControlModuleMenuGroups: ModuleMenuPresetGroup[] = [
     items: [
       { label: 'Policy Settings', icon: 'eds-engine' },
       { label: 'Automation', icon: 'eds-automatic' },
-      { label: 'AML', icon: 'eds-aml-search' },
+      {
+        label: 'AML',
+        icon: 'eds-text-logs-safety',
+        tier: 2,
+        subitems: [
+          { label: 'AML Query', icon: 'eds-aml-search' },
+          { label: 'Query Records', icon: 'eds-text-journal' },
+          { label: 'Auto Rules', icon: 'eds-engine' },
+        ],
+      },
     ],
   },
   {

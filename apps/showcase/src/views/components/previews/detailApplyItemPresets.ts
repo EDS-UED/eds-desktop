@@ -27,6 +27,7 @@ const detailApplyItemPresetZh: Record<DetailApplyItemVariantId, string> = {
   type: tokenLabel('Type', '类型', 'type'),
   reason: tokenLabel('Reason', '原因', 'reason'),
   ip: tokenLabel('IP', 'IP', 'ip'),
+  'ip-whitelist': tokenLabel('IP Whitelist', 'IP 白名单', 'ip-whitelist'),
 };
 
 export const detailApplyItemDataSourceOptions = [

@@ -206,6 +206,8 @@ function onFieldChange(nextFieldId: string) {
           :selection-mode="activeField?.selectionMode"
           :member-options="activeField?.memberOptions"
           :waas-project-options="activeField?.waasProjectOptions"
+          :show-type-tabs="activeField?.showTypeTabs"
+          :menu-width-mode="activeField?.menuWidthMode"
           :dropdown-open-id="valueSelectOpenId"
           :boundary-selector="boundarySelector"
           :picker-align="valueAlign"
