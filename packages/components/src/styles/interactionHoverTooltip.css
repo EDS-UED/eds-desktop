@@ -108,8 +108,9 @@
 }
 
 /*
- * Overflow / hover Tooltip：内容区 inset 由 effect-flotation-box 外壳 padding 承担；
- * eds-tooltip-panel 不再叠 padding，业务侧改外壳 padding 即生效。
+ * Overflow / hover Tooltip 默认 panel 无 inset；EgFieldOvfTooltip 通过
+ * TextOverflowTooltip / ParagraphOverflowTooltip 的 `.panel` 提供正文 padding + typography。
+ * Tag / DataList / Paragraph 等仍仅依赖 effect-flotation-box 或各自 scope 类。
  */
 :global(.eds-overflow-text-tooltip) :global(.eds-tooltip-panel) {
   box-sizing: border-box;

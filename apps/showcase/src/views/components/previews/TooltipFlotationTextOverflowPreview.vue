@@ -21,7 +21,6 @@ const sampleText = tooltipFlotationTextOverflowSampleText;
       :tooltip-text="sampleText"
       :trigger="tooltipTrigger"
       target-tone="primary"
-      :panel-scope-class="styles.textOverflowTooltip"
       :typography-class="styles.textOverflowText"
       :host-class="styles.textOverflowTriggerWrap"
     >

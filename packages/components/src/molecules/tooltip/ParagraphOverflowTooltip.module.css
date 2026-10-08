@@ -32,6 +32,8 @@
 }
 
 .panel :global(.eds-tooltip-panel) {
+  box-sizing: border-box;
+  padding: var(--spacing-1) var(--spacing-2);
   font-family: var(--eds-family-sans);
   font-size: var(--eds-body-small-size);
   font-weight: var(--eds-body-small-weight);
@@ -39,4 +41,7 @@
   color: var(--text-base-primary);
   white-space: normal;
   word-break: break-word;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
 }
