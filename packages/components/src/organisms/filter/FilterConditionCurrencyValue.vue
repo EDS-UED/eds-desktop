@@ -4,7 +4,7 @@ import { EgDivider } from '../../atoms/divider';
 import { EgCrypto, type CryptoName } from '../../atoms/crypto';
 import { EgIcon } from '../../atoms/icons';
 import { useScrollChromeScrim } from '../../composables/useScrollChromeScrim';
-import { EgMessage } from '../../molecules/feedback';
+import { EgMessage, type MessageType } from '../../molecules/feedback';
 import { EgTag } from '../../molecules/tag';
 import comboActionStyles from '../../molecules/combo/ComboAction.module.css';
 import {
@@ -337,9 +337,10 @@ function clearActiveCascade() {
   cascadeDraftSnapshot.value = null;
 }
 
-function getOptionSelectionState(option: FilterCurrencyPreset): FilterOptionSelectionState {
-  const values = activeSelectedValues.value;
-
+function getOptionSelectionStateFromValues(
+  option: FilterCurrencyPreset,
+  values: Set<string>,
+): FilterOptionSelectionState {
   if (option.multiChain && option.networks?.length) {
     if (values.has(option.id)) return 'full';
 
@@ -351,6 +352,70 @@ function getOptionSelectionState(option: FilterCurrencyPreset): FilterOptionSele
   }
 
   return values.has(option.id) ? 'full' : 'none';
+}
+
+function getOptionSelectionState(option: FilterCurrencyPreset): FilterOptionSelectionState {
+  return getOptionSelectionStateFromValues(option, activeSelectedValues.value);
+}
+
+/** 级联子菜单编辑未点「确定」前，父行 checkbox / 数量保持打开时快照。 */
+function resolveOptionValueSetForParentRow(option: FilterCurrencyPreset): Set<string> {
+  if (
+    !isMulti.value
+    || activeCascadeKey.value !== option.id
+    || cascadeDraftSnapshot.value === null
+  ) {
+    return activeSelectedValues.value;
+  }
+
+  const merged = cloneValueSet(draftValues.value);
+  removeOptionKeys(merged, option);
+  cascadeDraftSnapshot.value.forEach((valueKey) => merged.add(valueKey));
+  return merged;
+}
+
+function getOptionParentSelectionState(option: FilterCurrencyPreset): FilterOptionSelectionState {
+  return getOptionSelectionStateFromValues(option, resolveOptionValueSetForParentRow(option));
+}
+
+function getOptionParentSelectedNetworkCount(option: FilterCurrencyPreset): number {
+  const networks = option.networks ?? [];
+  if (!networks.length) return 0;
+
+  const values = resolveOptionValueSetForParentRow(option);
+  if (values.has(option.id)) return networks.length;
+
+  return networks.filter((network) =>
+    values.has(buildValueKey(option.id, network.key)),
+  ).length;
+}
+
+/** 多链父行：有部分网络选中即视为勾选，不用半选 indeterminate。 */
+function isOptionParentCheckboxChecked(option: FilterCurrencyPreset): boolean {
+  return getOptionParentSelectionState(option) !== 'none';
+}
+
+function getOptionParentNetworkTotalCount(option: FilterCurrencyPreset): number {
+  const networks = option.networks ?? [];
+  if (networks.length) return networks.length;
+  const parsed = Number(option.messageText);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+}
+
+function showOptionParentMessage(option: FilterCurrencyPreset): boolean {
+  if (!option.multiChain) return false;
+  if (!isMulti.value) return Boolean(option.messageText);
+  return getOptionParentNetworkTotalCount(option) > 0;
+}
+
+function getOptionParentMessageText(option: FilterCurrencyPreset): string {
+  const selected = getOptionParentSelectedNetworkCount(option);
+  if (selected > 0) return String(selected);
+  return String(getOptionParentNetworkTotalCount(option));
+}
+
+function getOptionParentMessageType(option: FilterCurrencyPreset): MessageType {
+  return getOptionParentSelectedNetworkCount(option) > 0 ? 'brand' : 'subtle';
 }
 
 const selectAllMode = computed<FilterSelectAllMode>(() => {
@@ -399,6 +464,36 @@ function selectOptionFully(values: Set<string>, option: FilterCurrencyPreset) {
   values.add(option.id);
 }
 
+function expandOptionIdToNetworkKeys(values: Set<string>, option: FilterCurrencyPreset) {
+  if (!values.has(option.id)) return;
+  values.delete(option.id);
+  option.networks?.forEach((network) => {
+    values.add(buildValueKey(option.id, network.key));
+  });
+}
+
+/** 多链全选时合并为 option.id，便于父级与子级「全部」一致。 */
+function normalizeOptionSelection(values: Set<string>, option: FilterCurrencyPreset) {
+  const networks = option.networks ?? [];
+  if (!networks.length) return;
+
+  const networkKeys = networks.map((network) => buildValueKey(option.id, network.key));
+  const selectedCount = networkKeys.filter((valueKey) => values.has(valueKey)).length;
+  if (values.has(option.id) || selectedCount === networkKeys.length) {
+    selectOptionFully(values, option);
+  }
+}
+
+function normalizeDraftMultiChainValues() {
+  const next = cloneValueSet(draftValues.value);
+  visibleCurrencyPresets.value.forEach((option) => {
+    if (option.multiChain && option.networks?.length) {
+      normalizeOptionSelection(next, option);
+    }
+  });
+  draftValues.value = next;
+}
+
 function onSelectAllToggle() {
   if (props.disabled || !isMulti.value) return;
 
@@ -432,6 +527,10 @@ function onNetworkSelectAllToggle(option: FilterCurrencyPreset) {
     else next.add(valueKey);
   });
 
+  if (mode !== 'all') {
+    normalizeOptionSelection(next, option);
+  }
+
   draftValues.value = next;
 }
 
@@ -461,6 +560,15 @@ function onCascadeOpen(option: FilterCurrencyPreset) {
 }
 
 function onCascadeConfirm(closeNetwork: () => void) {
+  const optionId = activeCascadeKey.value;
+  if (isMulti.value && optionId) {
+    const option = filteredOptions.value.find((item) => item.id === optionId);
+    if (option?.multiChain && option.networks?.length) {
+      const next = cloneValueSet(draftValues.value);
+      normalizeOptionSelection(next, option);
+      draftValues.value = next;
+    }
+  }
   cascadeDraftSnapshot.value = null;
   closeNetwork();
 }
@@ -490,6 +598,7 @@ function onPickerClear() {
 
 function onPickerConfirm(close: () => void) {
   if (props.disabled) return;
+  normalizeDraftMultiChainValues();
   emit('update:modelValue', [...draftValues.value].join(','));
   resetSearch();
   clearActiveCascade();
@@ -522,10 +631,6 @@ function onCascadeFlotationClose(optionId: string) {
   }
 }
 
-function isParentCheckboxChecked(option: FilterCurrencyPreset): boolean {
-  return activeSelectedValues.value.has(option.id);
-}
-
 function isParentRowFocused(option: FilterCurrencyPreset): boolean {
   if (!isMulti.value) {
     return parsedValue.value.currencyId === option.id;
@@ -538,13 +643,20 @@ function isParentRowFocused(option: FilterCurrencyPreset): boolean {
 }
 
 function isOptionSelected(option: FilterCurrencyPreset): boolean {
-  if (isMulti.value) return isParentCheckboxChecked(option);
+  if (isMulti.value) {
+    if (option.multiChain && option.networks?.length) {
+      return getOptionSelectionState(option) === 'full';
+    }
+    return activeSelectedValues.value.has(option.id);
+  }
   return parsedValue.value.currencyId === option.id;
 }
 
 function isNetworkSelected(option: FilterCurrencyPreset, networkKey: string): boolean {
   if (isMulti.value) {
-    return activeSelectedValues.value.has(buildValueKey(option.id, networkKey));
+    const values = activeSelectedValues.value;
+    if (values.has(option.id)) return true;
+    return values.has(buildValueKey(option.id, networkKey));
   }
   return parsedValue.value.currencyId === option.id && parsedValue.value.networkKey === networkKey;
 }
@@ -621,8 +733,38 @@ function setMultiValue(valueKey: string, selected: boolean) {
   draftValues.value = next;
 }
 
+function setNetworkMultiValue(
+  option: FilterCurrencyPreset,
+  networkKey: string,
+  selected: boolean,
+) {
+  const next = cloneValueSet(draftValues.value);
+  if (option.networks?.length && next.has(option.id)) {
+    expandOptionIdToNetworkKeys(next, option);
+  }
+  const valueKey = buildValueKey(option.id, networkKey);
+  if (selected) next.add(valueKey);
+  else next.delete(valueKey);
+  normalizeOptionSelection(next, option);
+  draftValues.value = next;
+}
+
+function setMultiChainOptionSelected(option: FilterCurrencyPreset, selected: boolean) {
+  const next = cloneValueSet(draftValues.value);
+  if (selected) {
+    selectOptionFully(next, option);
+  } else {
+    removeOptionKeys(next, option);
+  }
+  draftValues.value = next;
+}
+
 function onCheckboxUpdate(option: FilterCurrencyPreset, checked: boolean) {
   if (props.disabled || !isMulti.value) return;
+  if (option.multiChain && option.networks?.length) {
+    setMultiChainOptionSelected(option, checked);
+    return;
+  }
   setMultiValue(option.id, checked);
 }
 
@@ -632,14 +774,18 @@ function onNetworkCheckboxUpdate(
   checked: boolean,
 ) {
   if (props.disabled || !isMulti.value) return;
-  setMultiValue(buildValueKey(option.id, networkKey), checked);
+  setNetworkMultiValue(option, networkKey, checked);
 }
 
 function onOptionClick(option: FilterCurrencyPreset, close: () => void) {
   if (props.disabled) return;
 
   if (isMulti.value) {
-    setMultiValue(option.id, !isParentCheckboxChecked(option));
+    if (option.multiChain && option.networks?.length) {
+      setMultiChainOptionSelected(option, getOptionSelectionState(option) !== 'full');
+    } else {
+      setMultiValue(option.id, !activeSelectedValues.value.has(option.id));
+    }
     return;
   }
 
@@ -657,8 +803,10 @@ function onNetworkClick(
   if (props.disabled) return;
 
   if (isMulti.value) {
+    const values = activeSelectedValues.value;
     const valueKey = buildValueKey(option.id, networkKey);
-    setMultiValue(valueKey, !activeSelectedValues.value.has(valueKey));
+    const currentlySelected = values.has(option.id) || values.has(valueKey);
+    setNetworkMultiValue(option, networkKey, !currentlySelected);
     return;
   }
 
@@ -717,9 +865,9 @@ function onPickerClose() {
           </template>
           <template v-if="showTriggerCountMessage" #message>
             <EgMessage
-              type="subtle"
+              type="brand"
               :text="triggerCountText"
-              focus-background="same-white"
+              focus-background="inherit"
             />
           </template>
         </EgFlotationTrigger>
@@ -834,14 +982,15 @@ function onPickerClose() {
                             :label="option.label"
                             :symbol-icon="option.cryptoName"
                             :mode-tag="resolveOptionModeTag(option)"
-                            :show-message="Boolean(option.multiChain && option.messageText)"
-                            :message-text="option.messageText ?? ''"
-                            message-type="subtle"
+                            :show-message="showOptionParentMessage(option)"
+                            :message-text="getOptionParentMessageText(option)"
+                            :message-type="getOptionParentMessageType(option)"
                             message-static
                             show-cascader
                             :show-tag="false"
                             :show-checkbox="isMulti"
-                            :checked="isParentCheckboxChecked(option)"
+                            :checked="isOptionParentCheckboxChecked(option)"
+                            :checkbox-indeterminate="false"
                             :focused="!isMulti && isParentRowFocused(option)"
                             @click="isMulti ? onOptionClick(option, close) : undefined"
                             @update:checked="onCheckboxUpdate(option, $event)"

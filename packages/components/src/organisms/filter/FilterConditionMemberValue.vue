@@ -459,9 +459,9 @@ const triggerCountText = computed(() => String(selectedCount.value));
           </template>
           <template v-if="showTriggerCountMessage" #message>
             <EgMessage
-              type="subtle"
+              type="brand"
               :text="triggerCountText"
-              focus-background="same-white"
+              focus-background="inherit"
             />
           </template>
         </EgFlotationTrigger>

@@ -12,8 +12,12 @@ import PropsDocTables from './PropsDocTables.vue';
 import shared from '@/views/shared/showcase.module.css';
 import styles from './ComponentDocLayout.module.css';
 import type { DocCustomizeControl, DocPropRow } from './types';
+import { provideCustomizeFlotationGroup } from './customizeFlotationGroup';
 import { filterDocCustomizeControls } from './types';
 import type { ComponentDocTier, ExtensionLayer } from './extensionDelivery';
+
+provideCustomizeFlotationGroup();
+
 const props = withDefaults(
   defineProps<{
     title: string;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, useId } from 'vue';
 import {
   EgDecide,
   EgFlotation,
@@ -13,6 +13,7 @@ import type {
   DocCustomizeControl,
   DocCustomizeSelectControl,
 } from './types';
+import { useCustomizeFlotationGroup } from './customizeFlotationGroup';
 
 const props = defineProps<{
   control: DocCustomizeControl;
@@ -26,6 +27,33 @@ const emit = defineEmits<{
   update: [value: unknown];
   inlineSelectUpdate: [value: unknown];
 }>();
+
+const flotationGroup = useCustomizeFlotationGroup();
+const flotationId = useId();
+const inlineFlotationRef = ref<{ close?: () => void } | null>(null);
+const selectFlotationRef = ref<{ close?: () => void } | null>(null);
+
+function registerFlotation(id: string, close: () => void) {
+  flotationGroup?.register(id, close);
+}
+
+function unregisterFlotation(id: string) {
+  flotationGroup?.unregister(id);
+}
+
+function onFlotationOpen(id: string) {
+  flotationGroup?.exclusiveOpen(id);
+}
+
+onMounted(() => {
+  registerFlotation(`${flotationId}-inline`, () => inlineFlotationRef.value?.close?.());
+  registerFlotation(`${flotationId}-select`, () => selectFlotationRef.value?.close?.());
+});
+
+onBeforeUnmount(() => {
+  unregisterFlotation(`${flotationId}-inline`);
+  unregisterFlotation(`${flotationId}-select`);
+});
 
 const booleanControl = computed(() =>
   props.control.kind === 'boolean' ? (props.control as DocCustomizeBooleanControl) : null,
@@ -123,6 +151,7 @@ function handleSelectItemClick(control: DocCustomizeControl, index: number) {
         <div v-if="showInlineSelect && inlineSelect" :class="styles.customizeInlineSelectGroup">
           <span :class="styles.customizeInlineSelectLabel">{{ display(inlineSelect.label) }}</span>
           <EgFlotation
+            ref="inlineFlotationRef"
             :key="`${inlineSelect.key}-${inlineSelectModel}`"
             :class="styles.customizeInlineFlotation"
             trigger-size="sm"
@@ -132,6 +161,7 @@ function handleSelectItemClick(control: DocCustomizeControl, index: number) {
             :show-menu-divider="false"
             :selected-index="selectOptionIndex(inlineSelect, inlineSelectModel)"
             :items="selectFlotationItems(inlineSelect)"
+            @open="onFlotationOpen(`${flotationId}-inline`)"
             @item-click="(_item, index) => emitInlineSelectUpdate(inlineSelect!, index)"
           >
             <template #trigger="{ expanded }">
@@ -148,6 +178,7 @@ function handleSelectItemClick(control: DocCustomizeControl, index: number) {
       </template>
       <EgFlotation
         v-else-if="control.kind === 'select'"
+        ref="selectFlotationRef"
         :key="`${control.key}-${String(value ?? '')}`"
         :class="styles.customizeFlotationSelect"
         trigger-size="sm"
@@ -157,6 +188,7 @@ function handleSelectItemClick(control: DocCustomizeControl, index: number) {
         :show-menu-divider="false"
         :selected-index="selectOptionIndex(control, value)"
         :items="selectFlotationItems(control)"
+        @open="onFlotationOpen(`${flotationId}-select`)"
         @item-click="(_item, index) => handleSelectItemClick(control, index)"
       >
         <template #trigger="{ expanded }">

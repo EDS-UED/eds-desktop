@@ -6,11 +6,14 @@ import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
 import shared from '@/views/shared/showcase.module.css';
 import CustomizeControlField from './CustomizeControlField.vue';
 import styles from './ComponentDocLayout.module.css';
+import { ensureCustomizeFlotationGroup } from './customizeFlotationGroup';
 import {
   filterDocCustomizeControls,
   isControlVisible,
   type DocCustomizeControl,
 } from './types';
+
+ensureCustomizeFlotationGroup();
 
 const { locale } = useShowcaseLocale();
 const i18n = useShowcaseI18n();
