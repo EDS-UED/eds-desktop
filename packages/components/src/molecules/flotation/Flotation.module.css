@@ -376,6 +376,13 @@
   white-space: nowrap;
 }
 
+.triggerLabelOverflowHost {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .triggerTag {
   display: inline-flex;
   flex: 1 1 0;

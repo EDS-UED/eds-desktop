@@ -3,6 +3,7 @@ import { computed, useSlots } from 'vue';
 import { EgIcon } from '../../atoms/icons';
 import { EgMessage, EgReddot, type MessageType } from '../feedback';
 import { EgTag, type TagStatus } from '../tag';
+import EgFieldOvfTooltip from '../tooltip/TextOverflowTooltip.vue';
 import styles from './Flotation.module.css';
 
 /** Figma Trigger Style（2059:3679） */
@@ -46,6 +47,10 @@ const props = withDefaults(
     moduleMenuTitle?: boolean;
     /** Module Menu 标题旁 EgReddot。 */
     showReddot?: boolean;
+    /** 文案 ellipsis 溢出时 hover 展示 EgFieldOvfTooltip。 */
+    labelOverflowTooltip?: boolean;
+    /** 溢出 Tooltip 定位边界（透传 EgFieldOvfTooltip）。 */
+    boundarySelector?: string;
   }>(),
   {
     triggerStyle: 'subtle',
@@ -66,6 +71,8 @@ const props = withDefaults(
     expanded: false,
     moduleMenuTitle: false,
     showReddot: false,
+    labelOverflowTooltip: true,
+    boundarySelector: undefined,
   },
 );
 
@@ -134,7 +141,20 @@ const symbolTrailing = computed(
     <span :class="styles.triggerTitle">
       <span :class="styles.triggerRaw">
         <span :class="styles.triggerLabel">
-          <slot>{{ label }}</slot>
+          <EgFieldOvfTooltip
+            v-if="labelOverflowTooltip"
+            :tooltip-text="slots.default ? undefined : label"
+            host-flex
+            :host-class="styles.triggerLabelOverflowHost"
+            target-tone="inherit"
+            :boundary-selector="boundarySelector"
+            :disabled="disabled"
+          >
+            <slot>{{ label }}</slot>
+          </EgFieldOvfTooltip>
+          <template v-else>
+            <slot>{{ label }}</slot>
+          </template>
         </span>
         <span v-if="showTag || slots.tag" :class="styles.triggerTag">
           <slot name="tag">

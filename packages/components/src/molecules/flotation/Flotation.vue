@@ -441,6 +441,7 @@ defineExpose({
         :trigger-style="triggerStyle"
         :size="triggerSize"
         :disabled="disabled"
+        :boundary-selector="boundarySelector"
         :show-symbol="showSymbol"
         :symbol-icon="symbolIcon"
         :symbol-position="symbolPosition"

@@ -68,7 +68,7 @@ const props = withDefaults(
     teleportTo: '.app-preview',
     valueAlign: 'end',
     widthMode: 'fixed',
-    width: 480,
+    width: 512,
     maxHeight: 420,
     maxConditions: 10,
   },
