@@ -320,6 +320,10 @@
   color: var(--text-base-secondary);
 }
 
+.danger.text.active:not(:disabled) {
+  color: var(--event-active-danger);
+}
+
 /* ── Disabled (all tones / variants) ── */
 
 .button:disabled:not(.loading) {
