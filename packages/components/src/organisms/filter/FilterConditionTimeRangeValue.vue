@@ -80,12 +80,9 @@ const todayParts = startOfTodayParts();
 const leftViewYear = ref(todayParts.year);
 const leftViewMonth = ref(todayParts.month);
 
-const rightViewYear = computed(() =>
-  shiftFilterMonth(leftViewYear.value, leftViewMonth.value, 1).year,
-);
-const rightViewMonth = computed(() =>
-  shiftFilterMonth(leftViewYear.value, leftViewMonth.value, 1).month,
-);
+const initialRightView = shiftFilterMonth(todayParts.year, todayParts.month, 1);
+const rightViewYear = ref(initialRightView.year);
+const rightViewMonth = ref(initialRightView.month);
 
 const pendingRangeStart = ref<FilterDateParts | null>(null);
 const rangeHoverEnd = ref<FilterDateParts | null>(null);
@@ -105,9 +102,31 @@ const triggerTooltipText = computed(() => {
 
 function syncViewsFromValue() {
   const { start, end } = parsedRange.value;
-  const anchor = start ?? end ?? startOfTodayParts();
-  leftViewYear.value = anchor.year;
-  leftViewMonth.value = anchor.month;
+  const today = startOfTodayParts();
+
+  if (start) {
+    leftViewYear.value = start.year;
+    leftViewMonth.value = start.month;
+  } else if (end) {
+    leftViewYear.value = end.year;
+    leftViewMonth.value = end.month;
+  } else {
+    leftViewYear.value = today.year;
+    leftViewMonth.value = today.month;
+  }
+
+  if (end) {
+    rightViewYear.value = end.year;
+    rightViewMonth.value = end.month;
+  } else if (start) {
+    const next = shiftFilterMonth(start.year, start.month, 1);
+    rightViewYear.value = next.year;
+    rightViewMonth.value = next.month;
+  } else {
+    const next = shiftFilterMonth(today.year, today.month, 1);
+    rightViewYear.value = next.year;
+    rightViewMonth.value = next.month;
+  }
 }
 
 watch(
@@ -172,14 +191,24 @@ function onPickerClose() {
   panelFocusedDate.value = null;
 }
 
-function shiftViewMonth(offset: number) {
+function shiftLeftViewMonth(offset: number) {
   const next = shiftFilterMonth(leftViewYear.value, leftViewMonth.value, offset);
   leftViewYear.value = next.year;
   leftViewMonth.value = next.month;
 }
 
-function shiftViewYear(offset: number) {
+function shiftLeftViewYear(offset: number) {
   leftViewYear.value += offset;
+}
+
+function shiftRightViewMonth(offset: number) {
+  const next = shiftFilterMonth(rightViewYear.value, rightViewMonth.value, offset);
+  rightViewYear.value = next.year;
+  rightViewMonth.value = next.month;
+}
+
+function shiftRightViewYear(offset: number) {
+  rightViewYear.value += offset;
 }
 
 onMounted(() => {
@@ -293,10 +322,10 @@ onMounted(() => {
                   :disabled="disabled"
                   @day-click="(parts) => onDayClick(parts, close)"
                   @day-hover="onDayHover"
-                  @prev-month="shiftViewMonth(-1)"
-                  @next-month="shiftViewMonth(1)"
-                  @prev-year="shiftViewYear(-1)"
-                  @next-year="shiftViewYear(1)"
+                  @prev-month="shiftLeftViewMonth(-1)"
+                  @next-month="shiftLeftViewMonth(1)"
+                  @prev-year="shiftLeftViewYear(-1)"
+                  @next-year="shiftLeftViewYear(1)"
                 />
               </div>
 
@@ -304,8 +333,8 @@ onMounted(() => {
 
               <div :class="styles.calendarPane">
                 <FilterCalendarPanel
-                  :view-year="rightViewYear"
-                  :view-month="rightViewMonth"
+                  v-model:view-year="rightViewYear"
+                  v-model:view-month="rightViewMonth"
                   header-mode="nav"
                   selection-mode="range"
                   header-action="hidden"
@@ -316,10 +345,10 @@ onMounted(() => {
                   :disabled="disabled"
                   @day-click="(parts) => onDayClick(parts, close)"
                   @day-hover="onDayHover"
-                  @prev-month="shiftViewMonth(-1)"
-                  @next-month="shiftViewMonth(1)"
-                  @prev-year="shiftViewYear(-1)"
-                  @next-year="shiftViewYear(1)"
+                  @prev-month="shiftRightViewMonth(-1)"
+                  @next-month="shiftRightViewMonth(1)"
+                  @prev-year="shiftRightViewYear(-1)"
+                  @next-year="shiftRightViewYear(1)"
                 />
               </div>
             </div>
