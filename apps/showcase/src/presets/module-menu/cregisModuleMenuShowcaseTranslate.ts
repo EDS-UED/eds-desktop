@@ -245,6 +245,24 @@ const CREGIS_MODULE_MENU_SHOWCASE_LABELS: Record<string, LocaleLabelMap> = {
     'zh-TW': '黑名單',
     'zh-HK': '黑名單',
   },
+  Webhook: {
+    'en-US': 'Webhook',
+    'zh-CN': 'Webhook',
+    'zh-TW': 'Webhook',
+    'zh-HK': 'Webhook',
+  },
+  'Webhook Config': {
+    'en-US': 'Configuration',
+    'zh-CN': 'Webhook配置',
+    'zh-TW': 'Webhook設定',
+    'zh-HK': 'Webhook設定',
+  },
+  'Push Records': {
+    'en-US': 'Delivery Logs',
+    'zh-CN': '推送记录',
+    'zh-TW': '推送記錄',
+    'zh-HK': '推送記錄',
+  },
 };
 
 export function createCregisModuleMenuShowcaseTranslate(

@@ -140,7 +140,6 @@ export const cregisRiskControlModuleMenuGroups: ModuleMenuPresetGroup[] = [
         icon: 'eds-text-logs-safety',
         tier: 2,
         subitems: [
-          { label: 'AML Query', icon: 'eds-aml-search' },
           { label: 'Query Records', icon: 'eds-text-journal' },
           { label: 'Auto Rules', icon: 'eds-engine' },
         ],
@@ -247,6 +246,15 @@ const cregisManageModuleMenuGroups: ModuleMenuPresetGroup[] = [
     items: [
       { label: 'Team Security', icon: 'eds-asafety' },
       { label: 'API Manage', icon: 'eds-api-box' },
+      {
+        label: 'Webhook',
+        icon: 'eds-webhook',
+        tier: 2,
+        subitems: [
+          { label: 'Webhook Config', icon: 'eds-list-configure' },
+          { label: 'Push Records', icon: 'eds-text-push' },
+        ],
+      },
     ],
   },
 ];
