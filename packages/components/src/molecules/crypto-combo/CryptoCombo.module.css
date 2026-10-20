@@ -390,41 +390,53 @@
   font-weight: var(--eds-footnote-strong-weight);
 }
 
-/* 浮层 Menu 行 — 对齐 FlotationBoxSceneAddressPreview rowContent / rowMain / rowTags */
+/* 浮层 Menu 行 — Tag + 整段地址 + 复制钮同一行（不换行拆段）；meta Tag 行仍在下方 column。 */
 .menuRowContent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--spacing-05);
-  width: 100%;
+  width: max-content;
+  max-width: 100%;
   min-width: 0;
 }
 
 .menuRowMain {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: var(--spacing-1);
-  width: 100%;
+  width: max-content;
+  max-width: 100%;
   min-width: 0;
 }
 
+.menuRowMain > :global(.eds-tag) {
+  flex: 0 0 auto;
+}
+
 .menuAddressLine {
-  display: block;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--spacing-05);
   min-width: 0;
-  max-width: 100%;
   font-size: var(--eds-body-medium-size);
   line-height: var(--eds-body-medium-line-height);
 }
 
 .menuAddress {
   display: inline;
+  flex: 0 0 auto;
   font-size: inherit;
   line-height: inherit;
   font-weight: var(--eds-body-medium-weight);
   color: var(--text-base-primary);
-  overflow-wrap: anywhere;
-  word-break: break-all;
+  white-space: nowrap;
+  overflow: visible;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .menuCopyButton {

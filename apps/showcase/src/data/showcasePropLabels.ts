@@ -495,6 +495,7 @@ export const showcaseButtonCustomizeFieldLabels = {
   count: showcaseText('Button count', '按钮数'),
   clear: showcaseText('Clear', '清空'),
   direction: showcaseText('Direction', '方向'),
+  actionsLeadingInset: showcaseText('Actions leading inset (28px)', '按钮组左间距（28px）'),
 } as const;
 
 export const showcaseInputCustomizeFieldLabels = {

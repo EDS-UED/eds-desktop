@@ -12,12 +12,14 @@ withDefaults(
     tone?: ComboActionSkidTone;
     variant?: ButtonVariant;
     divider?: boolean;
+    loading?: boolean;
     confirmLabel?: string;
   }>(),
   {
     tone: 'brand',
     variant: 'solid',
     divider: false,
+    loading: false,
     confirmLabel: 'Confirm',
   },
 );
@@ -36,6 +38,7 @@ const emit = defineEmits<{
         :tone="tone"
         :variant="variant"
         size="md"
+        :loading="loading"
         @click="emit('confirm')"
       >
         {{ confirmLabel }}

@@ -68,7 +68,6 @@ async function onCopy(event: Event) {
       show-tooltip-copy
       boundary-selector=".eds-data-list"
       host-flex
-      :host-class="styles.lineFlotationHost"
     >
       {{ text }}
     </EgTooltipOverflow>

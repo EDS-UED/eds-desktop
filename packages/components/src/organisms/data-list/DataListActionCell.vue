@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { EgButton } from '../../molecules/button';
-import { EgFlotation, EgFlotationMenu, EgFlotationMenuItem } from '../../molecules/flotation';
+import {
+  DATA_LIST_ROW_MORE_EXCLUSIVE_GROUP,
+  EgFlotation,
+  EgFlotationMenu,
+  EgFlotationMenuItem,
+} from '../../molecules/flotation';
 import styles from './DataList.module.css';
 import type { DataListRowAction } from './types';
 
@@ -48,6 +53,7 @@ const secondAction = computed(() => resolvedMore.value[0]);
       boundary-selector=".eds-data-list"
       width-mode="adaptive"
       height-mode="adaptive"
+      :exclusive-group="DATA_LIST_ROW_MORE_EXCLUSIVE_GROUP"
       :show-add="false"
       :show-menu-divider="false"
       close-on-scroll

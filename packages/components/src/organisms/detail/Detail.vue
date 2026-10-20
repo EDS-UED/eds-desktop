@@ -806,6 +806,7 @@ onBeforeUnmount(() => {
                 :labels="tabLabels"
                 :horizontal-gap="tabHorizontalGap"
                 :vertical-gap="tabVerticalGap"
+                width-mode="fixed"
               />
               <EgDivider
                 :class="styles.headlineDivider"

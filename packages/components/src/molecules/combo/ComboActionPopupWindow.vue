@@ -14,6 +14,7 @@ const props = withDefaults(
     confirmLabel?: string;
     cancelLabel?: string;
     confirmDisabled?: boolean;
+    loading?: boolean;
   }>(),
   {
     tone: 'brand',
@@ -22,6 +23,7 @@ const props = withDefaults(
     confirmLabel: 'Confirm',
     cancelLabel: 'Cancel',
     confirmDisabled: false,
+    loading: false,
   },
 );
 
@@ -41,6 +43,7 @@ const resolvedCount = computed(() => (Number(props.count) === 1 ? 1 : 2));
       :variant="variant"
       size="md"
       :disabled="confirmDisabled"
+      :loading="loading"
       @click="emit('confirm')"
     >
       {{ confirmLabel }}

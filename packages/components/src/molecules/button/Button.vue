@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
+import { EgIcon } from '../../atoms/icons';
 import styles from './Button.module.css';
 
 /** Figma Style */
@@ -38,6 +39,10 @@ const props = withDefaults(
 const slots = useSlots();
 
 const isDisabled = computed(() => props.disabled || props.loading);
+
+const loadingIconSize = computed(() =>
+  props.size === 'sm' || props.size === 'xs' ? 'sm' : 'md',
+);
 </script>
 
 <template>
@@ -55,18 +60,7 @@ const isDisabled = computed(() => props.disabled || props.loading);
     :type="type"
     :aria-busy="loading || undefined"
   >
-    <span v-if="loading" :class="styles.spinner" aria-hidden="true">
-      <svg
-        :class="styles.spinnerIcon"
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="8" cy="8" r="6" stroke-dasharray="9 28" />
-      </svg>
-    </span>
-
-    <template v-else>
+    <span :class="[styles.row, loading && styles.rowLoading]">
       <span v-if="slots.icon && props.iconPosition === 'leading'" :class="styles.icon">
         <slot name="icon" />
       </span>
@@ -76,6 +70,13 @@ const isDisabled = computed(() => props.disabled || props.loading);
       <span v-if="slots.icon && props.iconPosition === 'trailing'" :class="styles.icon">
         <slot name="icon" />
       </span>
-    </template>
+    </span>
+    <span v-if="loading" :class="styles.spinnerWrap" aria-hidden="true">
+      <EgIcon
+        name="eds-load"
+        :size="loadingIconSize"
+        :class="styles.spinnerIcon"
+      />
+    </span>
   </button>
 </template>

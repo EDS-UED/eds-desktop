@@ -790,6 +790,7 @@ export const comboActionSkidCustomizeDefaults = {
   tone: 'brand',
   variant: 'solid',
   divider: false,
+  loading: false,
   confirmLabel: 'Confirm',
 } as const;
 
@@ -822,6 +823,7 @@ export const comboActionPopupCustomizeDefaults = {
   tone: 'brand',
   variant: 'solid',
   count: 2,
+  loading: false,
   confirmLabel: 'Confirm',
   cancelLabel: 'Cancel',
 } as const;
@@ -878,6 +880,7 @@ export const comboActionFlotationCustomizeDefaults = {
   variant: 'solid',
   divider: false,
   clear: false,
+  loading: false,
   confirmLabel: 'Confirm',
   cancelLabel: 'Cancel',
 } as const;
@@ -974,6 +977,8 @@ export const comboActionPageCustomizeDefaults = {
   variant: 'solid',
   divider: false,
   direction: 'right',
+  actionsLeadingInset: false,
+  loading: false,
   confirmLabel: 'Confirm',
   cancelLabel: 'Cancel',
 } as const;
@@ -1002,6 +1007,11 @@ export const comboActionPageCustomizeControls: DocCustomizeControl[] = [
   { kind: 'text', key: 'confirmLabel', label: showcaseButtonCustomizeFieldLabels.confirmLabel },
   { kind: 'text', key: 'cancelLabel', label: showcaseButtonCustomizeFieldLabels.cancelLabel },
   { kind: 'boolean', key: 'divider', label: showcaseButtonCustomizeFieldLabels.divider },
+  {
+    kind: 'boolean',
+    key: 'actionsLeadingInset',
+    label: showcaseButtonCustomizeFieldLabels.actionsLeadingInset,
+  },
 ];
 
 export function buildComboActionPageUsageSnippet(state: Record<string, unknown>): string {
@@ -1024,9 +1034,11 @@ export const comboActionCustomizeDefaults = {
   tone: 'brand',
   variant: 'solid',
   divider: false,
+  loading: false,
   count: 2,
   clear: false,
   direction: 'right',
+  actionsLeadingInset: false,
   confirmLabel: 'Confirm',
   cancelLabel: 'Cancel',
 } as const;
@@ -1077,6 +1089,12 @@ export const comboActionCustomizeControls: DocCustomizeControl[] = [
     options: buttonVariantRows.map((row) => ({ value: row.key, label: row.label })),
   },
   {
+    kind: 'boolean',
+    key: 'loading',
+    label: showcaseButtonCustomizeFieldLabels.loading,
+    row: 1,
+  },
+  {
     kind: 'select',
     key: 'direction',
     label: showcaseButtonCustomizeFieldLabels.direction,
@@ -1117,6 +1135,13 @@ export const comboActionCustomizeControls: DocCustomizeControl[] = [
       isComboActionKind(state, 'skid') ||
       isComboActionKind(state, 'flotation') ||
       isComboActionKind(state, 'page'),
+  },
+  {
+    kind: 'boolean',
+    key: 'actionsLeadingInset',
+    label: showcaseButtonCustomizeFieldLabels.actionsLeadingInset,
+    row: 1,
+    visibleWhen: (state) => isComboActionKind(state, 'page'),
   },
   {
     kind: 'boolean',

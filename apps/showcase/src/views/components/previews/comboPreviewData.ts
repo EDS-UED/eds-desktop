@@ -57,6 +57,24 @@ export const comboPropRows: ComboPropRow[] = [
     description: showcaseText('The main operation alignment direction of the Page scene.', 'Page 场景主操作对齐方向。'),
   },
   {
+    name: 'actionsLeadingInset',
+    type: 'boolean',
+    defaultValue: 'false',
+    description: showcaseText(
+      'Page scene: when direction is left, 28px left margin on the button group; ignored when direction is right.',
+      'Page 场景：direction 为 left 时按钮组左侧 28px 外边距；为 right 时不生效（按钮组靠右）。',
+    ),
+  },
+  {
+    name: 'loading',
+    type: 'boolean',
+    defaultValue: 'false',
+    description: showcaseText(
+      'Loading state on the Confirm button (EgButton loading).',
+      'Confirm 主按钮加载态（EgButton loading）。',
+    ),
+  },
+  {
     name: 'confirmLabel',
     type: 'string',
     defaultValue: "'Confirm'",

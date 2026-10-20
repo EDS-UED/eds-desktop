@@ -86,6 +86,7 @@ const resolvedDesignReferenceSuffix = computed(() => {
       v-model:customize-state="customize"
       anchor-id="button-combo"
       :title="comboTitle"
+      :flatten-preview-inner="comboKind === 'page'"
       :show-doc-title="false"
       :component-tag="comboComponentTag"
       :import-code="comboImportCode"
@@ -100,12 +101,29 @@ const resolvedDesignReferenceSuffix = computed(() => {
       props-section-id="button-combo-props"
     >
       <template #preview>
-        <div class="desktopTokens" :class="previewHostClass">
+        <div
+          v-if="comboKind === 'page'"
+          class="desktopTokens"
+          :class="docStyles.comboActionPageHost"
+        >
+          <EgComboPageButton
+            :tone="comboToneBrandDecor"
+            :variant="customize.variant as 'solid' | 'outline' | 'text'"
+            :divider="Boolean(customize.divider)"
+            :actions-leading-inset="Boolean(customize.actionsLeadingInset)"
+            :loading="Boolean(customize.loading)"
+            :direction="customize.direction"
+            :confirm-label="String(customize.confirmLabel)"
+            :cancel-label="String(customize.cancelLabel)"
+          />
+        </div>
+        <div v-else class="desktopTokens" :class="previewHostClass">
           <EgComboButton
             v-if="comboKind === 'skid'"
             :tone="customize.tone as 'brand' | 'decor' | 'danger'"
             :variant="customize.variant as 'solid' | 'outline' | 'text'"
             :divider="Boolean(customize.divider)"
+            :loading="Boolean(customize.loading)"
             :confirm-label="String(customize.confirmLabel)"
           />
           <EgComboPopupButton
@@ -113,24 +131,17 @@ const resolvedDesignReferenceSuffix = computed(() => {
             :tone="comboToneBrandDecor"
             :variant="customize.variant as 'solid' | 'outline' | 'text'"
             :count="customize.count"
+            :loading="Boolean(customize.loading)"
             :confirm-label="String(customize.confirmLabel)"
             :cancel-label="String(customize.cancelLabel)"
           />
           <EgComboFloatButton
-            v-else-if="comboKind === 'flotation'"
-            :tone="comboToneBrandDecor"
-            :variant="customize.variant as 'solid' | 'outline' | 'text'"
-            :divider="Boolean(customize.divider)"
-            :clear="Boolean(customize.clear)"
-            :confirm-label="String(customize.confirmLabel)"
-            :cancel-label="String(customize.cancelLabel)"
-          />
-          <EgComboPageButton
             v-else
             :tone="comboToneBrandDecor"
             :variant="customize.variant as 'solid' | 'outline' | 'text'"
             :divider="Boolean(customize.divider)"
-            :direction="customize.direction"
+            :clear="Boolean(customize.clear)"
+            :loading="Boolean(customize.loading)"
             :confirm-label="String(customize.confirmLabel)"
             :cancel-label="String(customize.cancelLabel)"
           />

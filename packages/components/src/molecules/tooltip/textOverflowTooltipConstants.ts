@@ -8,7 +8,8 @@ export const DATA_LIST_HEADER_OVERFLOW_TOOLTIP_MAX_WIDTH = 240;
 /** EgDataListCellOverflow — 单元格 overflow tooltip 默认面板宽度。 */
 export const DATA_LIST_CELL_OVERFLOW_TOOLTIP_MAX_WIDTH = 480;
 
-export const COPYABLE_OVERFLOW_TOOLTIP_MAX_WIDTH = 480;
+/** 含别名 Tag + 整行 EVM 地址 + 复制钮；须单行展示时不低于典型 0x… 宽度。 */
+export const COPYABLE_OVERFLOW_TOOLTIP_MAX_WIDTH = 640;
 
 export const COPYABLE_OVERFLOW_TOOLTIP_MAX_HEIGHT = 280;
 

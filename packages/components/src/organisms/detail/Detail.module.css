@@ -175,7 +175,7 @@
   align-items: center;
   justify-content: flex-start;
   align-self: flex-start;
-  gap: var(--spacing-1);
+  gap: var(--spacing-1-5);
 }
 
 .headlineText {
@@ -197,10 +197,6 @@
 }
 
 .tabsHost {
-  width: 100%;
-}
-
-.tabsHost :global(.eds-tabs) {
   width: 100%;
 }
 

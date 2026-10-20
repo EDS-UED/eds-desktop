@@ -528,22 +528,25 @@
 }
 
 :global(.eds-crypto-address-tooltip-menu.eds-flotation-menu--width-adaptive) .boxRootLabelWrap {
-  align-items: flex-start;
+  align-items: center;
 }
 
 :global(.eds-crypto-address-tooltip-menu.eds-flotation-menu--width-adaptive) .boxMainLabelWrap {
-  flex: 1 1 auto;
-  align-items: flex-start;
+  flex: 0 0 auto;
+  align-items: center;
   min-width: 0;
-  max-width: 100%;
+  max-width: none;
 }
 
 :global(.eds-crypto-address-tooltip-menu.eds-flotation-menu--width-adaptive) .boxLabel.boxLabelWrap {
-  flex: 1 1 auto;
-  flex-shrink: 1;
+  flex: 0 0 auto;
+  flex-shrink: 0;
   min-width: 0;
-  max-width: 100%;
-  white-space: normal;
+  max-width: none;
+  white-space: nowrap;
+  overflow: visible;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 :global(.eds-flotation-menu--width-adaptive) .boxMain {

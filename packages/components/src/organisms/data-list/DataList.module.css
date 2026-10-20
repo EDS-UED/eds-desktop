@@ -509,13 +509,20 @@
   user-select: none;
 }
 
+/** 与 TextOverflowTooltip `.panel` 一致：global eds-overflow-text-tooltip 默认 panel padding:0。 */
 .headerOverflowTooltip :global(.eds-tooltip-panel) {
+  box-sizing: border-box;
+  padding: var(--spacing-1) var(--spacing-2);
+  font-family: var(--eds-family-sans);
   font-size: var(--eds-body-medium-size);
   font-weight: var(--eds-body-medium-weight);
   line-height: var(--eds-body-medium-line-height);
   color: var(--text-base-primary);
   white-space: normal;
   word-break: break-word;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .sortDropdown {

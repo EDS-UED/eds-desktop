@@ -44,6 +44,8 @@ const props = withDefaults(
     effectPanelPreview?: boolean;
     /** Tag 文档：预览区 480px + 底部样式色板。 */
     tagPreview?: boolean;
+    /** 预览 slot 不参与 previewInner 盒模型（如 EgComboPageButton 全宽底栏）。 */
+    flattenPreviewInner?: boolean;
     /** 定制区按 control.row 分行排布（如 Module Menu 每组标题+顺序）。 */
     customizeSequential?: boolean;
     /** sequential + row 布局时每行列数（如 EgIconProButton 嵌套 6 列）。 */
@@ -65,6 +67,7 @@ const props = withDefaults(
     compactPreview: false,
     scrollPreview: false,
     effectPanelPreview: false,
+    flattenPreviewInner: false,
     customizeSequential: false,
   },
 );
@@ -320,7 +323,11 @@ async function copyAiPrompt() {
           </div>
         </div>
 
-        <div v-if="viewMode === 'preview'" :class="[styles.previewInner, useOrganismPreviewInner && styles.previewInnerTall]">
+        <slot v-if="viewMode === 'preview' && props.flattenPreviewInner" name="preview" />
+        <div
+          v-else-if="viewMode === 'preview'"
+          :class="[styles.previewInner, useOrganismPreviewInner && styles.previewInnerTall]"
+        >
           <slot name="preview" />
         </div>
         <div v-else :class="styles.codeInner">

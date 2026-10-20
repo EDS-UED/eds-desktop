@@ -25,7 +25,11 @@ import {
 import '../../styles/overlayGlassMicroFloat.module.css';
 import styles from './AnchoredTooltip.module.css';
 import { resolveNearestThemeScope, type ThemeMode } from '../../composables/useTheme';
-import { registerAnchoredTooltipClose, setClickAnchoredTooltipOpen } from './anchoredTooltipManager';
+import {
+  closeAllAnchoredTooltips,
+  registerAnchoredTooltipClose,
+  setClickAnchoredTooltipOpen,
+} from './anchoredTooltipManager';
 
 export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
 
@@ -184,7 +188,7 @@ function resolveTriggerMetricsEl(): HTMLElement | null {
   if (metrics instanceof HTMLElement) {
     return metrics;
   }
-  const nested = root.querySelector('.eds-flotation-trigger, .eds-button, button');
+  const nested = root.querySelector('.eds-flotation-trigger');
   return nested instanceof HTMLElement ? nested : root;
 }
 
@@ -217,6 +221,9 @@ function openNow() {
   }
   clearTimers();
   if (!open.value) {
+    closeAllAnchoredTooltips({
+      exceptAncestorsOf: triggerRef.value,
+    });
     open.value = true;
     emit('open');
   }
@@ -271,7 +278,11 @@ function onTriggerEnter() {
   scheduleOpen();
 }
 
-function onTriggerLeave() {
+function onTriggerLeave(event: MouseEvent) {
+  const related = event.relatedTarget;
+  if (related instanceof Node && isDismissSafeTarget(related)) {
+    return;
+  }
   scheduleClose();
 }
 
@@ -279,7 +290,11 @@ function onFloatingEnter() {
   clearTimers();
 }
 
-function onFloatingLeave() {
+function onFloatingLeave(event: MouseEvent) {
+  const related = event.relatedTarget;
+  if (related instanceof Node && isDismissSafeTarget(related)) {
+    return;
+  }
   scheduleClose();
 }
 
@@ -333,6 +348,16 @@ function onTriggerContextMenu(event: MouseEvent) {
   event.preventDefault();
 }
 
+/** Showcase 定制区等：pointer 移入时不关闭 click/hover 浮层（如 Filter 面板 + 内嵌币种下拉）。 */
+const DISMISS_SAFE_SELECTOR = '[data-eds-anchored-tooltip-dismiss-safe]';
+
+function isDismissSafeTarget(node: Node | null): boolean {
+  if (!(node instanceof Element)) {
+    return false;
+  }
+  return Boolean(node.closest(DISMISS_SAFE_SELECTOR));
+}
+
 /** 嵌套 Teleport 浮层（地址 Menu、Flotation 下拉等）；交互时不应关闭外层 click Popover。 */
 function isInsideNestedTeleportedLayer(target: Node): boolean {
   if (!(target instanceof Element)) {
@@ -354,6 +379,9 @@ function onDocumentPointerDown(event: PointerEvent) {
     return;
   }
   if (isInsideNestedTeleportedLayer(target)) {
+    return;
+  }
+  if (isDismissSafeTarget(target)) {
     return;
   }
   closeNow();
@@ -774,6 +802,7 @@ let unregisterTooltipClose: (() => void) | undefined;
 onMounted(() => {
   unregisterTooltipClose = registerAnchoredTooltipClose(closeNow, {
     dismissOnBarInteract: props.trigger !== 'click',
+    getHostElement: () => floatingRef.value,
   });
 });
 
@@ -821,7 +850,7 @@ defineExpose({
       :aria-expanded="trigger === 'click' ? open : undefined"
       :tabindex="trigger === 'click' ? 0 : undefined"
       @mouseenter="trigger === 'hover' ? onTriggerEnter() : undefined"
-      @mouseleave="trigger === 'hover' ? onTriggerLeave() : undefined"
+      @mouseleave="trigger === 'hover' ? onTriggerLeave($event) : undefined"
       @focusin="onTriggerFocusIn"
       @focusout="onTriggerFocusOut"
       @click="onTriggerClick"
@@ -847,7 +876,7 @@ defineExpose({
           :data-theme="floatingTheme"
           :style="floatingStyle"
           @mouseenter="trigger === 'hover' ? onFloatingEnter() : undefined"
-          @mouseleave="trigger === 'hover' ? onFloatingLeave() : undefined"
+          @mouseleave="trigger === 'hover' ? onFloatingLeave($event) : undefined"
           @contextmenu.prevent
         >
           <div

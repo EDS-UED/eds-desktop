@@ -166,10 +166,17 @@ const tokenScopeClass = computed(() =>
 );
 
 const hostClasses = computed(() => [
+  'eds-text-overflow-tooltip-host',
   styles.host,
   props.hostFlex && styles.hostFlex,
   props.hostClass,
 ]);
+
+function bindHostMeasureRef(el: unknown) {
+  const node = el instanceof HTMLElement ? el : null;
+  hostRef.value = node;
+  measureRef.value = node;
+}
 
 const typographyClasses = computed(() => {
   const value = props.typographyClass;
@@ -200,6 +207,11 @@ const showMenuExpandedTags = computed(() => {
 
 const hasMenuMetaRow = computed(
   () => hasMenuSecondaryText.value || showMenuExpandedTags.value,
+);
+
+/** 单行复制 Menu 无需列表滚动壳；含 alias / meta / tags 时与 Side Menu 对齐。 */
+const menuNeedsListScroll = computed(
+  () => hasMenuAlias.value || hasMenuMetaRow.value,
 );
 
 const resolvedBoundarySelector = computed(() => props.boundarySelector || undefined);
@@ -340,9 +352,8 @@ async function onTooltipCopy(event: Event) {
 </script>
 
 <template>
-  <span ref="hostRef" :class="hostClasses">
+  <span v-if="showMenuFlotation" ref="hostRef" :class="hostClasses">
     <EgFlotation
-      v-if="showMenuFlotation"
       :trigger="trigger"
       placement="bottom"
       align="start"
@@ -371,6 +382,7 @@ async function onTooltipCopy(event: Event) {
               showHoverTrigger && !deferHoverTarget && targetShellMotionClass,
               showHoverTrigger && !deferHoverTarget && typographyClasses,
             ]"
+            :data-eds-trigger-metrics="showHoverTrigger ? '' : undefined"
             :tabindex="showHoverTrigger && trigger === 'focus' ? 0 : undefined"
           >
             <span
@@ -391,7 +403,11 @@ async function onTooltipCopy(event: Event) {
             >
               <slot />
             </span>
-            <span v-if="deferHoverTarget" :class="measureClasses">
+            <span
+              v-if="deferHoverTarget"
+              :class="measureClasses"
+              data-eds-trigger-metrics
+            >
               <slot />
             </span>
           </span>
@@ -405,8 +421,9 @@ async function onTooltipCopy(event: Event) {
           :max-height="COPYABLE_OVERFLOW_TOOLTIP_MAX_HEIGHT"
           width-mode="adaptive"
           :max-width="COPYABLE_OVERFLOW_TOOLTIP_MAX_WIDTH"
+          :scrollable="false"
           :show-add="false"
-          list-scroll
+          :list-scroll="menuNeedsListScroll"
         >
           <EgFlotationMenuItem
             box-type="text"
@@ -467,20 +484,18 @@ async function onTooltipCopy(event: Event) {
         </EgFlotationMenu>
       </template>
     </EgFlotation>
+  </span>
 
-    <span
-      v-else-if="showTooltipCopy"
-      :class="[styles.wrap, wrapClass]"
-    >
-      <span :class="styles.targetShell">
-        <span ref="measureRef" :class="[measureClasses, typographyClasses]">
-          <slot />
-        </span>
-      </span>
-    </span>
+  <span
+    v-else-if="showTooltipCopy"
+    :ref="bindHostMeasureRef"
+    :class="[hostClasses, measureClasses, typographyClasses, wrapClass]"
+  >
+    <slot />
+  </span>
 
+  <span v-else ref="hostRef" :class="hostClasses">
     <EgTooltip
-      v-else
       :content="resolvedTooltipText"
       :disabled="tooltipDisabled"
       :trigger="trigger"

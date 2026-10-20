@@ -130,6 +130,7 @@ function patchInlineSelect(control: DocCustomizeControl, value: unknown) {
       embedded ? styles.customizeEmbedded : [shared.section, styles.customizeSection],
       'desktopTokens',
     ]"
+    data-eds-anchored-tooltip-dismiss-safe
   >
     <h2
       v-if="!hideTitle"

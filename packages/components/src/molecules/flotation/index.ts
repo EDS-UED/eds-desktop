@@ -29,3 +29,6 @@ export type {
 } from './FlotationTrigger.vue';
 export type { FlotationBoxType } from './FlotationMenuItem.vue';
 export type { FlotationWidthMode } from './Flotation.vue';
+export {
+  DATA_LIST_ROW_MORE_EXCLUSIVE_GROUP,
+} from './flotationExclusiveGroup';

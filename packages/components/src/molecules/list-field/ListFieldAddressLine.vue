@@ -190,6 +190,7 @@ async function onMenuCopy(key: string, address: string, event: MouseEvent) {
                   'eds-hover-tooltip-trigger__target--primary',
                   hoverMotionClass,
                 ]"
+                data-eds-trigger-metrics
                 :tabindex="tooltipTrigger === 'focus' ? 0 : undefined"
               >
                 <span :class="styles.addressLine">

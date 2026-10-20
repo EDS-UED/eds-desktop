@@ -27,20 +27,16 @@ export function useTabsTrackPan(options: {
 
     if (!clip || !track || !active) return 0;
 
-    const prev = options.itemEls[index - 1] ?? active;
-    const next = options.itemEls[index + 1] ?? active;
     const viewportWidth = clip.clientWidth;
-    const minPan = resolveMinPan(viewportWidth, track.scrollWidth);
+    const trackWidth = track.scrollWidth;
+    const minPan = resolveMinPan(viewportWidth, trackWidth);
 
-    let pan = trackPanX.value;
-    const prevLeft = prev.offsetLeft;
-    const nextRight = next.offsetLeft + next.offsetWidth;
-
-    if (prevLeft + pan < -SCROLL_EDGE_EPSILON) {
-      pan = -prevLeft;
-    } else if (nextRight + pan > viewportWidth + SCROLL_EDGE_EPSILON) {
-      pan = viewportWidth - nextRight;
+    if (trackWidth - viewportWidth <= SCROLL_EDGE_EPSILON) {
+      return 0;
     }
+
+    const activeCenter = active.offsetLeft + active.offsetWidth / 2;
+    const pan = viewportWidth / 2 - activeCenter;
 
     return Math.max(minPan, Math.min(0, pan));
   }

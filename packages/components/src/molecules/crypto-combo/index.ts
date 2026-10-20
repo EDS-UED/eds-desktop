@@ -2,6 +2,7 @@ export { default as EgCryptoCombo } from './CryptoCombo.vue';
 export { default as EgCryptoSymbol } from './CryptoSymbol.vue';
 export { default as EgCryptoItem } from './CryptoItem.vue';
 export { default as EgCryptoAddress } from './CryptoAddress.vue';
+export { default as EgCryptoAddressTags } from './CryptoAddressTags.vue';
 export type {
   CryptoComboNetworkStyle,
   CryptoComboLayoutStyle,

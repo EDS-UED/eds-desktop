@@ -25,6 +25,7 @@ const props = withDefaults(
     direction?: 'left' | 'right';
     barPadding?: ComboActionFlotationBarPadding;
     buttonSize?: ButtonSize;
+    loading?: boolean;
   }>(),
   {
     tone: 'brand',
@@ -38,6 +39,7 @@ const props = withDefaults(
     direction: 'right',
     barPadding: 'default',
     buttonSize: 'md',
+    loading: false,
   },
 );
 
@@ -112,6 +114,7 @@ const emit = defineEmits<{
           :tone="tone"
           :variant="variant"
           :size="buttonSize"
+          :loading="loading"
           @click.stop="emit('confirm')"
         >
           {{ confirmLabel }}

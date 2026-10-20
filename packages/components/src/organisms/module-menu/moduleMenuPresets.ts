@@ -251,7 +251,7 @@ const cregisManageModuleMenuGroups: ModuleMenuPresetGroup[] = [
         icon: 'eds-webhook',
         tier: 2,
         subitems: [
-          { label: 'Webhook Config', icon: 'eds-list-configure' },
+          { label: 'Webhook Config', icon: 'eds-api-box' },
           { label: 'Push Records', icon: 'eds-text-push' },
         ],
       },

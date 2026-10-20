@@ -335,32 +335,38 @@
 /* ── Loading ── */
 
 .loading {
+  position: relative;
   min-width: 5.5rem;
 }
 
-.spinner {
+.row {
   display: inline-flex;
   align-items: center;
+  gap: var(--spacing-1);
+}
+
+.rowLoading {
+  visibility: hidden;
+}
+
+.spinnerWrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 
 .spinnerIcon {
   display: block;
   width: var(--icon-md);
   height: var(--icon-md);
-  overflow: visible;
-  animation-duration: var(--motion-duration-spin); animation-timing-function: var(--motion-easing-linear);
-  
+  color: inherit;
+  animation-duration: var(--motion-duration-spin-slow);
+  animation-timing-function: var(--motion-easing-linear);
   animation-name: eds-button-spin;
   animation-iteration-count: infinite;
-}
-
-.spinnerIcon :global(circle) {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: var(--stroke-sm);
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
 }
 
 .sm .spinnerIcon,

@@ -239,7 +239,7 @@ export const detailHeaderCustomizeControls: DocCustomizeControl[] = [
   },
 ];
 
-const detailTabCountOptions = countSelectOptions(10, 2);
+const detailTabCountOptions = countSelectOptions(20, 2);
 
 export function buildDetailTabsCustomizeControls(
   state: Record<string, unknown>,

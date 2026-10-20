@@ -37,6 +37,11 @@ import {
   SPACING_EDGE_INSET,
   SPACING_MAIN_AXIS,
 } from '../../shared/cssSpacingTokens';
+import {
+  closeOtherFlotationExclusiveEntries,
+  registerFlotationExclusiveEntry,
+  unregisterFlotationExclusiveEntry,
+} from './flotationExclusiveGroup';
 
 export type { FlotationMenuItemPreset } from './flotationPresets';
 export type { FlotationTriggerSize, FlotationTriggerStyle, FlotationTriggerSymbolPosition } from './FlotationTrigger.vue';
@@ -101,6 +106,8 @@ const props = withDefaults(
     selectedIndex?: number | null;
     /** listScroll 打开时将 selectedIndex 滚至列表中间。 */
     scrollSelectedToCenter?: boolean;
+    /** 同组内仅允许一个浮层打开（如 DataList 行 More 菜单）。 */
+    exclusiveGroup?: string;
   }>(),
   {
     placement: 'bottom',
@@ -149,6 +156,7 @@ const slots = useSlots();
 const menuOpen = ref(false);
 const selectedIndex = ref<number | null>(props.selectedIndex ?? 0);
 const anchoredRef = ref<AnchoredApi | null>(null);
+const exclusiveEntryId = ref<symbol | null>(null);
 const menuRef = ref<{ scheduleScrollSelectedItemToCenter?: () => Promise<void> } | null>(null);
 const triggerMatchWidth = ref<number | undefined>(undefined);
 const mainAxisGapPx = ref(FALLBACK_MAIN_AXIS_PX);
@@ -263,6 +271,10 @@ function scheduleMenuReposition() {
 
 onMounted(() => {
   syncSelectedIndex();
+  const group = props.exclusiveGroup?.trim();
+  if (group) {
+    exclusiveEntryId.value = registerFlotationExclusiveEntry(group, closeFromExclusiveRegistry);
+  }
   nextTick(() => {
     resolveSpacingTokens();
     if (props.widthMode === 'trigger') {
@@ -368,7 +380,15 @@ watch(
   },
 );
 
+function closeFromExclusiveRegistry() {
+  anchoredRef.value?.close();
+}
+
 async function onOpen() {
+  const group = props.exclusiveGroup?.trim();
+  if (group && exclusiveEntryId.value) {
+    closeOtherFlotationExclusiveEntries(group, exclusiveEntryId.value);
+  }
   menuOpen.value = true;
   resolveSpacingTokens();
   syncTriggerSize();
@@ -395,6 +415,10 @@ function onItemClick(item: FlotationMenuItemPreset, index: number, event: MouseE
 
 onBeforeUnmount(() => {
   unbindTriggerResizeObserver();
+  const group = props.exclusiveGroup?.trim();
+  if (group && exclusiveEntryId.value) {
+    unregisterFlotationExclusiveEntry(group, exclusiveEntryId.value);
+  }
 });
 
 defineExpose({

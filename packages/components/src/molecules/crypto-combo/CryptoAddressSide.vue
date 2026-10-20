@@ -219,6 +219,7 @@ onBeforeUnmount(() => {
               'eds-hover-tooltip-trigger__target--secondary',
               tooltipTrigger === 'focus' ? ['motion-ease', 'is-paint-fade'] : ['motion-ease', 'is-paint'],
             ]"
+            data-eds-trigger-metrics
             :tabindex="tooltipTrigger === 'focus' ? 0 : undefined"
           >
             <span :class="styles.cryptoAddressTextHost">

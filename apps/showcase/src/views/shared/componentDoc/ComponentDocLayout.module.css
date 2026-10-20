@@ -547,8 +547,8 @@
 
 .comboActionPageHost {
   display: flex;
+  flex-direction: column;
   align-items: stretch;
-  justify-content: stretch;
   width: 100%;
   box-sizing: border-box;
 }

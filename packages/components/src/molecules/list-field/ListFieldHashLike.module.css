@@ -17,7 +17,7 @@
   max-width: 100%;
 }
 
-.lineFlotationHost,
+.cellLine :global(.eds-text-overflow-tooltip-host),
 .cellLine :global(.eds-flotation) {
   flex: 1 1 auto;
   min-width: 0;
