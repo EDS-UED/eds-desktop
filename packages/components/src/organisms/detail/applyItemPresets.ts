@@ -253,8 +253,7 @@ export const detailApplyItemVariants: DetailApplyItemVariant[] = [
       title: 'Remark',
       valueType: 'text',
       value: 'This is a text.',
-      showValueLink: true,
-      valueLinkLabel: 'Edit',
+      showValueCopy: true,
     },
   },
   {
@@ -332,6 +331,7 @@ export const detailApplyItemVariants: DetailApplyItemVariant[] = [
       valueType: 'text',
       value:
         'Others (eg. timeout, duplicate payment, incorrect payment currency, network delay, etc.)',
+      showValueCopy: true,
     },
   },
   {

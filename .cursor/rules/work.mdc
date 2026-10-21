@@ -7,13 +7,13 @@ alwaysApply: true
 
 > **§0** 执行 · **§1** token · **§2** API · **§3–4** Showcase · **§5** HMR · **§6** 滚动 · **§7** Organism · **§8** 同步 · **§9** 验证 · **§10–18** 专项 · **§19** 推送 · **§20** 变更
 >
-> 外部引用固定：consumer `work-cregis-desktop` 指向 **§7**（EgPopup）与 **§13**（顶底毛玻璃）。**改此两节编号须同步 consumer `AGENTS.md` 与 `.cursor/rules/work.mdc`。**
+> consumer `work-cregis-desktop` 固定引用 **§7**（EgPopup）、**§13**（顶底毛玻璃）。**改此两节编号须同步** consumer `AGENTS.md` 与其 `.cursor/rules/work.mdc`。
 
 ## 0. Agent 执行范围
 
-- 只做用户明确要求；**最小 diff**；禁顺带改 layout、API、consumer、文档、测试。
+- 仅做用户明确要求；**最小 diff**；禁顺带改 layout、API、consumer、文档、测试。
 - 不确定先问；无 token / 无 prop 枚举 → **停改**，先问能否硬编码。
-- `eds-mobile` 与 consumer `work-cregis-desktop` 的 `.cursor/rules/work.mdc` 须与 §0.1 对齐。
+- `eds-mobile` 与 consumer `work-cregis-desktop` 的 `work.mdc` 须与 §0.1 对齐。
 
 | 用户说 | ✅ | ❌ |
 |--------|----|----|
@@ -24,21 +24,19 @@ alwaysApply: true
 
 ### 0.1 协作方式
 
-结对编程：**过程中**每个动作（读/搜/改/验）带一两句因果与依据 §；**禁止**闷头改完再五段式汇报。**收尾**两三句（做了什么、验证、还需什么）。心里顺序：目标 → EDS 真源 → sync → §9（**区分本次引入 vs 预先存在**）；改公共 API 须交代 consumer 影响。
+结对：读/搜/改/验各带一两句因果与 § 依据；禁闷头改完再长汇报。收尾两三句（做了什么、验证、还需什么）。顺序：目标 → EDS 真源 → sync → §9（**区分本次引入 vs 预先存在**）；公共 API 变更须说明 consumer 影响。
 
 ## 1. Token 与样式
 
-**作用域**：Showcase + Desktop 组件 → `@eds/desktop-tokens` / `@eds/desktop-components`；预览 subtree 包 `.desktopTokens`。
+**作用域**：Showcase + Desktop → `@eds/desktop-tokens` / `@eds/desktop-components`；预览 subtree 包 `.desktopTokens`。
 
-1. **语义优先**：`packages/tokens/spec/**`、`dist/css/**`；禁 `--scale-*` 顶替 `--radius-*` / `--spacing-*` / `--stroke-*`。
+1. **语义真源** `packages/tokens/spec/**`、`dist/css/**`；禁 `--scale-*` 顶替 `--radius-*` / `--spacing-*` / `--stroke-*`。
 2. **禁私造 `--*`**、局部 alias、手拼 shadow/玻璃。阴影 `--eds-shadow-{deep|light|molde|subtle}`；玻璃 `.effect-*`（`container-box`、`flotation-box`、`popover-box`、`popup-box`、`molde-level`、`subtle-card`）。
-3. **Motion**（base → recipe → semantic → glue）：
-   - **base**：`--eds-motion-*` only；**recipe**：`--motion-recipe-*` 仅 glue；**semantic**：`.motion-page`、`.motion-flotation`、`.motion-layout`、`.motion-layout-deform`、`.motion-layout-content`、`.motion-deform`、`.motion-ease`、`.motion-none`（utilities）— 完整场景默认；**禁** semantic 写 `enter-from`/`leave-to`/方向 modifier。
-   - **glue**：Vue lifecycle、叠层、方向；例 DataList 批选列宽、Motion Page Push/Pop（forward content +offset / backward opacity-only）、Layout Deform / Detail tab（`useMotionLayoutContentSwitch`）。**禁**把 glue 写入 `spec/motion/semantic.json`。详案：`layout-deform-page-switch.md`。
-4. **microFloat**：opacity/transform 与 backdrop-filter **同在 glass**（`.effect-flotation-box` / `.effect-popup-box`）；glue `overlayGlassMicroFloat.module.css`；默认启用，无开关 prop。
-5. **EgPopover（锁死）**：默认宽 336；预置 256/296/336/460。只改 shadow/颜色时 **禁**动 layout；`.effect-popover-box`；阴影仅 SVG `.outline`。禁为修闪烁去掉 opacity 或 hover `v-if` 销毁 Teleport。
+3. **Motion**（base → recipe → semantic → glue）：base 仅 `--eds-motion-*`；recipe `--motion-recipe-*` 仅 glue；semantic 用 `.motion-page|flotation|layout|layout-deform|layout-content|deform|ease|none`；**禁** semantic 写 enter/leave/方向 modifier；**禁** glue 进 `spec/motion/semantic.json`。glue 例：DataList 批选列宽、Page Push/Pop、Layout Deform / Detail tab（`useMotionLayoutContentSwitch`）。详案 `layout-deform-page-switch.md`。
+4. **microFloat**：opacity/transform 与 backdrop-filter **同在 glass**（`.effect-flotation-box` / `.effect-popup-box`）；`overlayGlassMicroFloat.module.css`；默认开，无 prop 开关。
+5. **EgPopover（锁死）**：默认宽 336；预置 256/296/336/460。只改 shadow/颜色 **禁**动 layout；`.effect-popover-box`；阴影仅 SVG `.outline`。禁为修闪烁去 opacity 或 hover `v-if` 销毁 Teleport。
 6. **Typography**：`.typography-*` 或 `--eds-*-size/weight/line-height`。
-7. **其它**：顶边距 `height: var(--padding-top-{xs|sm|md|lg})`；数字 `formatGroupedNumber()` + `tabular-nums`；Bar 11px → `.eds-bar-text-subpixel` 或 NavBar sizer（§7）。
+7. **其它**：顶边距 `var(--padding-top-{xs|sm|md|lg})`；数字 `formatGroupedNumber()` + `tabular-nums`；Bar 11px → `.eds-bar-text-subpixel` 或 NavBar sizer（§7）。
 
 | 说法 | 用 |
 |------|-----|
@@ -49,18 +47,18 @@ alwaysApply: true
 
 ## 2. 公共 API 与废弃
 
-- **不留 `@deprecated`**：废弃当轮删净（prop、类型、export、兼容分支）。
-- **破坏性变更同轮迁移 consumer** + §8 + §9；EDS build 绿 ≠ consumer 可用。
-- **改名让位再占位**（例 `EgTooltip`↔`EgTooltipPanel`）：旧面板名→新面板名 在前，旧浮层→`EgTooltip` 在后，防 `Duplicate identifier`。
+- **不留 `@deprecated`**：当轮删净 prop、类型、export、兼容分支。
+- **破坏性变更**同轮迁移 consumer + §8 + §9；EDS build 绿 ≠ consumer 可用。
+- **改名让位再占位**（`EgTooltip`↔`EgTooltipPanel` 等）：防 `Duplicate identifier`。
 - 全仓改名扫描带 `--hidden`（含 `.cursor/rules/**`）。
 
 ## 3. Showcase 目录
 
-顶栏 **Tokens · Animations · Components · Patterns · Workflows**（§14）；`/patterns` ≠ 侧栏 Scenes。
+顶栏 **Tokens · Animations · Components · Patterns · Workflows**（§14）；`/patterns` ≠ Scenes 侧栏。
 
 - `catalog.ts` `children[].id` = 路由 slug = `anchor-id` 后缀；**先 catalog + slug，再 section**。
 - 同族一条 import；第二 child 起 `previewGroupLabel`。
-- 场景化新增/对齐 → **§17**；新 Scenes slug `{family}-scene-{scene}`（kebab），禁 `scens`。
+- 场景化 → **§17**；Scenes slug `{family}-scene-{scene}`（kebab），禁 `scens`。
 
 ## 4. 文案与演示数据
 
@@ -73,23 +71,23 @@ alwaysApply: true
 | Showcase 全站 | `@eds/desktop-tokens` / `@eds/desktop-components` |
 | 组件预览 subtree | `.desktopTokens` |
 
-**禁** `eds-website` / `@eds/website-*`；`desktopTokens` 打 Eg* 根；Desktop CSS 用非 desktop token。
+**禁** `eds-website` / `@eds/website-*`；`desktopTokens` 打 Eg* 根。
 
-**HMR**：`packages/components/**` alias+HMR；`tokens/spec/**` watch rebuild。未生效先查 HMR/dist/specificity。
+**HMR**：`packages/components/**` alias+HMR；`tokens/spec/**` watch rebuild。未生效查 HMR/dist/specificity。
 
 **Native reset**（`global.css`）：禁 `font: inherit`；禁 `button:not(.eds-xxx)` 抬特异性；typography `.class:global(.eds-*)`；`textarea` reset 排除 `.eds-textarea-control`。
 
 ## 6. 嵌套滚动边界
 
-NavBar、ModuleMenu、FlotationMenu、DataList、Dialog、Detail、Skid 等：顶/底 **不**链式滚外层；`overflow-y: auto` + `overscroll-behavior: none`；JS `wheel`（passive:false）+ scroll 钳制 + **`SCROLL_EDGE_EPSILON = 2`**（各组件本地一致）。参考 `NavBar.vue`；顶底毛玻璃与叠层溢出缘虚化见 **§13**。
+NavBar、ModuleMenu、FlotationMenu、DataList、Dialog、Detail、Skid 等：顶/底 **不**链式滚外层；`overflow-y: auto` + `overscroll-behavior: none`；JS `wheel`（passive:false）+ scroll 钳制 + **`SCROLL_EDGE_EPSILON = 2`**（与 §13 一致）。参考 `NavBar.vue`；缘虚化 **§13**。
 
 ## 7. Organism · Showcase 场景化
 
-`ComponentDocLayout` + 场景化下拉；`customize.scenario` 不进 snippet（`omitKeys`）。
+`ComponentDocLayout` + 场景下拉；`customize.scenario` 不进 snippet（`omitKeys`）。
 
 ### EgPopup（外壳 vs 内容）
 
-外壳：遮罩、Esc、进出场、`uses` 尺寸；**不做**内容。内容：`EgDetail`/`EgDialog`/`EgVerify` 各页配置。Popup host 挂**客户端 shell**；遮罩盖 NavBar+侧栏+主区。
+外壳：遮罩、Esc、进出场、`uses` 尺寸；**不做**内容。内容：`EgDetail`/`EgDialog`/`EgVerify`。Popup host 挂**客户端 shell**；遮罩盖 NavBar+侧栏+主区。
 
 | slug 类型 | 定制 |
 |-----------|------|
@@ -101,14 +99,14 @@ NavBar、ModuleMenu、FlotationMenu、DataList、Dialog、Detail、Skid 等：�
 
 `EgDialog` Symbol/Compose/Standard；`EgVerify` 尺寸随 type 固定。
 
-### Popovers / Layout Deform / Flotation / Detail / DataList
+### 其它 Organism 要点
 
 - **Popovers**：视觉在 `Eg*Popover`；禁 Showcase 手搓 host CSS。备注/确认 `teleport-to="body"`；placement 变须 `updatePosition()`。矿工费 `data-miner-fee-popover` | `data-miner-fee-ton-like` / `data-miner-fee-tron`。旧 `popovers-scens-*` 仅 router 重定向。
-- **Layout Deform**：禁 `.motion-page` / `mode="out-in"` 替代；`useMotionLayoutDeformPageSwitch` + `EgMotionLayoutContent`；shell morph + content `is-exiting`→120ms swap→`is-entering`；layout 绑 **`activePage`**。详案 `layout-deform-page-switch.md`。
+- **Layout Deform**：禁 `.motion-page` / `mode="out-in"` 替代；`useMotionLayoutDeformPageSwitch` + `EgMotionLayoutContent`；shell morph + content `is-exiting`→120ms swap→`is-entering`；绑 **`activePage`**。
 - **Flotation**：`EgFlotation` + `flotationDocCustomize.ts`；Box 场景键独立；`EgModuleMenuItem` `.motion-ease.is-enter-only`。
 - **EgDetail Apply_Item**（`detail-apply-item.md`）：必 `createDetailApplyItemRow`；多地址 `addressLayout: 'multi-collapsed'`；`toolbarDividerPinned` 控分割线。
-- **EgDataList 批选动效**（internal）：公共 API 仅 `EgDataList`；禁 export 动效组件/recipe 进 semantic。真源 `data-list/`；`visibleSlotIndices = idleSlotIndices`；`<col class="layoutColumn">` + snapshot；300/320ms 三处同步。禁 rAF 写列宽、动画中 `v-if` 切列、`:key` remount。consumer §7.6。
-- **EgFilter 多选值选择器**：`selectionMode: 'multi'` 时 checkbox / 全选写 **draft**，主列表与级联子菜单底部 `EgComboFloatButton`（`tone="decor"` `:count="2"` `:clear="draft 有勾选"` `direction="right"`；清除链文案继承组件 `clearLabel` 默认「清空」）点确定才写回 `modelValue`；**禁**多选列表底缘 mask fade（action bar 已占位）。「全部」行 leading：`--avatar-sm` + `--material-base-primary` 底，`eds-list-lattice-mobile-fill` `--icon-sm` + `--stroke-face-primary` 居中。单选仍点击即选中并关闭。参考 `FilterConditionCurrencyValue.vue`。
+- **EgDataList 批选动效**（internal）：公共 API 仅 `EgDataList`；禁 export 动效进 semantic。真源 `data-list/`；`visibleSlotIndices = idleSlotIndices`；`<col class="layoutColumn">` + snapshot；300/320ms 三处同步。禁 rAF 写列宽、动画中 `v-if` 切列、`:key` remount。consumer §7.6。
+- **EgFilter 多选值**：`selectionMode: 'multi'` 时 checkbox/全选写 **draft**；主列表与级联底 `EgComboFloatButton`（`tone="decor"` `:count="2"` `:clear="draft 有勾选"` `direction="right"`；清除文案继承 `clearLabel` 默认「清空」）确定才写回 `modelValue`；**禁**多选列表底缘 mask fade。「全部」行 leading：`--avatar-sm` + `--material-base-primary`，`eds-list-lattice-mobile-fill` `--icon-sm` + `--stroke-face-primary` 居中。单选点击即选中并关闭。参考 `FilterConditionCurrencyValue.vue`。
 - **其它**：NavBar preset `presets/<domain>/`；选中 `.motion-none`；Module Menu Cregis/UDun 独立 preset。
 
 ## 8. 本地同步
@@ -151,15 +149,15 @@ squircle **60%**（`--corner-smoothing: 0.6`）；`var(--radius-*)` 禁硬编码
 
 **页面级固定高面板**（Skid、Dialog、Detail 等）：顶/底 sticky + `var(--effect-mask)` + `var(--eds-blur-bg)`；单滚动容器；禁 fixed 顶底栏/不透明 scrim。参考 `Skid.vue`、`frostedPageChrome.css`。
 
-**Tooltip / Popover / Popup / Flotation 等内容溢出**（`EgTooltip`/`EgTooltipPanel`、`Eg*Popover`、`EgPopup` 内滚动区、`EgFlotationMenu` 等）：**必须**顶/底缘虚化，与 consumer `useScrollChromeScrim` 对齐。
+**Tooltip / Popover / Popup / Flotation 等内容溢出**（`EgTooltip`/`EgTooltipPanel`、`Eg*Popover`、`EgPopup` 内滚动、`EgFlotationMenu` 等）：**必须**顶/底缘虚化，对齐 consumer `useScrollChromeScrim`。
 
 | 缘 | 实现 |
 |----|------|
-| 顶 | 固定头与列表之间 `EgDivider type="module"`（`canScroll && topScrim` 显示；`ComboAction` 的 `dividerAnimated`） |
-| 底 | 滚动容器 `mask-image` 底缘 fade：`linear-gradient(to top, transparent 0, #000 var(--spacing-2))`；`transition: var(--motion-recipe-scroll-fade)` |
-| 状态 | `useScrollChromeScrim`（`packages/components/src/composables/useScrollChromeScrim.ts`）；`SCROLL_EDGE_EPSILON = 2`（与 §6 一致） |
+| 顶 | 固定头与列表间 `EgDivider type="module"`（`canScroll && topScrim`；`ComboAction` 的 `dividerAnimated`） |
+| 底 | 滚动容器 `mask-image` 底缘 fade + `var(--motion-recipe-scroll-fade)` |
+| 状态 | `useScrollChromeScrim`（`packages/components/src/composables/useScrollChromeScrim.ts`）；`SCROLL_EDGE_EPSILON = 2` |
 
-禁溢出可滚列表无缘虚化；禁叠 blur/scrim 冒充 mask。已有内建 fade 的 primitive（如 `EgFlotationMenu` `menuListScrollFade*`）优先复用，勿重复造轮子。参考 `WaasSubAddressCurrencyPicker`、`FilterConditionCurrencyValue`、`FlotationMenu.vue`。
+禁可滚列表无缘虚化；禁叠 blur/scrim 冒充 mask。内建 fade 的 primitive（如 `EgFlotationMenu` `menuListScrollFade*`）优先复用。参考 `WaasSubAddressCurrencyPicker`、`FilterConditionCurrencyValue`、`FlotationMenu.vue`。
 
 ## 14. EverGreen IA
 
@@ -188,11 +186,11 @@ Popup 外壳不承载 Dialog/Detail/Verify（§7）。
 
 业务场景封装 EDS `Eg*`，Showcase 与 consumer 同一入口；禁 preview 手拼 primitives。
 
-- **命名** `Eg{Scene}{Base}`；**slug** `{family}-scene-{scene}`，与 `customize.scenario` 一致；禁 `scens` / 与组件不符的 scene 键。
-- **对齐清单**：`catalog children[].id` = 路由 slug = `anchor-id`；`component-tag`/snippet 同一 `Eg*`；`splitScenePreviewEntries` 一致；预览直接渲染 `Eg*`。
-- **已对齐示例**：`tag-scene-*`、`dialog-scene-*`、`verify-scene-*`、`popovers-scene-*`（`EgGuidancePopover`/`EgRemarkPopover`/`EgGasFeePopover`/`EgConfirmPopover`）、`module-menu-scene-{cregis|udun}`、`flotation-*-scene-*`、`popup-scene-*`、Patterns `list-field-*`。
-- **存量例外**（禁作新增范本）：`input-combo-*`/`button-*`/`upload-*` 缺 `-scene-`；`popovers-scene-*` family 为单数 `popover`；`filter-scene-*` 未实现。改动可顺带迁移 + router legacy redirect。
-- **Verify**：单一族 + `verify-scene-*` 六页；禁拆并列 family。内部 panel 文件夹名可 domain 化；公共 export 用 `Eg*`。
+- **命名** `Eg{Scene}{Base}`；**slug** `{family}-scene-{scene}` = `customize.scenario`；禁 `scens` / 与组件不符的 scene 键。
+- **对齐**：`catalog children[].id` = 路由 slug = `anchor-id`；`component-tag`/snippet 同一 `Eg*`；`splitScenePreviewEntries` 一致；预览直接渲染 `Eg*`。
+- **示例**：`tag|dialog|verify|popovers|module-menu|flotation|popup-scene-*`、Patterns `list-field-*` 等已对齐族。
+- **存量例外**（禁作新增范本）：`input-combo-*`/`button-*`/`upload-*` 缺 `-scene-`；`popovers-scene-*` family 单数 `popover`；`filter-scene-*` 未实现。可顺带迁移 + router legacy redirect。
+- **Verify**：单一族 + `verify-scene-*` 六页；禁拆并列 family。
 
 ## 18. Showcase 定制面板状态
 
@@ -200,21 +198,22 @@ Popup 外壳不承载 Dialog/Detail/Verify（§7）。
 
 ## 19. 推送（GitHub + Pages）
 
-用户说 **「推送」** = **全部上 GitHub + 触发 Pages，本地/worktree 一点不剩**（除非当场另指定分支/仓）。
+用户说 **「推送」** = 全部上 GitHub + 触发 Pages，本地/worktree 无残留（除非当场指定分支/仓）。
 
 1. **§9** 全绿（区分本次 vs 预先存在）
 2. **`git status`** — 已改/未跟踪全部纳入或用户明确排除；禁留 unstaged / 未 push commit
 3. **commit** — 相关 untracked 一并 add；默认 `main`
 4. **`git push`**（首 push `-u origin <branch>`）；禁只 commit 不 push
-5. **Pages** — `main` 触发 `deploy-pages.yml` → `https://eds-ued.github.io/eds-desktop/`；确认 Actions 或告知用户
+5. **Pages** — `main` → `deploy-pages.yml` → `https://eds-ued.github.io/eds-desktop/`；确认 Actions 或告知用户
 
 **禁**：问「要不要 push」、漏文件、推前跳过 §9、force push `main`（除非明确要求）。
 
 ## 20. 变更记录
 
-- 2026-09-28：§7 EgFilter 多选值选择器禁底部 `EgComboFloatButton`、checkbox 即时写入；§13 补 Tooltip/Popover/Popup/Flotation 溢出缘虚化（`useScrollChromeScrim` + 顶 divider / 底 mask fade）。
-- 2026-09-18：§19 推送；§1 Motion 补 `.motion-layout-content` / Motion Page content 方向分支；规则全文压缩合并。
-- 2026-09-09：§0.1 协作方式；§2 API 废弃；§9 验证；§17 场景 slug/`Eg*` 对齐；§18 定制状态；清空 `@deprecated`；consumer DS→EDS 迁移。
-- 2026-09-01：§7 EgDataList 批选动效 glue 边界。
+- 2026-10-21：规则压缩合并（语义不变）。
+- 2026-09-28：§7 EgFilter 多选 draft + §13 溢出缘虚化。
+- 2026-09-18：§19 推送；§1 Motion 补 `.motion-layout-content`；规则压缩。
+- 2026-09-09：§0.1、§2、§9、§17–18、清空 `@deprecated`、consumer DS→EDS。
+- 2026-09-01：§7 EgDataList 批选 glue。
 - 2026-08-25：Showcase 自包含，移除 `@eds/website-*`。
 - 2026-08-24：规则整合单文件。更早见 git history。
