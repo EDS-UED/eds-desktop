@@ -17,6 +17,32 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, '..');
+
+/** 可选：仓库根 `.env`（gitignore），便于本地 FIGMA_ACCESS_TOKEN。 */
+function loadRepoDotEnv() {
+  const dotEnvPath = join(repoRoot, '.env');
+  if (!existsSync(dotEnvPath)) return;
+  const text = readFileSync(dotEnvPath, 'utf-8');
+  for (const line of text.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eq = trimmed.indexOf('=');
+    if (eq <= 0) continue;
+    const key = trimmed.slice(0, eq).trim();
+    if (key !== 'FIGMA_ACCESS_TOKEN' || process.env.FIGMA_ACCESS_TOKEN) continue;
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    process.env.FIGMA_ACCESS_TOKEN = value;
+  }
+}
+
+loadRepoDotEnv();
+
 const figmaConfigPath = join(repoRoot, 'figma.config.json');
 const outputPath = join(
   repoRoot,

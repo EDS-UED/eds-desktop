@@ -25,6 +25,7 @@ const eventHostClass = computed(() => iconButtonEventHostClass(iconButtonCustomi
 
 const iconButtonProps = computed(() => ({
   shape: iconButtonCustomize.shape as 'rectangular' | 'square' | 'round',
+  outlineStyle: iconButtonCustomize.outlineStyle as 'none' | 'bordered',
   size: iconButtonCustomize.size as 'lg' | 'md' | 'sm' | 'xs',
   label: String(iconButtonCustomize.label),
   disabled: Boolean(iconButtonCustomize.disabled),

@@ -912,7 +912,28 @@ export const detailSlotRows: DocPropRow[] = [
     name: 'body',
     type: 'slot',
     defaultValue: '-',
-    description: showcaseText('Scroll zone slots (Headline + Sections); EgDetail is placed in the EgPopup default slot.', '滚动区插槽（Headline + Sections）；EgDetail 置于 EgPopup 默认插槽内。'),
+    description: showcaseText(
+      'Replaces the entire default scroll body (Headline + Sections). Prefer #headline-main for Headline-only customization.',
+      '替换整块默认滚动区（Headline + Sections）。仅定制 Headline 请用 #headline-main。',
+    ),
+  },
+  {
+    name: 'headline-main',
+    type: 'slot',
+    defaultValue: 'eyebrow + headline + Status Tag (props)',
+    description: showcaseText(
+      'Optional. Replaces only the inner .headlineMain block; Tabs, divider, Sections, and toolbar unchanged. Default uses eyebrow / headline / headline-text / statusTag props.',
+      '可选。仅替换 Headline 主内容区；Tab、分割线、Sections、底栏不变。默认由 eyebrow、headline、#headline-text、statusTag 等 props 渲染。',
+    ),
+  },
+  {
+    name: 'headline-text',
+    type: 'slot',
+    defaultValue: 'headline prop',
+    description: showcaseText(
+      'Main title inside the default Headline h2; ignored when #headline-main is provided.',
+      '默认 Headline 内 h2 主标题；传入 #headline-main 时不生效。',
+    ),
   },
   {
     name: 'append',

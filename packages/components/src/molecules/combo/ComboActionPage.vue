@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { EgButton } from '../button';
 import { EgDivider } from '../../atoms/divider';
+import '../../styles/frostedPageChrome.css';
+import ComboActionPageActions from './ComboActionPageActions.vue';
 import type { ButtonVariant } from '../button/Button.vue';
 import styles from './ComboAction.module.css';
 
@@ -12,10 +13,13 @@ const props = withDefaults(
     tone?: ComboActionPageTone;
     variant?: ButtonVariant;
     divider?: boolean;
+    /** Page 底栏毛玻璃（与 ToolBar / Paginer 同套 page chrome）；用于 EgLayout #paginer 叠层。 */
+    pageChrome?: boolean;
     direction?: 'left' | 'right';
     /** Page 场景按钮组左侧 28px 外边距。 */
     actionsLeadingInset?: boolean;
     loading?: boolean;
+    confirmDisabled?: boolean;
     confirmLabel?: string;
     cancelLabel?: string;
   }>(),
@@ -23,9 +27,11 @@ const props = withDefaults(
     tone: 'brand',
     variant: 'solid',
     divider: false,
+    pageChrome: false,
     direction: 'right',
     actionsLeadingInset: false,
     loading: false,
+    confirmDisabled: false,
     confirmLabel: 'Confirm',
     cancelLabel: 'Cancel',
   },
@@ -36,8 +42,13 @@ const emit = defineEmits<{
   cancel: [];
 }>();
 
+const pageRootAlignClass = computed(() =>
+  props.direction === 'left' ? styles.pageRootAlignStart : styles.pageRootAlignEnd,
+);
+
 const pageActionsRowClass = computed(() => [
   styles.pageActions,
+  props.pageChrome && styles.pageActionsInChrome,
   props.direction === 'left' ? styles.pageActionsLeft : styles.pageActionsRight,
 ]);
 
@@ -48,15 +59,45 @@ const pageActionsGroupClass = computed(() => [
     props.direction === 'left' &&
     styles.pageActionsGroupLeadingInset,
 ]);
+
+const actionBindings = computed(() => ({
+  tone: props.tone,
+  variant: props.variant,
+  direction: props.direction,
+  loading: props.loading,
+  confirmDisabled: props.confirmDisabled,
+  confirmLabel: props.confirmLabel,
+  cancelLabel: props.cancelLabel,
+}));
 </script>
 
 <template>
+  <footer
+    v-if="pageChrome"
+    class="eds-combo-page-button"
+    :class="[styles.pageChromeRoot, pageRootAlignClass]"
+  >
+    <EgDivider
+      v-if="divider"
+      :class="[styles.divider, styles.dividerAnimated]"
+      type="module"
+      direction="horizontal"
+    />
+    <div :class="['eds-frosted-page-chrome', styles.pageChromeFrosted]">
+      <div :class="pageActionsRowClass">
+        <div :class="pageActionsGroupClass">
+          <ComboActionPageActions
+            v-bind="actionBindings"
+            @confirm="emit('confirm')"
+            @cancel="emit('cancel')"
+          />
+        </div>
+      </div>
+    </div>
+  </footer>
   <div
-    v-if="divider"
-    :class="[
-      styles.pageRoot,
-      direction === 'left' ? styles.pageRootAlignStart : styles.pageRootAlignEnd,
-    ]"
+    v-else-if="divider"
+    :class="[styles.pageRoot, pageRootAlignClass]"
   >
     <EgDivider
       :class="[styles.divider, styles.dividerAnimated]"
@@ -65,67 +106,21 @@ const pageActionsGroupClass = computed(() => [
     />
     <div :class="pageActionsRowClass">
       <div :class="pageActionsGroupClass">
-        <template v-if="direction === 'left'">
-          <EgButton
-            :tone="tone"
-            :variant="variant"
-            size="md"
-            :loading="loading"
-            @click="emit('confirm')"
-          >
-            {{ confirmLabel }}
-          </EgButton>
-          <EgButton tone="subtle" variant="text" size="md" @click="emit('cancel')">
-            {{ cancelLabel }}
-          </EgButton>
-        </template>
-        <template v-else>
-          <EgButton tone="subtle" variant="text" size="md" @click="emit('cancel')">
-            {{ cancelLabel }}
-          </EgButton>
-          <EgButton
-            :tone="tone"
-            :variant="variant"
-            size="md"
-            :loading="loading"
-            @click="emit('confirm')"
-          >
-            {{ confirmLabel }}
-          </EgButton>
-        </template>
+        <ComboActionPageActions
+          v-bind="actionBindings"
+          @confirm="emit('confirm')"
+          @cancel="emit('cancel')"
+        />
       </div>
     </div>
   </div>
   <div v-else :class="pageActionsRowClass">
     <div :class="pageActionsGroupClass">
-      <template v-if="direction === 'left'">
-        <EgButton
-          :tone="tone"
-          :variant="variant"
-          size="md"
-          :loading="loading"
-          @click="emit('confirm')"
-        >
-          {{ confirmLabel }}
-        </EgButton>
-        <EgButton tone="subtle" variant="text" size="md" @click="emit('cancel')">
-          {{ cancelLabel }}
-        </EgButton>
-      </template>
-      <template v-else>
-        <EgButton tone="subtle" variant="text" size="md" @click="emit('cancel')">
-          {{ cancelLabel }}
-        </EgButton>
-        <EgButton
-          :tone="tone"
-          :variant="variant"
-          size="md"
-          :loading="loading"
-          @click="emit('confirm')"
-        >
-          {{ confirmLabel }}
-        </EgButton>
-      </template>
+      <ComboActionPageActions
+        v-bind="actionBindings"
+        @confirm="emit('confirm')"
+        @cancel="emit('cancel')"
+      />
     </div>
   </div>
 </template>

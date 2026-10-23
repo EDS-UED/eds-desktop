@@ -39,6 +39,15 @@ export const comboPropRows: ComboPropRow[] = [
     description: showcaseText('Whether or not to show the divider at the top of the container. Used in Skid, Flotation, Page scenarios.', '是否显示容器顶部分隔线。用于 Skid、Flotation、Page 场景。'),
   },
   {
+    name: 'pageChrome',
+    type: 'boolean',
+    defaultValue: 'false',
+    description: showcaseText(
+      'Page only: frosted bottom bar (eds-frosted-page-chrome). Bar min-height matches EgPaginer; button row padding uses spacing-4 / spacing-6 (16px / 24px). Place in EgLayout #paginer with show-paginer — do not wrap EgPaginer around the buttons only.',
+      '仅 Page：页底毛玻璃底栏（eds-frosted-page-chrome）。栏 min-height 与 EgPaginer 一致；按钮行 padding 为 spacing-4 / spacing-6（16px / 24px）。可滚配置页用 EgLayout show-paginer + #paginer 放入本组件，勿仅用 EgPaginer 包裹按钮。',
+    ),
+  },
+  {
     name: 'count',
     type: '1 | 2',
     defaultValue: '2',
@@ -177,7 +186,15 @@ export const comboDemoSections: ComboDemoSection[] = [
     code: `<EgComboPageButton tone="brand" direction="right" />
 <EgComboPageButton tone="decor" direction="left" />
 <EgComboPageButton tone="brand" direction="right" divider />
-<EgComboPageButton tone="decor" direction="left" divider />`,
+<EgComboPageButton tone="decor" direction="left" divider page-chrome />
+
+<!-- Scrollable settings page: EgLayout overlay bottom bar -->
+<EgLayout type="empty" show-paginer>
+  <!-- scrollable main -->
+  <template #paginer>
+    <EgComboPageButton page-chrome divider direction="left" />
+  </template>
+</EgLayout>`,
   },
   {
     id: 'button-combo-skid',

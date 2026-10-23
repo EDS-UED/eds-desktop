@@ -1664,7 +1664,15 @@ export const layoutSlotRows: OrganismPropRow[] = [
   },
   { name: 'toolbar', type: 'slot', defaultValue: 'EgToolBar', description: 'showToolbar。' },
   { name: 'default', type: 'slot', defaultValue: '-', description: showcaseText('The main content area.', '主内容区。') },
-  { name: 'paginer', type: 'slot', defaultValue: 'EgPaginer', description: 'showPaginer。' },
+  {
+    name: 'paginer',
+    type: 'slot',
+    defaultValue: 'EgPaginer',
+    description: showcaseText(
+      'Bottom chrome overlay when showPaginer. Typically EgPaginer; for scrollable form footers use EgComboPageButton with page-chrome instead of wrapping buttons in EgPaginer alone.',
+      'showPaginer 时底栏叠层。通常为 EgPaginer；可滚配置页底栏可放 EgComboPageButton（page-chrome），勿仅为包按钮而使用 EgPaginer。',
+    ),
+  },
   { name: 'skid', type: 'slot', defaultValue: 'EgSkid', description: showcaseText('showSkid Right slider.', 'showSkid 右侧滑层。') },
 ];
 

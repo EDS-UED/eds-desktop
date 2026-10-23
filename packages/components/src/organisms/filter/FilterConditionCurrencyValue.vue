@@ -4,7 +4,7 @@ import { EgDivider } from '../../atoms/divider';
 import { EgCrypto, type CryptoName } from '../../atoms/crypto';
 import { EgIcon } from '../../atoms/icons';
 import { useScrollChromeScrim } from '../../composables/useScrollChromeScrim';
-import { EgMessage, type MessageType } from '../../molecules/feedback';
+import { EgMessage } from '../../molecules/feedback';
 import { EgTag } from '../../molecules/tag';
 import comboActionStyles from '../../molecules/combo/ComboAction.module.css';
 import {
@@ -412,10 +412,6 @@ function getOptionParentMessageText(option: FilterCurrencyPreset): string {
   const selected = getOptionParentSelectedNetworkCount(option);
   if (selected > 0) return String(selected);
   return String(getOptionParentNetworkTotalCount(option));
-}
-
-function getOptionParentMessageType(option: FilterCurrencyPreset): MessageType {
-  return getOptionParentSelectedNetworkCount(option) > 0 ? 'brand' : 'subtle';
 }
 
 const selectAllMode = computed<FilterSelectAllMode>(() => {
@@ -865,7 +861,7 @@ function onPickerClose() {
           </template>
           <template v-if="showTriggerCountMessage" #message>
             <EgMessage
-              type="brand"
+              type="subtle"
               :text="triggerCountText"
               focus-background="inherit"
             />
@@ -984,7 +980,7 @@ function onPickerClose() {
                             :mode-tag="resolveOptionModeTag(option)"
                             :show-message="showOptionParentMessage(option)"
                             :message-text="getOptionParentMessageText(option)"
-                            :message-type="getOptionParentMessageType(option)"
+                            message-type="subtle"
                             message-static
                             show-cascader
                             :show-tag="false"

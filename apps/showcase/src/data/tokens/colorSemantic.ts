@@ -82,6 +82,7 @@ export const eventColorTokenOrder = [
   'event-focus',
   'event-focus-brand',
   'event-focus-brand-weaken',
+  'event-focus-brand-subtle',
 ] as const;
 
 /** Figma Color System → Text variable order. */

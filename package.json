@@ -18,6 +18,7 @@
     "sync": "node scripts/sync-local-consumers.mjs",
     "sync:list": "node scripts/sync-local-consumers.mjs --list",
     "sync:tokens": "pnpm --filter @eds/desktop-tokens sync:figma",
+    "sync:icon-descriptions": "node scripts/sync-icon-figma-descriptions.mjs",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "i18n:showcase:extract": "pnpm --filter @eds/desktop-showcase i18n:extract",

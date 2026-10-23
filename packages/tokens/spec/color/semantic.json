@@ -118,6 +118,11 @@
       "dark": "color(var(--eds-brand) / .2)"
     },
     {
+      "name": "event-focus-brand-subtle",
+      "light": "color(var(--eds-brand) / .12)",
+      "dark": "color(var(--eds-brand) / .12)"
+    },
+    {
       "name": "status-disable-base",
       "light": "color(var(--eds-base) / .2)",
       "dark": "color(var(--eds-base) / .2)"

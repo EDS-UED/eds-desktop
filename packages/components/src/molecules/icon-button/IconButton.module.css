@@ -112,6 +112,16 @@
   border-radius: var(--radius-xs);
 }
 
+.rectangular.outlineBordered {
+  border: var(--stroke-xs) solid var(--stroke-divider-page);
+}
+
+.rectangular.outlineBordered:hover:not(:disabled):not(.isDisabled),
+.rectangular.outlineBordered:active:not(:disabled):not(.isDisabled),
+.rectangular.outlineBordered:focus-visible:not(:disabled):not(.isDisabled) {
+  border-color: transparent;
+}
+
 /* ── Square ── */
 
 .square.lg {

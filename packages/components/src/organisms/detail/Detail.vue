@@ -783,20 +783,23 @@ onBeforeUnmount(() => {
         <template v-else>
           <header :class="[styles.headline, showTabs && styles.headlineSticky]">
             <div :class="styles.headlineMain">
-              <span v-if="showEyebrow" :class="styles.eyebrow">{{ eyebrow }}</span>
-              <div :class="styles.headlineRow">
-                <h2 :class="styles.headlineText">
-                  <slot name="headline-text">{{ headline }}</slot>
-                </h2>
-                <EgTag
-                  v-if="showStatusTag && statusTag"
-                  family="status"
-                  :status="statusTagStatus"
-                  :size="statusTagSize"
-                >
-                  {{ statusTag }}
-                </EgTag>
-              </div>
+              <slot v-if="$slots['headline-main']" name="headline-main" />
+              <template v-else>
+                <span v-if="showEyebrow" :class="styles.eyebrow">{{ eyebrow }}</span>
+                <div :class="styles.headlineRow">
+                  <h2 :class="styles.headlineText">
+                    <slot name="headline-text">{{ headline }}</slot>
+                  </h2>
+                  <EgTag
+                    v-if="showStatusTag && statusTag"
+                    family="status"
+                    :status="statusTagStatus"
+                    :size="statusTagSize"
+                  >
+                    {{ statusTag }}
+                  </EgTag>
+                </div>
+              </template>
             </div>
 
             <div v-if="showTabs" :class="styles.tabsWrap">

@@ -131,6 +131,11 @@ export const showcaseIconShapeLabels = {
   round: tokenLabel('Round', '圆形', 'round'),
 } as const;
 
+export const showcaseIconOutlineStyleLabels = {
+  none: showcaseText('No border', '无边框'),
+  bordered: showcaseText('With border', '有边框'),
+} as const;
+
 export const showcasePaginationKindLabels = {
   number: showcaseText('Number paginator', '分页器-数字'),
   symbol: showcaseText('Symbol paginator', '分页器-符号'),
@@ -483,6 +488,7 @@ export const showcaseButtonCustomizeFieldLabels = {
   iconName: showcaseText('Icon Name', '图标名'),
   symbol: showcaseText('Icon', '图标'),
   shape: showcaseText('Type', '类型'),
+  outlineStyle: showcaseText('Style', '样式'),
   event: showcaseText('Interaction', '交互'),
   badge: showcaseText('Badge', '角标'),
   showBadge: showcaseText('Show badge', '显示角标'),
@@ -496,6 +502,7 @@ export const showcaseButtonCustomizeFieldLabels = {
   clear: showcaseText('Clear', '清空'),
   direction: showcaseText('Direction', '方向'),
   actionsLeadingInset: showcaseText('Actions leading inset (28px)', '按钮组左间距（28px）'),
+  pageChrome: showcaseText('Page chrome (frosted bar)', '页底毛玻璃'),
 } as const;
 
 export const showcaseInputCustomizeFieldLabels = {
@@ -607,6 +614,11 @@ export const buttonToneRows = propLabelRows(
 export const iconShapeRows = propLabelRows(
   ['rectangular', 'square', 'round'] as const,
   showcaseIconShapeLabels,
+);
+
+export const iconOutlineStyleRows = propLabelRows(
+  ['none', 'bordered'] as const,
+  showcaseIconOutlineStyleLabels,
 );
 
 export const linkToneRows = propLabelRows(['brand', 'theme', 'decor'] as const, showcaseLinkToneLabels);

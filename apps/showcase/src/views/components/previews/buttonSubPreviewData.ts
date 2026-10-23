@@ -10,6 +10,15 @@ export const iconButtonPropRows: DocPropRow[] = [
     description: showcaseText('Container shape: rectangular, square, round (Figma Type).', '容器外形：矩形 rectangular、方形 square、圆形 round（Figma Type）。'),
   },
   {
+    name: 'outlineStyle',
+    type: "'none' | 'bordered'",
+    defaultValue: "'none'",
+    description: showcaseText(
+      'Rectangular only: none (default) or stroke-xs solid stroke-divider-page; hidden on hover / focus / active.',
+      '仅 rectangular：无边框（默认）或有边框（stroke-xs solid stroke-divider-page）；hover / focus / active 时隐藏描边。',
+    ),
+  },
+  {
     name: 'size',
     type: "'lg' | 'md' | 'sm' | 'xs'",
     defaultValue: "'lg'",

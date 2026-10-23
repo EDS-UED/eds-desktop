@@ -9,6 +9,7 @@ import {
   buttonToneRows,
   buttonVariantRows,
   iconShapeRows,
+  iconOutlineStyleRows,
   linkSizeRows,
   linkToneRows,
   paginationKindRows,
@@ -175,6 +176,7 @@ export function buildButtonUsageSnippet(state: Record<string, unknown>): string 
 
 export const iconButtonCustomizeDefaults = {
   shape: 'rectangular',
+  outlineStyle: 'none' as 'none' | 'bordered',
   event: 'full' as 'full' | 'default' | 'hover' | 'active' | 'focus',
   motion: 'ease' as 'ease' | 'hover-enter-only' | 'asym' | 'none',
   size: 'lg',
@@ -189,6 +191,13 @@ export const iconButtonCustomizeControls: DocCustomizeControl[] = [
     key: 'shape',
     label: showcaseButtonCustomizeFieldLabels.shape,
     options: iconShapeRows.map((row) => ({ value: row.key, label: row.label })),
+  },
+  {
+    kind: 'select',
+    key: 'outlineStyle',
+    label: showcaseButtonCustomizeFieldLabels.outlineStyle,
+    options: iconOutlineStyleRows.map((row) => ({ value: row.key, label: row.label })),
+    visibleWhen: (state) => String(state.shape ?? iconButtonCustomizeDefaults.shape) === 'rectangular',
   },
   {
     kind: 'select',
@@ -976,6 +985,7 @@ export const comboActionPageCustomizeDefaults = {
   tone: 'brand',
   variant: 'solid',
   divider: false,
+  pageChrome: false,
   direction: 'right',
   actionsLeadingInset: false,
   loading: false,
@@ -1007,6 +1017,7 @@ export const comboActionPageCustomizeControls: DocCustomizeControl[] = [
   { kind: 'text', key: 'confirmLabel', label: showcaseButtonCustomizeFieldLabels.confirmLabel },
   { kind: 'text', key: 'cancelLabel', label: showcaseButtonCustomizeFieldLabels.cancelLabel },
   { kind: 'boolean', key: 'divider', label: showcaseButtonCustomizeFieldLabels.divider },
+  { kind: 'boolean', key: 'pageChrome', label: showcaseButtonCustomizeFieldLabels.pageChrome },
   {
     kind: 'boolean',
     key: 'actionsLeadingInset',
@@ -1033,7 +1044,8 @@ export const comboActionCustomizeDefaults = {
   kind: 'skid' as ComboActionKindValue,
   tone: 'brand',
   variant: 'solid',
-  divider: false,
+  divider: true,
+  pageChrome: true,
   loading: false,
   count: 2,
   clear: false,
@@ -1135,6 +1147,13 @@ export const comboActionCustomizeControls: DocCustomizeControl[] = [
       isComboActionKind(state, 'skid') ||
       isComboActionKind(state, 'flotation') ||
       isComboActionKind(state, 'page'),
+  },
+  {
+    kind: 'boolean',
+    key: 'pageChrome',
+    label: showcaseButtonCustomizeFieldLabels.pageChrome,
+    row: 1,
+    visibleWhen: (state) => isComboActionKind(state, 'page'),
   },
   {
     kind: 'boolean',

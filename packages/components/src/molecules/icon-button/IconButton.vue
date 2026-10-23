@@ -5,12 +5,15 @@ import styles from './IconButton.module.css';
 
 /** Figma Type */
 export type IconButtonShape = 'rectangular' | 'square' | 'round';
+export type IconButtonOutlineStyle = 'none' | 'bordered';
 export type IconButtonSize = 'lg' | 'md' | 'sm' | 'xs';
 export type IconButtonMotion = 'ease' | 'asym' | 'hover-enter-only' | 'none';
 
 const props = withDefaults(
   defineProps<{
     shape?: IconButtonShape;
+    /** 仅 rectangular：stroke-xs solid stroke-divider-page；hover / focus / active 时隐藏描边。 */
+    outlineStyle?: IconButtonOutlineStyle;
     size?: IconButtonSize;
     label: string;
     disabled?: boolean;
@@ -25,6 +28,7 @@ const props = withDefaults(
   }>(),
   {
     shape: 'rectangular',
+    outlineStyle: 'none',
     size: 'lg',
     disabled: false,
     type: 'button',
@@ -55,6 +59,9 @@ const motionClass = computed(() => {
       styles.button,
       motionClass,
       styles[props.shape],
+      props.shape === 'rectangular' &&
+        props.outlineStyle === 'bordered' &&
+        styles.outlineBordered,
       styles[props.size],
       as === 'span' && styles.decor,
       disabled && styles.isDisabled,
