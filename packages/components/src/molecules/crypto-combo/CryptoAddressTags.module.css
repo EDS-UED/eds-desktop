@@ -53,3 +53,9 @@
   flex: 0 0 auto;
   min-width: 0;
 }
+
+/** Detail 地址侧风险反馈 tooltip · 与 DetailValueActionIcon 浮层内边距一致。 */
+.addressSideFeedbackTooltip {
+  display: block;
+  padding: var(--spacing-1-5) var(--spacing-2);
+}

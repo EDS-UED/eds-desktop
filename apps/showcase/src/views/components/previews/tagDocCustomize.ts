@@ -248,6 +248,7 @@ export const tagCustomStyleOptions = propLabelSelectOptions(
     'aml-danger',
     'aml-safe',
     'aml-suspicious',
+    'aml-ready',
     'aml-invalid',
   ] as const,
   showcaseTagCustomStyleLabels,
@@ -259,7 +260,7 @@ export const tagCustomGalleryOptions = tagCustomStyleOptions.map((option) => ({
 }));
 
 export const tagAmlStyleOptions = propLabelSelectOptions(
-  ['aml-danger', 'aml-safe', 'aml-suspicious', 'aml-invalid'] as const,
+  ['aml-danger', 'aml-safe', 'aml-suspicious', 'aml-ready', 'aml-invalid'] as const,
   showcaseTagCustomStyleLabels,
 );
 

@@ -1,10 +1,17 @@
 import type { CryptoAddressSideTags } from '../../molecules/crypto-combo/cryptoAddressTypes';
 import type { FormSubmissionType } from '../../molecules/feedback/FormSubmission.vue';
 
+export type DetailItemValueAddressSideFeedbackPlacement = 'inline' | 'tag-tooltip';
+
 export type DetailItemValueAddressSideFeedback = {
   type?: FormSubmissionType;
   text: string;
   showLink?: boolean;
+  /**
+   * inline：Tag 下方 EgFormSubmission；
+   * tag-tooltip（默认）：行内不展示，悬停 aml-danger / aml-suspicious 地址侧 Tag 时在 tooltip 内展示。
+   */
+  placement?: DetailItemValueAddressSideFeedbackPlacement;
 };
 
 export type DetailValueType = 'text' | 'crypto' | 'user';
@@ -51,7 +58,7 @@ export type DetailItemValueEntry = {
   valueAddressSideTagsRevealAll?: boolean;
   /** Tag 置于别名/地址行下方。 */
   valueAddressSideTagsBelow?: boolean;
-  /** Tag 下方 EgFormSubmission 反馈（如黑名单提示）。 */
+  /** 地址侧风险反馈（黑名单等）；默认悬停风险 Tag 的 tooltip，见 `placement`。 */
   valueAddressSideFeedback?: DetailItemValueAddressSideFeedback;
   /** 次要 value 文案（60% 字色，如钱包编号）。 */
   valueMuted?: boolean;

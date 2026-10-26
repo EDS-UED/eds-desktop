@@ -219,6 +219,12 @@
   color: var(--status-warning);
 }
 
+.customAmlReady {
+  --tag-custom-bar: var(--tag-status-ready-text);
+  background: var(--tag-status-ready-bg);
+  color: var(--tag-status-ready-text);
+}
+
 .customAmlInvalid {
   --tag-custom-bar: var(--stroke-base-tertiary);
   color: var(--text-base-tertiary);
@@ -226,7 +232,8 @@
 
 .customAmlDanger .customContent,
 .customAmlSafe .customContent,
-.customAmlSuspicious .customContent {
+.customAmlSuspicious .customContent,
+.customAmlReady .customContent {
   background: transparent;
 }
 

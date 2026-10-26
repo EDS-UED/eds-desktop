@@ -37,6 +37,7 @@ import {
   createDefaultDetailSections,
   type DetailAddressLayout,
   type DetailItemData,
+  type DetailItemValueAddressSideFeedback,
   type DetailItemValueEntry,
   type DetailSectionData,
 } from './detailTypes';
@@ -224,6 +225,29 @@ function itemPrimaryValueEntry(item: DetailItemData): DetailItemResolvedValueEnt
 
 function entryAddressTagsBelow(entry: DetailItemResolvedValueEntry): boolean {
   return entry.valueAddressSideTagsBelow === true;
+}
+
+function entryAddressSideFeedbackPlacement(
+  entry: DetailItemResolvedValueEntry,
+): 'inline' | 'tag-tooltip' {
+  return entry.valueAddressSideFeedback?.placement ?? 'tag-tooltip';
+}
+
+function entryShowsInlineAddressSideFeedback(entry: DetailItemResolvedValueEntry): boolean {
+  return Boolean(
+    entry.valueAddressSideFeedback
+    && entryAddressSideFeedbackPlacement(entry) === 'inline',
+  );
+}
+
+function entryAddressSideFeedbackForTagTooltip(
+  entry: DetailItemResolvedValueEntry,
+): DetailItemValueAddressSideFeedback | undefined {
+  const feedback = entry.valueAddressSideFeedback;
+  if (!feedback || entryAddressSideFeedbackPlacement(entry) !== 'tag-tooltip') {
+    return undefined;
+  }
+  return feedback;
 }
 
 function resolveItemCopyValue(item: DetailItemData, entry: DetailItemResolvedValueEntry): string {
@@ -1055,17 +1079,18 @@ onBeforeUnmount(() => {
                               )"
                             :tags="entry.valueAddressSideTags"
                             :reveal-all="entry.valueAddressSideTagsRevealAll === true"
+                            :address-side-feedback="entryAddressSideFeedbackForTagTooltip(entry)"
                             :class="[
                               styles.itemValueAddressTags,
                               styles.itemValueAddressTagsBelow,
                             ]"
                           />
                           <EgFormSubmission
-                            v-if="entryAddressTagsBelow(entry) && entry.valueAddressSideFeedback"
+                            v-if="entryAddressTagsBelow(entry) && entryShowsInlineAddressSideFeedback(entry)"
                             :class="styles.itemValueAddressFeedbackBelow"
-                            :type="entry.valueAddressSideFeedback.type ?? 'notes'"
-                            :text="entry.valueAddressSideFeedback.text"
-                            :show-link="entry.valueAddressSideFeedback.showLink ?? false"
+                            :type="entry.valueAddressSideFeedback!.type ?? 'notes'"
+                            :text="entry.valueAddressSideFeedback!.text"
+                            :show-link="entry.valueAddressSideFeedback!.showLink ?? false"
                           />
                           <template v-if="!entryAddressTagsBelow(entry)">
                             <EgTag
@@ -1081,6 +1106,7 @@ onBeforeUnmount(() => {
                               v-if="entry.valueAddressSideTags && hasAddressTags(entry.valueAddressSideTags.system, entry.valueAddressSideTags.custom)"
                               :tags="entry.valueAddressSideTags"
                               :reveal-all="entry.valueAddressSideTagsRevealAll === true"
+                              :address-side-feedback="entryAddressSideFeedbackForTagTooltip(entry)"
                               :class="styles.itemValueAddressTags"
                             />
                             <span
@@ -1346,17 +1372,18 @@ onBeforeUnmount(() => {
                                 )"
                               :tags="entry.valueAddressSideTags"
                               :reveal-all="entry.valueAddressSideTagsRevealAll === true"
+                              :address-side-feedback="entryAddressSideFeedbackForTagTooltip(entry)"
                               :class="[
                                 styles.itemValueAddressTags,
                                 styles.itemValueAddressTagsBelow,
                               ]"
                             />
                             <EgFormSubmission
-                              v-if="entryAddressTagsBelow(entry) && entry.valueAddressSideFeedback"
+                              v-if="entryAddressTagsBelow(entry) && entryShowsInlineAddressSideFeedback(entry)"
                               :class="styles.itemValueAddressFeedbackBelow"
-                              :type="entry.valueAddressSideFeedback.type ?? 'notes'"
-                              :text="entry.valueAddressSideFeedback.text"
-                              :show-link="entry.valueAddressSideFeedback.showLink ?? false"
+                              :type="entry.valueAddressSideFeedback!.type ?? 'notes'"
+                              :text="entry.valueAddressSideFeedback!.text"
+                              :show-link="entry.valueAddressSideFeedback!.showLink ?? false"
                             />
                             <template v-if="!entryAddressTagsBelow(entry)">
                               <DetailCurrencyThresholdValue
@@ -1380,6 +1407,7 @@ onBeforeUnmount(() => {
                                 v-if="entry.valueAddressSideTags && hasAddressTags(entry.valueAddressSideTags.system, entry.valueAddressSideTags.custom)"
                                 :tags="entry.valueAddressSideTags"
                                 :reveal-all="entry.valueAddressSideTagsRevealAll === true"
+                                :address-side-feedback="entryAddressSideFeedbackForTagTooltip(entry)"
                                 :class="styles.itemValueAddressTags"
                               />
                               <span

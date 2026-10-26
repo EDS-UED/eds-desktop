@@ -49,6 +49,7 @@ export type TagCustomStyle =
   | 'aml-danger'
   | 'aml-safe'
   | 'aml-suspicious'
+  | 'aml-ready'
   | 'aml-invalid';
 
 const COLORFUL_STYLE_CLASS: Record<TagColorfulStyle, string> = {
@@ -88,6 +89,7 @@ const CUSTOM_STYLE_CLASS: Record<TagCustomStyle, string> = {
   'aml-danger': styles.customAmlDanger,
   'aml-safe': styles.customAmlSafe,
   'aml-suspicious': styles.customAmlSuspicious,
+  'aml-ready': styles.customAmlReady,
   'aml-invalid': styles.customAmlInvalid,
 };
 

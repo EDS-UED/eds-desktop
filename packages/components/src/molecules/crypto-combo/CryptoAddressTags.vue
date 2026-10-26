@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { EgTag } from '../tag';
 import tagStyles from '../tag/Tag.module.css';
+import { EgTooltip } from '../tooltip';
+import { EgFormSubmission, type FormSubmissionType } from '../feedback';
 import type { CryptoAddressSideTags, CryptoAddressTagSlotConfig } from './cryptoAddressTypes';
 import {
   flattenAddressTags,
@@ -9,6 +11,14 @@ import {
   splitTagsForDisplay,
 } from './cryptoAddressTagUtils';
 import styles from './CryptoAddressTags.module.css';
+
+export type CryptoAddressSideFeedback = {
+  type?: FormSubmissionType;
+  text: string;
+  showLink?: boolean;
+};
+
+const AML_FEEDBACK_TAG_TOOLTIP_STYLES = new Set(['aml-danger', 'aml-suspicious']);
 
 const props = withDefaults(
   defineProps<{
@@ -19,6 +29,8 @@ const props = withDefaults(
     tooltipMode?: boolean;
     /** 行内展示全部 Tag（不折叠 +N） */
     revealAll?: boolean;
+    /** Detail 地址侧风险反馈：悬停 aml-danger / aml-suspicious Tag 时在 tooltip 内展示。 */
+    addressSideFeedback?: CryptoAddressSideFeedback;
   }>(),
   {
     defaultShowMore: true,
@@ -60,14 +72,55 @@ function isColorfulTag(tag: CryptoAddressTagSlotConfig): boolean {
 function isCustomTag(tag: CryptoAddressTagSlotConfig): boolean {
   return tag.family === 'custom';
 }
+
+function tagShowsAddressSideFeedbackTooltip(tag: CryptoAddressTagSlotConfig): boolean {
+  if (!props.addressSideFeedback) return false;
+  if (!isCustomTag(tag)) return false;
+  const style = tag.customStyle ?? 'vermilion';
+  return AML_FEEDBACK_TAG_TOOLTIP_STYLES.has(style);
+}
 </script>
 
 <template>
   <span :class="styles.root">
     <template v-for="(tag, index) in displayTags" :key="`tag-${index}`">
       <span :class="tooltipMode ? styles.tooltipTag : styles.inlineTag">
+        <EgTooltip
+          v-if="tagShowsAddressSideFeedbackTooltip(tag)"
+          trigger="hover"
+          placement="bottom"
+          align="start"
+          boundary-selector=".eds-popup"
+          close-on-scroll
+          width-mode="adaptive"
+          height-mode="adaptive"
+          :scrollable="false"
+          :max-width="480"
+          :open-delay="120"
+          :close-delay="80"
+          token-scope-class="desktopTokens"
+        >
+          <EgTag
+            v-if="isCustomTag(tag)"
+            family="custom"
+            :custom-style="tag.customStyle ?? 'vermilion'"
+            :size="tag.size ?? 'sm'"
+            :truncate="!tooltipMode"
+          >
+            {{ tag.label }}
+          </EgTag>
+          <template #content>
+            <div :class="styles.addressSideFeedbackTooltip">
+              <EgFormSubmission
+                :type="addressSideFeedback?.type ?? 'danger'"
+                :text="addressSideFeedback?.text ?? ''"
+                :show-link="addressSideFeedback?.showLink ?? false"
+              />
+            </div>
+          </template>
+        </EgTooltip>
         <EgTag
-          v-if="isCustomTag(tag)"
+          v-else-if="isCustomTag(tag)"
           family="custom"
           :custom-style="tag.customStyle ?? 'vermilion'"
           :size="tag.size ?? 'sm'"

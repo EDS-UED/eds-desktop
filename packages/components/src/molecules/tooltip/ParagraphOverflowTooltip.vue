@@ -29,6 +29,10 @@ let resizeObserver: ResizeObserver | null = null;
 
 const showHoverTrigger = computed(() => overflowing.value && !props.disabled);
 
+const hoverTriggerClass = computed(() =>
+  props.trigger === 'focus' ? 'eds-hover-tooltip-trigger--focus' : undefined,
+);
+
 const contentStyle = computed(() => ({
   WebkitLineClamp: String(props.lineClamp),
 }));
@@ -94,6 +98,7 @@ onBeforeUnmount(() => {
         :class="[
           styles.triggerWrap,
           showHoverTrigger && 'eds-hover-tooltip-trigger',
+          showHoverTrigger && hoverTriggerClass,
         ]"
       >
         <span
@@ -102,6 +107,7 @@ onBeforeUnmount(() => {
             showHoverTrigger && 'eds-hover-tooltip-trigger__target',
             showHoverTrigger && 'eds-hover-tooltip-trigger__target--primary',
           ]"
+          :tabindex="showHoverTrigger && trigger === 'focus' ? 0 : undefined"
         >
           <span
             ref="contentRef"
