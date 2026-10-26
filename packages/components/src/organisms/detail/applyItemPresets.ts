@@ -227,7 +227,7 @@ export const detailApplyItemVariants: DetailApplyItemVariant[] = [
     id: 'brand-number',
     label: 'Brand Number',
     item: {
-      titleIcon: 'eds-brand-numbers',
+      titleIcon: 'eds-hierarchy',
       title: 'XX Number',
       valueType: 'text',
       value: 'Number_20311020_82420678',

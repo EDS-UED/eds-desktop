@@ -2,6 +2,9 @@ import { processSvg, type IconFillTone, type IconKind, type ProcessedIcon } from
 import edsApplication5Raw from '../avatar/eds-application-5.svg?raw';
 import edsApplication21Raw from '../avatar/eds-application-21.svg?raw';
 import edsApplication22Raw from '../avatar/eds-application-22.svg?raw';
+import edsHierarchyRaw from './eds-hierarchy.svg?raw';
+import edsBlackListFillRaw from './eds-black-list-fill.svg?raw';
+import edsWhiteListFillRaw from './eds-white-list-fill.svg?raw';
 
 const iconSvgModules = import.meta.glob('./*.svg', {
   query: '?raw',
@@ -27,6 +30,11 @@ const EXPLICIT_AVATAR_ICONS: Record<string, string> = {
 for (const [name, raw] of Object.entries(EXPLICIT_AVATAR_ICONS)) {
   svgModules[`./${name}.svg`] = raw;
 }
+
+/** 新 atoms 线稿：dev 下 glob 可能需重启；静态 import 保证 EgIcon 可解析。 */
+svgModules['./eds-hierarchy.svg'] = edsHierarchyRaw;
+svgModules['./eds-black-list-fill.svg'] = edsBlackListFillRaw;
+svgModules['./eds-white-list-fill.svg'] = edsWhiteListFillRaw;
 
 function avatarIconBaseName(path: string): string {
   const fileName = path.split('/').pop() ?? path;
