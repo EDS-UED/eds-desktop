@@ -374,10 +374,6 @@ function resolveOptionValueSetForParentRow(option: FilterCurrencyPreset): Set<st
   return merged;
 }
 
-function getOptionParentSelectionState(option: FilterCurrencyPreset): FilterOptionSelectionState {
-  return getOptionSelectionStateFromValues(option, resolveOptionValueSetForParentRow(option));
-}
-
 function getOptionParentSelectedNetworkCount(option: FilterCurrencyPreset): number {
   const networks = option.networks ?? [];
   if (!networks.length) return 0;
@@ -388,11 +384,6 @@ function getOptionParentSelectedNetworkCount(option: FilterCurrencyPreset): numb
   return networks.filter((network) =>
     values.has(buildValueKey(option.id, network.key)),
   ).length;
-}
-
-/** 多链父行：有部分网络选中即视为勾选，不用半选 indeterminate。 */
-function isOptionParentCheckboxChecked(option: FilterCurrencyPreset): boolean {
-  return getOptionParentSelectionState(option) !== 'none';
 }
 
 function getOptionParentNetworkTotalCount(option: FilterCurrencyPreset): number {
@@ -985,8 +976,8 @@ function onPickerClose() {
                             show-cascader
                             :show-tag="false"
                             :show-checkbox="isMulti"
-                            :checked="isOptionParentCheckboxChecked(option)"
-                            :checkbox-indeterminate="false"
+                            :checked="getNetworkSelectAllMode(option) === 'all'"
+                            :checkbox-indeterminate="getNetworkSelectAllMode(option) === 'some'"
                             :focused="!isMulti && isParentRowFocused(option)"
                             @click="isMulti ? onOptionClick(option, close) : undefined"
                             @update:checked="onCheckboxUpdate(option, $event)"
