@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, provide, useId, useSlots, watch } from 'vue';
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+  useId,
+  useSlots,
+  watch,
+} from 'vue';
 import { EgIcon } from '../../atoms/icons';
 import {
   MOTION_HOVER_ENTER_ONLY,
@@ -12,6 +22,7 @@ import {
   type MessageType,
 } from '../../molecules/feedback';
 import { MESSAGE_PARENT_FOCUSED_KEY } from '../../molecules/feedback/messageFocusContext';
+import { provideModuleMenuBranch, useModuleMenuBranch } from './moduleMenuBranch';
 import { useModuleMenuItemFocus } from './moduleMenuItemFocus';
 import styles from './ModuleMenu.module.css';
 
@@ -52,12 +63,27 @@ const emit = defineEmits<{
 const slots = useSlots();
 const itemId = useId();
 const menuFocus = useModuleMenuItemFocus();
+const parentBranch = useModuleMenuBranch();
 
 const isSubitem = computed(() => props.subitem);
 
 const isTier2Parent = computed(() => props.tier === 2 && !isSubitem.value);
 
 const hasSubitems = computed(() => isTier2Parent.value && Boolean(slots.default));
+
+const userPickedSubitem = ref(false);
+const focusBeforeExpand = ref<string | null>(null);
+/** 收起后子项卸载，再次展开时用其判断是否跳过「默认首子项」。 */
+const lastBranchFocusedChildId = ref<string | null>(null);
+
+const branchContext =
+  props.tier === 2 && !props.subitem
+    ? provideModuleMenuBranch({
+        onSubitemSelected: () => {
+          userPickedSubitem.value = true;
+        },
+      })
+    : null;
 
 /** 有下属 Item 的分组父级只负责展开/收起，不参与菜单聚焦。 */
 const participatesInFocus = computed(() => !(isTier2Parent.value && hasSubitems.value));
@@ -71,9 +97,21 @@ function syncFocusRegistration() {
   }
 }
 
-onMounted(syncFocusRegistration);
-watch(participatesInFocus, syncFocusRegistration);
+function syncBranchChildRegistration() {
+  if (!parentBranch || !participatesInFocus.value) return;
+  parentBranch.registerChild(itemId);
+}
+
+onMounted(() => {
+  syncFocusRegistration();
+  syncBranchChildRegistration();
+});
+watch(participatesInFocus, () => {
+  syncFocusRegistration();
+  syncBranchChildRegistration();
+});
 onBeforeUnmount(() => {
+  parentBranch?.unregisterChild(itemId);
   menuFocus?.unregister(itemId);
 });
 
@@ -122,14 +160,55 @@ const itemClass = computed(() => [
 function onBranchClick(event: MouseEvent) {
   if (participatesInFocus.value) {
     menuFocus?.select(itemId, event);
+    emit('click', event);
+    return;
   }
-  if (hasSubitems.value) {
-    expanded.value = !expanded.value;
+
+  if (!hasSubitems.value) {
+    emit('click', event);
+    return;
+  }
+
+  if (expanded.value) {
+    if (userPickedSubitem.value) {
+      lastBranchFocusedChildId.value = menuFocus?.focusedId.value ?? null;
+    } else if (focusBeforeExpand.value) {
+      menuFocus?.select(focusBeforeExpand.value, event);
+      lastBranchFocusedChildId.value = null;
+    }
+    menuFocus?.beginBranchCollapse();
+    expanded.value = false;
+    void nextTick(() => {
+      menuFocus?.endBranchCollapse();
+    });
+  } else {
+    const currentFocus = menuFocus?.focusedId.value ?? null;
+    const reopeningBranchChild = Boolean(
+      currentFocus
+      && (
+        branchContext?.containsChild(currentFocus)
+        || currentFocus === lastBranchFocusedChildId.value
+      ),
+    );
+    userPickedSubitem.value = reopeningBranchChild;
+    if (!reopeningBranchChild) {
+      focusBeforeExpand.value = currentFocus;
+    }
+
+    expanded.value = true;
+    void nextTick(() => {
+      if (userPickedSubitem.value) return;
+      const firstChildId = branchContext?.firstChildId();
+      if (firstChildId) {
+        menuFocus?.select(firstChildId, event);
+      }
+    });
   }
   emit('click', event);
 }
 
 function onItemClick(event: MouseEvent) {
+  parentBranch?.markSubitemSelected();
   menuFocus?.select(itemId, event);
   emit('click', event);
 }

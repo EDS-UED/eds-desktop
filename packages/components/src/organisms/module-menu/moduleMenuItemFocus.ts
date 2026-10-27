@@ -6,6 +6,9 @@ export type ModuleMenuItemFocusContext = {
   unregister: (id: string) => void;
   select: (id: string, event?: MouseEvent) => void;
   isFocused: (id: string) => boolean;
+  /** tier-2 分支手动收起时子项卸载，保留 focusedId 不回落到默认项。 */
+  beginBranchCollapse: () => void;
+  endBranchCollapse: () => void;
 };
 
 export const MODULE_MENU_ITEM_FOCUS_KEY: InjectionKey<ModuleMenuItemFocusContext> =
@@ -26,6 +29,7 @@ export function provideModuleMenuItemFocus(): ModuleMenuItemFocusContext {
   const focusedId = ref<string | null>(null);
   const registry = new Map<string, number>();
   let nextOrder = 0;
+  let branchCollapseDepth = 0;
 
   function sortedIds() {
     return [...registry.entries()]
@@ -43,7 +47,7 @@ export function provideModuleMenuItemFocus(): ModuleMenuItemFocusContext {
       registry.set(id, nextOrder++);
     }
 
-    if (focusedId.value === null || !registry.has(focusedId.value)) {
+    if (focusedId.value === null) {
       pickDefaultFocus();
     }
   }
@@ -51,7 +55,7 @@ export function provideModuleMenuItemFocus(): ModuleMenuItemFocusContext {
   function unregister(id: string) {
     registry.delete(id);
 
-    if (focusedId.value === id) {
+    if (focusedId.value === id && branchCollapseDepth === 0) {
       pickDefaultFocus();
     }
   }
@@ -66,12 +70,22 @@ export function provideModuleMenuItemFocus(): ModuleMenuItemFocusContext {
     return focusedId.value === id;
   }
 
+  function beginBranchCollapse() {
+    branchCollapseDepth += 1;
+  }
+
+  function endBranchCollapse() {
+    branchCollapseDepth = Math.max(0, branchCollapseDepth - 1);
+  }
+
   const context: ModuleMenuItemFocusContext = {
     focusedId,
     register,
     unregister,
     select,
     isFocused,
+    beginBranchCollapse,
+    endBranchCollapse,
   };
 
   provide(MODULE_MENU_ITEM_FOCUS_KEY, context);
