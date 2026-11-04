@@ -8,6 +8,7 @@ export const sceneMotionScenarioLabels = {
   'motion-processing': '时间',
   'ripple-pulse': '波纹脉冲',
   'mnemonic-verify': '助记词校验中',
+  odometer: '数字滚轮',
 } as const;
 
 export type SceneMotionScenario = keyof typeof sceneMotionScenarioLabels;
@@ -109,6 +110,30 @@ export function buildSceneMotionCustomizeControls(options?: {
 
   return controls;
 }
+
+export const sceneMotionOdometerImportCode =
+  "import { EgOdometer } from '@eds/desktop-components';";
+
+export const sceneMotionOdometerPropRows: DocPropRow[] = [
+  {
+    name: 'value',
+    type: 'number | string',
+    defaultValue: '0',
+    description: showcaseText(
+      'Single field value; strings may carry formatting (e.g. $8,888,888.88) and only digits roll. Display typography + --material-base-primary via --odometer-color.',
+      '单字段显示值；字符串可带格式（如 $8,888,888.88），仅其中数字滚动。Display 字号，颜色默认 --material-base-primary（--odometer-color）。',
+    ),
+  },
+  {
+    name: 'animateIntro',
+    type: 'boolean',
+    defaultValue: 'true',
+    description: showcaseText(
+      'When true: on mount each digit starts at its real value and rolls one full turn back to it; later value updates are instant.',
+      '为 true 时：挂载时每位数字以真实值为起点，滚动一整圈回到真实值；之后 value 变更不再动画。',
+    ),
+  },
+];
 
 export const sceneMotionRingDotsImportCode =
   "import { EgVerifyRingDots } from '@eds/desktop-components';";

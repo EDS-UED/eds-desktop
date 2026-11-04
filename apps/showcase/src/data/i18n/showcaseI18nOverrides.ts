@@ -264,11 +264,13 @@ export const showcaseI18nOverrides: Record<string, ShowcaseI18nOverride> = {
   'components:family:skid': defineComponentName('Skid', '滑层'),
 
   'animations:section:animations': defineShowcaseI18nText('Animations', '动画'),
-  'animations:family:verification-ring-dots': defineComponentName('VerificationRingDots', '验证环点阵'),
-  'animations:family:business-success': defineComponentName('BusinessSuccess', '业务成功'),
-  'animations:family:business-processing': defineComponentName('BusinessProcessing', '业务处理中'),
-  'animations:family:ripple-pulse': defineComponentName('RipplePulse', '波纹脉冲'),
-  'animations:family:mnemonic-verification': defineComponentName('MnemonicVerification', '助记词校验'),
+  'animations:family:motion-page-navigation': defineComponentName('EgMotionPageStack', '页面 Push / Pop'),
+  'animations:family:verification-ring-dots': defineComponentName('EgVerifyRingDots', '验证环点阵'),
+  'animations:family:business-success': defineComponentName('EgDoneTick', '业务成功'),
+  'animations:family:business-processing': defineComponentName('EgMotionProcessing', '业务处理中'),
+  'animations:family:ripple-pulse': defineComponentName('EgRipplePulse', '波纹脉冲'),
+  'animations:family:mnemonic-verification': defineComponentName('EgMnemonicVerify', '助记词校验'),
+  'animations:family:odometer': defineComponentName('EgOdometer', '数字滚轮'),
 
   'patterns:section:data': defineShowcaseI18nText('Data', '数据'),
   'patterns:section:forms': defineShowcaseI18nText('Forms', '表单'),

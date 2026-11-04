@@ -406,8 +406,7 @@
   flex-direction: column;
   width: 100%;
   min-height: 0;
-  /* FILTER_CURRENCY_CASCADE_PICKER_HEIGHT − ComboFloatButton 底栏（--scale-13） */
-  max-height: calc(var(--filter-cascade-max-height) - var(--scale-13));
+  max-height: var(--filter-cascade-max-height);
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;

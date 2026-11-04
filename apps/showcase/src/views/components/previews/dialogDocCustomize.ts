@@ -26,6 +26,7 @@ const dialogNeutralCustomizeState = {
   type: 'symbol' as DialogCustomizeType,
   title: 'Title',
   showSecondaryText: true,
+  showBodySlot: false,
   secondaryText: 'This is a description',
   symbolIcon: 'eds-warning-lonely',
   symbolBackground: 'default' as 'default' | 'danger' | 'success',
@@ -105,6 +106,12 @@ export function buildDialogCustomizeControls(
   } else if (type === 'standard') {
     controls.push(
       { kind: 'boolean', key: 'showSecondaryText', label: showcaseText('Show body', '显示正文'), row: 0 },
+      {
+        kind: 'boolean',
+        key: 'showBodySlot',
+        label: showcaseText('Show body slot', '显示插槽'),
+        row: 0,
+      },
       {
         kind: 'text',
         key: 'secondaryText',
@@ -198,6 +205,15 @@ export const dialogSlotRows: DocPropRow[] = [
     type: 'slot',
     defaultValue: 'EgIcon eds-warning-lonely',
     description: showcaseText('Symbol type · Symbol inside 56px circular container; can be overridden with CSS variable `--eds-dialog-symbol-bg`/`--eds-dialog-symbol-color`.', 'Symbol 类型 · 56px 圆形容器内符号；可用 CSS 变量 `--eds-dialog-symbol-bg` / `--eds-dialog-symbol-color` 覆盖。'),
+  },
+  {
+    name: 'body',
+    type: 'slot',
+    defaultValue: '—',
+    description: showcaseText(
+      'Standard type · Optional block below description; no component spacing—use margin/padding inside the slot (title + description layout unchanged).',
+      'Standard 类型 · 说明文案下方可选内容区；组件不设间距，由插槽内容自行 margin/padding（标题与说明结构不变）。',
+    ),
   },
   {
     name: 'default',

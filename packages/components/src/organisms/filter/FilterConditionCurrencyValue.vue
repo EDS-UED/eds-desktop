@@ -107,7 +107,6 @@ const rootRef = ref<HTMLElement | null>(null);
 const searchQuery = ref('');
 const activeCascadeKey = ref<string | null>(null);
 const draftValues = ref<Set<string>>(new Set());
-const cascadeDraftSnapshot = ref<Set<string> | null>(null);
 const scrollRef = ref<HTMLElement | null>(null);
 const optionListRef = ref<HTMLElement | null>(null);
 const cascadeScrollRef = ref<HTMLElement | null>(null);
@@ -334,7 +333,6 @@ function resetSearch() {
 
 function clearActiveCascade() {
   activeCascadeKey.value = null;
-  cascadeDraftSnapshot.value = null;
 }
 
 function getOptionSelectionStateFromValues(
@@ -358,27 +356,11 @@ function getOptionSelectionState(option: FilterCurrencyPreset): FilterOptionSele
   return getOptionSelectionStateFromValues(option, activeSelectedValues.value);
 }
 
-/** 级联子菜单编辑未点「确定」前，父行 checkbox / 数量保持打开时快照。 */
-function resolveOptionValueSetForParentRow(option: FilterCurrencyPreset): Set<string> {
-  if (
-    !isMulti.value
-    || activeCascadeKey.value !== option.id
-    || cascadeDraftSnapshot.value === null
-  ) {
-    return activeSelectedValues.value;
-  }
-
-  const merged = cloneValueSet(draftValues.value);
-  removeOptionKeys(merged, option);
-  cascadeDraftSnapshot.value.forEach((valueKey) => merged.add(valueKey));
-  return merged;
-}
-
 function getOptionParentSelectedNetworkCount(option: FilterCurrencyPreset): number {
   const networks = option.networks ?? [];
   if (!networks.length) return 0;
 
-  const values = resolveOptionValueSetForParentRow(option);
+  const values = activeSelectedValues.value;
   if (values.has(option.id)) return networks.length;
 
   return networks.filter((network) =>
@@ -431,12 +413,6 @@ function getNetworkSelectAllMode(option: FilterCurrencyPreset): FilterSelectAllM
   if (selectedCount === 0) return 'none';
   if (selectedCount === networkKeys.length) return 'all';
   return 'some';
-}
-
-function hasOptionDraftSelection(option: FilterCurrencyPreset): boolean {
-  if (draftValues.value.has(option.id)) return true;
-  const prefix = `${option.id}:`;
-  return [...draftValues.value].some((valueKey) => valueKey.startsWith(prefix));
 }
 
 function removeOptionKeys(values: Set<string>, option: FilterCurrencyPreset) {
@@ -533,49 +509,10 @@ function setCascadeListRef(optionId: string, element: HTMLElement | null) {
 
 function onCascadeOpen(option: FilterCurrencyPreset) {
   activeCascadeKey.value = option.id;
-  if (isMulti.value) {
-    cascadeDraftSnapshot.value = cloneValueSet(
-      [...draftValues.value].filter(
-        (valueKey) => valueKey === option.id || valueKey.startsWith(`${option.id}:`),
-      ),
-    );
-  }
   void nextTick(() => {
     updateCascadeScroll();
     void scheduleCascadeScrollSelectedToCenter();
   });
-}
-
-function onCascadeConfirm(closeNetwork: () => void) {
-  const optionId = activeCascadeKey.value;
-  if (isMulti.value && optionId) {
-    const option = filteredOptions.value.find((item) => item.id === optionId);
-    if (option?.multiChain && option.networks?.length) {
-      const next = cloneValueSet(draftValues.value);
-      normalizeOptionSelection(next, option);
-      draftValues.value = next;
-    }
-  }
-  cascadeDraftSnapshot.value = null;
-  closeNetwork();
-}
-
-function onCascadeCancel(option: FilterCurrencyPreset, closeNetwork: () => void) {
-  if (cascadeDraftSnapshot.value) {
-    const next = cloneValueSet(draftValues.value);
-    removeOptionKeys(next, option);
-    cascadeDraftSnapshot.value.forEach((valueKey) => next.add(valueKey));
-    draftValues.value = next;
-    cascadeDraftSnapshot.value = null;
-  }
-  closeNetwork();
-}
-
-function onCascadeClear(option: FilterCurrencyPreset) {
-  if (props.disabled || !isMulti.value) return;
-  const next = cloneValueSet(draftValues.value);
-  removeOptionKeys(next, option);
-  draftValues.value = next;
 }
 
 function onPickerClear() {
@@ -1030,66 +967,50 @@ function onPickerClose() {
                           :show-add="false"
                           :show-divider="false"
                         >
-                          <div :class="styles.cascadePanel">
+                          <div
+                            :ref="(element) => setCascadeScrollRef(option.id, element as HTMLElement | null)"
+                            :class="[
+                              styles.cascadeListScroll,
+                              cascadeTopScrim && styles.listScrollFadeTop,
+                            ]"
+                          >
                             <div
-                              :ref="(element) => setCascadeScrollRef(option.id, element as HTMLElement | null)"
-                              :class="[
-                                styles.cascadeListScroll,
-                                cascadeTopScrim && styles.listScrollFadeTop,
-                              ]"
+                              :ref="(element) => setCascadeListRef(option.id, element as HTMLElement | null)"
+                              :class="styles.cascadeList"
                             >
-                              <div
-                                :ref="(element) => setCascadeListRef(option.id, element as HTMLElement | null)"
-                                :class="styles.cascadeList"
+                              <EgFlotationMenuItem
+                                data-eds-filter-cascade-item
+                                box-type="image-text"
+                                :label="t('全部')"
+                                show-checkbox
+                                :checked="getNetworkSelectAllMode(option) === 'all'"
+                                :checkbox-indeterminate="getNetworkSelectAllMode(option) === 'some'"
+                                :show-tag="false"
+                                @click="onNetworkSelectAllToggle(option)"
+                                @update:checked="onNetworkSelectAllToggle(option)"
                               >
-                                <EgFlotationMenuItem
-                                  data-eds-filter-cascade-item
-                                  box-type="image-text"
-                                  :label="t('全部')"
-                                  show-checkbox
-                                  :checked="getNetworkSelectAllMode(option) === 'all'"
-                                  :checkbox-indeterminate="getNetworkSelectAllMode(option) === 'some'"
-                                  :show-tag="false"
-                                  @click="onNetworkSelectAllToggle(option)"
-                                  @update:checked="onNetworkSelectAllToggle(option)"
-                                >
-                                  <template #leading>
-                                    <span :class="styles.selectAllIcon">
-                                      <span :class="styles.selectAllIconGlyph">
-                                        <EgIcon :name="FILTER_CURRENCY_SELECT_ALL_ICON" fit />
-                                      </span>
+                                <template #leading>
+                                  <span :class="styles.selectAllIcon">
+                                    <span :class="styles.selectAllIconGlyph">
+                                      <EgIcon :name="FILTER_CURRENCY_SELECT_ALL_ICON" fit />
                                     </span>
-                                  </template>
-                                </EgFlotationMenuItem>
-                                <EgFlotationMenuItem
-                                  v-for="network in option.networks"
-                                  :key="`${option.id}-${network.key}`"
-                                  data-eds-filter-cascade-item
-                                  box-type="image-text"
-                                  :label="network.label"
-                                  :symbol-icon="network.cryptoName"
-                                  :show-tag="false"
-                                  show-checkbox
-                                  :checked="isNetworkSelected(option, network.key)"
-                                  @click="onNetworkClick(option, network.key, close, closeNetwork)"
-                                  @update:checked="onNetworkCheckboxUpdate(option, network.key, $event)"
-                                />
-                              </div>
+                                  </span>
+                                </template>
+                              </EgFlotationMenuItem>
+                              <EgFlotationMenuItem
+                                v-for="network in option.networks"
+                                :key="`${option.id}-${network.key}`"
+                                data-eds-filter-cascade-item
+                                box-type="image-text"
+                                :label="network.label"
+                                :symbol-icon="network.cryptoName"
+                                :show-tag="false"
+                                show-checkbox
+                                :checked="isNetworkSelected(option, network.key)"
+                                @click="onNetworkClick(option, network.key, close, closeNetwork)"
+                                @update:checked="onNetworkCheckboxUpdate(option, network.key, $event)"
+                              />
                             </div>
-                            <EgComboFloatButton
-                              :class="styles.cascadeAction"
-                              tone="decor"
-                              :count="2"
-                              :clear="hasOptionDraftSelection(option)"
-                              direction="right"
-                              bar-padding="compact"
-                              divider
-                              :cancel-label="t('取消')"
-                              :confirm-label="t('确定')"
-                              @clear="onCascadeClear(option)"
-                              @cancel="onCascadeCancel(option, closeNetwork)"
-                              @confirm="onCascadeConfirm(closeNetwork)"
-                            />
                           </div>
                         </EgFlotationMenu>
                       </template>

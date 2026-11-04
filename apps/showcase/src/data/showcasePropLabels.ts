@@ -299,6 +299,7 @@ export const showcaseToggleDecideModeLabels = {
 
 export const showcaseToggleSwitchModeLabels = {
   switch: tokenLabel('Switch', '开关', 'switch'),
+  'on-disable': tokenLabel('On disabled', '开启并禁用', 'on-disable'),
   disable: tokenLabel('Disabled', '禁用', 'disable'),
 } as const;
 

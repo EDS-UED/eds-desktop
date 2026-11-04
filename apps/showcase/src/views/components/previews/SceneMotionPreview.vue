@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { computed, onUnmounted, ref, watch } from 'vue';
-import { EgDoneTick, EgIcon, EgMnemonicVerify, EgMotionProcessing, EgRipplePulse, EgVerifyRingDots } from '@eds/desktop-components';
+import {
+  EgDoneTick,
+  EgIcon,
+  EgMnemonicVerify,
+  EgMotionProcessing,
+  EgOdometer,
+  EgRipplePulse,
+  EgVerifyRingDots,
+} from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import { createDocCustomizeState } from '@/views/shared/componentDoc/customizeState';
 import previewPageStyles from './InputPreview.module.css';
@@ -14,6 +22,8 @@ import {
   sceneMotionMotionProcessingPropRows,
   sceneMotionMnemonicVerifyImportCode,
   sceneMotionMnemonicVerifyPropRows,
+  sceneMotionOdometerImportCode,
+  sceneMotionOdometerPropRows,
   sceneMotionRipplePulseImportCode,
   sceneMotionRipplePulsePropRows,
   sceneMotionRingDotsImportCode,
@@ -39,11 +49,21 @@ const customize = createDocCustomizeState<typeof sceneMotionCustomizeDefaults>(
   props.initialScenario ? { scenario: props.initialScenario } : undefined,
 );
 
+const pageCustomizeDefaults = computed(() =>
+  props.initialScenario
+    ? { ...sceneMotionCustomizeDefaults, scenario: props.initialScenario }
+    : sceneMotionCustomizeDefaults,
+);
+
 const isVerifyRingDots = computed(() => customize.scenario === 'verify-ring-dots');
 const isDoneTick = computed(() => customize.scenario === 'done-tick');
 const isMotionProcessing = computed(() => customize.scenario === 'motion-processing');
 const isRipplePulse = computed(() => customize.scenario === 'ripple-pulse');
 const isMnemonicVerify = computed(() => customize.scenario === 'mnemonic-verify');
+const isOdometer = computed(() => customize.scenario === 'odometer');
+
+const odometerDemoValue = '$8,888,888.88';
+const odometerReplayKey = ref(0);
 
 const motionCustomizeControls = computed(() =>
   buildSceneMotionCustomizeControls({
@@ -65,6 +85,9 @@ const docComponentTag = computed(() => {
   if (isMnemonicVerify.value) {
     return 'EgMnemonicVerify';
   }
+  if (isOdometer.value) {
+    return 'EgOdometer';
+  }
   return 'EgVerifyRingDots';
 });
 
@@ -81,6 +104,9 @@ const docImportCode = computed(() => {
   if (isMnemonicVerify.value) {
     return sceneMotionMnemonicVerifyImportCode;
   }
+  if (isOdometer.value) {
+    return sceneMotionOdometerImportCode;
+  }
   return sceneMotionRingDotsImportCode;
 });
 
@@ -96,6 +122,9 @@ const docPropRows = computed(() => {
   }
   if (isMnemonicVerify.value) {
     return sceneMotionMnemonicVerifyPropRows;
+  }
+  if (isOdometer.value) {
+    return sceneMotionOdometerPropRows;
   }
   return sceneMotionRingDotsPropRows;
 });
@@ -209,9 +238,10 @@ onUnmounted(() => {
       :component-tag="docComponentTag"
       :import-code="docImportCode"
       :customize-controls="motionCustomizeControls"
-      :customize-defaults="sceneMotionCustomizeDefaults"
+      :customize-defaults="pageCustomizeDefaults"
       :prop-rows="docPropRows"
       props-section-id="scene-motion-props"
+      @reset-preview="odometerReplayKey += 1"
     >
       <template #preview>
         <div class="desktopTokens" :class="styles.stage">
@@ -255,6 +285,13 @@ onUnmounted(() => {
             <EgMnemonicVerify
               :key="`${customize.scenario}-${customize.tone}`"
               :class="mnemonicVerifyToneClass"
+            />
+          </div>
+
+          <div v-else-if="isOdometer" :class="styles.odometerHost">
+            <EgOdometer
+              :key="odometerReplayKey"
+              :value="odometerDemoValue"
             />
           </div>
         </div>

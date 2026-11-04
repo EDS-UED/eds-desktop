@@ -103,7 +103,7 @@ export const switchCustomizeControls: DocCustomizeControl[] = [
     kind: 'select',
     key: 'mode',
     label: showcaseText('Mode', '模式'),
-    options: propLabelRows(['switch', 'disable'] as const, showcaseToggleSwitchModeLabels).map((row) => ({
+    options: propLabelRows(['switch', 'on-disable', 'disable'] as const, showcaseToggleSwitchModeLabels).map((row) => ({
       value: row.key,
       label: row.label,
     })),
@@ -160,14 +160,32 @@ export function buildCheckboxUsageSnippet(state: Record<string, unknown>): strin
   );
 }
 
+export function mapSwitchFixedPreviewProps(mode: unknown) {
+  switch (String(mode)) {
+    case 'on-disable':
+      return { modelValue: true, disabled: true, interactive: false };
+    case 'disable':
+      return { modelValue: false, disabled: true, interactive: false };
+    default:
+      return null;
+  }
+}
+
 export function buildSwitchUsageSnippet(state: Record<string, unknown>): string {
-  const disabled = String(state.mode) === 'disable';
+  const fixed = mapSwitchFixedPreviewProps(state.mode);
+  if (fixed) {
+    return buildVueSelfClosingSnippet(
+      'EgSwitch',
+      {
+        size: state.size,
+        disabled: fixed.disabled,
+      },
+      { defaults: { size: 'md', disabled: false } },
+    ).replace('/>', ` :model-value="${fixed.modelValue}" />`);
+  }
   return buildVueSelfClosingSnippet(
     'EgSwitch',
-    {
-      size: state.size,
-      disabled,
-    },
-    { defaults: { size: 'md', disabled: false } },
-  ).replace('/>', disabled ? ' :model-value="false" />' : ' v-model="on" />');
+    { size: state.size },
+    { defaults: { size: 'md' } },
+  ).replace('/>', ' v-model="on" />');
 }

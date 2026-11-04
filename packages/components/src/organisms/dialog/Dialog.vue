@@ -158,10 +158,15 @@ watch(
       <div ref="scrollRef" :class="styles.scrollRoot" @scroll="onScroll">
         <div :class="styles.scrollContent">
           <div :class="styles.standardCopy">
-            <p :class="styles.dialogTitle">{{ title }}</p>
-            <p v-if="showSecondaryText" :class="styles.standardBodyText">
-              {{ secondaryText }}
-            </p>
+            <div :class="styles.standardCopyHead">
+              <p :class="styles.dialogTitle">{{ title }}</p>
+              <p v-if="showSecondaryText" :class="styles.standardBodyText">
+                {{ secondaryText }}
+              </p>
+            </div>
+            <div v-if="$slots.body" :class="styles.standardBodySlot">
+              <slot name="body" />
+            </div>
           </div>
 
           <div v-if="$slots.default" :class="styles.composeBody">

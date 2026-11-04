@@ -165,6 +165,11 @@
   justify-content: center;
 }
 
+.dialogStandardBodySlotDemo {
+  margin: 0;
+  margin-top: var(--spacing-2);
+}
+
 /** Verify — Popup Box 固定宽 328、高度随内容 */
 .previewOrganismVerifyBoxHost {
   composes: previewOrganismDialogBoxHost;

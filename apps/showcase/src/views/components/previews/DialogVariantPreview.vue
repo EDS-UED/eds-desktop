@@ -134,7 +134,13 @@ const docImportCode = computed(() => resolveDialogSceneImportCode(props.variant)
               :toolbar-tone="customize.toolbarTone as 'brand' | 'decor'"
               :toolbar-variant="customize.toolbarVariant as 'solid' | 'outline' | 'text'"
               :toolbar-divider-pinned="Boolean(customize.toolbarDividerPinned)"
-            />
+            >
+              <template v-if="variant === 'standard' && customize.showBodySlot" #body>
+                <p :class="['typography-body-small', organismStyles.dialogStandardBodySlotDemo]">
+                  Optional body slot content
+                </p>
+              </template>
+            </EgDialog>
           </EgTooltipPanel>
         </div>
       </template>

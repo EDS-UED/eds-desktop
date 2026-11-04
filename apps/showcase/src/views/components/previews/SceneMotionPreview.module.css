@@ -103,6 +103,12 @@
   justify-content: center;
 }
 
+.odometerHost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .mnemonicVerifyToneBrand {
   --mnemonic-verify-color: var(--material-brand-primary);
 }

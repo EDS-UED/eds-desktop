@@ -32,11 +32,19 @@
 .standardCopy {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-3);
+  gap: 0;
   align-items: flex-start;
   width: 100%;
   padding: var(--spacing-4) var(--spacing-5) var(--spacing-4);
   box-sizing: border-box;
+}
+
+.standardCopyHead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+  width: 100%;
 }
 
 .standardBodyText {
@@ -47,6 +55,12 @@
   font-weight: var(--eds-body-medium-weight);
   line-height: var(--eds-body-medium-line-height);
   word-break: break-word;
+}
+
+/* 说明下方插槽：与标题区并列，组件不设间距，由插槽内容 margin/padding。 */
+.standardBodySlot {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .symbol {

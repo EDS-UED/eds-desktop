@@ -1,0 +1,73 @@
+/**
+ * 数字滚轮 — 静止态为单一文本字段（如 $8,888,888.88）；仅首次进入时叠一层逐位滚动，结束后移除。
+ * 每列宽度由该位字符自身撑开，与静止文本逐字对齐。--odometer-color 默认 100% 主色。
+ */
+.eds-odometer {
+  --odometer-color: var(--material-base-primary);
+
+  position: relative;
+  display: inline-block;
+  font-size: var(--eds-display-size);
+  font-weight: var(--eds-display-weight);
+  line-height: 1;
+  color: var(--odometer-color);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  white-space: nowrap;
+}
+
+.eds-odometer-value {
+  display: inline-block;
+}
+
+.eds-odometer.is-rolling .eds-odometer-value {
+  visibility: hidden;
+}
+
+.eds-odometer-roll {
+  position: absolute;
+  inset: 0;
+  white-space: pre;
+}
+
+.eds-odometer-column {
+  position: relative;
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.eds-odometer-sizer {
+  display: block;
+  height: 1em;
+}
+
+.eds-odometer-column:has(.eds-odometer-strip) .eds-odometer-sizer {
+  visibility: hidden;
+}
+
+.eds-odometer-strip {
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--odometer-duration) cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--odometer-order) * var(--odometer-stagger));
+}
+
+.eds-odometer-cell {
+  display: block;
+  height: 1em;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eds-odometer.is-rolling .eds-odometer-value {
+    visibility: visible;
+  }
+
+  .eds-odometer-roll {
+    display: none;
+  }
+}

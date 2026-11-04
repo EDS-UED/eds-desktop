@@ -3,6 +3,9 @@ import edsApplication5Raw from '../avatar/eds-application-5.svg?raw';
 import edsApplication21Raw from '../avatar/eds-application-21.svg?raw';
 import edsApplication22Raw from '../avatar/eds-application-22.svg?raw';
 import edsHierarchyRaw from './eds-hierarchy.svg?raw';
+import edsBrandNumbersRaw from './eds-brand-numbers.svg?raw';
+import edsTextAmountRaw from './eds-text-amount.svg?raw';
+import edsTextLogsPolicyRaw from './eds-text-logs-policy.svg?raw';
 import edsBlackListFillRaw from './eds-black-list-fill.svg?raw';
 import edsWhiteListFillRaw from './eds-white-list-fill.svg?raw';
 
@@ -33,6 +36,9 @@ for (const [name, raw] of Object.entries(EXPLICIT_AVATAR_ICONS)) {
 
 /** 新 atoms 线稿：dev 下 glob 可能需重启；静态 import 保证 EgIcon 可解析。 */
 svgModules['./eds-hierarchy.svg'] = edsHierarchyRaw;
+svgModules['./eds-brand-numbers.svg'] = edsBrandNumbersRaw;
+svgModules['./eds-text-amount.svg'] = edsTextAmountRaw;
+svgModules['./eds-text-logs-policy.svg'] = edsTextLogsPolicyRaw;
 svgModules['./eds-black-list-fill.svg'] = edsBlackListFillRaw;
 svgModules['./eds-white-list-fill.svg'] = edsWhiteListFillRaw;
 

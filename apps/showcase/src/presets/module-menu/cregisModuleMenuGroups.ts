@@ -100,7 +100,7 @@ const cregisRiskControlModuleMenuGroups: ModuleMenuPresetGroup[] = [
 const cregisPaymentEngineModuleMenuGroups: ModuleMenuPresetGroup[] = [
   {
     items: [
-      { label: 'Payment Record', icon: 'eds-text-journal' },
+      { label: 'Order Record', icon: 'eds-text-journal' },
       { label: 'Settlement Record', icon: 'eds-task-list' },
       { label: 'Payment Exception Record', icon: 'eds-text-abnormal', showReddot: true },
     ],
@@ -173,7 +173,16 @@ const cregisManageModuleMenuGroups: ModuleMenuPresetGroup[] = [
   {
     items: [
       { label: 'Team Subscription', icon: 'eds-diamond' },
-      { label: 'Team Account Balance', icon: 'eds-usd-accounting' },
+      {
+        label: 'Team Account Balance',
+        icon: 'eds-usd-accounting',
+        tier: 2,
+        subitems: [
+          { label: 'Overview', icon: 'eds-dashboard' },
+          { label: 'Fee Records', icon: 'eds-text-amount' },
+          { label: 'Gas Proxy Payment Records', icon: 'eds-text-logs-policy' },
+        ],
+      },
       { label: 'Order Management', icon: 'eds-text-order' },
     ],
   },

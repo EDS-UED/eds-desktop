@@ -263,6 +263,66 @@ const CREGIS_MODULE_MENU_SHOWCASE_LABELS: Record<string, LocaleLabelMap> = {
     'zh-TW': '推送記錄',
     'zh-HK': '推送記錄',
   },
+  'Team Subscription': {
+    'en-US': 'Team Subscription',
+    'zh-CN': '团队订阅',
+    'zh-TW': '團隊訂閱',
+    'zh-HK': '團隊訂閱',
+  },
+  'Team Account Balance': {
+    'en-US': 'Team Account Balance',
+    'zh-CN': '团队账户',
+    'zh-TW': '團隊賬戶',
+    'zh-HK': '團隊賬戶',
+  },
+  'Order Management': {
+    'en-US': 'Order Management',
+    'zh-CN': '订单管理',
+    'zh-TW': '訂單管理',
+    'zh-HK': '訂單管理',
+  },
+  Member: {
+    'en-US': 'Member',
+    'zh-CN': '成员',
+    'zh-TW': '成員',
+    'zh-HK': '成員',
+  },
+  Role: {
+    'en-US': 'Role',
+    'zh-CN': '角色',
+    'zh-TW': '角色',
+    'zh-HK': '角色',
+  },
+  'Team Security': {
+    'en-US': 'Team Security',
+    'zh-CN': '团队安全',
+    'zh-TW': '團隊安全',
+    'zh-HK': '團隊安全',
+  },
+  'API Manage': {
+    'en-US': 'API Manage',
+    'zh-CN': 'API管理',
+    'zh-TW': 'API管理',
+    'zh-HK': 'API管理',
+  },
+  Overview: {
+    'en-US': 'Overview',
+    'zh-CN': '总览',
+    'zh-TW': '總覽',
+    'zh-HK': '總覽',
+  },
+  'Fee Records': {
+    'en-US': 'Fee Records',
+    'zh-CN': '费用记录',
+    'zh-TW': '費用記錄',
+    'zh-HK': '費用記錄',
+  },
+  'Gas Proxy Payment Records': {
+    'en-US': 'Gas Proxy Payment Records',
+    'zh-CN': 'Gas代付记录',
+    'zh-TW': 'Gas代付記錄',
+    'zh-HK': 'Gas代付記錄',
+  },
 };
 
 export function createCregisModuleMenuShowcaseTranslate(

@@ -7,6 +7,7 @@ import styles from './InputPreview.module.css';
 import {
   buildSwitchUsageSnippet,
   isSwitchInteractiveMode,
+  mapSwitchFixedPreviewProps,
   switchCustomizeControls,
   switchCustomizeDefaults,
   switchImportCode,
@@ -20,6 +21,7 @@ const customize = reactive({
 
 const usageSnippet = computed(() => buildSwitchUsageSnippet(customize));
 const interactive = computed(() => isSwitchInteractiveMode(customize.mode));
+const fixedPreview = computed(() => mapSwitchFixedPreviewProps(customize.mode));
 </script>
 
 <template>
@@ -44,7 +46,12 @@ const interactive = computed(() => isSwitchInteractiveMode(customize.mode));
             :size="customize.size"
             @update:model-value="(v) => { customize.on = v; }"
           />
-          <EgSwitch v-else :model-value="false" :size="customize.size" disabled />
+          <EgSwitch
+            v-else
+            :model-value="fixedPreview?.modelValue ?? false"
+            :size="customize.size"
+            disabled
+          />
         </div>
       </template>
     </ComponentDocLayout>

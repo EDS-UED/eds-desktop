@@ -12,7 +12,7 @@ export type AnimationCatalogMeta = {
 export const animationCatalogMeta: AnimationCatalogMeta[] = [
   {
     slug: 'motion-page-navigation',
-    name: 'MotionPage',
+    name: 'EgMotionPageStack',
     scenario: 'verify-ring-dots',
     description: showcaseText(
       'macOS App Store Navigation Push / Pop (.motion-page).',
@@ -21,7 +21,7 @@ export const animationCatalogMeta: AnimationCatalogMeta[] = [
   },
   {
     slug: 'verification-ring-dots',
-    name: 'VerificationRingDots',
+    name: 'EgVerifyRingDots',
     scenario: 'verify-ring-dots',
     description: showcaseText(
       'Verification ring dot animation.',
@@ -30,7 +30,7 @@ export const animationCatalogMeta: AnimationCatalogMeta[] = [
   },
   {
     slug: 'business-success',
-    name: 'BusinessSuccess',
+    name: 'EgDoneTick',
     scenario: 'done-tick',
     description: showcaseText(
       'Business success completion motion.',
@@ -39,7 +39,7 @@ export const animationCatalogMeta: AnimationCatalogMeta[] = [
   },
   {
     slug: 'business-processing',
-    name: 'BusinessProcessing',
+    name: 'EgMotionProcessing',
     scenario: 'motion-processing',
     description: showcaseText(
       'In-progress business processing motion.',
@@ -48,7 +48,7 @@ export const animationCatalogMeta: AnimationCatalogMeta[] = [
   },
   {
     slug: 'ripple-pulse',
-    name: 'RipplePulse',
+    name: 'EgRipplePulse',
     scenario: 'ripple-pulse',
     description: showcaseText(
       'Ripple pulse animation.',
@@ -57,11 +57,20 @@ export const animationCatalogMeta: AnimationCatalogMeta[] = [
   },
   {
     slug: 'mnemonic-verification',
-    name: 'MnemonicVerification',
+    name: 'EgMnemonicVerify',
     scenario: 'mnemonic-verify',
     description: showcaseText(
       'Mnemonic verification in-progress animation.',
       '助记词校验中动画。',
+    ),
+  },
+  {
+    slug: 'odometer',
+    name: 'EgOdometer',
+    scenario: 'odometer',
+    description: showcaseText(
+      'Rolling digit odometer (vertical scroll per digit).',
+      '数字滚轮动效（按位垂直滚动）。',
     ),
   },
 ];
