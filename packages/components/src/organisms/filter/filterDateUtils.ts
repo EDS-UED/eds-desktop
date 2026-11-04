@@ -10,15 +10,21 @@ export type FilterCalendarCell = FilterDateParts & {
   inMonth: boolean;
 };
 
-export type FilterTimeQuickPresetId = 'today' | 'yesterday' | '3-days-ago' | '1-week-ago';
+export type FilterTimeQuickPresetId =
+  | 'today'
+  | 'yesterday'
+  | 'last-7-days'
+  | 'last-30-days'
+  | 'this-month';
 
 export const FILTER_WEEKDAY_LABELS = ['日', '一', '二', '三', '四', '五', '六'] as const;
 
 export const FILTER_TIME_QUICK_PRESETS: Array<{ id: FilterTimeQuickPresetId; label: string }> = [
   { id: 'today', label: '今天' },
   { id: 'yesterday', label: '昨天' },
-  { id: '3-days-ago', label: '3日前' },
-  { id: '1-week-ago', label: '1周前' },
+  { id: 'last-7-days', label: '近7天' },
+  { id: 'last-30-days', label: '近30天' },
+  { id: 'this-month', label: '本月' },
 ];
 
 export const FILTER_TIME_PICKER_WIDTH = 280;
@@ -206,10 +212,15 @@ export function resolveFilterTimeQuickPresetRange(
       const yesterday = addDaysToFilterDate(today, -1);
       return { start: yesterday, end: yesterday };
     }
-    case '3-days-ago':
-      return { start: addDaysToFilterDate(today, -3), end: today };
-    case '1-week-ago':
-      return { start: addDaysToFilterDate(today, -7), end: today };
+    case 'last-7-days':
+      return { start: addDaysToFilterDate(today, -6), end: today };
+    case 'last-30-days':
+      return { start: addDaysToFilterDate(today, -29), end: today };
+    case 'this-month':
+      return {
+        start: { year: today.year, month: today.month, day: 1 },
+        end: today,
+      };
     default:
       return { start: today, end: today };
   }

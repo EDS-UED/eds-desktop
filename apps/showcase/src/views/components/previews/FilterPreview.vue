@@ -7,7 +7,9 @@ import {
   type EgFilterFieldKind,
   type EgFilterLogicMode,
 } from '@eds/desktop-components';
+import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
 import { useShowcaseLocale } from '@/composables/useShowcaseLocale';
+import { showcaseText } from '@/data/showcasePropLabels';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
@@ -31,6 +33,14 @@ import {
 } from './filterDocCustomize';
 
 const { locale } = useShowcaseLocale();
+const { display } = useShowcaseDisplayText();
+
+const dataSourcePanelTitle = showcaseText('Data source', '数据源');
+
+const resolvedDataSourcePanelTitle = computed(() => {
+  void locale.value;
+  return display(dataSourcePanelTitle);
+});
 
 const customize = createDocCustomizeState<typeof filterCustomizeDefaults>(
   filterCustomizeDefaults,
@@ -62,6 +72,70 @@ watch(
   () => [customize.initialConditionCount, customize.maxConditions],
   () => {
     conditions.value = createInitialFilterConditions(customize);
+  },
+);
+
+function applyLinkedConditionControls(enabled: boolean) {
+  customize.conditionLogicControl = enabled;
+  customize.classConditionControl = enabled;
+  customize.containerWidthMode = enabled ? 'conditional' : 'unconditional';
+  if (!enabled) {
+    logicMode.value = 'all';
+    conditions.value = conditions.value.map((condition) => ({
+      ...condition,
+      operatorId: 'equals',
+    }));
+  }
+}
+
+function conditionControlsMatchWidthMode(mode: string): boolean {
+  const enabled = mode === 'conditional';
+  return (
+    Boolean(customize.conditionLogicControl) === enabled
+    && Boolean(customize.classConditionControl) === enabled
+  );
+}
+
+watch(
+  () => customize.containerWidthMode,
+  (mode) => {
+    if (conditionControlsMatchWidthMode(String(mode))) return;
+    applyLinkedConditionControls(mode === 'conditional');
+  },
+);
+
+watch(
+  () => customize.conditionLogicControl,
+  (enabled) => {
+    if (customize.classConditionControl === enabled) {
+      if (!enabled) logicMode.value = 'all';
+      const mode = enabled ? 'conditional' : 'unconditional';
+      if (customize.containerWidthMode !== mode) {
+        customize.containerWidthMode = mode;
+      }
+      return;
+    }
+    applyLinkedConditionControls(enabled);
+  },
+);
+
+watch(
+  () => customize.classConditionControl,
+  (enabled) => {
+    if (customize.conditionLogicControl === enabled) {
+      if (!enabled) {
+        conditions.value = conditions.value.map((condition) => ({
+          ...condition,
+          operatorId: 'equals',
+        }));
+      }
+      const mode = enabled ? 'conditional' : 'unconditional';
+      if (customize.containerWidthMode !== mode) {
+        customize.containerWidthMode = mode;
+      }
+      return;
+    }
+    applyLinkedConditionControls(enabled);
   },
 );
 
@@ -100,14 +174,18 @@ function onResetPreview() {
       :props-section-id="propsSectionId"
       @reset-preview="onResetPreview"
     >
-      <template #customize-after>
-        <CustomizePanel
-          v-model="customize"
-          hide-title
-          sequential
-          :row-columns="3"
-          :controls="filterFieldCustomizeControls"
-        />
+      <template #customize-extra>
+        <div :class="docStyles.customizeExtraStack">
+          <CustomizePanel
+            v-model="customize"
+            nested
+            embedded
+            sequential
+            :row-columns="3"
+            :title="resolvedDataSourcePanelTitle"
+            :controls="filterFieldCustomizeControls"
+          />
+        </div>
       </template>
 
       <template #preview>

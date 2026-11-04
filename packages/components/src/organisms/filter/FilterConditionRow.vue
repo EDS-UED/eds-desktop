@@ -38,11 +38,14 @@ const props = withDefaults(
     removeLabel?: string;
     boundarySelector?: string;
     valueAlign?: TooltipAlign;
+    /** false 时隐藏运算符选择，固定为 equals。 */
+    showOperator?: boolean;
   }>(),
   {
     placeholder: '请输入',
     removeLabel: 'Remove condition',
     valueAlign: 'end',
+    showOperator: true,
   },
 );
 
@@ -175,6 +178,7 @@ function onFieldChange(nextFieldId: string) {
     />
     <div :class="styles.valueGroup">
       <FilterSelect
+        v-if="showOperator"
         variant="operator"
         :model-value="operatorId"
         :options="operatorOptions"

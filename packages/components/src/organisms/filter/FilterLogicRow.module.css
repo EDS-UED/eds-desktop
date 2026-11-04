@@ -14,6 +14,14 @@
   line-height: var(--eds-body-small-line-height);
 }
 
+.logicValue {
+  flex-shrink: 0;
+  color: var(--text-base-primary);
+  font-size: var(--eds-body-small-size);
+  font-weight: var(--eds-body-small-strong-weight);
+  line-height: var(--eds-body-small-line-height);
+}
+
 .logicSelect {
   flex-shrink: 0;
 }

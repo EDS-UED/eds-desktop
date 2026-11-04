@@ -36,6 +36,10 @@ const props = withDefaults(
     removeLabel?: string;
     maxConditions?: number;
     logicMode?: EgFilterLogicMode;
+    /** false 时组合逻辑固定为 all，仅展示文案。 */
+    logicModeControl?: boolean;
+    /** false 时隐藏运算符选择，固定 equals。 */
+    operatorControl?: boolean;
     boundarySelector?: string;
     valueAlign?: TooltipAlign;
   }>(),
@@ -46,6 +50,8 @@ const props = withDefaults(
     removeLabel: 'Remove condition',
     maxConditions: 10,
     logicMode: 'all',
+    logicModeControl: true,
+    operatorControl: true,
     valueAlign: 'end',
   },
 );
@@ -58,7 +64,37 @@ const emit = defineEmits<{
   'update:logicMode': [logicMode: EgFilterLogicMode];
 }>();
 
-const showLogicRow = computed(() => props.conditions.length >= 2);
+const showLogicRow = computed(
+  () => props.logicModeControl && props.conditions.length >= 2,
+);
+
+watch(
+  () => props.logicModeControl,
+  (enabled) => {
+    if (enabled) return;
+    if (props.logicMode !== 'all') {
+      emit('update:logicMode', 'all');
+    }
+  },
+  { immediate: true },
+);
+
+watch(
+  () => [props.operatorControl, props.conditions] as const,
+  ([enabled, conditions]) => {
+    if (enabled) return;
+    const needsEquals = conditions.some((condition) => condition.operatorId !== 'equals');
+    if (!needsEquals) return;
+    updateConditions(
+      conditions.map((condition) =>
+        condition.operatorId === 'equals'
+          ? condition
+          : { ...condition, operatorId: 'equals', value: '' },
+      ),
+    );
+  },
+  { deep: true, immediate: true },
+);
 
 function updateConditions(next: EgFilterCondition[]) {
   emit('update:conditions', next);
@@ -168,6 +204,7 @@ watch(
       <FilterLogicRow
         v-if="showLogicRow"
         :model-value="logicMode"
+        :interactive="logicModeControl"
         @update:model-value="emit('update:logicMode', $event)"
       />
     </div>
@@ -192,6 +229,7 @@ watch(
             :remove-label="removeLabel"
             :boundary-selector="boundarySelector"
             :value-align="valueAlign"
+            :show-operator="operatorControl"
             @patch="updateCondition(index, $event)"
             @update:operator-id="onOperatorChange(index, $event)"
             @update:value="onValueDraft(index, $event)"

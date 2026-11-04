@@ -12,9 +12,16 @@ import styles from './FilterLogicRow.module.css';
 
 const t = useFilterTranslate();
 
-const props = defineProps<{
-  modelValue: EgFilterLogicMode;
-}>();
+const props = withDefaults(
+  defineProps<{
+    modelValue: EgFilterLogicMode;
+    /** false 时固定展示「所有」，不可切换任一。 */
+    interactive?: boolean;
+  }>(),
+  {
+    interactive: true,
+  },
+);
 
 const emit = defineEmits<{
   'update:modelValue': [value: EgFilterLogicMode];
@@ -50,7 +57,8 @@ function onItemClick(_item: FlotationMenuItemPreset, index: number) {
 <template>
   <div :class="styles.logicRow">
     <span :class="styles.text">{{ t('符合以下') }}</span>
-    <div :class="styles.logicSelect">
+    <span v-if="!interactive" :class="styles.logicValue">{{ t('所有') }}</span>
+    <div v-else :class="styles.logicSelect">
       <EgFlotation
         ref="flotationRef"
         placement="bottom"

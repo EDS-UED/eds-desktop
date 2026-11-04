@@ -49,12 +49,18 @@ const props = withDefaults(
     maxHeight?: number;
     maxConditions?: number;
     logicMode?: EgFilterLogicMode;
+    /** false 时组合逻辑固定 all，逻辑行不可切换。 */
+    logicModeControl?: boolean;
+    /** false 时隐藏运算符选择，固定 equals。 */
+    operatorControl?: boolean;
     /** 展示文案翻译；简体中文为真源，未传时保持原文。 */
     translate?: FilterTranslate;
   }>(),
   {
     modelValue: () => [],
     logicMode: 'all',
+    logicModeControl: true,
+    operatorControl: true,
     title: '设置筛选条件',
     addLabel: '添加条件',
     placeholder: '请输入',
@@ -120,6 +126,18 @@ watch(
     if (!expanded.value || applyingFromPanel) return;
     draftLogicMode.value = logicMode;
   },
+);
+
+watch(
+  () => props.logicModeControl,
+  (enabled) => {
+    if (enabled) return;
+    draftLogicMode.value = 'all';
+    if (props.logicMode !== 'all') {
+      emit('update:logicMode', 'all');
+    }
+  },
+  { immediate: true },
 );
 
 function onOpen() {
@@ -225,6 +243,8 @@ function onDraftLogicModeUpdate(logicMode: EgFilterLogicMode) {
             :remove-label="removeLabel"
             :max-conditions="maxConditions"
             :logic-mode="draftLogicMode"
+            :logic-mode-control="logicModeControl"
+            :operator-control="operatorControl"
             :boundary-selector="boundarySelector"
             :value-align="valueAlign"
             @update:conditions="onDraftConditionsUpdate"

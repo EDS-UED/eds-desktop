@@ -74,6 +74,33 @@ export const filterPropRows: DocPropRow[] = [
     description: showcaseText('Maximum condition rows.', '最大条件行数。'),
   },
   {
+    name: 'logicModeControl',
+    type: 'boolean',
+    defaultValue: 'true',
+    description: showcaseText(
+      'When false, logic row is hidden and v-model:logicMode stays all.',
+      '为 false 时不展示组合逻辑行，逻辑固定为「所有」。',
+    ),
+  },
+  {
+    name: 'operatorControl',
+    type: 'boolean',
+    defaultValue: 'true',
+    description: showcaseText(
+      'When false, operator picker is hidden and rows use equals.',
+      '为 false 时隐藏运算符选择，条件固定为「等于」。',
+    ),
+  },
+  {
+    name: 'width',
+    type: 'number',
+    defaultValue: '512',
+    description: showcaseText(
+      'Filter panel fixed width (px). Showcase uses 456 without condition controls and 512 with logic + operator chrome.',
+      '筛选面板固定宽度（px）。Showcase 在无条件时为 456，开启筛选逻辑 + 运算符时为 512。',
+    ),
+  },
+  {
     name: 'placement',
     type: 'TooltipPlacement',
     defaultValue: "'bottom'",

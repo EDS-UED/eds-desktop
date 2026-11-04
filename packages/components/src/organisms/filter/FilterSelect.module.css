@@ -11,6 +11,7 @@
 .selectOperator {
   flex: 0 0 86px;
   width: 86px;
+  margin-inline-start: var(--spacing-2);
 }
 
 .selectStretch {

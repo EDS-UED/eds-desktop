@@ -54,6 +54,42 @@ const alignOptions = [
 
 export const FILTER_MAX_CONDITIONS_DEFAULT = 20;
 
+export const FILTER_PANEL_WIDTH_CONDITIONAL = 512;
+export const FILTER_PANEL_WIDTH_UNCONDITIONAL = 456;
+
+export type FilterContainerWidthMode = 'conditional' | 'unconditional';
+
+const FILTER_CONTAINER_WIDTH_OPTIONS: Array<{ value: FilterContainerWidthMode; label: string }> = [
+  {
+    value: 'conditional',
+    label: showcaseText('With condition controls (512px)', '有条件（512px）'),
+  },
+  {
+    value: 'unconditional',
+    label: showcaseText('Without condition controls (456px)', '无条件（456px）'),
+  },
+];
+
+/** 条件控制 + 类条件均开启时为「有条件」宽度。 */
+export function isFilterPanelConditionalLayout(state: Record<string, unknown>): boolean {
+  return Boolean(state.conditionLogicControl) && Boolean(state.classConditionControl);
+}
+
+export function resolveFilterContainerWidthMode(
+  state: Record<string, unknown>,
+): FilterContainerWidthMode {
+  return isFilterPanelConditionalLayout(state) ? 'conditional' : 'unconditional';
+}
+
+export function resolveFilterPanelWidth(state: Record<string, unknown>): number {
+  const mode = String(
+    state.containerWidthMode ?? resolveFilterContainerWidthMode(state),
+  ) as FilterContainerWidthMode;
+  return mode === 'conditional'
+    ? FILTER_PANEL_WIDTH_CONDITIONAL
+    : FILTER_PANEL_WIDTH_UNCONDITIONAL;
+}
+
 const FILTER_MAX_CONDITIONS_OPTIONS = Array.from({ length: 20 }, (_, index) => {
   const value = String(index + 1);
   return { value, label: value };
@@ -76,6 +112,12 @@ export const filterCustomizeDefaults = {
   align: 'start',
   maxConditions: FILTER_MAX_CONDITIONS_DEFAULT,
   initialConditionCount: 0,
+  /** false：不展示组合逻辑行，逻辑固定「所有」。 */
+  conditionLogicControl: false,
+  /** false：运算符固定「等于」，隐藏运算符选择。 */
+  classConditionControl: false,
+  /** 有条件 512px / 无条件 456px；随筛选逻辑 + 运算符勾选同步。 */
+  containerWidthMode: 'unconditional' as FilterContainerWidthMode,
 } as const;
 
 export function fieldKindSupportsClassCustomization(kind: EgFilterFieldKind): boolean {
@@ -150,6 +192,25 @@ export const filterCustomizeControls: DocCustomizeControl[] = [
     label: showcaseText('Max conditions', '最大条件数'),
     options: FILTER_MAX_CONDITIONS_OPTIONS,
     row: 1,
+  },
+  {
+    kind: 'select',
+    key: 'containerWidthMode',
+    label: showcaseText('Layout control', '布局控制'),
+    options: FILTER_CONTAINER_WIDTH_OPTIONS,
+    row: 1,
+  },
+  {
+    kind: 'boolean',
+    key: 'conditionLogicControl',
+    label: showcaseText('Filter logic', '筛选逻辑'),
+    row: 2,
+  },
+  {
+    kind: 'boolean',
+    key: 'classConditionControl',
+    label: showcaseText('Operator', '运算符'),
+    row: 2,
   },
 ];
 
@@ -280,6 +341,9 @@ export function resolveFilterPreviewProps(state: Record<string, unknown>) {
       String(state.maxConditions ?? FILTER_MAX_CONDITIONS_DEFAULT),
       10,
     ) || FILTER_MAX_CONDITIONS_DEFAULT,
+    logicModeControl: Boolean(state.conditionLogicControl),
+    operatorControl: Boolean(state.classConditionControl),
+    width: resolveFilterPanelWidth(state),
     teleportTo: 'body',
   };
 }
@@ -297,12 +361,18 @@ export function buildFilterUsageSnippet(state: Record<string, unknown>): string 
     ) || FILTER_MAX_CONDITIONS_DEFAULT,
     placement: state.placement,
     align: state.align,
+    logicModeControl: Boolean(state.conditionLogicControl),
+    operatorControl: Boolean(state.classConditionControl),
+    width: resolveFilterPanelWidth(state),
   };
 
   return buildVueSelfClosingSnippet('EgFilter', payload, {
     defaults: {
       title: filterCustomizeDefaults.title,
       triggerLabel: filterCustomizeDefaults.triggerLabel,
+      logicModeControl: true,
+      operatorControl: true,
+      width: FILTER_PANEL_WIDTH_CONDITIONAL,
     },
     omitKeys: [
       'kind',
@@ -312,6 +382,9 @@ export function buildFilterUsageSnippet(state: Record<string, unknown>): string 
       'fieldPlaceholder',
       'fieldLabel',
       'initialConditionCount',
+      'conditionLogicControl',
+      'classConditionControl',
+      'containerWidthMode',
     ],
     vModel: 'conditions',
   });
