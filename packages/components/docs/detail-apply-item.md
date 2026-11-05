@@ -111,7 +111,21 @@ createDetailApplyItemRow('sender', { value: addr, tag: name })
 3. Showcase Detail 文档区自动含新数据来源（sync 后）  
 4. 业务改用新 `DetailApplyItemVariantId`
 
+## AML 筛查（Receiver 等地址行）
+
+`receiver` 变体默认 `showValueAmlSearch: true`。行内按钮为 **`EgDetailValueActionIcon`**（`eds-aml-search` + hover tooltip）。
+
+业务壳（Desktop App）统一接线：
+
+| EgDetail prop / event | 用途 |
+|----------------------|------|
+| `value-aml-search-label` | 按钮 `aria-label` 与 tooltip（catalog → `ui()`） |
+| `aml-search-active-item-key` | 与 `resolveDetailItemValueCopyKey(itemKey, entryIndex)` 一致；筛查进行中时对应按钮 `:verifying` |
+| `@item-value-aml-search-click` | 参数为上述 copyKey；业务启动 mock/API 筛查、Toast、结果写回 `valueAddressSideTags` |
+
+结果 tag 与 pending 态由业务 **`applyDetailAmlSearchSectionOverlay`**（或等价）在传入 `:sections` 前合并；须对 **任意** `showValueAmlSearch` 行生效，不限 `key === 'receiver'`。
+
 ## 相关
 
-- 组件：`EgDetail` · `DetailItemData`  
+- 组件：`EgDetail` · `DetailItemData` · `EgDetailValueActionIcon`  
 - 项目约定：`.cursor/rules/work.mdc` §7 EgDetail · Apply_Item

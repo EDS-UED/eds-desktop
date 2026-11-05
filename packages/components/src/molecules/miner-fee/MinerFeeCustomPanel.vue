@@ -159,7 +159,7 @@ defineExpose({
       </div>
     </Teleport>
 
-    <div :class="styles.body">
+    <div :class="styles.body" data-miner-fee-scroll-region>
       <EgTabs
         v-if="!isBtcShell"
         :model-value="tabModel"

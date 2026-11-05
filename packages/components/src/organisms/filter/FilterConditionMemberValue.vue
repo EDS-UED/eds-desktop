@@ -29,6 +29,7 @@ import {
   type FilterMemberPreset,
   type FilterWaasProjectPreset,
 } from './filterMemberPresets';
+import { FILTER_CURRENCY_PICKER_WIDTH } from './filterCurrencyPresets';
 import FilterSearchPickerEmpty from './FilterSearchPickerEmpty.vue';
 import { useFilterPanelDropdownMutex } from './filterPanelDropdownMutex';
 import { useFilterPickerMenuWidthMode } from './useFilterPickerMenuWidthMode';
@@ -62,6 +63,8 @@ const props = withDefaults(
     waasProjectOptions?: readonly EgFilterFieldMemberOption[];
     /** 覆盖 useFilterPickerMenuWidthMode 推断（如 Filter 条件行固定对齐触发器宽）。 */
     menuWidthMode?: FlotationWidthMode;
+    /** menuWidthMode=fixed 时 EgFlotation / 菜单宽度（px）。 */
+    menuWidth?: number;
     dropdownOpenId?: string;
     boundarySelector?: string;
     pickerAlign?: TooltipAlign;
@@ -222,6 +225,11 @@ const { menuWidthMode: inferredMenuWidthMode, syncMenuWidthMode, syncMenuWidthMo
 const resolvedFlotationWidthMode = computed((): FlotationWidthMode => {
   if (props.menuWidthMode) return props.menuWidthMode;
   return inferredMenuWidthMode.value;
+});
+
+const resolvedFlotationWidth = computed(() => {
+  if (resolvedFlotationWidthMode.value !== 'fixed') return undefined;
+  return props.menuWidth ?? FILTER_CURRENCY_PICKER_WIDTH;
 });
 
 const {
@@ -432,6 +440,7 @@ const triggerCountText = computed(() => String(selectedCount.value));
       placement="bottom"
       :align="pickerAlign"
       :width-mode="resolvedFlotationWidthMode"
+      :width="resolvedFlotationWidth"
       :show-add="false"
       :show-menu-divider="false"
       :boundary-selector="boundarySelector"
@@ -439,32 +448,34 @@ const triggerCountText = computed(() => String(selectedCount.value));
       @open="onPickerOpen"
       @close="onPickerClose"
     >
-      <template #trigger="{ expanded }">
-        <EgFlotationTrigger
-          trigger-style="subtle"
-          size="sm"
-          :width-mode="triggerWidthMode"
-          :width="triggerWidth"
-          :label="triggerLabel"
-          :expanded="expanded"
-          :disabled="disabled"
-          :show-symbol="showTriggerAvatar"
-        >
-          <template v-if="showTriggerAvatar && activeTriggerPreset" #symbol>
-            <EgAvatar
-              :name="activeTriggerPreset.name"
-              :color-seed="activeTriggerPreset.id"
-              size="sm"
-            />
-          </template>
-          <template v-if="showTriggerCountMessage" #message>
-            <EgMessage
-              type="brand"
-              :text="triggerCountText"
-              focus-background="inherit"
-            />
-          </template>
-        </EgFlotationTrigger>
+      <template #trigger="triggerSlotProps">
+        <slot name="trigger" v-bind="triggerSlotProps">
+          <EgFlotationTrigger
+            trigger-style="subtle"
+            size="sm"
+            :width-mode="triggerWidthMode"
+            :width="triggerWidth"
+            :label="triggerLabel"
+            :expanded="triggerSlotProps.expanded"
+            :disabled="disabled"
+            :show-symbol="showTriggerAvatar"
+          >
+            <template v-if="showTriggerAvatar && activeTriggerPreset" #symbol>
+              <EgAvatar
+                :name="activeTriggerPreset.name"
+                :color-seed="activeTriggerPreset.id"
+                size="sm"
+              />
+            </template>
+            <template v-if="showTriggerCountMessage" #message>
+              <EgMessage
+                type="brand"
+                :text="triggerCountText"
+                focus-background="inherit"
+              />
+            </template>
+          </EgFlotationTrigger>
+        </slot>
       </template>
 
       <template #content="{ close, menuWidth, menuWidthMode }">

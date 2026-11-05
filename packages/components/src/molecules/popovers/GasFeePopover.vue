@@ -6,6 +6,8 @@ import EgMinerFeeEthereumPanel from '../miner-fee/MinerFeeEthereumPanel.vue';
 import EgMinerFeeTonPanel from '../miner-fee/MinerFeeTonPanel.vue';
 import EgMinerFeeTronPanel from '../miner-fee/MinerFeeTronScenarioPanel.vue';
 import type { MinerFeeTranslate } from '../miner-fee/minerFeeTranslate';
+import type { EvmMinerFeePaymentDemoQuote } from '../miner-fee/minerFeeEvmPayment';
+import type { TronMinerFeeQuote } from '../miner-fee/minerFeeTronDisplay';
 import type { MinerFeeConfirmPayload } from '../miner-fee/minerFeeTypes';
 import EgAnchoredPopover from './AnchoredPopover.vue';
 import { POPOVER_PRESET_WIDTH_BASE } from './popoverShape';
@@ -40,6 +42,11 @@ const props = withDefaults(
     height?: number;
     maxHeight?: number;
     topToolClosable?: boolean;
+    /** network=tron 时覆盖默认报价（异常提示由 quote 字段驱动）。 */
+    tronQuote?: TronMinerFeeQuote;
+    evmPaymentQuote?: EvmMinerFeePaymentDemoQuote;
+    /** network=ethereum：false 时无代付权限，仅地址支付档位列表。 */
+    evmSponsoredPaymentEnabled?: boolean;
   }>(),
   {
     network: 'ethereum',
@@ -53,7 +60,9 @@ const props = withDefaults(
     widthMode: 'fixed',
     width: POPOVER_PRESET_WIDTH_BASE,
     heightMode: 'adaptive',
+    maxHeight: 480,
     topToolClosable: true,
+    evmSponsoredPaymentEnabled: true,
   },
 );
 
@@ -69,6 +78,13 @@ const panelProps = computed(() => {
     translate: props.translate,
     transactionCount: props.transactionCount,
     preferBatchTotalSummary: props.preferBatchTotalSummary,
+    ...(props.network === 'tron' && props.tronQuote ? { tronQuote: props.tronQuote } : {}),
+    ...(props.network === 'ethereum' && props.evmPaymentQuote
+      ? { evmPaymentQuote: props.evmPaymentQuote }
+      : {}),
+    ...(props.network === 'ethereum'
+      ? { evmSponsoredPaymentEnabled: props.evmSponsoredPaymentEnabled }
+      : {}),
   };
   return props.symbol ? { ...base, symbol: props.symbol } : base;
 });

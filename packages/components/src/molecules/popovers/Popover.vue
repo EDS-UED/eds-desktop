@@ -162,12 +162,17 @@ const clipPathStyle = computed(() => {
 
 const motionClass = computed(() => (props.microFloat ? 'motion-flotation' : null));
 
+const usesHeightConstraint = computed(
+  () => props.maxHeight != null && usesAdaptiveHeight.value,
+);
+
 const contentHostClass = computed(() => [
   styles.content,
   motionClass.value,
   (props.maxWidth != null || props.maxHeight != null) &&
     !showTopTool.value &&
     styles.contentConstrained,
+  usesHeightConstraint.value && showTopTool.value && styles.contentHeightConstrained,
 ]);
 
 const showTopTool = computed(() => Boolean(props.topTool));
@@ -179,7 +184,10 @@ const contentBodyClass = computed(() => [
   styles.contentBody,
   showTopTool.value && styles.contentBodyWithTopTool,
   usesAdaptiveWidth.value && styles.contentBodyAdaptiveWidth,
-  usesAdaptiveHeight.value && styles.contentBodyAdaptiveHeight,
+  usesAdaptiveHeight.value
+    && !(usesHeightConstraint.value && showTopTool.value)
+    && styles.contentBodyAdaptiveHeight,
+  usesHeightConstraint.value && showTopTool.value && styles.contentBodyHeightConstrained,
 ]);
 
 const contentHostStyle = computed((): CSSProperties => {
@@ -494,6 +502,7 @@ onBeforeUnmount(() => {
           class="eds-popover-content"
           :class="contentBodyClass"
           :style="contentBodyStyle"
+          :data-popover-height-constrained="usesHeightConstraint ? '' : undefined"
         >
           <div v-if="showTopTool" :class="styles.topTool">
             <p

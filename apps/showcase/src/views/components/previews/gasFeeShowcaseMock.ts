@@ -1,4 +1,11 @@
-import type { MinerFeeTranslate } from '@eds/desktop-components';
+import {
+  resolveEvmPaymentDemoQuote,
+  resolveEvmPaymentDemoQuoteInsufficient,
+  resolveTronMinerFeeQuote,
+  type EvmMinerFeePaymentDemoQuote,
+  type MinerFeeTranslate,
+  type TronMinerFeeQuote,
+} from '@eds/desktop-components';
 import { getShowcaseI18nRegistry } from '@/data/i18n/showcaseI18nRegistry';
 import type { PopoverGasFeeNetwork } from './popoversDocCustomize';
 
@@ -53,21 +60,36 @@ const SHOWCASE_GAS_FEE_UI_TEXT: Record<string, string> = {
     '如果地址的能量不足，扣除地址的全部能量后剩余能量可以TRX支付。',
   'Miner fee tron resources info footnote':
     '能量消耗是在假设用户将为所有资源付费的基础上计算的，而实际的链上数据可能会有所不同。',
-  'Miner fee tron resources line': '{bandwidth}带宽 + {energy}能量',
+  'Miner fee tron resources line': '{bandwidth} 带宽 + {energy} 能量',
   'Miner fee tron resources available title': '当前地址可用资源',
   'Miner fee tron resources energy value': '{energy} 能量',
   'Miner fee tron resources bandwidth value': '{bandwidth} 带宽',
   'Miner fee tron activation note': '接收方地址未激活，将额外消耗 {trx} TRX激活',
   'Miner fee tron payment mode': '支付方式',
-  'Miner fee tron energy mode': '能量模式',
+  'Miner fee tron energy mode': '矿工费代付',
   'Miner fee tron recommended': '推荐',
   'Miner fee tron save percent': '节省50%',
   'Miner fee tron provider note': '由 Cregis 提供交易所需资源，费用将从团队账户扣除。',
   'Miner fee tron estimated cost primary': '预计费用: {usd}',
   'Miner fee tron estimated cost original': '{usd}',
   'Miner fee tron estimated cost usd': '≈ {usd}',
-  'Miner fee tron team balance insufficient text': '团队余额不足，请',
+  'Miner fee tron team balance insufficient text': '团队余额不足',
   'Miner fee tron team balance recharge link': '充值',
+  'Miner fee payment mode label': '支付方式',
+  'Miner fee evm payment estimate label': '预计',
+  'Miner fee evm payment estimate crypto': '0.000873 ETH',
+  'Miner fee evm payment estimate usd': '$2.14',
+  'Miner fee evm payment gas account balance eth': '0.00042',
+  'Miner fee evm payment gas account balance eth sufficient': '2.5',
+  'Miner fee evm payment estimate line': '预计：{estimate}',
+  'Miner fee evm payment sponsored title': '矿工费代付',
+  'Miner fee evm payment sponsored description':
+    '由矿工费代付账户支付交易矿工费，将从 ETH Gas 账户扣除',
+  'Miner fee evm payment address title': '地址支付',
+  'Miner fee evm payment address description': '由发送方地址支付交易矿工费',
+  'Miner fee evm payment gas balance line': '账户余额：{eth} ETH',
+  'Miner fee evm payment balance insufficient text': '余额不足，请',
+  'Miner fee evm payment balance recharge link': '充值',
   'Estimated total miner fee': '预计总矿工费',
   'Miner fee batch total suffix': '共',
   'Miner fee batch transaction suffix': '笔交易',
@@ -92,17 +114,59 @@ const SHOWCASE_GAS_FEE_SYMBOL: Partial<Record<PopoverGasFeeNetwork, string>> = {
   ton: 'TON',
 };
 
+/** Showcase 演示：接收方未激活时的额外 TRX（与激活说明模板对齐）。 */
+const SHOWCASE_TRON_DEMO_ACTIVATION_EXTRA_TRX = 2.5;
+
+export type ShowcaseGasFeeFeedbackFlags = {
+  evmBalanceInsufficient?: boolean;
+  tronAddressInactive?: boolean;
+  tronTeamBalanceInsufficient?: boolean;
+};
+
 export function resolveShowcaseGasFeePanelProps(
   network: PopoverGasFeeNetwork,
   multi = false,
+  evmDisplayMode: 'sponsored' | 'address' = 'sponsored',
+  feedback: ShowcaseGasFeeFeedbackFlags = {},
 ): {
   translate: MinerFeeTranslate;
   symbol?: string;
   transactionCount: number;
+  evmSponsoredPaymentEnabled?: boolean;
+  evmPaymentQuote?: EvmMinerFeePaymentDemoQuote;
+  tronQuote?: TronMinerFeeQuote;
 } {
+  const {
+    evmBalanceInsufficient = true,
+    tronAddressInactive = true,
+    tronTeamBalanceInsufficient = true,
+  } = feedback;
   const symbol = SHOWCASE_GAS_FEE_SYMBOL[network];
   const transactionCount = multi ? SHOWCASE_GAS_FEE_BATCH_TRANSACTION_COUNT : 1;
-  return symbol
+  const base = symbol
     ? { translate: showcaseGasFeeUi, symbol, transactionCount }
     : { translate: showcaseGasFeeUi, transactionCount };
+  if (network === 'ethereum') {
+    const ethSymbol = symbol ?? 'ETH';
+    const evmPaymentQuote = evmBalanceInsufficient
+      ? resolveEvmPaymentDemoQuoteInsufficient(showcaseGasFeeUi, ethSymbol)
+      : resolveEvmPaymentDemoQuote(showcaseGasFeeUi, ethSymbol);
+    return {
+      ...base,
+      evmSponsoredPaymentEnabled: evmDisplayMode === 'sponsored',
+      evmPaymentQuote,
+    };
+  }
+  if (network === 'tron') {
+    const tronQuote = resolveTronMinerFeeQuote();
+    return {
+      ...base,
+      tronQuote: {
+        ...tronQuote,
+        activationExtraTrx: tronAddressInactive ? SHOWCASE_TRON_DEMO_ACTIVATION_EXTRA_TRX : 0,
+        teamBalanceInsufficient: tronTeamBalanceInsufficient,
+      },
+    };
+  }
+  return base;
 }

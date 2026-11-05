@@ -69,6 +69,7 @@ export const inputCustomizeControls: DocCustomizeControl[] = [
       { value: 'lg', label: showcaseInputSizeLabels.lg },
       { value: 'md', label: showcaseInputSizeLabels.md },
       { value: 'sm', label: showcaseInputSizeLabels.sm },
+      { value: 'xs', label: showcaseInputSizeLabels.xs },
     ],
   },
   {

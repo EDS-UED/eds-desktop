@@ -6,7 +6,13 @@ import { useMinerFeeTranslate } from './minerFeeTranslate';
 import type { MinerFeeConfirmPayload } from './minerFeeTypes';
 import { buildEvmMinerFeeDisplay } from './minerFeeEvmDisplay';
 import MinerFeeCustomPanel from './MinerFeeCustomPanel.vue';
+import MinerFeeEvmPaymentPanel from './MinerFeeEvmPaymentPanel.vue';
 import MinerFeeListPanel, { type MinerFeeOptionId } from './MinerFeeListPanel.vue';
+import {
+  buildEvmSponsoredMinerFeeDisplay,
+  type EvmMinerFeePaymentDemoQuote,
+  type EvmMinerFeePaymentSelection,
+} from './minerFeeEvmPayment';
 import {
   buildMinerFeeCustomPreview,
   defaultMinerFeeCustomDraft,
@@ -18,7 +24,7 @@ import styles from './MinerFeePopoverPanel.module.css';
 
 const MINER_FEE_CUSTOM_ID = 'custom' as const;
 
-type MinerFeeScreen = 'list' | 'custom';
+type MinerFeeScreen = 'payment' | 'list' | 'custom';
 
 const props = withDefaults(
   defineProps<{
@@ -27,12 +33,16 @@ const props = withDefaults(
     /** 多笔：>1 时在内容与底部确定之间展示预计总矿工费。 */
     transactionCount?: number;
     preferBatchTotalSummary?: boolean;
+    evmPaymentQuote?: EvmMinerFeePaymentDemoQuote;
+    /** false：无矿工费代付权限，直接进入 EVM 档位列表（旧交互）。 */
+    evmSponsoredPaymentEnabled?: boolean;
   }>(),
   {
     symbol: 'ETH',
     hideInlineConfirm: false,
     transactionCount: 1,
     preferBatchTotalSummary: false,
+    evmSponsoredPaymentEnabled: true,
   },
 );
 
@@ -49,9 +59,20 @@ const listPanelRef = ref<InstanceType<typeof MinerFeeListPanel> | null>(null);
 const listMeasurePanelRef = ref<InstanceType<typeof MinerFeeListPanel> | null>(null);
 const customMeasurePanelRef = ref<InstanceType<typeof MinerFeeCustomPanel> | null>(null);
 const customPanelRef = ref<InstanceType<typeof MinerFeeCustomPanel> | null>(null);
+const paymentPanelRef = ref<InstanceType<typeof MinerFeeEvmPaymentPanel> | null>(null);
+const paymentMeasurePanelRef = ref<InstanceType<typeof MinerFeeEvmPaymentPanel> | null>(null);
+const paymentAddressMeasurePanelRef = ref<InstanceType<typeof MinerFeeEvmPaymentPanel> | null>(
+  null,
+);
+const paymentNoneMeasurePanelRef = ref<InstanceType<typeof MinerFeeEvmPaymentPanel> | null>(null);
 const shellVariant = computed(() => resolveMinerFeeEvmShellVariant(props.symbol));
+const useEvmPaymentFlow = computed(() => shellVariant.value === 'eth');
+const useEvmPaymentStep = computed(
+  () => useEvmPaymentFlow.value && props.evmSponsoredPaymentEnabled,
+);
 
 const minerFee = ref<MinerFeeOptionId | null>(DEFAULT_MINER_FEE_SPEED);
+const evmPaymentMethod = ref<EvmMinerFeePaymentSelection>('sponsored');
 const minerFeeBeforeCustomPopover = ref<MinerFeeOptionId | null>(null);
 const customFeeDraft = ref<MinerFeeCustomDraft>(
   defaultMinerFeeCustomDraft(shellVariant.value),
@@ -64,9 +85,13 @@ const customMeasureDraft = computed<MinerFeeCustomDraft>(() => ({
 }));
 
 const pageSpecs = reactive<Record<MinerFeeScreen, MotionLayoutDeformPageSpec>>({
+  payment: { shellHeight: 360 },
   list: { shellHeight: 320 },
   custom: { shellHeight: 360 },
 });
+
+const initialMinerFeeScreen = (): MinerFeeScreen =>
+  useEvmPaymentStep.value ? 'payment' : 'list';
 
 const {
   activePage,
@@ -75,15 +100,42 @@ const {
   contentEntering,
   switchTo,
   whenIdle,
-} = useMotionLayoutDeformPageSwitch<MinerFeeScreen>(pageSpecs, 'list');
+} = useMotionLayoutDeformPageSwitch<MinerFeeScreen>(pageSpecs, initialMinerFeeScreen());
 
-const minerFeeConfirmDisabled = computed(() => minerFee.value === null);
+const minerFeeConfirmDisabled = computed(() => {
+  if (useEvmPaymentStep.value && activePage.value === 'payment') {
+    if (evmPaymentMethod.value === null) {
+      return true;
+    }
+    if (evmPaymentMethod.value === 'address') {
+      return minerFee.value === null;
+    }
+    return false;
+  }
+  return minerFee.value === null;
+});
 const isMinerFeeCustomPage = computed(() => activePage.value === 'custom');
+const isMinerFeePaymentPage = computed(() => activePage.value === 'payment');
 /** 首次测量完成前禁用 shell height transition，避免 Popover 打开时从占位高度弹跳。 */
 const shellMeasureReady = ref(false);
+const rootWrapRef = ref<HTMLElement | null>(null);
+const popoverHeightConstrained = computed(() =>
+  Boolean(rootWrapRef.value?.closest('[data-popover-height-constrained]')),
+);
+
+/**
+ * 无 maxHeight：shell 预测量 height morph（对齐 GitHub Pages list ↔ custom）。
+ * 有 maxHeight 且支付步：支付页随内容自适应增高（地址展开），仅 custom/list 翻页仍 morph。
+ */
 const deformShellStyle = computed(() => {
-  if (props.hideInlineConfirm && activePage.value === 'list') {
+  if (
+    props.hideInlineConfirm
+    && (activePage.value === 'list' || activePage.value === 'payment')
+  ) {
     return undefined;
+  }
+  if (popoverHeightConstrained.value && isMinerFeePaymentPage.value) {
+    return { minHeight: 0, height: '100%' };
   }
   return { height: `${shellHeight.value}px` };
 });
@@ -99,12 +151,43 @@ function getListMeasureEl() {
   );
 }
 
+function getPaymentMeasureEl() {
+  /** 离屏预测量壳按 paymentMethod 常驻展开态，避免 live 面板在地址 morph 中途量偏小。 */
+  if (evmPaymentMethod.value === 'address') {
+    return (
+      paymentAddressMeasurePanelRef.value?.getMeasureEl()
+      ?? paymentPanelRef.value?.getMeasureEl()
+      ?? null
+    );
+  }
+  if (evmPaymentMethod.value === 'sponsored') {
+    return (
+      paymentMeasurePanelRef.value?.getMeasureEl()
+      ?? paymentPanelRef.value?.getMeasureEl()
+      ?? null
+    );
+  }
+  if (evmPaymentMethod.value === null) {
+    return (
+      paymentNoneMeasurePanelRef.value?.getMeasureEl()
+      ?? paymentPanelRef.value?.getMeasureEl()
+      ?? null
+    );
+  }
+  return paymentPanelRef.value?.getMeasureEl() ?? null;
+}
+
 function getCustomMeasureEl() {
   return customMeasurePanelRef.value?.getMeasureEl() ?? null;
 }
 
 function measurePage(screen: MinerFeeScreen) {
-  const el = screen === 'list' ? getListMeasureEl() : getCustomMeasureEl();
+  const el =
+    screen === 'payment'
+      ? getPaymentMeasureEl()
+      : screen === 'list'
+        ? getListMeasureEl()
+        : getCustomMeasureEl();
   if (!el) return;
   const height = el.scrollHeight;
   if (height > 0) {
@@ -117,21 +200,55 @@ async function ensurePageHeight(screen: MinerFeeScreen) {
   measurePage(screen);
 }
 
+async function syncPaymentPageShellHeight() {
+  if (activePage.value !== 'payment') {
+    return;
+  }
+  await nextTick();
+  measurePage('payment');
+  if (
+    popoverHeightConstrained.value
+    || props.hideInlineConfirm
+    || contentExiting.value
+    || contentEntering.value
+  ) {
+    return;
+  }
+  shellHeight.value = pageSpecs.payment.shellHeight;
+}
+
 onMounted(async () => {
+  if (useEvmPaymentStep.value) {
+    await ensurePageHeight('payment');
+  }
   await ensurePageHeight('list');
   await ensurePageHeight('custom');
-  shellHeight.value = pageSpecs.list.shellHeight;
+  shellHeight.value = pageSpecs[initialMinerFeeScreen()].shellHeight;
   await nextTick();
   shellMeasureReady.value = true;
 });
 
 watch(customFeeSaved, async () => {
   await nextTick();
+  if (useEvmPaymentStep.value && activePage.value === 'payment') {
+    await syncPaymentAddressExpandLayout();
+    return;
+  }
   measurePage('list');
   if (activePage.value !== 'list' || contentExiting.value || contentEntering.value) {
     return;
   }
   shellHeight.value = pageSpecs.list.shellHeight;
+});
+
+watch(minerFee, async () => {
+  if (!useEvmPaymentStep.value || activePage.value !== 'payment') {
+    return;
+  }
+  if (evmPaymentMethod.value !== 'address') {
+    return;
+  }
+  await syncPaymentPageShellHeight();
 });
 
 watch(
@@ -178,10 +295,50 @@ async function setMinerFeeScreen(screen: MinerFeeScreen) {
   switchTo(screen);
   await whenIdle();
 
-  if (screen === 'list') {
-    measurePage('list');
-    shellHeight.value = pageSpecs.list.shellHeight;
+  measurePage(screen);
+  shellHeight.value = pageSpecs[screen].shellHeight;
+}
+
+async function onEvmPaymentMethodSelect(method: EvmMinerFeePaymentSelection) {
+  const panel = paymentPanelRef.value;
+  const lockExpand =
+    activePage.value === 'payment'
+    && !props.hideInlineConfirm
+    && panel?.lockAddressPaymentExpandHeight;
+  const lockedHeight = lockExpand ? panel.lockAddressPaymentExpandHeight() : undefined;
+
+  evmPaymentMethod.value = method;
+  if (activePage.value !== 'payment') {
+    return;
   }
+
+  await nextTick();
+  if (panel?.finishAddressPaymentExpandHeight) {
+    await panel.finishAddressPaymentExpandHeight(lockedHeight);
+  }
+
+  await syncPaymentPageShellHeight();
+}
+
+function onSponsoredPaymentConfirm() {
+  emit('confirm', {
+    displayValue: buildEvmSponsoredMinerFeeDisplay(ui, props.symbol),
+  });
+}
+
+function onPaymentStepConfirm() {
+  if (evmPaymentMethod.value === null) {
+    return;
+  }
+  if (evmPaymentMethod.value === 'address') {
+    onListConfirm();
+    return;
+  }
+  onSponsoredPaymentConfirm();
+}
+
+function goToEvmPaymentScreen() {
+  void setMinerFeeScreen('payment');
 }
 
 function openCustomMinerFee() {
@@ -189,7 +346,24 @@ function openCustomMinerFee() {
 }
 
 function goToMinerFeeList() {
+  if (useEvmPaymentStep.value) {
+    evmPaymentMethod.value = 'address';
+    void setMinerFeeScreen('payment');
+    return;
+  }
   setMinerFeeScreen('list');
+}
+
+async function syncPaymentAddressExpandLayout(options?: { scrollToBottom?: boolean }) {
+  if (!useEvmPaymentStep.value || activePage.value !== 'payment') {
+    return;
+  }
+  await nextTick();
+  await paymentPanelRef.value?.finishAddressPaymentExpandHeight?.();
+  if (options?.scrollToBottom) {
+    await paymentPanelRef.value?.scrollContentToBottom?.();
+  }
+  await syncPaymentPageShellHeight();
 }
 
 async function onCustomSave(draft: MinerFeeCustomDraft) {
@@ -197,22 +371,28 @@ async function onCustomSave(draft: MinerFeeCustomDraft) {
   customFeeSaved.value = buildMinerFeeCustomPreview(draft, shellVariant.value);
   minerFee.value = MINER_FEE_CUSTOM_ID;
   minerFeeBeforeCustomPopover.value = null;
+  evmPaymentMethod.value = 'address';
   await nextTick();
-  measurePage('list');
+  const returnScreen = useEvmPaymentStep.value ? 'payment' : 'list';
+  measurePage(returnScreen);
   if (!props.hideInlineConfirm) {
-    await setMinerFeeScreen('list');
+    await setMinerFeeScreen(returnScreen);
+    await whenIdle();
+    await syncPaymentAddressExpandLayout({ scrollToBottom: returnScreen === 'payment' });
   }
 }
 
 function resetMinerFeeFlow() {
-  activePage.value = 'list';
+  const initial = initialMinerFeeScreen();
+  activePage.value = initial;
   contentExiting.value = false;
   contentEntering.value = false;
+  evmPaymentMethod.value = 'sponsored';
   minerFee.value = DEFAULT_MINER_FEE_SPEED;
   minerFeeBeforeCustomPopover.value = null;
   customFeeDraft.value = defaultMinerFeeCustomDraft(shellVariant.value);
   customFeeSaved.value = null;
-  shellHeight.value = pageSpecs.list.shellHeight;
+  shellHeight.value = pageSpecs[initial].shellHeight;
   shellMeasureReady.value = true;
 }
 
@@ -233,13 +413,21 @@ function attemptCancelCustom() {
   goToMinerFeeList();
 }
 
+function attemptConfirm() {
+  if (useEvmPaymentStep.value && activePage.value === 'payment') {
+    onPaymentStepConfirm();
+    return;
+  }
+  onListConfirm();
+}
+
 function attemptSaveCustom() {
   customPanelRef.value?.save();
 }
 
 defineExpose({
   resetMinerFeeFlow,
-  attemptConfirm: onListConfirm,
+  attemptConfirm,
   attemptCancelCustom,
   attemptSaveCustom,
   confirmDisabled: minerFeeConfirmDisabled,
@@ -248,7 +436,7 @@ defineExpose({
 </script>
 
 <template>
-  <div :class="styles.minerFeeRootWrap">
+  <div ref="rootWrapRef" :class="styles.minerFeeRootWrap">
     <div :class="styles.minerFeeMeasureHost" aria-hidden="true">
       <MinerFeeCustomPanel
         ref="customMeasurePanelRef"
@@ -256,6 +444,41 @@ defineExpose({
         :symbol="symbol"
         :hide-inline-footer="hideInlineConfirm"
         measure-only
+      />
+    </div>
+
+    <div v-if="useEvmPaymentStep" :class="styles.minerFeeMeasureHost" aria-hidden="true">
+      <MinerFeeEvmPaymentPanel
+        ref="paymentMeasurePanelRef"
+        payment-method="sponsored"
+        :miner-fee="minerFee"
+        :custom-fee-saved="customFeeSaved"
+        :symbol="symbol"
+        :evm-payment-quote="evmPaymentQuote"
+        :transaction-count="transactionCount"
+        :prefer-batch-total-summary="preferBatchTotalSummary"
+        measure-only
+        hide-inline-confirm
+      />
+      <MinerFeeEvmPaymentPanel
+        ref="paymentAddressMeasurePanelRef"
+        payment-method="address"
+        :miner-fee="minerFee"
+        :custom-fee-saved="customFeeSaved"
+        :symbol="symbol"
+        :transaction-count="transactionCount"
+        :prefer-batch-total-summary="preferBatchTotalSummary"
+        measure-only
+        hide-inline-confirm
+      />
+      <MinerFeeEvmPaymentPanel
+        ref="paymentNoneMeasurePanelRef"
+        :payment-method="null"
+        :miner-fee="minerFee"
+        :custom-fee-saved="customFeeSaved"
+        :symbol="symbol"
+        measure-only
+        hide-inline-confirm
       />
     </div>
 
@@ -274,7 +497,30 @@ defineExpose({
     </div>
 
     <template v-if="hideInlineConfirm">
+      <MinerFeeEvmPaymentPanel
+        v-if="useEvmPaymentStep && isMinerFeePaymentPage"
+        ref="paymentPanelRef"
+        :payment-method="evmPaymentMethod"
+        :miner-fee="minerFee"
+        :custom-fee-saved="customFeeSaved"
+        :symbol="symbol"
+        :evm-payment-quote="evmPaymentQuote"
+        :transaction-count="transactionCount"
+        :prefer-batch-total-summary="preferBatchTotalSummary"
+        custom-via-anchored-popover
+        :custom-draft="customFeeDraft"
+        custom-popover-boundary=".eds-popup"
+        hide-inline-confirm
+        @select-payment-method="onEvmPaymentMethodSelect"
+        @select-miner-fee="selectMinerFee"
+        @open-custom="openCustomMinerFee"
+        @save-custom="onCustomSave"
+        @custom-popover-open="onCustomPopoverOpen"
+        @custom-popover-dismiss="onCustomPopoverDismiss"
+        @confirm="onPaymentStepConfirm"
+      />
       <MinerFeeListPanel
+        v-else
         ref="listPanelRef"
         :symbol="symbol"
         :miner-fee="minerFee"
@@ -284,12 +530,14 @@ defineExpose({
         custom-via-anchored-popover
         :custom-draft="customFeeDraft"
         custom-popover-boundary=".eds-popup"
+        :show-payment-back="useEvmPaymentStep"
         :transaction-count="transactionCount"
         :prefer-batch-total-summary="preferBatchTotalSummary"
         @select-miner-fee="selectMinerFee"
         @custom-popover-open="onCustomPopoverOpen"
         @custom-popover-dismiss="onCustomPopoverDismiss"
         @save-custom="onCustomSave"
+        @back-to-payment="goToEvmPaymentScreen"
         @confirm="onListConfirm"
       />
     </template>
@@ -317,6 +565,24 @@ defineExpose({
           @save="onCustomSave"
         />
 
+        <MinerFeeEvmPaymentPanel
+          v-else-if="useEvmPaymentStep && isMinerFeePaymentPage"
+          ref="paymentPanelRef"
+          :payment-method="evmPaymentMethod"
+          :miner-fee="minerFee"
+          :custom-fee-saved="customFeeSaved"
+          :symbol="symbol"
+          :evm-payment-quote="evmPaymentQuote"
+          :transaction-count="transactionCount"
+          :prefer-batch-total-summary="preferBatchTotalSummary"
+          :confirm-disabled="minerFeeConfirmDisabled"
+          @select-payment-method="onEvmPaymentMethodSelect"
+          @select-miner-fee="selectMinerFee"
+          @open-custom="openCustomMinerFee"
+          @save-custom="onCustomSave"
+          @confirm="onPaymentStepConfirm"
+        />
+
         <MinerFeeListPanel
           v-else
           ref="listPanelRef"
@@ -324,10 +590,12 @@ defineExpose({
           :miner-fee="minerFee"
           :custom-fee-saved="customFeeSaved"
           :confirm-disabled="minerFeeConfirmDisabled"
+          :show-payment-back="useEvmPaymentStep"
           :transaction-count="transactionCount"
           :prefer-batch-total-summary="preferBatchTotalSummary"
           @select-miner-fee="selectMinerFee"
           @open-custom="openCustomMinerFee"
+          @back-to-payment="goToEvmPaymentScreen"
           @confirm="onListConfirm"
         />
       </EgMotionLayoutContent>

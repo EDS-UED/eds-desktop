@@ -40,7 +40,8 @@ export const inputDemoSections: InputDemoSection[] = [
   {
     id: 'input-amount-sizes',
     title: showcaseText('Size', '尺寸'),
-    code: `<EgInput v-model="value" size="sm" placeholder="请输入" width-mode="full" />
+    code: `<EgInput v-model="value" size="xs" placeholder="请输入" width-mode="full" />
+<EgInput v-model="value" size="sm" placeholder="请输入" width-mode="full" />
 <EgInput v-model="value" size="md" placeholder="请输入" width-mode="full" />
 <EgInput v-model="value" size="lg" placeholder="请输入" width-mode="full" />`,
   },
@@ -121,11 +122,11 @@ export const inputPropRows: InputPropRow[] = [
   },
   {
     name: 'size',
-    type: "'lg' | 'md' | 'sm'",
+    type: "'lg' | 'md' | 'sm' | 'xs'",
     defaultValue: "'md'",
     description: showcaseText(
-      'Three sizes; applies to leading/trailing slots and the interactive shell.',
-      '三档尺寸，同时作用于左右插槽与交互外壳。',
+      'Four sizes; xs uses body-small typography. Applies to leading/trailing slots and the interactive shell.',
+      '四档尺寸；xs 为特小（body-small 13px）。同时作用于左右插槽与交互外壳。',
     ),
   },
   {

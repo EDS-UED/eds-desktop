@@ -11,6 +11,7 @@ import {
   type PopoverPlacement,
 } from '@eds/desktop-components';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
+import CustomizePanel from '@/views/shared/componentDoc/CustomizePanel.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
 import previewPageStyles from './InputPreview.module.css';
 import {
@@ -21,9 +22,14 @@ import {
   buildPopoverSceneUsageSnippet,
   buildRemarkPopoverProps,
   popoverPropRows,
+  gasFeeSceneBasicCustomizeControls,
+  gasFeeSceneBasicCustomizeTitle,
+  gasFeeSceneNetworkCustomizeControls,
+  gasFeeSceneNetworkCustomizeTitle,
   popoverSceneCustomizeControls,
   popoverSceneCustomizeDefaults,
   popoverSceneImportCode,
+  type PopoverGasFeeEvmDisplayMode,
   type PopoverGasFeeNetwork,
   type PopoverSceneScenario,
 } from './popoversDocCustomize';
@@ -56,6 +62,8 @@ const customize = reactive({
   widthMode: popoverSceneCustomizeDefaults.widthMode as 'fixed' | 'adaptive' | 'preset',
   heightMode: popoverSceneCustomizeDefaults.heightMode as 'fixed' | 'adaptive',
   gasFeeNetwork: popoverSceneCustomizeDefaults.gasFeeNetwork as PopoverGasFeeNetwork,
+  gasFeeEvmDisplayMode:
+    popoverSceneCustomizeDefaults.gasFeeEvmDisplayMode as PopoverGasFeeEvmDisplayMode,
   gasFeeMulti: popoverSceneCustomizeDefaults.gasFeeMulti,
   confirmTone: popoverSceneCustomizeDefaults.confirmTone as ButtonTone,
 });
@@ -68,11 +76,14 @@ const activeScenario = computed(
 
 const previewComponentTag = computed(() => SCENE_COMPONENT_TAG[activeScenario.value]);
 
-const sceneCustomizeControls = computed(() =>
-  props.initialScenario
+const isGasFeeScenePage = computed(() => props.initialScenario === 'gas-fee');
+
+const sceneCustomizeControls = computed(() => {
+  if (isGasFeeScenePage.value) return [];
+  return props.initialScenario
     ? popoverSceneCustomizeControls.filter((control) => control.key !== 'scenario')
-    : popoverSceneCustomizeControls,
-);
+    : popoverSceneCustomizeControls;
+});
 
 const pageTitle = computed(() => props.pageTitle ?? 'Scenes');
 const anchorId = computed(() => `popovers-scene-${activeScenario.value}`);
@@ -93,6 +104,12 @@ const gasFeePreviewProps = computed(() => ({
   ...resolveShowcaseGasFeePanelProps(
     customize.gasFeeNetwork,
     Boolean(customize.gasFeeMulti),
+    customize.gasFeeEvmDisplayMode,
+    {
+      evmBalanceInsufficient: Boolean(customize.gasFeeEvmBalanceInsufficient),
+      tronAddressInactive: Boolean(customize.gasFeeTronAddressInactive),
+      tronTeamBalanceInsufficient: Boolean(customize.gasFeeTronTeamBalanceInsufficient),
+    },
   ),
 }));
 const confirmPreviewProps = computed(() => buildConfirmPopoverProps(customize));
@@ -120,6 +137,27 @@ const gasFeeTitle = computed(() =>
       :prop-rows="popoverPropRows"
       :props-section-id="propsSectionId"
     >
+      <template v-if="isGasFeeScenePage" #customize-extra>
+        <div :class="docStyles.customizeExtraStack">
+          <CustomizePanel
+            v-model="customize"
+            :title="gasFeeSceneBasicCustomizeTitle"
+            nested
+            embedded
+            sequential
+            :controls="gasFeeSceneBasicCustomizeControls"
+          />
+          <CustomizePanel
+            v-model="customize"
+            :title="gasFeeSceneNetworkCustomizeTitle"
+            nested
+            embedded
+            sequential
+            :controls="gasFeeSceneNetworkCustomizeControls"
+          />
+        </div>
+      </template>
+
       <template #preview>
         <div
           class="desktopTokens"
@@ -164,7 +202,7 @@ const gasFeeTitle = computed(() =>
 
           <EgGasFeePopover
             v-else-if="activeScenario === 'gas-fee'"
-            :key="`gas-fee-${customize.placement}-${customize.align}-${customize.gasFeeNetwork}-${customize.gasFeeMulti}`"
+            :key="`gas-fee-${customize.placement}-${customize.align}-${customize.gasFeeNetwork}-${customize.gasFeeEvmDisplayMode}-${customize.gasFeeMulti}-${customize.gasFeeEvmBalanceInsufficient}-${customize.gasFeeTronAddressInactive}-${customize.gasFeeTronTeamBalanceInsufficient}`"
             v-bind="gasFeePreviewProps"
             :title="gasFeeTitle"
             teleport-to="body"

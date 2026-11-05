@@ -72,7 +72,11 @@ defineExpose({
     ]"
     data-miner-fee-batch-stub
   >
-    <div :class="styles.minerFeeRoot" data-miner-fee-screen="list">
+    <div
+      :class="styles.minerFeeRoot"
+      data-miner-fee-screen="list"
+      data-miner-fee-scroll-region
+    >
       <div
         v-if="stubKind === 'tron'"
         :class="styles.minerFeeStubTronLayout"

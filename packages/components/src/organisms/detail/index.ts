@@ -1,5 +1,6 @@
 export { default as EgDetail } from './Detail.vue';
 export { default as EgDetailPersonValue } from './DetailPersonValue.vue';
+export { default as EgDetailValueActionIcon } from './DetailValueActionIcon.vue';
 export type {
   DetailItemData,
   DetailPersonDeviceInfo,

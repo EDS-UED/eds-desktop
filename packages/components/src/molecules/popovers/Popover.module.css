@@ -94,6 +94,22 @@
   overflow: auto;
 }
 
+/** topTool + maxHeight：壳层 flex 列，标题区不随 slot 滚出。 */
+.contentHeightConstrained {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.contentBodyHeightConstrained {
+  flex: 0 1 auto;
+  box-sizing: border-box;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .contentBody {
   box-sizing: border-box;
   padding: 0;

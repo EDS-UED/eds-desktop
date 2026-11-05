@@ -22,7 +22,7 @@ import { OVERFLOW_EPSILON } from '../../utils/overflowTextMeasure';
 import styles from './Input.module.css';
 
 export type InputType = 'standard' | 'amount';
-export type InputSize = 'lg' | 'md' | 'sm';
+export type InputSize = 'lg' | 'md' | 'sm' | 'xs';
 export type InputWidthMode = 'fixed' | 'full';
 
 const props = withDefaults(
@@ -110,6 +110,8 @@ const maxButtonSize = computed<ButtonSize>(() => {
       return 'md';
     case 'md':
       return 'sm';
+    case 'sm':
+      return 'xs';
     default:
       return 'xs';
   }

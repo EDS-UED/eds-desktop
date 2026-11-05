@@ -35,12 +35,20 @@ export const popoverSceneImportCode = `import {
 
 export const popoverGasFeeNetworkOptions = [
   { value: 'bitcoin', label: tokenLabel('Bitcoin', 'bitcoin') },
-  { value: 'ethereum', label: tokenLabel('Ethereum Mainnet', 'ethereum') },
+  { value: 'ethereum', label: tokenLabel('EVM', 'EVM') },
   { value: 'ton', label: tokenLabel('The Open Network', 'ton') },
   { value: 'tron', label: tokenLabel('Tron', 'tron') },
 ] as const;
 
 export type PopoverGasFeeNetwork = (typeof popoverGasFeeNetworkOptions)[number]['value'];
+
+export const popoverGasFeeEvmDisplayModeOptions = [
+  { value: 'sponsored', label: showcaseText('Sponsored payment flow', '矿工费代付模式') },
+  { value: 'address', label: showcaseText('Address payment flow', '地址支付模式') },
+] as const;
+
+export type PopoverGasFeeEvmDisplayMode =
+  (typeof popoverGasFeeEvmDisplayModeOptions)[number]['value'];
 
 export const popoverPlacementOptions = [
   { value: 'top', label: 'Top' },
@@ -95,6 +103,10 @@ export const popoverComponentCustomizeDefaults = {
   confirmTone: 'danger',
   gasFeeNetwork: 'ethereum',
   gasFeeMulti: false,
+  gasFeeEvmDisplayMode: 'sponsored',
+  gasFeeEvmBalanceInsufficient: true,
+  gasFeeTronAddressInactive: true,
+  gasFeeTronTeamBalanceInsufficient: true,
 } as const;
 
 export const popoverSceneCustomizeDefaults = {
@@ -150,6 +162,31 @@ function isPopoverRemarkScenario(state: Record<string, unknown>): boolean {
 
 function isPopoverGasFeeScenario(state: Record<string, unknown>): boolean {
   return String(state.scenario ?? popoverComponentCustomizeDefaults.scenario) === 'gas-fee';
+}
+
+function isPopoverGasFeeEthereumScenario(state: Record<string, unknown>): boolean {
+  return (
+    isPopoverGasFeeScenario(state)
+    && String(state.gasFeeNetwork ?? popoverComponentCustomizeDefaults.gasFeeNetwork)
+      === 'ethereum'
+  );
+}
+
+function isPopoverGasFeeTronScenario(state: Record<string, unknown>): boolean {
+  return (
+    isPopoverGasFeeScenario(state)
+    && String(state.gasFeeNetwork ?? popoverComponentCustomizeDefaults.gasFeeNetwork)
+      === 'tron'
+  );
+}
+
+function isGasFeeCustomizePanelEthereum(state: Record<string, unknown>): boolean {
+  return String(state.gasFeeNetwork ?? popoverComponentCustomizeDefaults.gasFeeNetwork)
+    === 'ethereum';
+}
+
+function isGasFeeCustomizePanelTron(state: Record<string, unknown>): boolean {
+  return String(state.gasFeeNetwork ?? popoverComponentCustomizeDefaults.gasFeeNetwork) === 'tron';
 }
 
 function isPopoverConfirmScenario(state: Record<string, unknown>): boolean {
@@ -219,6 +256,7 @@ const POPOVER_SCENARIO_PRESETS: Record<PopoverScenario, Record<string, unknown>>
     width: '336',
     presetWidth: '336',
     heightMode: 'adaptive',
+    maxHeight: '480',
     topTool: true,
     topToolTitle: 'Gas Fee',
     topToolClosable: true,
@@ -373,10 +411,38 @@ const popoverSceneScenarioCustomizeControls: DocCustomizeControl[] = [
     visibleWhen: isPopoverGasFeeScenario,
   },
   {
+    kind: 'select',
+    key: 'gasFeeEvmDisplayMode',
+    label: showcaseText('Display mode', '显示模式'),
+    options: popoverGasFeeEvmDisplayModeOptions.map((row) => ({
+      value: row.value,
+      label: row.label,
+    })),
+    visibleWhen: isPopoverGasFeeEthereumScenario,
+  },
+  {
     kind: 'boolean',
     key: 'gasFeeMulti',
     label: showcaseText('Multiple strokes', '多笔'),
     visibleWhen: isPopoverGasFeeScenario,
+  },
+  {
+    kind: 'boolean',
+    key: 'gasFeeEvmBalanceInsufficient',
+    label: showcaseText('Gas account balance insufficient', 'Gas 账户余额不足'),
+    visibleWhen: isPopoverGasFeeEthereumScenario,
+  },
+  {
+    kind: 'boolean',
+    key: 'gasFeeTronAddressInactive',
+    label: showcaseText('Recipient address inactive', '接收方地址未激活'),
+    visibleWhen: isPopoverGasFeeTronScenario,
+  },
+  {
+    kind: 'boolean',
+    key: 'gasFeeTronTeamBalanceInsufficient',
+    label: showcaseText('Team balance insufficient', '团队余额不足'),
+    visibleWhen: isPopoverGasFeeTronScenario,
   },
   {
     kind: 'text',
@@ -429,6 +495,88 @@ export const popoverSceneCustomizeControls: DocCustomizeControl[] = [
   ...popoverTopToolCustomizeControls,
 ];
 
+export const gasFeeSceneBasicCustomizeTitle = showcaseText(
+  'Component basics',
+  '组件基本配置',
+);
+
+export const gasFeeSceneNetworkCustomizeTitle = showcaseText(
+  'Network configuration',
+  '网络配置',
+);
+
+/** Gas Fee 独立场景页：Popover 外壳与触发器（§7 场景化分组）。 */
+export const gasFeeSceneBasicCustomizeControls: DocCustomizeControl[] = [
+  ...buildPopoverPanelCustomizeControls(popoverSceneCustomizeDefaults, 0),
+  {
+    kind: 'text',
+    key: 'triggerLabel',
+    label: L.triggerLabel,
+    row: 4,
+  },
+  {
+    kind: 'boolean',
+    key: 'topToolClosable',
+    label: showcaseText('ShowOff', '显示关闭'),
+    row: 5,
+  },
+];
+
+/** Gas Fee 独立场景页：矿工费网络与展示文案。 */
+export const gasFeeSceneNetworkCustomizeControls: DocCustomizeControl[] = [
+  {
+    kind: 'text',
+    key: 'topToolTitle',
+    label: showcaseText('Title', '标题'),
+    row: 0,
+  },
+  {
+    kind: 'select',
+    key: 'gasFeeNetwork',
+    label: showcaseText('Miner Fee Network', '矿工费网络'),
+    row: 1,
+    options: popoverGasFeeNetworkOptions.map((row) => ({ value: row.value, label: row.label })),
+  },
+  {
+    kind: 'select',
+    key: 'gasFeeEvmDisplayMode',
+    label: showcaseText('Display mode', '显示模式'),
+    row: 1,
+    options: popoverGasFeeEvmDisplayModeOptions.map((row) => ({
+      value: row.value,
+      label: row.label,
+    })),
+    visibleWhen: isPopoverGasFeeEthereumScenario,
+  },
+  {
+    kind: 'boolean',
+    key: 'gasFeeMulti',
+    label: showcaseText('Multiple strokes', '多笔'),
+    row: 1,
+  },
+  {
+    kind: 'boolean',
+    key: 'gasFeeEvmBalanceInsufficient',
+    label: showcaseText('Gas account balance insufficient', 'Gas 账户余额不足'),
+    row: 1,
+    visibleWhen: isGasFeeCustomizePanelEthereum,
+  },
+  {
+    kind: 'boolean',
+    key: 'gasFeeTronAddressInactive',
+    label: showcaseText('Recipient address inactive', '接收方地址未激活'),
+    row: 1,
+    visibleWhen: isGasFeeCustomizePanelTron,
+  },
+  {
+    kind: 'boolean',
+    key: 'gasFeeTronTeamBalanceInsufficient',
+    label: showcaseText('Team balance insufficient', '团队余额不足'),
+    row: 1,
+    visibleWhen: isGasFeeCustomizePanelTron,
+  },
+];
+
 const CUSTOMIZE_ONLY_KEYS = new Set([
   'triggerLabel',
   'scenario',
@@ -442,7 +590,11 @@ const CUSTOMIZE_ONLY_KEYS = new Set([
   'confirmActionLabel',
   'confirmTone',
   'gasFeeNetwork',
+  'gasFeeEvmDisplayMode',
   'gasFeeMulti',
+  'gasFeeEvmBalanceInsufficient',
+  'gasFeeTronAddressInactive',
+  'gasFeeTronTeamBalanceInsufficient',
 ]);
 
 function parseOptionalPx(value: unknown): number | undefined {
@@ -617,16 +769,24 @@ export function buildGuidancePopoverProps(state: Record<string, unknown>): Recor
 export function buildGasFeePopoverProps(state: Record<string, unknown>): Record<string, unknown> {
   const popoverProps = buildPopoverProps(state);
 
+  const network = String(state.gasFeeNetwork ?? popoverComponentCustomizeDefaults.gasFeeNetwork);
+  const evmDisplayMode = String(
+    state.gasFeeEvmDisplayMode ?? popoverComponentCustomizeDefaults.gasFeeEvmDisplayMode,
+  );
+
   const props: Record<string, unknown> = {
     placement: popoverProps.placement,
     align: popoverProps.align,
     widthMode: popoverProps.widthMode,
     heightMode: popoverProps.heightMode,
     topToolClosable: Boolean(state.topToolClosable),
-    network: String(state.gasFeeNetwork ?? popoverComponentCustomizeDefaults.gasFeeNetwork),
+    network,
     translate: 'ui',
     transactionCount: Boolean(state.gasFeeMulti) ? 3 : 1,
     title: String(state.topToolTitle ?? 'Gas Fee'),
+    ...(network === 'ethereum'
+      ? { evmSponsoredPaymentEnabled: evmDisplayMode === 'sponsored' }
+      : {}),
   };
 
   if (popoverProps.width != null) {

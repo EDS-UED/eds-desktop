@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { provideMinerFeeTranslate, type MinerFeeTranslate } from './minerFeeTranslate';
 import type { MinerFeeConfirmPayload } from './minerFeeTypes';
+import type { TronMinerFeeQuote } from './minerFeeTronDisplay';
 import MinerFeeTronPanel from './MinerFeeTronPanel.vue';
 
 const props = withDefaults(
@@ -10,6 +11,7 @@ const props = withDefaults(
     hideInlineConfirm?: boolean;
     /** 多笔：>1 时在内容与底部确定之间展示预计总矿工费。 */
     transactionCount?: number;
+    tronQuote?: TronMinerFeeQuote;
   }>(),
   {
     hideInlineConfirm: false,
@@ -36,6 +38,7 @@ defineExpose({
     ref="panelRef"
     :hide-inline-confirm="hideInlineConfirm"
     :transaction-count="transactionCount"
+    :tron-quote="tronQuote"
     @confirm="emit('confirm', $event)"
   />
 </template>

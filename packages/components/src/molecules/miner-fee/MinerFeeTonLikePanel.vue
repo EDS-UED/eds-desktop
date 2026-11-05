@@ -58,7 +58,11 @@ defineExpose({
 
 <template>
   <div :class="styles.minerFeeListPage" data-miner-fee-ton-like>
-    <div :class="styles.minerFeeRoot" data-miner-fee-screen="list">
+    <div
+      :class="styles.minerFeeRoot"
+      data-miner-fee-screen="list"
+      data-miner-fee-scroll-region
+    >
       <section :class="styles.minerFee">
         <div :class="styles.minerFeeFixedQuote">
           <p :class="styles.minerFeeFixedQuoteLabel">{{ primaryLine }}</p>

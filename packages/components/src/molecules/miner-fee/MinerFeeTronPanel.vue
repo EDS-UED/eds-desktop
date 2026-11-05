@@ -5,6 +5,7 @@ import { EgFormSubmission } from '../feedback';
 import { EgIcon } from '../../atoms/icons';
 import { EgIconButton } from '../icon-button';
 import { EgTag } from '../tag';
+import { EgRadio } from '../toggle';
 import { EgTooltip } from '../tooltip';
 import {
   FLOTATION_OVERFLOW_CLOSE_DELAY,
@@ -12,13 +13,14 @@ import {
   TEXT_OVERFLOW_TOOLTIP_MAX_WIDTH,
   TEXT_OVERFLOW_TOOLTIP_TOKEN_SCOPE,
 } from '../tooltip/textOverflowTooltipConstants';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useMinerFeeTranslate } from './minerFeeTranslate';
 import type { MinerFeeConfirmPayload } from './minerFeeTypes';
 import {
   buildTronMinerFeeDisplay,
   fillMinerFeeUiTemplate,
   resolveTronMinerFeeQuote,
+  type TronMinerFeeQuote,
 } from './minerFeeTronDisplay';
 import MinerFeeBatchAppendix from './MinerFeeBatchAppendix.vue';
 import { buildTronMinerFeeBatchTotalDisplay } from './minerFeeBatchTotalDisplay';
@@ -29,6 +31,8 @@ const props = withDefaults(
     hideInlineConfirm?: boolean;
     /** 多笔：>1 时在内容与底部确定之间展示预计总矿工费。 */
     transactionCount?: number;
+    /** 业务/mock 覆盖默认 TRON 报价（异常提示由 quote 字段驱动）。 */
+    tronQuote?: TronMinerFeeQuote;
   }>(),
   {
     hideInlineConfirm: false,
@@ -42,7 +46,9 @@ const emit = defineEmits<{
 
 const ui = useMinerFeeTranslate();
 
-const feeQuote = computed(() => resolveTronMinerFeeQuote());
+const tronPaymentSelected = ref(false);
+
+const feeQuote = computed(() => props.tronQuote ?? resolveTronMinerFeeQuote());
 
 const requiredResourcesSummaryLine = computed(() =>
   fillMinerFeeUiTemplate(ui('Miner fee tron resources line'), {
@@ -81,11 +87,20 @@ const estimatedCostOriginal = computed(() =>
   }),
 );
 
+function toggleTronPayment() {
+  tronPaymentSelected.value = !tronPaymentSelected.value;
+}
+
 function onConfirm() {
+  if (!tronPaymentSelected.value) {
+    return;
+  }
   emit('confirm', {
     displayValue: buildTronMinerFeeDisplay(feeQuote.value),
   });
 }
+
+const confirmDisabled = computed(() => !tronPaymentSelected.value);
 
 const batchTotalDisplay = computed(() =>
   buildTronMinerFeeBatchTotalDisplay(props.transactionCount),
@@ -93,14 +108,19 @@ const batchTotalDisplay = computed(() =>
 
 defineExpose({
   attemptConfirm: onConfirm,
-  confirmDisabled: computed(() => false),
+  confirmDisabled,
 });
 </script>
 
 <template>
   <div :class="styles.minerFeeListPage" data-miner-fee-tron>
-    <div :class="styles.minerFeeRoot" data-miner-fee-screen="list">
+    <div
+      :class="styles.minerFeeRoot"
+      data-miner-fee-screen="list"
+      data-miner-fee-scroll-region
+    >
       <section :class="styles.minerFeeTronBody">
+        <div :class="styles.minerFeeTronResourcesBlock">
         <div :class="styles.minerFeeTronSection">
           <div :class="styles.minerFeeTronResourcesSummary">
             <div :class="styles.minerFeeTronSectionTitleRow">
@@ -194,7 +214,12 @@ defineExpose({
           </div>
         </div>
 
-        <div :class="styles.minerFeeTronActivationFeedback">
+        </div>
+
+        <div
+          v-if="feeQuote.activationExtraTrx > 0"
+          :class="styles.minerFeeTronActivationFeedback"
+        >
           <EgFormSubmission
             type="notes"
             :text="activationNote"
@@ -204,36 +229,61 @@ defineExpose({
 
         <EgDivider type="page" :class="styles.minerFeeTronInnerDivider" />
 
-        <div :class="styles.minerFeeTronSection">
+        <div :class="[styles.minerFeeTronSection, styles.minerFeeTronPaymentSection]">
           <p :class="styles.minerFeeTronPaymentLabel">
             {{ ui('Miner fee tron payment mode') }}
           </p>
 
-          <div :class="styles.minerFeeTronPaymentCard">
-            <div :class="styles.minerFeeTronPaymentHeader">
-              <span :class="styles.minerFeeTronPaymentModeName">
-                {{ ui('Miner fee tron energy mode') }}
-              </span>
-              <span :class="styles.minerFeeTronPaymentTags">
-                <EgTag family="colorful" colorful-style="coral" size="sm">
-                  {{ ui('Miner fee tron save percent') }}
-                </EgTag>
-              </span>
+          <div
+            role="radio"
+            tabindex="0"
+            data-no-corner-smoothing
+            :aria-checked="tronPaymentSelected"
+            :class="[
+              styles.minerFeeEvmPaymentMethodOption,
+              styles.minerFeeTronPaymentCard,
+              tronPaymentSelected && styles.minerFeeEvmPaymentMethodOptionSelected,
+            ]"
+            @click="toggleTronPayment"
+            @keydown.enter.prevent="toggleTronPayment"
+            @keydown.space.prevent="toggleTronPayment"
+          >
+            <EgRadio
+              :model-value="tronPaymentSelected"
+              @click.stop="toggleTronPayment"
+            />
+            <div :class="styles.minerFeeEvmPaymentMethodOptionBody">
+              <div :class="styles.minerFeeTronPaymentHeader">
+                <span :class="styles.minerFeeTronPaymentModeName">
+                  {{ ui('Miner fee tron energy mode') }}
+                </span>
+                <span :class="styles.minerFeeTronPaymentTags">
+                  <EgTag family="colorful" colorful-style="coral" size="sm">
+                    {{ ui('Miner fee tron save percent') }}
+                  </EgTag>
+                </span>
+              </div>
+
+              <p :class="styles.minerFeeTronProviderNote">
+                {{ ui('Miner fee tron provider note') }}
+              </p>
+
+              <p :class="styles.minerFeeTronEstimatedCost">
+                {{ estimatedCostPrimary }}
+                <span :class="styles.minerFeeTronEstimatedCostOriginal">
+                  {{ estimatedCostOriginal }}
+                </span>
+              </p>
             </div>
-
-            <p :class="styles.minerFeeTronProviderNote">
-              {{ ui('Miner fee tron provider note') }}
-            </p>
-
-            <p :class="styles.minerFeeTronEstimatedCost">
-              {{ estimatedCostPrimary }}
-              <span :class="styles.minerFeeTronEstimatedCostOriginal">
-                {{ estimatedCostOriginal }}
-              </span>
-            </p>
           </div>
 
-          <div :class="styles.minerFeeTronPaymentBalanceFeedback">
+          <div
+            v-if="feeQuote.teamBalanceInsufficient"
+            :class="[
+              styles.minerFeeTronPaymentBalanceFeedback,
+              styles.minerFeeTronPaymentSectionBalanceFeedback,
+            ]"
+          >
             <EgFormSubmission
               type="danger"
               :text="ui('Miner fee tron team balance insufficient text')"
@@ -259,6 +309,7 @@ defineExpose({
         tone="decor"
         :count="1"
         :confirm-label="ui('Confirm')"
+        :confirm-disabled="confirmDisabled"
         @confirm="onConfirm"
       />
     </div>

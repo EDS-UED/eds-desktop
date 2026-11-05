@@ -20,7 +20,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  'miner-fee-screen-change': [screen: 'list' | 'custom'];
+  'miner-fee-screen-change': [screen: 'payment' | 'list' | 'custom'];
   confirm: [selection: MinerFeeConfirmPayload];
 }>();
 

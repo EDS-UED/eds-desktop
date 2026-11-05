@@ -164,9 +164,31 @@ function canBind(element) {
   return isCandidate(element) && hasLayout(element);
 }
 
-function buildSquirclePath(element, radii, cornerSmoothing) {
-  const width = element.offsetWidth;
-  const height = element.offsetHeight;
+/* offsetWidth/Height 取整：flex 等小数宽元素右/底缘描边会被 clip 掉，故取未变换的小数 border-box 尺寸 */
+function readBorderBoxSize(element, style) {
+  const width = parseFloat(style.width);
+  const height = parseFloat(style.height);
+  if (!Number.isFinite(width) || !Number.isFinite(height)) {
+    return { width: element.offsetWidth, height: element.offsetHeight };
+  }
+  if (style.boxSizing === 'border-box') {
+    return { width, height };
+  }
+  const px = (value) => parseFloat(value) || 0;
+  return {
+    width:
+      width
+      + px(style.paddingLeft) + px(style.paddingRight)
+      + px(style.borderLeftWidth) + px(style.borderRightWidth),
+    height:
+      height
+      + px(style.paddingTop) + px(style.paddingBottom)
+      + px(style.borderTopWidth) + px(style.borderBottomWidth),
+  };
+}
+
+function buildSquirclePath(element, style, radii, cornerSmoothing) {
+  const { width, height } = readBorderBoxSize(element, style);
   const uniform =
     radii.topLeft === radii.topRight &&
     radii.topRight === radii.bottomRight &&
@@ -201,13 +223,14 @@ function applyCornerSmoothing(element) {
     return;
   }
 
-  const radii = parseRadii(getComputedStyle(element));
+  const style = getComputedStyle(element);
+  const radii = parseRadii(style);
   if (!radii) {
     clearCornerSmoothing(element);
     return;
   }
 
-  const path = buildSquirclePath(element, radii, cornerSmoothing);
+  const path = buildSquirclePath(element, style, radii, cornerSmoothing);
   const clipPath = `path('${path}')`;
   element.style.clipPath = clipPath;
   element.style.webkitClipPath = clipPath;

@@ -8,6 +8,15 @@
   padding-left: var(--spacing-1);
 }
 
+/** 矿工费 EVM 支付方式步：contentSlot 上 spacing-1。 */
+:global(
+  .eds-popover-content [class*='contentSlotPadding']:has(
+    .motion-layout-deform[data-miner-fee-screen='payment']
+  )
+) {
+  padding-top: var(--spacing-1);
+}
+
 /** BTC / ADA / FIL / TRON batch stub：说明文案区保持 Popover spacing-4（勿用 EVM 选项 spacing-1）。 */
 :global(
   .eds-popover-content [class*='contentSlotPadding']:has([data-miner-fee-batch-stub])
@@ -26,7 +35,7 @@
   padding-left: var(--spacing-4);
 }
 
-/** 矿工费 Popover：contentSlot 随 layout-deform / batch stub 自然高度，勿撑满留空、勿外层滚动。 */
+/** 矿工费 Popover（无 maxHeight）：slot 随内容自然增高，滚动在 minerFeeRoot。 */
 :global(.eds-popover-content [class*='contentSlotWithTopTool']:has([data-miner-fee-popover])),
 :global(.eds-popover-content [class*='contentSlotWithTopTool']:has([data-miner-fee-batch-stub])),
 :global(.eds-popover-content [class*='contentSlotWithTopTool']:has([data-miner-fee-ton-like])),
@@ -35,6 +44,130 @@
   flex: 0 0 auto;
   min-height: 0;
   overflow: visible;
+}
+
+/** maxHeight 约束：slot 填满剩余高度，列表区滚、底栏确定固定。 */
+:global(
+  .eds-popover-content[data-popover-height-constrained]
+    [class*='contentSlotWithTopTool']:has([data-miner-fee-popover])
+),
+:global(
+  .eds-popover-content[data-popover-height-constrained]
+    [class*='contentSlotWithTopTool']:has([data-miner-fee-batch-stub])
+),
+:global(
+  .eds-popover-content[data-popover-height-constrained]
+    [class*='contentSlotWithTopTool']:has([data-miner-fee-ton-like])
+),
+:global(
+  .eds-popover-content[data-popover-height-constrained]
+    [class*='contentSlotWithTopTool']:has([data-miner-fee-tron])
+),
+:global(
+  .eds-popover-content[data-popover-height-constrained]
+    [class*='contentSlotWithTopTool']:has([data-miner-fee-evm-payment])
+) {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/** maxHeight：Popover body 为 flex 列，slot 吃剩余高度，避免 slot 按内容撑到 589px 被壳裁切。 */
+:global(.eds-popover-content[data-popover-height-constrained]:has([data-miner-fee-popover])) {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/*
+ * maxHeight 约束链：列 flex + min-height 0；中间滚、底栏确定固定（内容不足 max 时仍随内容变矮）。
+ */
+:global(.eds-popover-content[data-popover-height-constrained]) .minerFeeRootWrap,
+:global(.eds-popover-content[data-popover-height-constrained]) .minerFeeDeformShell,
+:global(.eds-popover-content[data-popover-height-constrained])
+  .minerFeeDeformShell
+  > :global(.motion-layout-content),
+:global(.eds-popover-content[data-popover-height-constrained]) .minerFeeListPage {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 0;
+  overflow: hidden;
+}
+
+:global(.eds-popover-content[data-popover-height-constrained]) .minerFeeFooter {
+  flex-shrink: 0;
+}
+
+:global(.eds-popover-content[data-popover-height-constrained] [data-miner-fee-scroll-region]) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: none;
+  scrollbar-width: none;
+}
+
+:global(
+  .eds-popover-content[data-popover-height-constrained] [data-miner-fee-scroll-region]
+)::-webkit-scrollbar {
+  display: none;
+}
+
+/**
+ * 顶/底模块分割线：绝对定位不占布局（可滚与否切换时内容不跳），铺满 Popover 宽。
+ * 顶线贴 topTool 底缘；底线贴滚动区底缘。内容底 → 「确定」恒为 spacing-3 + spacing-2。
+ */
+:global(.eds-popover-content[data-popover-height-constrained]) .minerFeeListPageScrollChrome {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  gap: var(--spacing-2);
+}
+
+:global(.eds-popover-content[data-popover-height-constrained])
+  .minerFeeListPageScrollChrome
+  > [data-miner-fee-scroll-region] {
+  padding-bottom: var(--spacing-3);
+}
+
+.minerFeeListPageScrollChrome .minerFeeFooter {
+  position: relative;
+}
+
+.minerFeeScrollTopDivider.minerFeeScrollTopDivider,
+.minerFeeScrollBottomDivider.minerFeeScrollBottomDivider {
+  position: absolute;
+  z-index: 1;
+  right: calc(-1 * var(--spacing-4));
+  left: calc(-1 * var(--spacing-4));
+  width: auto;
+}
+
+.minerFeeScrollTopDivider.minerFeeScrollTopDivider {
+  top: calc(-1 * var(--spacing-1));
+}
+
+.minerFeeScrollBottomDivider.minerFeeScrollBottomDivider {
+  top: calc(-1 * var(--spacing-2) - var(--stroke-sm));
+}
+
+.minerFeeDeformShell:global([data-miner-fee-screen='list']) .minerFeeScrollTopDivider,
+.minerFeeDeformShell:global([data-miner-fee-screen='list']) .minerFeeScrollBottomDivider {
+  right: calc(-1 * var(--spacing-1));
+  left: calc(-1 * var(--spacing-1));
+}
+
+.minerFeeDeformShell:global([data-miner-fee-screen='list']) .minerFeeScrollTopDivider {
+  top: 0;
 }
 
 /** 列表 / 自定义子页 / batch stub：去掉 ComboAction PopupWindow 默认 padding。 */
@@ -72,6 +205,13 @@
 :global(
   .eds-popover-content:has(.motion-layout-deform[data-miner-fee-screen='custom'])
     [class*='topToolTitle']
+) {
+  display: none;
+}
+
+/** EVM 地址支付档位页：顶栏与自定义子页一致（返回 + 标题）。 */
+:global(
+  .eds-popover-content:has([data-miner-fee-evm-payment-list]) [class*='topToolTitle']
 ) {
   display: none;
 }
@@ -141,11 +281,14 @@
   margin: 0;
 }
 
-/** TON / TRON 等独立布局：选项区与备注区间距更大。 */
+/** TON / batch stub 等独立布局。 */
 .minerFeeListPage:global([data-miner-fee-ton-like]),
-.minerFeeListPage:global([data-miner-fee-tron]),
 .minerFeeListPage:global([data-miner-fee-batch-stub]) {
   gap: var(--spacing-4);
+}
+
+.minerFeeListPage:global([data-miner-fee-tron]) {
+  gap: var(--spacing-5);
 }
 
 .root {
@@ -217,6 +360,12 @@
   width: calc(100% - 2 * var(--spacing-1));
   margin-right: var(--spacing-1);
   margin-left: var(--spacing-1);
+}
+
+.minerFeeListPage:global([data-miner-fee-evm-payment]) .minerFeePageInsetDivider {
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0;
 }
 
 .minerFeeBatchTotal {
@@ -329,12 +478,280 @@
   width: 100%;
 }
 
+.minerFeeEvmPaymentEstimate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-05);
+  width: 100%;
+  margin: var(--spacing-1) 0 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.minerFeeEvmPaymentEstimateLabel {
+  color: var(--text-base-primary);
+  font-size: var(--eds-body-small-strong-size);
+  font-weight: var(--eds-body-small-strong-weight);
+  line-height: var(--eds-body-small-strong-line-height);
+}
+
+.minerFeeEvmPaymentEstimateUsd {
+  color: var(--text-base-secondary);
+  font-size: var(--eds-footnote-size);
+  font-weight: var(--eds-footnote-weight);
+  line-height: var(--eds-footnote-line-height);
+}
+
+.minerFeeEvmPaymentEstimateCrypto {
+  color: var(--text-base-primary);
+  font-size: var(--eds-body-medium-size);
+  font-weight: var(--eds-body-medium-weight);
+  line-height: var(--eds-body-medium-line-height);
+}
+
+.minerFeeEvmPaymentEstimateValueRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-1);
+}
+
+.minerFeeEvmPaymentSection {
+  gap: var(--spacing-4);
+}
+
+.minerFeeEvmPaymentModeBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1-5);
+  width: 100%;
+}
+
+.minerFeeEvmPaymentMethodOption .minerFeeTronEstimatedCost {
+  display: block;
+  width: 100%;
+  margin: var(--spacing-2) 0 0;
+  text-align: left;
+}
+
+.minerFeeListPage:global([data-miner-fee-evm-payment]) {
+  gap: var(--spacing-5);
+}
+
+.minerFeeListPage:global([data-miner-fee-evm-payment]) .minerFeeFooter {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.minerFeeEvmPaymentMethods {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  width: 100%;
+  margin: 0;
+}
+
+.minerFeeEvmPaymentMethodSponsoredStack,
+.minerFeeEvmPaymentMethodAddressStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1-5);
+  width: 100%;
+}
+
+/** 地址支付收起/展开：仅本壳 height morph（layout-deform），避免 v-if 与外层 shell 双轨不同步。 */
+.minerFeeEvmPaymentAddressExpandShell {
+  composes: motion-layout-deform from global;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.minerFeeEvmPaymentAddressExpandShell:not([data-address-expand-ready]) {
+  transition: none !important;
+}
+
+.minerFeeEvmPaymentMethodSponsoredStack .minerFeeTronPaymentBalanceFeedback {
+  margin-top: 0;
+}
+
+.minerFeeEvmPaymentBalanceFeedback {
+  margin-bottom: var(--spacing-1);
+}
+
+.minerFeeEvmPaymentMethodOption {
+  composes: motion-ease is-paint from global;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-2-5);
+  width: 100%;
+  padding: var(--spacing-3);
+  border: var(--stroke-xs) solid var(--stroke-divider-page);
+  border-radius: var(--radius-sm);
+  background: var(--material-hide);
+  color: var(--text-base-primary);
+  font: inherit;
+  text-align: left;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.minerFeeEvmPaymentMethodOption:hover {
+  border-color: var(--stroke-hide);
+  background: var(--event-hover);
+}
+
+.minerFeeEvmPaymentMethodOption:focus-visible {
+  outline: none;
+  border-color: var(--stroke-hide);
+  background: var(--event-focus-brand-weaken);
+}
+
+.minerFeeEvmPaymentMethodOptionSelected {
+  border-color: var(--stroke-hide);
+  background: var(--event-focus-brand-subtle);
+}
+
+.minerFeeEvmPaymentMethodOptionSelected:hover,
+.minerFeeEvmPaymentMethodOptionSelected:focus-visible {
+  border-color: var(--stroke-hide);
+  background: var(--event-focus-brand-subtle);
+}
+
+/**
+ * 地址支付展开：对齐 consumer AML `optionCardGroup` + `embeddedPanel`
+ *（RiskControlAutoRuleFormPage / ProjectCreateModeCard）。
+ */
+.minerFeeEvmPaymentMethodAddressGroup {
+  box-sizing: border-box;
+  gap: var(--spacing-0);
+  padding: var(--spacing-0);
+  border: var(--stroke-xs) solid var(--stroke-hide);
+  border-radius: var(--radius-sm);
+  background: var(--material-hide);
+}
+
+.minerFeeEvmPaymentAddressEmbedded {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-0);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--spacing-0);
+  border: none;
+  border-radius: var(--radius-sm);
+  /** 勿与 AddressGroup 同铺底色（token 为半透明，叠层会加深）。 */
+  background: var(--event-focus-brand-subtle);
+}
+
+.minerFeeEvmPaymentAddressEmbeddedHeader {
+  composes: motion-ease is-paint from global;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-2-5);
+  width: 100%;
+  box-sizing: border-box;
+  margin: var(--spacing-0);
+  padding: var(--spacing-3);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-base-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.minerFeeEvmPaymentAddressEmbeddedHeader:hover,
+.minerFeeEvmPaymentAddressEmbeddedHeader:focus-visible {
+  outline: none;
+  background: transparent;
+}
+
+.minerFeeEvmPaymentAddressEmbeddedBody {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-2);
+  width: calc(100% - 2 * var(--spacing-1));
+  min-width: 0;
+  box-sizing: border-box;
+  margin: var(--spacing-0) var(--spacing-1) var(--spacing-1);
+  padding: var(--spacing-1);
+  border-radius: var(--radius-sm);
+  background: var(--box-menu);
+}
+
+.minerFeeListPage:global([data-miner-fee-evm-payment])
+  .minerFeeEvmPaymentAddressEmbeddedBody
+  .minerFeePageInsetDivider {
+  box-sizing: border-box;
+  width: calc(100% - 2 * var(--spacing-3));
+  margin-right: var(--spacing-3);
+  margin-left: var(--spacing-3);
+}
+
+.minerFeeEvmPaymentAddressEmbeddedBody .minerFeeEvmPaymentAddressInlineOptions {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.minerFeeEvmPaymentAddressEmbeddedBody .minerFeeEvmPaymentAddressInlineOptions .minerFeeSpeedGroup,
+.minerFeeEvmPaymentAddressEmbeddedBody .minerFeeEvmPaymentAddressInlineOptions .minerFeeCustomGroup {
+  gap: var(--spacing-025);
+}
+
+.minerFeeEvmPaymentAddressEmbeddedBody .minerFeeBatchTotal {
+  margin-bottom: var(--spacing-3);
+}
+
+/** 地址支付内嵌三档：选中底色特例（其余列表/自定义页仍用 event-focus-brand-weaken）。 */
+.minerFeeEvmPaymentAddressEmbeddedBody .minerFeeOption.minerFeeOptionSelected {
+  background: var(--event-focus);
+}
+
+.minerFeeEvmPaymentMethodOptionBody {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.minerFeeEvmPaymentMethodTitle {
+  color: var(--text-base-primary);
+  font-size: var(--eds-body-medium-size);
+  font-weight: var(--eds-body-medium-weight);
+  line-height: var(--eds-body-medium-line-height);
+}
+
+.minerFeeEvmPaymentMethodDesc {
+  margin-top: var(--spacing-05);
+  color: var(--text-base-secondary);
+  font-size: var(--eds-footnote-size);
+  font-weight: var(--eds-footnote-weight);
+  line-height: var(--eds-footnote-line-height);
+}
+
 /** 选项区纵向节奏：速度组 / 分割线 / 自定义 / 批量附录，统一 spacing-2。 */
 .minerFeeOptions {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-2);
   width: 100%;
+}
+
+/** EVM 列表页速度 radiogroup：相对 minerFeeRoot 左右各 spacing-1。 */
+.minerFeeRoot:global([data-miner-fee-screen='list']) .minerFeeOptions {
+  box-sizing: border-box;
+  width: calc(100% - 2 * var(--spacing-1));
+  margin-right: var(--spacing-1);
+  margin-left: var(--spacing-1);
 }
 
 .minerFeeSpeedGroup,
@@ -584,11 +1001,22 @@
   width: 100%;
 }
 
+.minerFeeTronResourcesBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1-5);
+  width: 100%;
+}
+
 .minerFeeTronSection {
   display: flex;
   flex-direction: column;
   gap: 0;
   width: 100%;
+}
+
+.minerFeeTronPaymentSection {
+  gap: var(--spacing-1-5);
 }
 
 .minerFeeTronSectionTitle {
@@ -742,22 +1170,20 @@
 
 .minerFeeTronPaymentLabel {
   margin: 0;
-  color: var(--text-base-primary);
+  color: var(--text-base-secondary);
   font-size: var(--eds-body-small-strong-size);
   font-weight: var(--eds-body-small-strong-weight);
   line-height: var(--eds-body-small-strong-line-height);
 }
 
+.minerFeeTronPaymentSection .minerFeeTronPaymentLabel,
+.minerFeeEvmPaymentModeBlock .minerFeeTronPaymentLabel {
+  color: var(--text-base-primary);
+}
+
 .minerFeeTronPaymentCard {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  box-sizing: border-box;
-  width: 100%;
-  margin-top: var(--spacing-1);
-  padding: var(--spacing-2) var(--spacing-3) var(--spacing-3);
-  border-radius: var(--radius-sm);
-  background: var(--material-card-moderate);
+  padding: var(--spacing-3);
+  cursor: pointer;
 }
 
 .minerFeeTronPaymentHeader {
@@ -790,7 +1216,7 @@
 }
 
 .minerFeeTronEstimatedCost {
-  margin: var(--spacing-3) 0 0;
+  margin: var(--spacing-2) 0 0;
   color: var(--text-base-primary);
   font-size: var(--eds-footnote-strong-size);
   font-weight: var(--eds-footnote-strong-weight);
@@ -808,7 +1234,12 @@
 
 .minerFeeTronPaymentBalanceFeedback {
   width: 100%;
-  margin-top: var(--spacing-2);
+  margin-top: var(--spacing-1-5);
+}
+
+.minerFeeTronPaymentSectionBalanceFeedback {
+  margin-top: 0;
+  margin-bottom: var(--spacing-1);
 }
 
 /** 对齐 EgComboInput #feedback 槽，不覆盖 EgFormSubmission 自持字阶/色。 */

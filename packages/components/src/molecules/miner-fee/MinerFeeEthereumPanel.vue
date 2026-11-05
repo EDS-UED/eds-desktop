@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { provideMinerFeeTranslate, type MinerFeeTranslate } from './minerFeeTranslate';
 import type { MinerFeeConfirmPayload } from './minerFeeTypes';
+import type { EvmMinerFeePaymentDemoQuote } from './minerFeeEvmPayment';
 import MinerFeeEvmPopoverPanel from './MinerFeeEvmPopoverPanel.vue';
 
 const props = withDefaults(
@@ -12,17 +13,20 @@ const props = withDefaults(
     /** 多笔：>1 时在内容与底部确定之间展示预计总矿工费。 */
     transactionCount?: number;
     preferBatchTotalSummary?: boolean;
+    evmPaymentQuote?: EvmMinerFeePaymentDemoQuote;
+    evmSponsoredPaymentEnabled?: boolean;
   }>(),
   {
     hideInlineConfirm: false,
     symbol: 'ETH',
     transactionCount: 1,
     preferBatchTotalSummary: false,
+    evmSponsoredPaymentEnabled: true,
   },
 );
 
 const emit = defineEmits<{
-  'miner-fee-screen-change': [screen: 'list' | 'custom'];
+  'miner-fee-screen-change': [screen: 'payment' | 'list' | 'custom'];
   confirm: [selection: MinerFeeConfirmPayload];
 }>();
 
@@ -47,6 +51,8 @@ defineExpose({
     :hide-inline-confirm="hideInlineConfirm"
     :transaction-count="transactionCount"
     :prefer-batch-total-summary="preferBatchTotalSummary"
+    :evm-payment-quote="evmPaymentQuote"
+    :evm-sponsored-payment-enabled="evmSponsoredPaymentEnabled"
     @miner-fee-screen-change="emit('miner-fee-screen-change', $event)"
     @confirm="emit('confirm', $event)"
   />

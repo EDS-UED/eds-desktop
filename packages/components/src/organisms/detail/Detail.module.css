@@ -142,7 +142,7 @@
   padding: var(--spacing-6) var(--spacing-6) var(--spacing-0);
 }
 
-/* 有 Tab：Headline + Tabs 随滚动吸顶；无 Tab 不设 sticky，保持整段滚出。 */
+/* Headline（含 Tab / Page Divider）随内容滚动吸顶。 */
 .headlineSticky {
   position: sticky;
   top: 0;

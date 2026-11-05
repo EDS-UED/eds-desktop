@@ -10,6 +10,14 @@ export {
   resolveEvmShellVariantFromSymbol,
 } from './minerFeeEvmDisplay';
 export {
+  resolveEvmPaymentDemoQuote,
+  resolveEvmPaymentDemoQuoteInsufficient,
+  withEvmPaymentDemoQuoteOverrides,
+  type EvmMinerFeePaymentDemoQuote,
+  type EvmMinerFeePaymentMethod,
+  type EvmMinerFeePaymentSelection,
+} from './minerFeeEvmPayment';
+export {
   resolveMinerFeeEvmShellVariant,
   type MinerFeeEvmShellVariant,
 } from './minerFeeEvmShellVariant';
@@ -20,6 +28,7 @@ export {
 export {
   buildTronMinerFeeDisplay,
   resolveTronMinerFeeQuote,
+  type TronMinerFeeQuote,
 } from './minerFeeTronDisplay';
 export {
   minerFeeBatchStubMessageKey,

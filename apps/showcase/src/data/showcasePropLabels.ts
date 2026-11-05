@@ -98,6 +98,7 @@ export const showcaseInputSizeLabels = {
   lg: tokenLabel('Large', '大', 'lg'),
   md: tokenLabel('Medium', '中', 'md'),
   sm: tokenLabel('Small', '小', 'sm'),
+  xs: tokenLabel('Extra small', '特小', 'xs'),
 } as const;
 
 export const showcaseVariantLabels = {

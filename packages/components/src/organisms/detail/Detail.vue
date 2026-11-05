@@ -805,7 +805,7 @@ onBeforeUnmount(() => {
       <div :class="styles.scrollBody">
         <slot v-if="$slots.body" name="body" />
         <template v-else>
-          <header :class="[styles.headline, showTabs && styles.headlineSticky]">
+          <header :class="[styles.headline, styles.headlineSticky]">
             <div :class="styles.headlineMain">
               <slot v-if="$slots['headline-main']" name="headline-main" />
               <template v-else>

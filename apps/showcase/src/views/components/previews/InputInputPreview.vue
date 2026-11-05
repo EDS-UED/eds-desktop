@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
-import { EgInput } from '@eds/desktop-components';
+import { EgInput, type InputSize } from '@eds/desktop-components';
 import { useShowcaseDisplayText } from '@/composables/useShowcaseDisplayText';
 import ComponentDocLayout from '@/views/shared/componentDoc/ComponentDocLayout.vue';
 import docStyles from '@/views/shared/componentDoc/ComponentDocLayout.module.css';
@@ -35,7 +35,7 @@ const inputCustomize = reactive({
   ...inputCustomizeDefaults,
   type: inputCustomizeDefaults.type as 'standard' | 'amount',
   interaction: inputCustomizeDefaults.interaction as string,
-  size: inputCustomizeDefaults.size as 'lg' | 'md' | 'sm',
+  size: inputCustomizeDefaults.size as InputSize,
   widthMode: inputCustomizeDefaults.widthMode as ShowcaseInputWidthMode,
   overflowFeedback: inputCustomizeDefaults.overflowFeedback as boolean,
 });
@@ -94,7 +94,7 @@ const snapshotModelValue = computed(() =>
 const sharedInputProps = computed(() => ({
   style: inputPreviewStyle.value,
   type: inputCustomize.type as 'standard' | 'amount',
-  size: inputCustomize.size as 'lg' | 'md' | 'sm',
+  size: inputCustomize.size as InputSize,
   widthMode: resolveEgInputWidthMode(inputCustomize.widthMode),
   placeholder: display(String(inputCustomize.placeholder)),
   disabled: previewDisabled.value,

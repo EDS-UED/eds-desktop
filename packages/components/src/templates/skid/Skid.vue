@@ -40,6 +40,7 @@ function onCloseClick() {
 }
 
 const scrollRef = ref<HTMLElement | null>(null);
+const bodyRef = ref<HTMLElement | null>(null);
 const bodyCanScroll = ref(false);
 const bodyScrollTop = ref(0);
 const bodyClientHeight = ref(0);
@@ -47,7 +48,6 @@ const bodyScrollHeight = ref(0);
 
 const SCROLL_EDGE_EPSILON = 2;
 
-const titleScrollDividerReserved = computed(() => bodyCanScroll.value);
 const titleScrollDividerVisible = computed(
   () => bodyCanScroll.value && bodyScrollTop.value > SCROLL_EDGE_EPSILON,
 );
@@ -93,10 +93,11 @@ function observeBodyOverflow() {
     });
   }
 
-  const region = scrollRef.value;
-  if (!region || observedElements.has(region)) return;
-  resizeObserver.observe(region);
-  observedElements.add(region);
+  for (const element of [scrollRef.value, bodyRef.value]) {
+    if (!element || observedElements.has(element)) continue;
+    resizeObserver.observe(element);
+    observedElements.add(element);
+  }
 }
 
 function onPanelScroll() {
@@ -138,12 +139,11 @@ onBeforeUnmount(() => {
           </EgIconButton>
         </div>
         <EgDivider
-          v-if="titleScrollDividerReserved"
           :class="styles.titleDivider"
           :hide="!titleScrollDividerVisible"
         />
       </header>
-      <div :class="styles.body">
+      <div ref="bodyRef" :class="styles.body">
         <slot />
       </div>
       <footer v-if="showButton" :class="[styles.action, actionDividerVisible && 'eds-frosted-page-chrome']">

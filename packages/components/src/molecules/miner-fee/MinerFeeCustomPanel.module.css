@@ -12,6 +12,17 @@
   min-height: 100%;
 }
 
+:global(.eds-popover-content[data-popover-height-constrained]) .root {
+  flex: 0 1 auto;
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+:global(.eds-popover-content[data-popover-height-constrained]) .footer {
+  flex-shrink: 0;
+}
+
 .customTopTool {
   display: flex;
   flex: 1 1 auto;
