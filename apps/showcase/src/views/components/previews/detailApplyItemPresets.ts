@@ -22,7 +22,7 @@ const detailApplyItemPresetZh: Record<DetailApplyItemVariantId, string> = {
   memo: tokenLabel('Memo', '备忘', 'memo'),
   txid: tokenLabel('Transaction ID', '交易 ID', 'txid'),
   text: tokenLabel('Text', '文本', 'text'),
-  fee: tokenLabel('Fee', '手续费', 'fee'),
+  fee: tokenLabel('Miner Fee', '矿工费', 'fee'),
   amount: tokenLabel('Amount', '金额', 'amount'),
   type: tokenLabel('Type', '类型', 'type'),
   reason: tokenLabel('Reason', '原因', 'reason'),

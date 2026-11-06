@@ -9,4 +9,5 @@ export * from './detail';
 export * from './dialog';
 export * from './verify';
 export * from './filter';
+export * from './bill';
 export * from './batch-bar';

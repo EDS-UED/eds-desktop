@@ -297,6 +297,9 @@ export const detailApplyItemVariants: DetailApplyItemVariant[] = [
       title: 'Fee',
       valueType: 'text',
       value: '0.02256 USDC',
+      tag: '矿工费代付',
+      tagFamily: 'system',
+      tagSystemType: 'stroke-subtle',
     },
   },
   {

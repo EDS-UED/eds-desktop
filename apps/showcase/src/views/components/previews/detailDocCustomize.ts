@@ -1,5 +1,7 @@
 import {
   buildDetailAddressApplyItemRow,
+  appendTronMinerFeeDetailValueSuffix,
+  getDetailApplyItemVariant,
   createDetailApplyItemRow,
   createDefaultDetailSections,
   cryptoNames,
@@ -23,6 +25,7 @@ import { resolveTabLabels, tabsCustomizeDefaults, tabsSpacingSizeOptions } from 
 import {
   detailApplyItemDataSourceOptions,
 } from './detailApplyItemPresets';
+import { showcaseGasFeeUi } from './gasFeeShowcaseMock';
 
 export const detailFigmaNode = '2170:2963';
 
@@ -205,6 +208,8 @@ export const detailCustomizeDefaults = {
   toolbarDirection: 'right',
   toolbarConfirmLabel: 'Confirm',
   toolbarCancelLabel: 'Cancel',
+  /** fee 变体行 Value 括号资源段：仅 tron 展示。 */
+  detailFeeNetwork: 'tron',
   ...createDetailSectionItemDefaults(1),
   ...createDetailApplyItemShowcaseSectionDefaults(1),
   ...createDetailSectionItemDefaults(2),
@@ -561,6 +566,23 @@ export function buildDetailSectionCustomizeControls(
       row: collapseRow,
       visibleWhen: (state) => sectionActive(state) && Boolean(state[showCollapseKey]),
     },
+  );
+
+  if (sectionNum === 1) {
+    controls.push({
+      kind: 'select',
+      key: 'detailFeeNetwork',
+      label: showcaseText('Fee row network (value suffix)', '矿工费行网络（Value 括号）'),
+      row: collapseRow,
+      visibleWhen: sectionActive,
+      options: [
+        { value: 'tron', label: showcaseText('TRON (resource suffix)', 'TRON（含资源括号）') },
+        { value: 'ethereum', label: showcaseText('Non-TRON', '非 TRON') },
+      ],
+    });
+  }
+
+  controls.push(
     ...buildDetailSectionItemRowControls(
       sectionNum,
       state,
@@ -674,6 +696,20 @@ function resolveDetailItemFromCustomize(
           : {}),
       });
       return applyDetailSectionTitleIconVisibility(presetItem, sectionNum, state);
+    }
+
+    if (dataSource === 'fee') {
+      const network = String(state.detailFeeNetwork ?? detailCustomizeDefaults.detailFeeNetwork);
+      const feeBaseValue = getDetailApplyItemVariant('fee')?.item.value ?? '0.02256 USDC';
+      const feeRow = createDetailApplyItemRow('fee', {
+        key: itemKey,
+        title: showcaseGasFeeUi('Gas fee'),
+        value:
+          network === 'tron'
+            ? appendTronMinerFeeDetailValueSuffix(String(feeBaseValue), showcaseGasFeeUi)
+            : String(feeBaseValue),
+      });
+      return applyDetailSectionTitleIconVisibility(feeRow, sectionNum, state);
     }
 
     const presetItem = isDetailApplyItemVariantId(dataSource)

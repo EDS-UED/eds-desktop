@@ -102,6 +102,7 @@ export const showcaseI18nOverrides: Record<string, ShowcaseI18nOverride> = {
   'components:page:tooltip-scene-member-picker': defineComponentName('Member picker', '成员选择'),
   'components:page:tooltip-scene-date-picker': defineComponentName('Date picker', '日期选择'),
   'components:page:tooltip-scene-status-picker': defineComponentName('Status picker', '状态选择'),
+  'components:page:tooltip-scene-bill': defineComponentName('Bill export', '账单导出'),
   'components:page:popovers-scene-guidance': defineComponentName('Guidance', '引导'),
   'components:page:popovers-scene-remark': defineComponentName('Remark', '备注'),
   'components:page:popovers-scene-gas-fee': defineComponentName('Gas fee', '矿工费'),

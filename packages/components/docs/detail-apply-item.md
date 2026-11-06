@@ -71,6 +71,7 @@ Sender / Receiver 多地址（Figma [2267:11822](https://www.figma.com/design/Ok
 - **multi-orders**：视觉同 multi-collapsed；链文案为 `{count} Orders`（如 `16 Orders`）；点击触发 `itemValueLinkClick`（业务可唤起自定义 Popup）。
 - **multi-expanded**：主行下方展开其余地址；行间横虚线与 Tag 左缘对齐（2px 线段 / 2px 间距，`--stroke-base-quaternary`，0.5px）。
 - `addressViewMoreLabel` 支持 `{count}` 占位；未写占位时自动拼接为 ``${label} ${addressCount}``。
+- TRON 矿工费 fee 行：主 `value` 为金额（如 `0.02256 USDC`），资源明细用 `appendTronMinerFeeDetailValueSuffix()` 拼在同一 value 字符串末尾（`（100 能量 + 100 带宽 + 1TRX 地址激活费用）`）；**仅 TRON**。
 - `valueSecondary`：人员类行（如 `initiated-by`）的次要文案（脱敏邮箱等）；有值时 Value 区渲染为「头像 + 名称｜次要文案」（`EgDetailPersonValue`）。
 - `valueDeviceInfo`：人员类行设备信息；有值时在名称/邮箱后渲染 info 触发器（`EgDetailPersonValue` + tooltip）。
 

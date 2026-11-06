@@ -93,6 +93,9 @@ const SHOWCASE_GAS_FEE_UI_TEXT: Record<string, string> = {
   'Estimated total miner fee': '预计总矿工费',
   'Miner fee batch total suffix': '共',
   'Miner fee batch transaction suffix': '笔交易',
+  'Miner fee detail tron value energy segment': '{amount} 能量',
+  'Miner fee detail tron value bandwidth segment': '{amount} 带宽',
+  'Miner fee detail tron value activation segment': '{trx}TRX 地址激活费用',
 };
 
 export function resolveShowcaseGasFeeUiText(key: string): string {

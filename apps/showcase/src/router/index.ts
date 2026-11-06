@@ -138,6 +138,7 @@ export const router = createRouter({
                   'tooltip-scene-member-picker': 'tooltip-scene-member-picker',
                   'tooltip-scene-date-picker': 'tooltip-scene-date-picker',
                   'tooltip-scene-status-picker': 'tooltip-scene-status-picker',
+                  'tooltip-scene-bill': 'tooltip-scene-bill',
                   'tooltip-subtle': 'tooltip-subtle',
                   'tooltip-container': 'tooltip-flotation',
                   'tooltip-popup': 'tooltip-flotation',

@@ -105,6 +105,7 @@ export const componentCatalog: CatalogSection[] = [
             { id: 'tooltip-scene-member-picker', label: '成员选择' },
             { id: 'tooltip-scene-date-picker', label: '日期选择' },
             { id: 'tooltip-scene-status-picker', label: '状态选择' },
+            { id: 'tooltip-scene-bill', label: '账单导出' },
           ],
         ),
       },

@@ -1,4 +1,5 @@
 import { formatGroupedAmountText, formatGroupedTemplateValue } from '../../utils/formatGroupedAmountText';
+import type { MinerFeeTranslate } from './minerFeeTranslate';
 
 export type TronMinerFeeQuote = {
   bandwidth: number;
@@ -42,4 +43,45 @@ export function fillMinerFeeUiTemplate(
 export function buildTronMinerFeeDisplay(quote?: TronMinerFeeQuote): string {
   const resolved = quote ?? resolveTronMinerFeeQuote();
   return formatGroupedAmountText(`预计费用: ${resolved.estimatedUsd}`);
+}
+
+export type TronMinerFeeDetailValueSuffixParts = {
+  energy?: string;
+  bandwidth?: string;
+  activationTrx?: string;
+};
+
+/** TRON 矿工费 Detail 行 Value 括号资源段（能量 + 带宽 + 地址激活费）；仅 TRON 拼入主 value。 */
+export function buildTronMinerFeeDetailValueSuffix(
+  translate: MinerFeeTranslate,
+  parts: TronMinerFeeDetailValueSuffixParts = {},
+): string {
+  const energy = String(parts.energy ?? '100').trim();
+  const bandwidth = String(parts.bandwidth ?? '100').trim();
+  const activationTrx = String(parts.activationTrx ?? '1').trim();
+  const segments = [
+    fillMinerFeeUiTemplate(translate('Miner fee detail tron value energy segment'), {
+      amount: energy,
+    }),
+    fillMinerFeeUiTemplate(translate('Miner fee detail tron value bandwidth segment'), {
+      amount: bandwidth,
+    }),
+    fillMinerFeeUiTemplate(translate('Miner fee detail tron value activation segment'), {
+      trx: activationTrx,
+    }),
+  ].filter((segment) => segment.trim());
+
+  if (!segments.length) return '';
+  return `（${segments.join('+')}）`;
+}
+
+export function appendTronMinerFeeDetailValueSuffix(
+  baseValue: string,
+  translate: MinerFeeTranslate,
+  parts?: TronMinerFeeDetailValueSuffixParts,
+): string {
+  const suffix = buildTronMinerFeeDetailValueSuffix(translate, parts);
+  const base = baseValue.trim();
+  if (!suffix) return base;
+  return `${base}${suffix}`;
 }

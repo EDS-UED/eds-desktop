@@ -27,6 +27,7 @@ const SHOWCASE_PAGE_COMPONENT_TAG: Record<string, string> = {
   'tooltip-scene-member-picker': 'EgMemberTooltip',
   'tooltip-scene-date-picker': 'EgDatePickerTooltip',
   'tooltip-scene-status-picker': 'EgStatusTooltip',
+  'tooltip-scene-bill': 'EgBillTooltip',
   'popovers-popover': 'EgPopover',
   'popovers-scene-guidance': 'EgGuidancePopover',
   'popovers-scene-remark': 'EgRemarkPopover',

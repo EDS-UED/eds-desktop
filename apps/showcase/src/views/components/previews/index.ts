@@ -80,6 +80,7 @@ export const compactComponentPreviewSlugs = new Set<string>([
   'tooltip-scene-member-picker',
   'tooltip-scene-date-picker',
   'tooltip-scene-status-picker',
+  'tooltip-scene-bill',
   'flotation-trigger',
   'flotation-trigger-scene-module-menu',
   'flotation-container-tooltip',
@@ -275,6 +276,7 @@ export const componentPreviews: ComponentPreviewEntry[] = [
     { slug: 'tooltip-scene-member-picker', title: showcaseText('Member picker', '成员选择') },
     { slug: 'tooltip-scene-date-picker', title: showcaseText('Date picker', '日期选择') },
     { slug: 'tooltip-scene-status-picker', title: showcaseText('Status picker', '状态选择') },
+    { slug: 'tooltip-scene-bill', title: showcaseText('Bill export', '账单导出') },
   ] as const).map(({ slug, title }) => ({
     slug,
     title,

@@ -40,6 +40,10 @@ import {
   type PopupCustomizeUses,
   type PopupSceneUses,
 } from './organismTemplateDocData';
+import {
+  buildDetailSectionsFromCustomize,
+  detailCustomizeDefaults,
+} from './detailDocCustomize';
 
 type PopupUses = PopupCustomizeUses;
 
@@ -147,6 +151,12 @@ const customBoxHeight = computed(() => {
   return resolvePopupCustomBoxSize(customize).height;
 });
 
+/** Popup · Detail 场景与 Detail 文档共用 Apply_Item 变体演示（含 fee 行）。 */
+const popupDetailSections = buildDetailSectionsFromCustomize({
+  ...detailCustomizeDefaults,
+  section2Enabled: false,
+});
+
 function closePopup() {
   popupOpen.value = false;
 }
@@ -179,7 +189,12 @@ function closePopup() {
             v-model:open="popupOpen"
             :alert-vertical-align="customize.alertVerticalAlign as 'center' | 'offset-top'"
           >
-            <EgDetail @close="closePopup" />
+            <EgDetail
+              :sections="popupDetailSections"
+              :show-tabs="false"
+              :show-toolbar-nav="false"
+              @close="closePopup"
+            />
           </EgDetailPopup>
           <EgDialogPopup
             v-else-if="customize.uses === 'dialog'"

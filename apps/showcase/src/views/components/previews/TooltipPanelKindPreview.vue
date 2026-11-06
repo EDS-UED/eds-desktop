@@ -31,6 +31,7 @@ import TooltipFlotationTextOverflowPreview from './TooltipFlotationTextOverflowP
 import TooltipFlotationParagraphOverflowPreview from './TooltipFlotationParagraphOverflowPreview.vue';
 import TooltipFlotationMultiAddressPreview from './TooltipFlotationMultiAddressPreview.vue';
 import TooltipFilterPickerScenePreview from './TooltipFilterPickerScenePreview.vue';
+import TooltipBillScenePreview from './TooltipBillScenePreview.vue';
 import {
   buildTooltipFilterPickerUsageSnippet,
   findTooltipFilterPickerSceneSection,
@@ -40,6 +41,15 @@ import {
   tooltipFilterPickerSceneCustomizeControls,
   type TooltipFilterPickerScenarioValue,
 } from './tooltipFilterPickerDocCustomize';
+import {
+  billTooltipCustomizeDefaults,
+  billTooltipPropRows,
+  billTooltipSceneCustomizeControls,
+  buildBillTooltipUsageSnippet,
+  isTooltipBillSceneSlug,
+  tooltipBillSceneSection,
+} from './billTooltipDocCustomize';
+import { SHOWCASE_BILL_DEFAULT_RANGE } from './billTooltipShowcaseMock';
 
 const route = useRoute();
 
@@ -47,6 +57,7 @@ const pageSlug = computed(() => getComponentRouteSlug(route.path, route.params.s
 
 const isOverflowScene = computed(() => isTooltipOverflowSceneSlug(pageSlug.value));
 const isFilterPickerScene = computed(() => isTooltipFilterPickerSceneSlug(pageSlug.value));
+const isBillScene = computed(() => isTooltipBillSceneSlug(pageSlug.value));
 
 const isStandardContainerPage = computed(
   () => pageSlug.value === 'flotation-container-tooltip',
@@ -67,6 +78,7 @@ const customize = reactive<Record<string, unknown>>({
 });
 
 const filterPickerValue = ref('');
+const billDateRange = ref(SHOWCASE_BILL_DEFAULT_RANGE);
 
 watch(
   pageSlug,
@@ -83,6 +95,11 @@ watch(
         scenario: section?.scenario ?? 'crypto-picker',
       });
       filterPickerValue.value = '';
+      return;
+    }
+    if (isTooltipBillSceneSlug(slug)) {
+      Object.assign(customize, { ...billTooltipCustomizeDefaults });
+      billDateRange.value = SHOWCASE_BILL_DEFAULT_RANGE;
       return;
     }
     if (slug === 'flotation-container-tooltip') {
@@ -111,6 +128,13 @@ const panelKind = computed(() => {
 });
 
 const section = computed(() => {
+  if (isBillScene.value) {
+    return {
+      id: tooltipBillSceneSection.id,
+      label: tooltipBillSceneSection.label,
+      panelKind: 'flotation' as const,
+    };
+  }
   if (filterPickerScene.value) {
     return {
       id: filterPickerScene.value.id,
@@ -132,6 +156,9 @@ const section = computed(() => {
 });
 
 const customizeControls = computed(() => {
+  if (isBillScene.value) {
+    return billTooltipSceneCustomizeControls;
+  }
   if (isFilterPickerScene.value) {
     return tooltipFilterPickerSceneCustomizeControls;
   }
@@ -144,6 +171,9 @@ const customizeControls = computed(() => {
 });
 
 const usageSnippet = computed(() => {
+  if (isBillScene.value) {
+    return buildBillTooltipUsageSnippet({ ...customize, dateRange: billDateRange.value });
+  }
   if (filterPickerScene.value) {
     return buildTooltipFilterPickerUsageSnippet(filterPickerScene.value.scenario, customize);
   }
@@ -155,6 +185,9 @@ const panelProps = computed(() =>
 );
 
 const customizeDefaults = computed(() => {
+  if (isBillScene.value) {
+    return { ...billTooltipCustomizeDefaults };
+  }
   if (isFilterPickerScene.value) {
     return {
       ...tooltipFilterPickerCustomizeDefaults,
@@ -167,9 +200,11 @@ const customizeDefaults = computed(() => {
   return buildTooltipSectionCustomizeDefaults(panelKind.value);
 });
 
-const docPropRows = computed(() =>
-  isFilterPickerScene.value ? tooltipFilterPickerPropRows : tooltipPropRows,
-);
+const docPropRows = computed(() => {
+  if (isBillScene.value) return billTooltipPropRows;
+  if (isFilterPickerScene.value) return tooltipFilterPickerPropRows;
+  return tooltipPropRows;
+});
 
 const isTextOverflowScenario = computed(
   () => pageSlug.value === 'tooltip-scene-text-overflow',
@@ -200,6 +235,9 @@ const propsSectionId = computed(() => `${pageSlug.value}-props`);
 const anchorId = computed(() => section.value?.id ?? pageSlug.value);
 
 const pageTitle = computed(() => {
+  if (isBillScene.value) {
+    return tooltipBillSceneSection.label;
+  }
   if (filterPickerScene.value || overflowScene.value) {
     return section.value?.label ?? 'Tooltip';
   }
@@ -235,8 +273,10 @@ const docImportCode = computed(() => resolveTooltipPageImportCode(pageSlug.value
         <div
           class="desktopTokens"
           :class="[
-            docStyles.subPreviewWidth,
-            docStyles.previewEffectPanelHost,
+            isBillScene && docStyles.previewButtonHost,
+            isBillScene && docStyles.previewEffectPanelHost,
+            !isBillScene && docStyles.subPreviewWidth,
+            !isBillScene && docStyles.previewEffectPanelHost,
             panelKind === 'molde' && tooltipStyles.moldeScene,
             isTextOverflowScenario && tooltipStyles.textOverflowScene,
             isParagraphOverflowInfoScenario && tooltipStyles.paragraphOverflowScene,
@@ -247,8 +287,15 @@ const docImportCode = computed(() => resolveTooltipPageImportCode(pageSlug.value
               && tooltipStyles.filterPickerSceneFullWidth,
           ]"
         >
+          <TooltipBillScenePreview
+            v-if="isBillScene"
+            v-model="billDateRange"
+            :disabled="Boolean(customize.disabled)"
+            :export-loading="Boolean(customize.exportLoading)"
+            :trigger="String(customize.trigger ?? 'click') as 'click' | 'hover'"
+          />
           <TooltipFilterPickerScenePreview
-            v-if="isFilterPickerScene"
+            v-else-if="isFilterPickerScene"
             v-model="filterPickerValue"
             :scenario="activeFilterPickerScenario"
             :placeholder="String(customize.placeholder ?? '')"
@@ -289,7 +336,7 @@ const docImportCode = computed(() => resolveTooltipPageImportCode(pageSlug.value
         </div>
       </template>
 
-      <section v-if="!isFilterPickerScene" :class="shared.section">
+      <section v-if="!isFilterPickerScene && !isBillScene" :class="shared.section">
         <h2 :class="shared.sectionTitle">EgTooltip</h2>
         <PropsDocTables bare :show-title="false" :prop-rows="anchoredTooltipPropRows" />
       </section>

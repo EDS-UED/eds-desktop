@@ -26,8 +26,11 @@ export {
   resolveTonLikeMinerFeeQuote,
 } from './minerFeeTonLikeDisplay';
 export {
+  appendTronMinerFeeDetailValueSuffix,
+  buildTronMinerFeeDetailValueSuffix,
   buildTronMinerFeeDisplay,
   resolveTronMinerFeeQuote,
+  type TronMinerFeeDetailValueSuffixParts,
   type TronMinerFeeQuote,
 } from './minerFeeTronDisplay';
 export {
