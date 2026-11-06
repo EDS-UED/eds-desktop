@@ -17,6 +17,7 @@ import {
   buildMinerFeeCustomPreview,
   defaultMinerFeeCustomDraft,
   type MinerFeeCustomDraft,
+  type MinerFeeCustomMode,
   type MinerFeeCustomSaved,
 } from './minerFeeCustomTypes';
 import { resolveMinerFeeEvmShellVariant } from './minerFeeEvmShellVariant';
@@ -79,9 +80,12 @@ const customFeeDraft = ref<MinerFeeCustomDraft>(
 );
 const customFeeSaved = ref<MinerFeeCustomSaved | null>(null);
 
+/** 自定义页 tab（高级/正常）字段数不同，预测量须跟随当前 tab。 */
+const customLiveMode = ref<MinerFeeCustomMode>(customFeeDraft.value.mode);
+
 const customMeasureDraft = computed<MinerFeeCustomDraft>(() => ({
   ...customFeeDraft.value,
-  mode: 'advanced',
+  mode: customLiveMode.value,
 }));
 
 const pageSpecs = reactive<Record<MinerFeeScreen, MotionLayoutDeformPageSpec>>({
@@ -118,24 +122,13 @@ const isMinerFeeCustomPage = computed(() => activePage.value === 'custom');
 const isMinerFeePaymentPage = computed(() => activePage.value === 'payment');
 /** 首次测量完成前禁用 shell height transition，避免 Popover 打开时从占位高度弹跳。 */
 const shellMeasureReady = ref(false);
-const rootWrapRef = ref<HTMLElement | null>(null);
-const popoverHeightConstrained = computed(() =>
-  Boolean(rootWrapRef.value?.closest('[data-popover-height-constrained]')),
-);
-
-/**
- * 无 maxHeight：shell 预测量 height morph（对齐 GitHub Pages list ↔ custom）。
- * 有 maxHeight 且支付步：支付页随内容自适应增高（地址展开），仅 custom/list 翻页仍 morph。
- */
+/** 始终写像素 height 才能 morph；maxHeight 下由 flex shrink 收顶，中间区滚动。 */
 const deformShellStyle = computed(() => {
   if (
     props.hideInlineConfirm
     && (activePage.value === 'list' || activePage.value === 'payment')
   ) {
     return undefined;
-  }
-  if (popoverHeightConstrained.value && isMinerFeePaymentPage.value) {
-    return { minHeight: 0, height: '100%' };
   }
   return { height: `${shellHeight.value}px` };
 });
@@ -206,12 +199,7 @@ async function syncPaymentPageShellHeight() {
   }
   await nextTick();
   measurePage('payment');
-  if (
-    popoverHeightConstrained.value
-    || props.hideInlineConfirm
-    || contentExiting.value
-    || contentEntering.value
-  ) {
+  if (props.hideInlineConfirm || contentExiting.value || contentEntering.value) {
     return;
   }
   shellHeight.value = pageSpecs.payment.shellHeight;
@@ -342,7 +330,18 @@ function goToEvmPaymentScreen() {
 }
 
 function openCustomMinerFee() {
+  customLiveMode.value = customFeeDraft.value.mode;
   void setMinerFeeScreen('custom');
+}
+
+async function onCustomModeChange(mode: MinerFeeCustomMode) {
+  customLiveMode.value = mode;
+  await nextTick();
+  measurePage('custom');
+  if (activePage.value !== 'custom' || contentExiting.value || contentEntering.value) {
+    return;
+  }
+  shellHeight.value = pageSpecs.custom.shellHeight;
 }
 
 function goToMinerFeeList() {
@@ -368,6 +367,7 @@ async function syncPaymentAddressExpandLayout(options?: { scrollToBottom?: boole
 
 async function onCustomSave(draft: MinerFeeCustomDraft) {
   customFeeDraft.value = { ...draft };
+  customLiveMode.value = draft.mode;
   customFeeSaved.value = buildMinerFeeCustomPreview(draft, shellVariant.value);
   minerFee.value = MINER_FEE_CUSTOM_ID;
   minerFeeBeforeCustomPopover.value = null;
@@ -391,6 +391,7 @@ function resetMinerFeeFlow() {
   minerFee.value = DEFAULT_MINER_FEE_SPEED;
   minerFeeBeforeCustomPopover.value = null;
   customFeeDraft.value = defaultMinerFeeCustomDraft(shellVariant.value);
+  customLiveMode.value = customFeeDraft.value.mode;
   customFeeSaved.value = null;
   shellHeight.value = pageSpecs[initial].shellHeight;
   shellMeasureReady.value = true;
@@ -436,7 +437,7 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="rootWrapRef" :class="styles.minerFeeRootWrap">
+  <div :class="styles.minerFeeRootWrap">
     <div :class="styles.minerFeeMeasureHost" aria-hidden="true">
       <MinerFeeCustomPanel
         ref="customMeasurePanelRef"
@@ -458,7 +459,7 @@ defineExpose({
         :transaction-count="transactionCount"
         :prefer-batch-total-summary="preferBatchTotalSummary"
         measure-only
-        hide-inline-confirm
+        :hide-inline-confirm="hideInlineConfirm"
       />
       <MinerFeeEvmPaymentPanel
         ref="paymentAddressMeasurePanelRef"
@@ -466,10 +467,11 @@ defineExpose({
         :miner-fee="minerFee"
         :custom-fee-saved="customFeeSaved"
         :symbol="symbol"
+        :evm-payment-quote="evmPaymentQuote"
         :transaction-count="transactionCount"
         :prefer-batch-total-summary="preferBatchTotalSummary"
         measure-only
-        hide-inline-confirm
+        :hide-inline-confirm="hideInlineConfirm"
       />
       <MinerFeeEvmPaymentPanel
         ref="paymentNoneMeasurePanelRef"
@@ -477,8 +479,11 @@ defineExpose({
         :miner-fee="minerFee"
         :custom-fee-saved="customFeeSaved"
         :symbol="symbol"
+        :evm-payment-quote="evmPaymentQuote"
+        :transaction-count="transactionCount"
+        :prefer-batch-total-summary="preferBatchTotalSummary"
         measure-only
-        hide-inline-confirm
+        :hide-inline-confirm="hideInlineConfirm"
       />
     </div>
 
@@ -563,6 +568,7 @@ defineExpose({
           @back="goToMinerFeeList"
           @cancel="goToMinerFeeList"
           @save="onCustomSave"
+          @mode-change="onCustomModeChange"
         />
 
         <MinerFeeEvmPaymentPanel

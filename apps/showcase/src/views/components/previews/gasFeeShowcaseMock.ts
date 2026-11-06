@@ -137,9 +137,9 @@ export function resolveShowcaseGasFeePanelProps(
   tronQuote?: TronMinerFeeQuote;
 } {
   const {
-    evmBalanceInsufficient = true,
-    tronAddressInactive = true,
-    tronTeamBalanceInsufficient = true,
+    evmBalanceInsufficient = false,
+    tronAddressInactive = false,
+    tronTeamBalanceInsufficient = false,
   } = feedback;
   const symbol = SHOWCASE_GAS_FEE_SYMBOL[network];
   const transactionCount = multi ? SHOWCASE_GAS_FEE_BATCH_TRANSACTION_COUNT : 1;

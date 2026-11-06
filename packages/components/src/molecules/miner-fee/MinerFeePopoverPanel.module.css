@@ -546,7 +546,7 @@
 .minerFeeEvmPaymentMethods {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--spacing-2-5);
   width: 100%;
   margin: 0;
 }
@@ -626,7 +626,7 @@
   box-sizing: border-box;
   gap: var(--spacing-0);
   padding: var(--spacing-0);
-  border: var(--stroke-xs) solid var(--stroke-hide);
+  border: var(--stroke-xs) solid var(--stroke-divider-page);
   border-radius: var(--radius-sm);
   background: var(--material-hide);
 }
@@ -641,8 +641,7 @@
   padding: var(--spacing-0);
   border: none;
   border-radius: var(--radius-sm);
-  /** 勿与 AddressGroup 同铺底色（token 为半透明，叠层会加深）。 */
-  background: var(--event-focus-brand-subtle);
+  background: var(--material-hide);
 }
 
 .minerFeeEvmPaymentAddressEmbeddedHeader {
@@ -712,7 +711,7 @@
 
 /** 地址支付内嵌三档：选中底色特例（其余列表/自定义页仍用 event-focus-brand-weaken）。 */
 .minerFeeEvmPaymentAddressEmbeddedBody .minerFeeOption.minerFeeOptionSelected {
-  background: var(--event-focus);
+  background: var(--event-focus-brand-subtle);
 }
 
 .minerFeeEvmPaymentMethodOptionBody {

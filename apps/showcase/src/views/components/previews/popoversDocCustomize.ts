@@ -104,9 +104,9 @@ export const popoverComponentCustomizeDefaults = {
   gasFeeNetwork: 'ethereum',
   gasFeeMulti: false,
   gasFeeEvmDisplayMode: 'sponsored',
-  gasFeeEvmBalanceInsufficient: true,
-  gasFeeTronAddressInactive: true,
-  gasFeeTronTeamBalanceInsufficient: true,
+  gasFeeEvmBalanceInsufficient: false,
+  gasFeeTronAddressInactive: false,
+  gasFeeTronTeamBalanceInsufficient: false,
 } as const;
 
 export const popoverSceneCustomizeDefaults = {

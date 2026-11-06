@@ -41,6 +41,7 @@ const emit = defineEmits<{
   back: [];
   cancel: [];
   save: [draft: MinerFeeCustomDraft];
+  'mode-change': [mode: MinerFeeCustomMode];
 }>();
 
 const ui = useMinerFeeTranslate();
@@ -87,6 +88,7 @@ function onTabSelect(index: number) {
   const nextMode: MinerFeeCustomMode = index === 0 ? 'advanced' : 'normal';
   if (form.value.mode === nextMode) return;
   form.value = { ...form.value, mode: nextMode };
+  emit('mode-change', nextMode);
 }
 
 function resolveTopToolHost() {
