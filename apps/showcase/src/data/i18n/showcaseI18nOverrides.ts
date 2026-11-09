@@ -272,6 +272,7 @@ export const showcaseI18nOverrides: Record<string, ShowcaseI18nOverride> = {
   'animations:family:ripple-pulse': defineComponentName('EgRipplePulse', '波纹脉冲'),
   'animations:family:mnemonic-verification': defineComponentName('EgMnemonicVerify', '助记词校验'),
   'animations:family:odometer': defineComponentName('EgOdometer', '数字滚轮'),
+  'animations:family:gear': defineComponentName('EgGear', '自动齿轮'),
 
   'patterns:section:data': defineShowcaseI18nText('Data', '数据'),
   'patterns:section:forms': defineShowcaseI18nText('Forms', '表单'),

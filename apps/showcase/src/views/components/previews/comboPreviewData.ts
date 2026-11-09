@@ -48,6 +48,15 @@ export const comboPropRows: ComboPropRow[] = [
     ),
   },
   {
+    name: 'frosted',
+    type: 'boolean',
+    defaultValue: 'false',
+    description: showcaseText(
+      'With pageChrome: frosted background (effect-mask + eds-blur-bg). Off: material-hide background without blur. Bind it to the bottom scrim (content scrolled under the bar).',
+      'pageChrome 时的毛玻璃底（effect-mask + eds-blur-bg）。关闭时背景为 material-hide、无模糊。与底部 scrim（正文滚入栏下）联动。',
+    ),
+  },
+  {
     name: 'count',
     type: '1 | 2',
     defaultValue: '2',
@@ -192,7 +201,7 @@ export const comboDemoSections: ComboDemoSection[] = [
 <EgLayout type="empty" show-paginer>
   <!-- scrollable main -->
   <template #paginer>
-    <EgComboPageButton page-chrome divider direction="left" />
+    <EgComboPageButton page-chrome :frosted="bottomScrim" divider direction="left" />
   </template>
 </EgLayout>`,
   },

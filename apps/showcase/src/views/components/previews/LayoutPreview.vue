@@ -251,6 +251,7 @@ const docSlotRows = computed(() => layoutSlotRowsForType(customize.type));
                     :show-operation="DATA_LIST_FIGMA_TOOLBAR.showOperation"
                     :show-section="DATA_LIST_FIGMA_TOOLBAR.showSection"
                     :show-divider="DATA_LIST_FIGMA_TOOLBAR.showDivider"
+                    :frosted="DATA_LIST_FIGMA_TOOLBAR.frosted"
                   />
                 </template>
 

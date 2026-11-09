@@ -986,6 +986,7 @@ export const comboActionPageCustomizeDefaults = {
   variant: 'solid',
   divider: false,
   pageChrome: false,
+  frosted: false,
   direction: 'right',
   actionsLeadingInset: false,
   loading: false,
@@ -1020,6 +1021,12 @@ export const comboActionPageCustomizeControls: DocCustomizeControl[] = [
   { kind: 'boolean', key: 'pageChrome', label: showcaseButtonCustomizeFieldLabels.pageChrome },
   {
     kind: 'boolean',
+    key: 'frosted',
+    label: showcaseButtonCustomizeFieldLabels.frosted,
+    visibleWhen: (state) => Boolean(state.pageChrome),
+  },
+  {
+    kind: 'boolean',
     key: 'actionsLeadingInset',
     label: showcaseButtonCustomizeFieldLabels.actionsLeadingInset,
   },
@@ -1046,6 +1053,7 @@ export const comboActionCustomizeDefaults = {
   variant: 'solid',
   divider: true,
   pageChrome: true,
+  frosted: false,
   loading: false,
   count: 2,
   clear: false,
@@ -1154,6 +1162,13 @@ export const comboActionCustomizeControls: DocCustomizeControl[] = [
     label: showcaseButtonCustomizeFieldLabels.pageChrome,
     row: 1,
     visibleWhen: (state) => isComboActionKind(state, 'page'),
+  },
+  {
+    kind: 'boolean',
+    key: 'frosted',
+    label: showcaseButtonCustomizeFieldLabels.frosted,
+    row: 1,
+    visibleWhen: (state) => isComboActionKind(state, 'page') && Boolean(state.pageChrome),
   },
   {
     kind: 'boolean',

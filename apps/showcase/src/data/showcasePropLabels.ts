@@ -505,7 +505,8 @@ export const showcaseButtonCustomizeFieldLabels = {
   clear: showcaseText('Clear', '清空'),
   direction: showcaseText('Direction', '方向'),
   actionsLeadingInset: showcaseText('Actions leading inset (28px)', '按钮组左间距（28px）'),
-  pageChrome: showcaseText('Page chrome (frosted bar)', '页底毛玻璃'),
+  pageChrome: showcaseText('Page chrome (bottom bar)', '页底栏'),
+  frosted: showcaseText('Frosted', '毛玻璃'),
 } as const;
 
 export const showcaseInputCustomizeFieldLabels = {

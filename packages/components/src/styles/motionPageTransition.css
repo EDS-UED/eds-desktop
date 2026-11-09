@@ -9,6 +9,8 @@
  * - `<Transition name="motion-page">` + `.motion-page` + `.motion-layout-content`
  * - Page：Push 新页 100%→0 / 旧页 0→-18% · Pop 对称反向
  * - Content：Forward · translateY(+offset) crossfade；Backward · 纵移 0，仅 opacity
+ * - 默认不嵌套 stack；若嵌套，方向/Transition 规则仅作用于本层 stack 的**直接**子页（`> .motion-page-*`），
+ *   避免外层 `data-page-direction`（含 `none` 的 `transition: none`）误伤内层 A→B/B→A。
  *
  * Stack / direction / idle：见 `useMotionPageStack` · `EgMotionPageStack`
  */
@@ -38,44 +40,44 @@
 
 /* ── Forward (Push) ── */
 
-.motion-page-stack[data-page-direction='forward'] .motion-page-enter-active {
+.motion-page-stack[data-page-direction='forward'] > .motion-page-enter-active {
   transition: var(--motion-recipe-page-enter-active);
   z-index: 2;
 }
 
-.motion-page-stack[data-page-direction='forward'] .motion-page-leave-active {
+.motion-page-stack[data-page-direction='forward'] > .motion-page-leave-active {
   transition: var(--motion-recipe-page-leave-active-forward);
   z-index: 1;
 }
 
-.motion-page-stack[data-page-direction='forward'] .motion-page-enter-from {
+.motion-page-stack[data-page-direction='forward'] > .motion-page-enter-from {
   opacity: var(--motion-opacity-page-enter-from);
   transform: translateX(var(--motion-offset-page-enter-x));
 }
 
-.motion-page-stack[data-page-direction='forward'] .motion-page-leave-to {
+.motion-page-stack[data-page-direction='forward'] > .motion-page-leave-to {
   opacity: var(--motion-opacity-page-leave-to);
   transform: translateX(calc(-1 * var(--motion-offset-page-leave-x)));
 }
 
 /* ── Backward (Pop) ── */
 
-.motion-page-stack[data-page-direction='backward'] .motion-page-enter-active {
+.motion-page-stack[data-page-direction='backward'] > .motion-page-enter-active {
   transition: var(--motion-recipe-page-enter-active-pop);
   z-index: 1;
 }
 
-.motion-page-stack[data-page-direction='backward'] .motion-page-leave-active {
+.motion-page-stack[data-page-direction='backward'] > .motion-page-leave-active {
   transition: var(--motion-recipe-page-leave-active-pop);
   z-index: 2;
 }
 
-.motion-page-stack[data-page-direction='backward'] .motion-page-enter-from {
+.motion-page-stack[data-page-direction='backward'] > .motion-page-enter-from {
   opacity: var(--motion-opacity-page-leave-to);
   transform: translateX(calc(-1 * var(--motion-offset-page-leave-x)));
 }
 
-.motion-page-stack[data-page-direction='backward'] .motion-page-leave-to {
+.motion-page-stack[data-page-direction='backward'] > .motion-page-leave-to {
   opacity: var(--motion-opacity-page-enter-from);
   transform: translateX(var(--motion-offset-page-enter-x));
 }
@@ -87,24 +89,24 @@
   transition: var(--motion-recipe-layout-deform-content);
 }
 
-.motion-page-stack[data-page-direction='forward'] .motion-page-enter-from .motion-layout-content,
-.motion-page-stack[data-page-direction='forward'] .motion-page-leave-to .motion-layout-content {
+.motion-page-stack[data-page-direction='forward'] > .motion-page-enter-from .motion-layout-content,
+.motion-page-stack[data-page-direction='forward'] > .motion-page-leave-to .motion-layout-content {
   opacity: var(--motion-opacity-hidden);
   transform: translateY(var(--motion-offset-layout-deform-y));
 }
 
 /* ── Content · Backward（返回 · 纵移 0，仅 opacity）── */
 
-.motion-page-stack[data-page-direction='backward'] .motion-page-enter-from .motion-layout-content,
-.motion-page-stack[data-page-direction='backward'] .motion-page-leave-to .motion-layout-content {
+.motion-page-stack[data-page-direction='backward'] > .motion-page-enter-from .motion-layout-content,
+.motion-page-stack[data-page-direction='backward'] > .motion-page-leave-to .motion-layout-content {
   opacity: var(--motion-opacity-hidden);
   transform: translateY(var(--motion-offset-page-content-y-pop));
 }
 
 /* ── Instant switch ── */
 
-.motion-page-stack[data-page-direction='none'] .motion-page-enter-active,
-.motion-page-stack[data-page-direction='none'] .motion-page-leave-active {
+.motion-page-stack[data-page-direction='none'] > .motion-page-enter-active,
+.motion-page-stack[data-page-direction='none'] > .motion-page-leave-active {
   transition: none;
 }
 

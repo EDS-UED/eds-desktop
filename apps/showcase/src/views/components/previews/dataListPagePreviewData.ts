@@ -37,6 +37,7 @@ export const DATA_LIST_FIGMA_TOOLBAR = {
   showSection: true,
   showDivider: true,
   showBack: false,
+  frosted: true,
 } as const;
 
 export const DATA_LIST_FIGMA_PAGINER = {
@@ -372,6 +373,7 @@ export function buildDataListPageUsageSnippet(state: Record<string, unknown>): s
     showBack ? 'show-back' : null,
     showBatch ? 'show-section' : null,
     'show-divider',
+    'frosted',
   ]
     .filter(Boolean)
     .join(' ');

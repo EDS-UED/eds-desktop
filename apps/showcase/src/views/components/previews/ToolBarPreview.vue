@@ -83,6 +83,7 @@ const sectionItems = computed(() => {
           :show-operation="Boolean(customize.showOperation)"
           :show-divider="Boolean(customize.showDivider)"
           :show-section="Boolean(customize.showSection)"
+          :frosted="Boolean(customize.frosted)"
         >
           <template #functional>
             <template v-if="customize.showSection">

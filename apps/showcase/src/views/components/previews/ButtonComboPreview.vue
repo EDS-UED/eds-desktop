@@ -47,6 +47,7 @@ const pageComboProps = computed(() => ({
   variant: customize.variant as 'solid' | 'outline' | 'text',
   divider: Boolean(customize.divider),
   pageChrome: Boolean(customize.pageChrome),
+  frosted: Boolean(customize.frosted),
   actionsLeadingInset: Boolean(customize.actionsLeadingInset),
   loading: Boolean(customize.loading),
   direction: customize.direction,
@@ -76,8 +77,8 @@ const { locale } = useShowcaseLocale();
 const { display } = useShowcaseDisplayText();
 
 const pageChromeCompositionNote = showcaseText(
-  'Scrollable config pages: EgLayout show-paginer + #paginer with EgComboPageButton (page-chrome, divider synced with scroll). Static footers keep page-chrome=false.',
-  '可滚配置页：EgLayout 开启 show-paginer，在 #paginer 放入 EgComboPageButton（page-chrome；divider 与滚动联动）。静态底栏保持 page-chrome=false。',
+  'Scrollable config pages: EgLayout show-paginer + #paginer with EgComboPageButton (page-chrome; frosted only while content scrolls under the bar). Static footers keep page-chrome=false.',
+  '可滚配置页：EgLayout 开启 show-paginer，在 #paginer 放入 EgComboPageButton（page-chrome；仅正文滚入栏下时 frosted）。静态底栏保持 page-chrome=false。',
 );
 
 const resolvedPageChromeCompositionNote = computed(() => {

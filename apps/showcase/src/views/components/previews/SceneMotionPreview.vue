@@ -5,6 +5,7 @@ import {
   EgIcon,
   EgMnemonicVerify,
   EgMotionProcessing,
+  EgGear,
   EgOdometer,
   EgRipplePulse,
   EgVerifyRingDots,
@@ -18,6 +19,8 @@ import {
   sceneMotionCustomizeDefaults,
   sceneMotionDoneTickImportCode,
   sceneMotionDoneTickPropRows,
+  sceneMotionGearImportCode,
+  sceneMotionGearPropRows,
   sceneMotionMotionProcessingImportCode,
   sceneMotionMotionProcessingPropRows,
   sceneMotionMnemonicVerifyImportCode,
@@ -29,7 +32,33 @@ import {
   sceneMotionRingDotsImportCode,
   sceneMotionRingDotsPropRows,
 } from './sceneMotionDocCustomize';
-import type { SceneMotionInteraction, SceneMotionScenario } from './sceneMotionDocCustomize';
+import type {
+  SceneMotionGearSize,
+  SceneMotionGearTone,
+  SceneMotionInteraction,
+  SceneMotionScenario,
+} from './sceneMotionDocCustomize';
+
+const GEAR_SIZE_PX: Record<Exclude<SceneMotionGearSize, 'custom'>, number> = {
+  lg: 88,
+  md: 64,
+  sm: 40,
+  xs: 16,
+};
+
+function resolveGearSizePx(
+  size: SceneMotionGearSize,
+  customSizePx: string,
+): string {
+  if (size === 'custom') {
+    const parsed = Number.parseInt(String(customSizePx).trim(), 10);
+    if (Number.isFinite(parsed) && parsed > 0) {
+      return `${parsed}px`;
+    }
+    return '88px';
+  }
+  return `${GEAR_SIZE_PX[size]}px`;
+}
 
 const props = withDefaults(
   defineProps<{
@@ -61,6 +90,7 @@ const isMotionProcessing = computed(() => customize.scenario === 'motion-process
 const isRipplePulse = computed(() => customize.scenario === 'ripple-pulse');
 const isMnemonicVerify = computed(() => customize.scenario === 'mnemonic-verify');
 const isOdometer = computed(() => customize.scenario === 'odometer');
+const isGear = computed(() => customize.scenario === 'gear');
 
 const odometerDemoValue = '$8,888,888.88';
 const odometerReplayKey = ref(0);
@@ -88,6 +118,9 @@ const docComponentTag = computed(() => {
   if (isOdometer.value) {
     return 'EgOdometer';
   }
+  if (isGear.value) {
+    return 'EgGear';
+  }
   return 'EgVerifyRingDots';
 });
 
@@ -107,6 +140,9 @@ const docImportCode = computed(() => {
   if (isOdometer.value) {
     return sceneMotionOdometerImportCode;
   }
+  if (isGear.value) {
+    return sceneMotionGearImportCode;
+  }
   return sceneMotionRingDotsImportCode;
 });
 
@@ -125,6 +161,9 @@ const docPropRows = computed(() => {
   }
   if (isOdometer.value) {
     return sceneMotionOdometerPropRows;
+  }
+  if (isGear.value) {
+    return sceneMotionGearPropRows;
   }
   return sceneMotionRingDotsPropRows;
 });
@@ -196,6 +235,24 @@ const mnemonicVerifyToneClass = computed(() =>
 const verifyRingToneClass = computed(() =>
   customize.tone === 'success' ? styles.verifyRingToneSuccess : styles.verifyRingToneBrand,
 );
+
+const gearToneClass = computed(() => {
+  const tone = customize.gearTone as SceneMotionGearTone;
+  if (tone === 'danger') {
+    return styles.gearToneDanger;
+  }
+  if (tone === 'warning') {
+    return styles.gearToneWarning;
+  }
+  return styles.gearToneBrand;
+});
+
+const gearPreviewStyle = computed(() => ({
+  '--gear-size': resolveGearSizePx(
+    customize.gearSize as SceneMotionGearSize,
+    String(customize.gearCustomSizePx ?? ''),
+  ),
+}));
 
 watch(
   () => customize.scenario,
@@ -292,6 +349,14 @@ onUnmounted(() => {
             <EgOdometer
               :key="odometerReplayKey"
               :value="odometerDemoValue"
+            />
+          </div>
+
+          <div v-else-if="isGear" :class="styles.gearHost">
+            <EgGear
+              :key="`${customize.gearTone}-${customize.gearSize}-${customize.gearCustomSizePx}`"
+              :class="gearToneClass"
+              :style="gearPreviewStyle"
             />
           </div>
         </div>

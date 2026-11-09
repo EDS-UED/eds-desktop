@@ -11,6 +11,8 @@ withDefaults(
     showOperation?: boolean;
     showDivider?: boolean;
     showSection?: boolean;
+    /** 毛玻璃底（effect-mask + eds-blur-bg）；静止时为 material-hide，正文滚入栏下时开启。 */
+    frosted?: boolean;
   }>(),
   {
     title: 'Title',
@@ -18,6 +20,7 @@ withDefaults(
     showOperation: true,
     showDivider: false,
     showSection: false,
+    frosted: false,
   },
 );
 
@@ -29,7 +32,7 @@ const emit = defineEmits<{
 <template>
   <header class="eds-tool-bar" :class="styles.root">
     <div :class="styles.chrome">
-      <div :class="['eds-frosted-page-chrome', styles.raw]">
+      <div :class="[styles.raw, frosted ? 'eds-frosted-page-chrome' : styles.rawRest]">
         <ToolBarTitle :title="title" :show-back="showBack" @back="emit('back')">
           <slot name="title">{{ title }}</slot>
         </ToolBarTitle>

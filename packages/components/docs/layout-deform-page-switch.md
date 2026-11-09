@@ -6,7 +6,7 @@
 
 | 场景 | 用 |
 |------|-----|
-| Detail 整页推动 | `.motion-page` + `motionPageTransition.css` |
+| Detail 整页推动 | `.motion-page` + `motionPageTransition.css`（方向规则仅 `> .motion-page-*`；嵌套 stack 见 glue 头注释） |
 | 浮层进出场 | `.motion-flotation` + microFloat |
 | Tab 滑块形变 | `.motion-deform` |
 

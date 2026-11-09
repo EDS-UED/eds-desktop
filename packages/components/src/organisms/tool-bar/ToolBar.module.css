@@ -31,6 +31,10 @@
   box-sizing: border-box;
 }
 
+.rawRest {
+  background: var(--material-hide);
+}
+
 .raw:global(.eds-frosted-page-chrome) {
   background: var(--effect-mask);
   -webkit-backdrop-filter: var(--eds-blur-bg);

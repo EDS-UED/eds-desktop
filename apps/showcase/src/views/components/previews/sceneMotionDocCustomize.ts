@@ -9,6 +9,7 @@ export const sceneMotionScenarioLabels = {
   'ripple-pulse': '波纹脉冲',
   'mnemonic-verify': '助记词校验中',
   odometer: '数字滚轮',
+  gear: '自动齿轮',
 } as const;
 
 export type SceneMotionScenario = keyof typeof sceneMotionScenarioLabels;
@@ -36,10 +37,30 @@ export const sceneMotionProcessingToneLabels = {
 export type SceneMotionTone = keyof typeof sceneMotionToneLabels;
 export type SceneMotionProcessingTone = keyof typeof sceneMotionProcessingToneLabels;
 
+export const sceneMotionGearToneLabels = {
+  brand: '品牌',
+  danger: '危险',
+  warning: '警告',
+} as const;
+
+export const sceneMotionGearSizeLabels = {
+  lg: 'lg（88）',
+  md: 'md（64）',
+  sm: 'sm（40）',
+  xs: 'xs（16）',
+  custom: '自定义',
+} as const;
+
+export type SceneMotionGearTone = keyof typeof sceneMotionGearToneLabels;
+export type SceneMotionGearSize = keyof typeof sceneMotionGearSizeLabels;
+
 export const sceneMotionCustomizeDefaults = {
   scenario: 'verify-ring-dots' as SceneMotionScenario,
   interaction: 'full' as SceneMotionInteraction,
   tone: 'brand' as SceneMotionTone,
+  gearTone: 'brand' as SceneMotionGearTone,
+  gearSize: 'lg' as SceneMotionGearSize,
+  gearCustomSizePx: '88',
 };
 
 export const sceneMotionCustomizeControls: DocCustomizeControl[] = [
@@ -84,6 +105,34 @@ export const sceneMotionProcessingToneControl: DocCustomizeControl = {
   ),
 };
 
+export const sceneMotionGearToneControl: DocCustomizeControl = {
+  kind: 'select',
+  key: 'gearTone',
+  label: showcaseText('Tone', '色调'),
+  options: propLabelSelectOptions(
+    Object.keys(sceneMotionGearToneLabels) as SceneMotionGearTone[],
+    sceneMotionGearToneLabels,
+  ),
+};
+
+export const sceneMotionGearSizeControl: DocCustomizeControl = {
+  kind: 'select',
+  key: 'gearSize',
+  label: showcaseText('Size', '尺寸'),
+  options: propLabelSelectOptions(
+    Object.keys(sceneMotionGearSizeLabels) as SceneMotionGearSize[],
+    sceneMotionGearSizeLabels,
+  ),
+};
+
+export const sceneMotionGearCustomSizeControl: DocCustomizeControl = {
+  kind: 'text',
+  key: 'gearCustomSizePx',
+  label: showcaseText('Custom size (px)', '自定义尺寸（px）'),
+  placeholder: '88',
+  visibleWhen: (state) => state.scenario === 'gear' && state.gearSize === 'custom',
+};
+
 export function buildSceneMotionCustomizeControls(options?: {
   lockScenario?: boolean;
   scenario?: SceneMotionScenario;
@@ -106,6 +155,10 @@ export function buildSceneMotionCustomizeControls(options?: {
     scenario === 'mnemonic-verify'
   ) {
     controls.push(sceneMotionSuccessBrandToneControl);
+  } else if (scenario === 'gear') {
+    controls.push(sceneMotionGearToneControl);
+    controls.push(sceneMotionGearSizeControl);
+    controls.push(sceneMotionGearCustomSizeControl);
   }
 
   return controls;
@@ -113,6 +166,30 @@ export function buildSceneMotionCustomizeControls(options?: {
 
 export const sceneMotionOdometerImportCode =
   "import { EgOdometer } from '@eds/desktop-components';";
+
+export const sceneMotionGearImportCode =
+  "import { EgGear } from '@eds/desktop-components';";
+
+export const sceneMotionGearPropRows: DocPropRow[] = [
+  {
+    name: 'active',
+    type: 'boolean',
+    defaultValue: 'true',
+    description: showcaseText(
+      'When true: vector-b ring CW, vector-a leaves CCW (paths from eds-automatic-gear.svg); when false, static.',
+      '为 true 时 vector-b 齿环顺时针、vector-a 内三叶逆时针（path 来自 eds-automatic-gear.svg）；false 静止。',
+    ),
+  },
+  {
+    name: '—',
+    type: '—',
+    defaultValue: '—',
+    description: showcaseText(
+      'Color via --gear-color (default var(--material-base-primary); brand var(--material-brand-primary), danger var(--status-danger), warning var(--status-warning)). Size via --gear-size (default var(--icon-lg); Showcase presets lg 88 / md 64 / sm 40 / xs 16 px).',
+      '颜色由 --gear-color 控制（默认 var(--material-base-primary)；品牌 var(--material-brand-primary)、危险 var(--status-danger)、警告 var(--status-warning)）。尺寸由 --gear-size 控制（默认 var(--icon-lg)；Showcase 预设 lg 88 / md 64 / sm 40 / xs 16 px）。',
+    ),
+  },
+];
 
 export const sceneMotionOdometerPropRows: DocPropRow[] = [
   {

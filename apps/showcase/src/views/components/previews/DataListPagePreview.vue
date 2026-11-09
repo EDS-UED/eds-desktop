@@ -122,6 +122,7 @@ const shellClass = computed(() => {
           :show-back="showBack"
           :show-operation="showToolBarOperation"
           :show-divider="DATA_LIST_FIGMA_TOOLBAR.showDivider"
+          :frosted="DATA_LIST_FIGMA_TOOLBAR.frosted"
           :show-section="showToolBarSection"
         >
           <template v-if="showBatch" #functional>

@@ -73,6 +73,15 @@ export const animationCatalogMeta: AnimationCatalogMeta[] = [
       '数字滚轮动效（按位垂直滚动）。',
     ),
   },
+  {
+    slug: 'gear',
+    name: 'EgGear',
+    scenario: 'gear',
+    description: showcaseText(
+      'Automatic gear icon (eds-automatic-gear): outer ring CW, inner blade CCW.',
+      '自动齿轮图标（eds-automatic-gear）：外圈顺时针、内叶逆时针。',
+    ),
+  },
 ];
 
 export const animationsCatalog: CatalogSection[] = [

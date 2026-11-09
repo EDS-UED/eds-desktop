@@ -1,0 +1,67 @@
+/**
+ * eds-automatic-gear — vector-b 齿环 CW，vector-a 内三叶 CCW。
+ */
+.eds-gear {
+  --gear-size: var(--icon-lg);
+  --gear-duration-ring: calc(2 * var(--motion-duration-spin-slow));
+  --gear-duration-leaves: var(--gear-duration-ring);
+  --gear-color: var(--material-base-primary);
+
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--gear-size);
+  height: var(--gear-size);
+  color: var(--gear-color);
+}
+
+.eds-gear-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.eds-gear-ring,
+.eds-gear-leaves {
+  transform-box: view-box;
+  transform-origin: 16px 16px;
+}
+
+.eds-gear-ring {
+  animation: eds-gear-rotate-cw var(--gear-duration-ring) linear infinite;
+}
+
+.eds-gear-leaves {
+  animation: eds-gear-rotate-ccw var(--gear-duration-leaves) linear infinite;
+}
+
+.eds-gear.is-idle .eds-gear-ring,
+.eds-gear.is-idle .eds-gear-leaves {
+  animation: none;
+}
+
+@keyframes eds-gear-rotate-cw {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes eds-gear-rotate-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eds-gear:not(.is-idle) .eds-gear-ring,
+  .eds-gear:not(.is-idle) .eds-gear-leaves {
+    animation: none;
+  }
+}

@@ -1100,6 +1100,7 @@ export const toolBarCustomizeDefaults = {
   showOperation: true,
   showDivider: true,
   showSection: false,
+  frosted: false,
   functionalCount: '1',
   sectionCount: '1',
   ...iconButtonProZoneItemDefaultsForRange('functional', TOOL_BAR_ZONE_ITEM_COUNT_MAX),
@@ -1112,6 +1113,7 @@ export const toolBarCustomizeControls: DocCustomizeControl[] = [
   { kind: 'boolean', key: 'showOperation', label: showcaseText('Operating area', '操作区') },
   { kind: 'boolean', key: 'showDivider', label: showcaseText('BottomDivider', '底部分割线') },
   { kind: 'boolean', key: 'showSection', label: showcaseText('Water conservation capacity', '功能分区') },
+  { kind: 'boolean', key: 'frosted', label: showcaseText('Frosted', '毛玻璃') },
 ];
 
 export const toolBarFunctionalCustomizeControls = buildIconButtonProZoneItemControls(
@@ -1134,6 +1136,7 @@ export const toolBarPropRows: OrganismPropRow[] = [
   { name: 'showOperation', type: 'boolean', defaultValue: 'true', description: showcaseText('Operation switch: operate Icons on the right.', 'Operation 开关：右侧操作 Icons。') },
   { name: 'showDivider', type: 'boolean', defaultValue: 'true', description: showcaseText('Bottom divider (EgDivider type = module); when turned on, it will be displayed by default and will not be hidden with scrolling.', '底部分割线（EgDivider type=module）；开启后默认即显示，不随滚动隐藏。') },
   { name: 'showSection', type: 'boolean', defaultValue: 'false', description: showcaseText('Vertical EgDivider type = page partition in Functional.', 'Functional 内以竖向 EgDivider type=page 分区。') },
+  { name: 'frosted', type: 'boolean', defaultValue: 'false', description: showcaseText('Frosted bar (effect-mask + eds-blur-bg). Off: material-hide background without blur. Scroll pages bind it to the top scrim (content scrolled under the bar); list pages whose content always scrolls under the bar pass true.', '毛玻璃底（effect-mask + eds-blur-bg）。关闭时背景为 material-hide、无模糊。可滚页面与顶部 scrim（正文滚入栏下）联动；列表页正文常驻滚入栏下时传 true。') },
 ];
 
 export const toolBarSlotRows: OrganismPropRow[] = [

@@ -128,7 +128,8 @@
           },
           "notes": [
             "Motion Page 体系：`.motion-page-stack` + `data-page-direction` + `.motion-layout-content`",
-            "A→B 带返回的页面切换统一走 glue · `motionPageTransition.css` + `useMotionPageStack`"
+            "A→B 带返回的页面切换统一走 glue · `motionPageTransition.css` + `useMotionPageStack`",
+            "Glue 方向生命周期仅作用于 stack 直接子页（`.motion-page-stack[…] > .motion-page-*`）；嵌套 stack 时外层不得误伤内层进出场"
           ]
         }
       ]

@@ -109,6 +109,24 @@
   justify-content: center;
 }
 
+.gearHost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gearToneBrand {
+  --gear-color: var(--material-brand-primary);
+}
+
+.gearToneDanger {
+  --gear-color: var(--status-danger);
+}
+
+.gearToneWarning {
+  --gear-color: var(--status-warning);
+}
+
 .mnemonicVerifyToneBrand {
   --mnemonic-verify-color: var(--material-brand-primary);
 }

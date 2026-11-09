@@ -15,6 +15,8 @@ const props = withDefaults(
     divider?: boolean;
     /** Page 底栏毛玻璃（与 ToolBar / Paginer 同套 page chrome）；用于 EgLayout #paginer 叠层。 */
     pageChrome?: boolean;
+    /** pageChrome 时的毛玻璃底；静止时为 material-hide，正文滚入栏下时开启。 */
+    frosted?: boolean;
     direction?: 'left' | 'right';
     /** Page 场景按钮组左侧 28px 外边距。 */
     actionsLeadingInset?: boolean;
@@ -28,6 +30,7 @@ const props = withDefaults(
     variant: 'solid',
     divider: false,
     pageChrome: false,
+    frosted: false,
     direction: 'right',
     actionsLeadingInset: false,
     loading: false,
@@ -83,7 +86,12 @@ const actionBindings = computed(() => ({
       type="module"
       direction="horizontal"
     />
-    <div :class="['eds-frosted-page-chrome', styles.pageChromeFrosted]">
+    <div
+      :class="[
+        styles.pageChromeFrosted,
+        frosted ? 'eds-frosted-page-chrome' : styles.pageChromeRest,
+      ]"
+    >
       <div :class="pageActionsRowClass">
         <div :class="pageActionsGroupClass">
           <ComboActionPageActions
