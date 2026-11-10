@@ -46,7 +46,7 @@ const emit = defineEmits<{
 
 const ui = useMinerFeeTranslate();
 
-const tronPaymentSelected = ref(false);
+const tronPaymentSelected = ref(true);
 
 const feeQuote = computed(() => props.tronQuote ?? resolveTronMinerFeeQuote());
 
@@ -92,7 +92,7 @@ function toggleTronPayment() {
 }
 
 function onConfirm() {
-  if (!tronPaymentSelected.value) {
+  if (!tronPaymentSelected.value || feeQuote.value.teamBalanceInsufficient) {
     return;
   }
   emit('confirm', {
@@ -100,7 +100,9 @@ function onConfirm() {
   });
 }
 
-const confirmDisabled = computed(() => !tronPaymentSelected.value);
+const confirmDisabled = computed(
+  () => !tronPaymentSelected.value || feeQuote.value.teamBalanceInsufficient,
+);
 
 const batchTotalDisplay = computed(() =>
   buildTronMinerFeeBatchTotalDisplay(props.transactionCount),

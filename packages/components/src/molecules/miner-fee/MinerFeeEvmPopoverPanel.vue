@@ -10,6 +10,7 @@ import MinerFeeEvmPaymentPanel from './MinerFeeEvmPaymentPanel.vue';
 import MinerFeeListPanel, { type MinerFeeOptionId } from './MinerFeeListPanel.vue';
 import {
   buildEvmSponsoredMinerFeeDisplay,
+  resolveEvmPaymentDemoQuote,
   type EvmMinerFeePaymentDemoQuote,
   type EvmMinerFeePaymentSelection,
 } from './minerFeeEvmPayment';
@@ -106,6 +107,10 @@ const {
   whenIdle,
 } = useMotionLayoutDeformPageSwitch<MinerFeeScreen>(pageSpecs, initialMinerFeeScreen());
 
+const evmPaymentDemoQuote = computed(
+  () => props.evmPaymentQuote ?? resolveEvmPaymentDemoQuote(ui, props.symbol),
+);
+
 const minerFeeConfirmDisabled = computed(() => {
   if (useEvmPaymentStep.value && activePage.value === 'payment') {
     if (evmPaymentMethod.value === null) {
@@ -114,7 +119,7 @@ const minerFeeConfirmDisabled = computed(() => {
     if (evmPaymentMethod.value === 'address') {
       return minerFee.value === null;
     }
-    return false;
+    return evmPaymentDemoQuote.value.sponsoredGasBalanceInsufficient;
   }
   return minerFee.value === null;
 });
