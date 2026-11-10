@@ -9,6 +9,7 @@ import TooltipPanelKindPreview from './TooltipPanelKindPreview.vue';
 import InputInputPreview from './InputInputPreview.vue';
 import InputTextareaPreview from './InputTextareaPreview.vue';
 import InputSearchPreview from './InputSearchPreview.vue';
+import InputAmountInputPreview from './InputAmountInputPreview.vue';
 import InputVerifyInputPreview from './InputVerifyInputPreview.vue';
 import InputComboInputPreview from './InputComboInputPreview.vue';
 import InputComboTextareaPreview from './InputComboTextareaPreview.vue';
@@ -63,6 +64,7 @@ export const compactComponentPreviewSlugs = new Set<string>([
   'input-input',
   'input-textarea',
   'input-search',
+  'input-amount-input',
   'input-verify-input',
   'input-combo-input',
   'input-combo-textarea',
@@ -175,6 +177,12 @@ export function usesAvatarComponentPreview(slug: string): boolean {
 export const componentPreviews: ComponentPreviewEntry[] = [
   { slug: 'input-input', title: 'Input', component: InputInputPreview, usesComponentDocHeader: true },
   { slug: 'input-search', title: 'Search', component: InputSearchPreview, usesComponentDocHeader: true },
+  {
+    slug: 'input-amount-input',
+    title: 'Amount Input',
+    component: InputAmountInputPreview,
+    usesComponentDocHeader: true,
+  },
   {
     slug: 'input-verify-input',
     title: 'Verify Input',

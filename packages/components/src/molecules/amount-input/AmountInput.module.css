@@ -1,0 +1,41 @@
+.root {
+  display: inline-flex;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.widthFixed {
+  width: auto;
+  max-width: 100%;
+}
+
+.widthFull {
+  width: 100%;
+}
+
+.widthFull :global(> *) {
+  width: 100%;
+}
+
+/* Headline 金额；高度随 Headline 行高与 padding 自适应（覆盖 lg 固定 body 槽高） */
+.root :global(.eds-input-field) {
+  height: auto;
+  max-height: none;
+  padding-block: var(--spacing-3);
+  box-sizing: border-box;
+}
+
+/* 输入聚焦：强调品牌内描边（与 EgInput 聚焦态一致，覆盖 lg 默认高度） */
+.root:focus-within:not(.disabled) :global(.eds-input-field) {
+  background-color: var(--material-face-quaternary);
+  box-shadow: inset 0 0 0 var(--stroke-xl) var(--stroke-color-brand);
+}
+
+.root :global(.eds-input-control),
+.root :global([class*='unit']),
+.root :global([class*='ghostUnit']) {
+  font-size: var(--eds-headline-size);
+  font-weight: var(--eds-headline-weight);
+  line-height: var(--eds-headline-line-height);
+  font-variant-numeric: tabular-nums;
+}

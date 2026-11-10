@@ -43,6 +43,32 @@ export const searchEventRows: InputPropRow[] = [
   { name: 'clear', type: '() => void', defaultValue: '-', description: showcaseText('Emitted when ClickClear.', '点击清空时触发。') },
 ];
 
+export const amountInputHeroCode =
+  `<EgAmountInput v-model="value" unit="ETH" show-max width-mode="full" />`;
+
+export const amountInputPropRows: InputPropRow[] = [
+  { name: 'modelValue', type: 'string', defaultValue: "''", description: showcaseText('Controlled amount string.', '受控金额字符串。') },
+  { name: 'widthMode', type: "'fixed' | 'full'", defaultValue: "'fixed'", description: showcaseText('Width mode.', '宽度模式。') },
+  {
+    name: 'amountPlaceholder',
+    type: 'string',
+    defaultValue: "'0'",
+    description: showcaseText('Placeholder when empty; Headline typography.', '无输入时的占位；Headline 字号。'),
+  },
+  { name: 'unit', type: 'string', defaultValue: "''", description: showcaseText('Trailing unit after typed value.', '输入值后的单位。') },
+  { name: 'showMax', type: 'boolean', defaultValue: 'true', description: showcaseText('Max suffix button on the right.', '右侧 Max 按钮。') },
+  { name: 'maxLabel', type: 'string', defaultValue: "'Max'", description: showcaseText('Max button label.', 'Max 按钮文案。') },
+  { name: 'clearable', type: 'boolean', defaultValue: 'true', description: showcaseText('Clear control when focused.', '聚焦时显示清空。') },
+  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: showcaseText('Whether Disabled.', '是否禁用。') },
+  { name: 'readonly', type: 'boolean', defaultValue: 'false', description: showcaseText('Whether Read-only.', '是否只读。') },
+];
+
+export const amountInputEventRows: InputPropRow[] = [
+  { name: 'update:modelValue', type: '(value: string) => void', defaultValue: '-', description: showcaseText('Emitted when the value changes。.', '值变化时触发。') },
+  { name: 'clear', type: '() => void', defaultValue: '-', description: showcaseText('Emitted when clear is used.', '点击清空时触发。') },
+  { name: 'max', type: '() => void', defaultValue: '-', description: showcaseText('Emitted when Max is clicked.', '点击 Max 时触发。') },
+];
+
 export const verifyInputHeroCode = `<EgVerifyInput v-model="code" width-mode="full" />`;
 
 export const verifyInputPropRows: InputPropRow[] = [

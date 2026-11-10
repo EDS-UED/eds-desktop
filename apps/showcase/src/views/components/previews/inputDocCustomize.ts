@@ -23,6 +23,9 @@ export const textareaImportCode = `import { EgTextarea } from '@eds/desktop-comp
 
 export const searchImportCode = `import { EgSearchInput, EgVerifyInput } from '@eds/desktop-components';`;
 
+export const amountInputImportCode =
+  "import { EgAmountInput } from '@eds/desktop-components';";
+
 export const comboImportCode = `import {
   EgComboInput,
   EgComboTextarea,
@@ -181,6 +184,53 @@ export const searchCustomizeControls: DocCustomizeControl[] = [
   },
   { kind: 'boolean', key: 'disabled', label: showcaseInputCustomizeFieldLabels.disabled },
   { kind: 'boolean', key: 'readonly', label: showcaseInputCustomizeFieldLabels.readonly },
+];
+
+export const amountInputCustomizeDefaults = {
+  amountPlaceholder: '0',
+  unit: 'ETH',
+  widthMode: 'full',
+  fixedWidth: '319',
+  disabled: false,
+  readonly: false,
+  clearable: true,
+  showMax: true,
+  maxLabel: 'Max',
+} as const;
+
+export const amountInputCustomizeControls: DocCustomizeControl[] = [
+  {
+    kind: 'text',
+    key: 'amountPlaceholder',
+    label: showcaseText('Amount placeholder', '金额占位'),
+  },
+  { kind: 'text', key: 'unit', label: showcaseInputCustomizeFieldLabels.unit },
+  {
+    kind: 'select',
+    key: 'widthMode',
+    label: showcaseInputCustomizeFieldLabels.widthMode,
+    options: [
+      { value: 'fixed', label: showcaseWidthModeLabels.fixed },
+      { value: 'full', label: showcaseWidthModeLabels.full },
+    ],
+  },
+  {
+    kind: 'text',
+    key: 'fixedWidth',
+    label: showcaseInputCustomizeFieldLabels.fixedWidth,
+    placeholder: showcaseText('319 or 319px', '319 或 319px'),
+    visibleWhen: (s) => s.widthMode === 'fixed',
+  },
+  { kind: 'boolean', key: 'disabled', label: showcaseInputCustomizeFieldLabels.disabled },
+  { kind: 'boolean', key: 'readonly', label: showcaseInputCustomizeFieldLabels.readonly },
+  { kind: 'boolean', key: 'clearable', label: showcaseInputCustomizeFieldLabels.clearable },
+  { kind: 'boolean', key: 'showMax', label: showcaseInputCustomizeFieldLabels.showMax },
+  {
+    kind: 'text',
+    key: 'maxLabel',
+    label: showcaseInputCustomizeFieldLabels.maxLabel,
+    visibleWhen: (s) => Boolean(s.showMax),
+  },
 ];
 
 export const verifyInputCustomizeDefaults = {

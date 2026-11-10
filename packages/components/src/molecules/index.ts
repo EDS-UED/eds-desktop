@@ -19,6 +19,7 @@ export type { PaginationItemKind, PaginationItemTone } from './pagination-item';
 export * from './input';
 export * from './textarea';
 export * from './search';
+export * from './amount-input';
 export * from './verify-input';
 export * from '@eds/desktop-animations';
 export * from './combo';

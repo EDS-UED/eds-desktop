@@ -7,6 +7,7 @@ import {
 } from '../../composables/useScrollChromeScrim';
 import { EgComboPopupButton } from '../combo';
 import { EgFormSubmission } from '../feedback';
+import { EgColorfulTag } from '../tag';
 import { EgRadio } from '../toggle';
 import { useMinerFeeTranslate } from './minerFeeTranslate';
 import type { MinerFeeCustomDraft, MinerFeeCustomSaved } from './minerFeeCustomTypes';
@@ -253,9 +254,16 @@ defineExpose({
                   @click.stop="toggleMethod('sponsored')"
                 />
                 <div :class="styles.minerFeeEvmPaymentMethodOptionBody">
-                  <span :class="styles.minerFeeEvmPaymentMethodTitle">
-                    {{ ui('Miner fee evm payment sponsored title') }}
-                  </span>
+                  <div :class="styles.minerFeeTronPaymentHeader">
+                    <span :class="styles.minerFeeEvmPaymentMethodTitle">
+                      {{ ui('Miner fee evm payment sponsored title') }}
+                    </span>
+                    <span :class="styles.minerFeeTronPaymentTags">
+                      <EgColorfulTag colorful-style="lime" size="sm">
+                        {{ ui('Miner fee tron recommended') }}
+                      </EgColorfulTag>
+                    </span>
+                  </div>
                   <span :class="styles.minerFeeEvmPaymentMethodDesc">
                     {{ sponsoredDescription }}
                   </span>

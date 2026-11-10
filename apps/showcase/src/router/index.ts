@@ -82,6 +82,7 @@ export const router = createRouter({
                   'input-input': 'input-input',
                   'input-textarea': 'input-textarea',
                   'input-search': 'input-search',
+                  'input-amount-input': 'input-amount-input',
                   'input-verify-input': 'input-verify-input',
                   'input-combo-input': 'input-combo-input',
                   'input-combo-textarea': 'input-combo-textarea',

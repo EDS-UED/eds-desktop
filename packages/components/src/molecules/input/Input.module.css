@@ -297,7 +297,6 @@
   flex: 0 0 auto;
   align-items: center;
   max-width: 100%;
-  transition: var(--motion-recipe-shift);
 }
 
 .amountControlEmptyFull {
@@ -339,7 +338,6 @@
   flex: 0 1 auto;
   width: auto;
   min-width: 1ch;
-  transition: var(--motion-recipe-shift);
 }
 
 .input::placeholder {
@@ -389,7 +387,6 @@
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
-  transition: var(--motion-recipe-shift);
 }
 
 .clearButtonHidden {

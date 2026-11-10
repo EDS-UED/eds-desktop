@@ -83,6 +83,7 @@ export const showcaseI18nOverrides: Record<string, ShowcaseI18nOverride> = {
   'components:page:input-combo-input': defineComponentName('Standard combo', '标准组合'),
   'components:page:input-verify-input': defineComponentName('Verification code', '验证码'),
   'components:page:input-search': defineComponentName('Search box', '搜索框'),
+  'components:page:input-amount-input': defineComponentName('Amount input', '金额输入'),
   'components:page:input-combo-textarea': defineComponentName('Standard combo', '标准组合'),
   'components:page:button-combo': defineComponentName('Standard combo', '标准组合'),
   'components:page:button-icon': defineComponentName('Icon', '符号'),

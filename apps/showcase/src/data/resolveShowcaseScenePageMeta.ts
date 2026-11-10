@@ -11,6 +11,7 @@ const SHOWCASE_PAGE_COMPONENT_TAG: Record<string, string> = {
   'input-combo-input': 'EgComboInput',
   'input-verify-input': 'EgVerifyInput',
   'input-search': 'EgSearchInput',
+  'input-amount-input': 'EgAmountInput',
   'input-combo-textarea': 'EgComboTextarea',
   'button-text': 'EgButton',
   'button-combo': 'EgComboButton',

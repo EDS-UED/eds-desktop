@@ -55,6 +55,7 @@ export const componentCatalog: CatalogSection[] = [
             { id: 'input-combo-input', label: '标准组合' },
             { id: 'input-verify-input', label: '验证码' },
             { id: 'input-search', label: '搜索框' },
+            { id: 'input-amount-input', label: '金额输入' },
           ],
         ),
       },
