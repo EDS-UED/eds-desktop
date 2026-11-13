@@ -159,7 +159,7 @@ export const detailApplyItemVariants: DetailApplyItemVariant[] = [
       valueType: 'user',
       value: 'Ethan Davis',
       valueSymbolAvatarName: 'Ethan Davis',
-      valueSecondary: 'ethandavis@gmail.com',
+      valueSecondary: 'e******s@gmail.com',
       valueDeviceInfo: {
         deviceType: 'MacBook Pro',
         deviceId: 'M79D144YL4',

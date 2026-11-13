@@ -29,4 +29,4 @@ export {
   rescanCornerSmoothing,
 } from './setup/initEdsDesktopRuntime';
 
-export { formatGroupedNumber } from './utils';
+export { formatGroupedNumber, maskDisplayEmail, looksLikeDisplayEmail } from './utils';

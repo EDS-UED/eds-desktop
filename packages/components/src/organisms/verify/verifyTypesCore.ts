@@ -28,7 +28,7 @@ export type VerifyTypePreset = {
 export const VERIFY_TYPE_PRESETS: Record<VerifyType, VerifyTypePreset> = {
   'single-email': {
     title: '邮箱验证',
-    secondaryText: '包含验证信息的电子邮件已发送至你注册邮箱“t******@gmail.com”',
+    secondaryText: '包含验证信息的电子邮件已发送至你注册邮箱“t******t@gmail.com”',
     switchLabel: '切换Google验证',
     symbolIcon: 'eds-email-fill',
     showCodeInput: true,
